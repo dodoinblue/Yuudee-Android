@@ -9,6 +9,18 @@ public class MainActivity extends BaseLittleWalterActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        addContentView(R.layout.activity_main, true);
+        initViews();
+        initEvents();
+    }
+
+    @Override
+    protected void initViews() {
+        mTopView.setLeftEnabled(false);
+    }
+
+    @Override
+    protected void initEvents() {
+
     }
 }

@@ -1,9 +1,16 @@
 package children.com.littlewalter;
 
-import android.app.Activity;
+import android.os.Bundle;
+import android.pattern.BaseActivity;
 
 /**
  * Created by peter on 15/2/28.
  */
-public class BaseLittleWalterActivity extends Activity {
+public abstract class BaseLittleWalterActivity extends BaseActivity {
+
+    @Override
+    protected void onCreate(Bundle arg0) {
+        super.onCreate(arg0);
+    }
+
 }

@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#88000000" >
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:gravity="center"
+        android:layout_margin="15dp"
+        android:background="@android:color/transparent"
+        android:orientation="vertical" >
+
+        <LinearLayout
+            android:id="@+id/layout_call"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:clickable="true"
+            android:orientation="vertical" >
+            
+            <TextView
+                android:id="@+id/number"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:textSize="14dp"
+                android:gravity="center"
+                android:background="@android:color/white"
+                android:textColor="@android:color/darker_gray" />
+
+            <ImageView 
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:src="@android:color/darker_gray"/>
+            <TextView
+                android:id="@+id/call"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:textSize="18dp"
+                android:background="@drawable/popup_item_bg"
+                android:gravity="center"
+                android:text="呼叫"
+                android:textColor="#1c69d4" />
+        </LinearLayout>
+
+        <RelativeLayout
+            android:id="@+id/layout_cancel"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:layout_marginTop="15dp"
+            android:background="@drawable/popup_cancel_item_bg"
+            android:clickable="true" >
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_centerInParent="true"
+                android:textSize="18dp"
+                android:gravity="center"
+                android:text="取消"
+                android:textColor="#1c69d4" />
+        </RelativeLayout>
+    </LinearLayout>
+
+</RelativeLayout>

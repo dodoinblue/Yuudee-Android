@@ -1,0 +1,86 @@
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="android.pattern.resources"
+    android:versionCode="1"
+    android:versionName="1.0" >
+
+    <uses-sdk
+        android:minSdkVersion="14"
+        android:targetSdkVersion="19" />
+
+<!--     <permission -->
+<!--         android:name="android.pattern.provider.permission.ACCESS_PROVIDER" -->
+<!--         android:protectionLevel="signature" /> -->
+
+    <uses-permission android:name="android.pattern.provider.permission.ACCESS_PROVIDER" />
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.MOUNT_UNMOUNT_FILESYSTEMS" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+    <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" />
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+    <uses-permission android:name="android.permission.READ_LOGS" />
+    <uses-permission android:name="android.permission.VIBRATE" />
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
+    <uses-permission android:name="android.permission.WRITE_SETTINGS" />
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
+
+    <!-- android:name="android.pattern.BaseApplication"
+    android:theme="@style/AppTheme" -->
+    <application
+        android:allowBackup="true"
+        android:icon="@drawable/ic_launcher"
+        android:label="@string/app_name"
+        android:largeHeap="true" >
+        <!--
+        <provider
+            android:name="android.pattern.provider.MessageProvider"
+            android:authorities="android.pattern.provider"
+            android:label="@string/app_name"
+            android:multiprocess="false"
+            android:permission="android.pattern.provider.permission.ACCESS_PROVIDER" />-->
+
+        <service
+            android:name="android.pattern.schedule.ScheduledService"
+            android:exported="true" >
+            <intent-filter>
+                <action android:name="android.pattern.action.ACTION_SYNC_BROADCAST" />
+            </intent-filter>
+        </service>
+
+        <receiver
+            android:name="android.pattern.schedule.AlarmExpirationManager$ExpiredAlarmReceiver"
+            android:exported="true" >
+            <intent-filter>
+                <action android:name="android.intent.action.BOOT_COMPLETED" />
+                <action android:name="android.pattern.action.ACTION_ALARM_EXPIRING" />
+            </intent-filter>
+        </receiver>
+
+        <!-- Umeng begin.
+        <meta-data
+            android:name="UMENG_APPKEY"
+            android:value="533d5cd556240bde19044012" >
+        </meta-data>
+        <meta-data
+            android:name="UMENG_CHANNEL"
+            android:value="Umeng" >
+        </meta-data>-->
+
+        <!-- Update Activitys Start -->
+        <activity
+            android:name="com.umeng.update.UpdateDialogActivity"
+            android:theme="@android:style/Theme.Translucent.NoTitleBar" >
+        </activity>
+        <!-- Update Activitys End -->
+
+        <service
+            android:name="com.umeng.common.net.DownloadingService"
+            android:process=":DownloadingService" >
+        </service>
+        <!-- Umeng end. -->
+    </application>
+
+</manifest>

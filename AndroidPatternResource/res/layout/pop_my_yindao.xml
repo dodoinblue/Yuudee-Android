@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/rl_partent_wanshan"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/yindao_bg"
+    android:orientation="vertical" >
+
+    <ImageView
+        android:id="@+id/iv_wanshan"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_marginTop="257dp"
+        android:background="@drawable/userdata" />
+
+</RelativeLayout>

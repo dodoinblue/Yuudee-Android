@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:paddingBottom="5dp"
+    android:paddingTop="5dp" >
+
+    <RelativeLayout
+        android:id="@+id/gotye_item_content"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content" >
+
+        <android.pattern.widget.RoundImageView
+            android:id="@+id/gotye_item_icon"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="20dip" >
+        </android.pattern.widget.RoundImageView>
+
+        <View
+            android:id="@+id/gotye_name_left"
+            android:layout_width="10dip"
+            android:layout_height="1dip"
+            android:layout_toLeftOf="@+id/gotye_item_icon" />
+
+        <TextView
+            android:id="@+id/gotye_item_name"
+            style="@style/GotyeTitleTextSmallStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignLeft="@+id/gotye_name_left"
+            android:layout_alignParentRight="true"
+            android:layout_below="@+id/gotye_item_icon"
+            android:layout_marginRight="10dip"
+            android:ellipsize="end"
+            android:gravity="center"
+            android:singleLine="true"
+            android:textColor="@color/gotye_chat_name"
+            android:textSize="14sp"
+            android:visibility="gone" />
+
+        <TextView
+            android:id="@+id/gotye_item_msg_text"
+            style="@style/GotyeMessageTextStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignTop="@+id/gotye_item_icon"
+            android:layout_marginBottom="6dp"
+            android:layout_marginLeft="70dip"
+            android:layout_marginRight="@dimen/gotye_icon_text_margin"
+            android:layout_toLeftOf="@+id/little_bubble"
+            android:background="@drawable/right_text_message_shape"
+            android:minHeight="@dimen/gotye_min_msg_height"
+            android:gravity="center"
+            android:paddingBottom="5dp"
+            android:paddingLeft="15dp"
+            android:paddingRight="15dp"
+            android:paddingTop="5dp"
+            android:textColor="@android:color/white"
+            android:textSize="16sp" />
+
+        <ImageView
+            android:id="@+id/little_bubble"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:visibility="gone"
+            android:layout_alignBottom="@+id/gotye_item_msg_text"
+            android:layout_toLeftOf="@+id/gotye_item_icon"
+            android:background="@drawable/textbubbleright_1" />
+
+        <TextView
+            android:id="@+id/gotye_time_tip"
+            style="@style/GotyeTitleTextSmallStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignLeft="@+id/gotye_item_msg_text"
+            android:layout_below="@+id/gotye_item_msg_text"
+            android:gravity="center"
+            android:textColor="@android:color/white"
+            android:textSize="12dp" />
+    </RelativeLayout>
+
+    <TextView
+        android:id="@+id/gotye_msg_tip"
+        style="@style/GotyeTitleTextSmallStyle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/gotye_item_content"
+        android:layout_centerHorizontal="true"
+        android:background="@drawable/gotye_bg_time_tip"
+        android:text="@string/gotye_forbidden_send_tip"
+        android:textColor="@android:color/black"
+        android:visibility="gone" />
+
+</RelativeLayout>

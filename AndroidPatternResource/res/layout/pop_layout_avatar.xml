@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/partent"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#88000000" >
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_margin="10dp"
+        android:background="@android:color/transparent"
+        android:gravity="center"
+        android:orientation="vertical" >
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:clickable="true"
+            android:gravity="center"
+            android:orientation="vertical" >
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/popup_item_bg"
+                android:clickable="true"
+                android:gravity="center"
+                android:orientation="vertical" >
+
+                <TextView
+                    android:id="@+id/layout_photo"
+                    android:layout_width="match_parent"
+                    android:layout_height="46dp"
+                    android:background="@drawable/popup_item_bg1"
+                    android:gravity="center"
+                    android:text="拍照"
+                    android:textColor="@color/blue"
+                    android:textSize="18dp" />
+
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="0.5dp"
+                    android:src="@color/gray" />
+
+                <TextView
+                    android:id="@+id/layout_choose"
+                    android:layout_width="match_parent"
+                    android:layout_height="46dp"
+                    android:background="@drawable/popup_item_bg2"
+                    android:gravity="center"
+                    android:text="从相册选择"
+                    android:textColor="@color/blue"
+                    android:textSize="18dp" />
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/layout_cancel"
+                android:layout_width="match_parent"
+                android:layout_height="46dp"
+                android:layout_centerInParent="true"
+                android:layout_marginBottom="10dp"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/popup_item_bg"
+                android:gravity="center"
+                android:text="取消"
+                android:textColor="@color/blue"
+                android:textSize="18dp" />
+        </LinearLayout>
+    </LinearLayout>
+
+</RelativeLayout>

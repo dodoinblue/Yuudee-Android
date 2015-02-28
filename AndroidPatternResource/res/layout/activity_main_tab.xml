@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/mainLayout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" >
+
+    <LinearLayout
+        android:id="@+id/main_bottom"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:gravity="center_vertical"
+        android:orientation="vertical" >
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0.5dp"
+            android:background="#cccccc" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:orientation="horizontal" >
+
+            <Button
+                android:id="@+id/tab_1"
+                android:tag="0"
+                style="@style/TabButton" />
+
+            <Button
+                android:id="@+id/tab_2"
+                android:tag="1"
+                style="@style/TabButton" />
+
+            <Button
+                android:id="@+id/tab_3"
+                android:tag="2"
+                style="@style/TabButton" />
+
+            <Button
+                android:id="@+id/tab_4"
+                android:tag="3"
+                style="@style/TabButton" />
+
+            <Button
+                android:id="@+id/tab_5"
+                android:tag="4"
+                style="@style/TabButton" />
+        </LinearLayout>
+    </LinearLayout>
+
+    <RelativeLayout
+        android:id="@+id/fragment_container"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@id/main_bottom" />
+
+</RelativeLayout>

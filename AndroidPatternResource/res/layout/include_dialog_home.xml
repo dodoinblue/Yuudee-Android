@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="164dp"
+    android:layout_height="wrap_content"
+    android:background="@drawable/bg_dropmenu_up"
+    android:orientation="vertical" >
+
+    <android.pattern.widget.HandyTextView
+        android:id="@+id/dialog_home"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/bg_dialog_listitem_selector"
+        android:padding="10dip"
+        android:text="@string/menu_home"
+        android:drawableLeft="@drawable/menu_home"
+        android:drawablePadding="10dp"
+        android:textColor="@color/text_color"
+        android:textSize="14sp" />
+
+    <View
+        android:layout_width="fill_parent"
+        android:layout_height="1px"
+        android:background="@color/dialog_divider" />
+
+    <android.pattern.widget.HandyTextView
+        android:id="@+id/dialog_internal_training"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/bg_dialog_listitem_selector"
+        android:padding="10dip"
+        android:text="@string/menu_peixun"
+        android:drawableLeft="@drawable/menu_peixun"
+        android:drawablePadding="10dp"
+        android:textColor="@color/text_color"
+        android:textSize="14sp" />
+
+    <View
+        android:layout_width="fill_parent"
+        android:layout_height="1px"
+        android:background="@color/dialog_divider" />
+
+    <android.pattern.widget.HandyTextView
+        android:id="@+id/dialog_user_read"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/bg_dialog_listitem_selector"
+        android:padding="10dip"
+        android:text="@string/menu_yuelan"
+        android:drawableLeft="@drawable/menu_yuelan"
+        android:drawablePadding="10dp"
+        android:textColor="@color/text_color"
+        android:textSize="14sp" />
+
+    <View
+        android:layout_width="fill_parent"
+        android:layout_height="1px"
+        android:background="@color/dialog_divider" />
+
+    <android.pattern.widget.HandyTextView
+        android:id="@+id/dialog_more"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/bg_dialog_listitem_selector"
+        android:padding="10dip"
+        android:text="@string/menu_more"
+        android:drawableLeft="@drawable/menu_more"
+        android:drawablePadding="10dp"
+        android:textColor="@color/text_color"
+        android:textSize="14sp" />
+</LinearLayout>

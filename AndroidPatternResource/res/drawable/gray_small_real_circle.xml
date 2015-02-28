@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<shape xmlns:android="http://schemas.android.com/apk/res/android"
+    android:shape="oval" >
+ 
+    <size
+        android:height="5dp"
+        android:width="5dp" />
+ 
+    <gradient
+        android:endColor="@android:color/darker_gray"
+        android:startColor="@android:color/darker_gray" /><!-- 矩形的内部颜色，这里设置成白色，即空心 -->
+ 
+</shape>

@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:paddingBottom="5dp"
+    android:paddingRight="70dip"
+    android:paddingTop="5dp" >
+
+    <android.pattern.widget.RoundImageView
+        android:id="@+id/gotye_item_icon"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_alignParentLeft="true"
+        android:layout_marginLeft="20dip" >
+    </android.pattern.widget.RoundImageView>
+
+    <View
+        android:id="@+id/gotye_name_right"
+        android:layout_width="10dip"
+        android:layout_height="1dip"
+        android:layout_toRightOf="@+id/gotye_item_icon" />
+
+    <TextView
+        android:id="@+id/gotye_item_name"
+        style="@style/GotyeTitleTextSmallStyle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignRight="@+id/gotye_name_right"
+        android:layout_below="@+id/gotye_item_icon"
+        android:layout_marginLeft="10dip"
+        android:ellipsize="end"
+        android:gravity="center"
+        android:singleLine="true"
+        android:textColor="@color/gotye_chat_name"
+        android:textSize="14sp"
+        android:visibility="gone" />
+
+    <TextView
+        android:id="@+id/gotye_item_msg_text"
+        style="@style/GotyeMessageTextStyle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@+id/gotye_item_icon"
+        android:layout_marginBottom="6dp"
+        android:layout_marginLeft="@dimen/gotye_icon_text_margin"
+        android:layout_toRightOf="@+id/little_bubble"
+        android:background="@drawable/left_text_message_shape"
+        android:minHeight="@dimen/gotye_min_msg_height"
+        android:gravity="center"
+        android:paddingBottom="5dp"
+        android:paddingLeft="15dp"
+        android:paddingRight="15dp"
+        android:paddingTop="5dp"
+        android:text="sdsadsadsadsa"
+        android:textColor="@android:color/black"
+        android:textSize="16sp" />
+
+    <ImageView
+        android:id="@+id/little_bubble"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        android:layout_alignBottom="@+id/gotye_item_msg_text"
+        android:layout_toRightOf="@+id/gotye_item_icon"
+        android:background="@drawable/text_little_bubble_left" />
+
+    <TextView
+        android:id="@+id/gotye_time_tip"
+        style="@style/GotyeTitleTextSmallStyle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignRight="@+id/gotye_item_msg_text"
+        android:layout_below="@+id/gotye_item_msg_text"
+        android:gravity="center"
+        android:textColor="@android:color/white"
+        android:textSize="12dp" />
+
+</RelativeLayout>

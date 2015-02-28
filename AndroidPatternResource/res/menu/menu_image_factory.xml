@@ -1,0 +1,8 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/menu_rotate"
+        android:title="旋转"
+        android:icon="@drawable/ic_topbar_rotation"
+        android:showAsAction="always"/>
+</menu>

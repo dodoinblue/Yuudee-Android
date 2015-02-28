@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/navibar_layout"
+    android:layout_width="match_parent"
+    android:layout_gravity="top|center_horizontal"
+    android:layout_height="@dimen/actionbar_height">
+
+    <TextView
+        android:id="@+id/btn_top_bar_back"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_centerVertical="true"
+        android:layout_marginLeft="10dip"
+        android:clickable="true"
+        android:drawableLeft="@drawable/icon_fanhui"
+        android:drawablePadding="4dp"
+        android:gravity="center_vertical|center_horizontal"
+        android:maxLength="9"
+        android:maxLines="2"
+        android:onClick="onLeftClicked"
+        android:textColor="@drawable/textview_change_selector"
+        android:textSize="11dp" />
+
+    <TextView
+        android:id="@+id/btn_top_bar_right"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_centerVertical="true"
+        android:layout_marginRight="10dip"
+        android:clickable="true"
+        android:gravity="center_vertical|center_horizontal"
+        android:onClick="onRightClicked"
+        android:textColor="@drawable/textview_change_selector"
+        android:textSize="18dp"
+        android:visibility="gone" />
+
+    <TextView
+        android:id="@+id/tv_top_bar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:layout_marginLeft="15dp"
+        android:clickable="true"
+        android:ellipsize="end"
+        android:gravity="center"
+        android:singleLine="true"
+        android:textColor="@android:color/white"
+        android:textSize="21dp" />
+
+</RelativeLayout>

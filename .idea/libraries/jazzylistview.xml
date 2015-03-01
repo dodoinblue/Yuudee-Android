@@ -1,0 +1,9 @@
+<component name="libraryTable">
+  <library name="jazzylistview">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/AndroidPattern/libs/jazzylistview.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

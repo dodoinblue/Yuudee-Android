@@ -3,8 +3,16 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
-    <TextView
-        android:layout_width="wrap_content"
+    <GridView
+        android:id="@+id/walter_gridview"
         android:layout_height="wrap_content"
-        android:text="hello work"/>
+        android:layout_width="wrap_content"
+        android:verticalSpacing="10dp"
+        android:horizontalSpacing="10dp"
+        android:scrollbars="none"
+        android:background="#262d43"
+        android:gravity="center"
+        android:numColumns="2"
+        android:layout_gravity="center"
+        android:orientation="horizontal" />
 </LinearLayout>

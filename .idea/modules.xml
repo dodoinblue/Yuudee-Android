@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/AndroidPattern/AndroidPattern.iml" filepath="$PROJECT_DIR$/AndroidPattern/AndroidPattern.iml" />
+      <module fileurl="file://$PROJECT_DIR$/AndroidPatternResource/AndroidPatternResource.iml" filepath="$PROJECT_DIR$/AndroidPatternResource/AndroidPatternResource.iml" />
+      <module fileurl="file://$PROJECT_DIR$/LittleWalter.iml" filepath="$PROJECT_DIR$/LittleWalter.iml" />
+      <module fileurl="file://$PROJECT_DIR$/LittleWalterProject/LittleWalterProject.iml" filepath="$PROJECT_DIR$/LittleWalterProject/LittleWalterProject.iml" />
+      <module fileurl="file://$PROJECT_DIR$/ThirdPartyLogin/ThirdPartyLogin.iml" filepath="$PROJECT_DIR$/ThirdPartyLogin/ThirdPartyLogin.iml" />
+      <module fileurl="file://$PROJECT_DIR$/UmengUpdateResources/UmengUpdateResources.iml" filepath="$PROJECT_DIR$/UmengUpdateResources/UmengUpdateResources.iml" />
+    </modules>
+  </component>
+</project>
+

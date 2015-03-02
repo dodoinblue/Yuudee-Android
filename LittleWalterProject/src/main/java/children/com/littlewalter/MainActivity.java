@@ -1,3 +1,8 @@
+/*
+ * Copyright (C) 2015 G-Wearable Inc.
+ * All rights reserved.
+ */
+
 package children.com.littlewalter;
 
 import android.os.Bundle;

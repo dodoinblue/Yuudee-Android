@@ -3,19 +3,18 @@
  * All rights reserved.
  */
 
-package children.com.littlewalter;
+package com.children.littlewalter.activity;
 
 import android.os.Bundle;
 import android.pattern.BaseActivity;
 
 /**
- * Created by peter on 15/2/28.
+ * Created by 28850420 on 3/3/15.
  */
-public abstract class BaseLittleWalterActivity extends BaseActivity {
+abstract public class BaseLittleWalterActivity extends BaseActivity {
 
     @Override
     protected void onCreate(Bundle arg0) {
         super.onCreate(arg0);
     }
-
 }

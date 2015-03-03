@@ -1,18 +1,15 @@
-<?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/root_container"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical">
-    <GridView
-        android:id="@+id/walter_gridview"
+    android:gravity="center"
+    android:background="@mipmap/background" >
+
+    <com.children.littlewalter.widget.ScrollLayout
+        android:id="@+id/container"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_width="wrap_content"
-        android:verticalSpacing="10dp"
-        android:horizontalSpacing="10dp"
-        android:scrollbars="none"
-        android:background="#262d43"
-        android:gravity="center"
-        android:numColumns="2"
-        android:layout_gravity="center"
-        android:orientation="horizontal" />
+        android:gravity="center"/>
+
 </LinearLayout>

@@ -13,10 +13,13 @@ import java.util.List;
 
 import android.annotation.SuppressLint;
 import android.app.ProgressDialog;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.BitmapFactory.Options;
 import android.os.Bundle;
 import android.os.Environment;
 import android.util.Log;
+import android.view.View;
 
 import com.children.littlewalter.LittleWalterApplication;
 import com.children.littlewalter.adapter.ScrollAdapter;
@@ -42,6 +45,7 @@ public class MainActivity extends BaseLittleWalterActivity implements OnAddOrDel
             .getExternalStorageDirectory().getAbsolutePath() + "/LittleWalter";
     private final String LOCAL_CARDS_DIRECTORY = OUTPUT_DIRECTORY + "/cards/";
     private static final String FIRST_TIME_ENTER_APP = "first_time_enter_app";
+    private String mFirstCategory;
 
 	// 滑动控件的容器Container
 	private ScrollLayout mContainer;
@@ -54,7 +58,8 @@ public class MainActivity extends BaseLittleWalterActivity implements OnAddOrDel
 	//xUtils中操纵SQLite的助手类
 	private DbUtils mDbUtils;
 
-    private HashMap<String, ArrayList<CardItem>> mCardCategoryMap = new HashMap<String, ArrayList<CardItem>>();
+    private HashMap<String, ArrayList<CardItem>> mCategoryCardsMap = new HashMap<String, ArrayList<CardItem>>();
+    private HashMap<String, String> mCategoryCoverMap = new HashMap<String, String>();
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -66,7 +71,7 @@ public class MainActivity extends BaseLittleWalterActivity implements OnAddOrDel
 		initViews();
         initEvents();
 		//初始化容器Adapter
-		loadBackground();
+//		loadBackground();
 	}
 
     private void getDataFromCache() {
@@ -84,35 +89,16 @@ public class MainActivity extends BaseLittleWalterActivity implements OnAddOrDel
 		mContainer = (ScrollLayout) findViewById(R.id.container);
         mContainer.getLayoutParams().height = mScreenWidth;
         mContainer.requestLayout();
-		//如果没有缓存数据，则手动添加10条
-		if (mList == null || mList.size() == 0) {
-			mList = new ArrayList<CardItem>();
-			for (int i = 1; i < 11; i++) {
-				CardItem item = new CardItem();
-				//根据drawable name获取对于的ID
-				item.setImgdown(getDrawableId("item" + i + "_down"));
-				item.setImgurl(getDrawableId("item" + i + "_normal"));
-				item.setOrderId(i);
-				item.setMid(i);
-				mList.add(item);
-			}
-		}
-		//初始化Container的Adapter
-		mItemsAdapter = new ScrollAdapter(this, mList);
 		//设置Container添加删除Item的回调
 		mContainer.setOnAddPage(this);
 		//设置Container页面换转的回调，比如自第一页滑动第二页
 		mContainer.setOnPageChangedListener(this);
 		//设置Container编辑模式的回调，长按进入修改模式
 		mContainer.setOnEditModeListener(this);
-		//设置Adapter
-		mContainer.setSaAdapter(mItemsAdapter);
 		//动态设置Container每页的列数为2行
 		mContainer.setColCount(2);
 		//动态设置Container每页的行数为2行
 		mContainer.setRowCount(2);
-		//调用refreView绘制所有的Item
-		mContainer.refreView();
 	}
 
     @Override
@@ -123,6 +109,7 @@ public class MainActivity extends BaseLittleWalterActivity implements OnAddOrDel
     private void initLocalCardResources() {
         boolean firstEnterApp = LittleWalterApplication.getAppPreferences().getBoolean(FIRST_TIME_ENTER_APP, true);
         if (!firstEnterApp) {
+//            readCardsFromDB();
             readCardsFromSDcard();
             return;
         }
@@ -146,36 +133,85 @@ public class MainActivity extends BaseLittleWalterActivity implements OnAddOrDel
         }.start();
     }
 
+    private void readCardsFromDB() {
+        new Thread() {
+
+            @Override
+            public void run() {
+            }
+        }.start();
+    }
+
+    private void saveCardsToDB() {
+
+    }
+
     private void readCardsFromSDcard() {
         new Thread() {
 
             @Override
             public void run() {
-                File categoriesFolder = new File(LOCAL_CARDS_DIRECTORY);
-                String[] categories = categoriesFolder.list();
-                for (String category : categories) {
-                    File cardItemsFolder = new File(categoriesFolder.getPath() + "/" + category);
-                    String[] cardItems = cardItemsFolder.list();
-                    for (String cardItem : cardItems) {
-                        File cardItemFolder = new File(cardItemsFolder.getPath() + "/" + cardItem);
+                File cardResourceFolder = new File(LOCAL_CARDS_DIRECTORY);
+                File[] categoryFolders = cardResourceFolder.listFiles();
+                for (File categoryFolder : categoryFolders) {
+                    ArrayList<CardItem> cardList = new ArrayList<CardItem>();
+                    mCategoryCardsMap.put(categoryFolder.getName(), cardList);
+                    if (mFirstCategory == null) {
+                        mFirstCategory = categoryFolder.getName();
+                    }
+                    File[] cardItemFolders = categoryFolder.listFiles();
+                    for (File cardItemFolder : cardItemFolders) {
                         if (cardItemFolder.isDirectory()) {
-                            
+                            CardItem item = new CardItem();
+                            cardList.add(item);
+                            item.setName(cardItemFolder.getName().split("-")[1].split("\\.")[0]);
+                            File[] mediaFolders = cardItemFolder.listFiles();
+                            for (File mediaFolder : mediaFolders) {
+                                if (mediaFolder.getPath().contains("audio")) {
+                                    File[] audioFiles = mediaFolder.listFiles();
+                                    String[] audios = new String[audioFiles.length];
+                                    int i = 0;
+                                    for (File audioFile : audioFiles) {
+                                        Log.d("zheng", "audio:" + audioFile.getAbsolutePath());
+                                        audios[i++] = audioFile.getAbsolutePath();
+                                    }
+                                    item.setAudios(audios);
+                                } else if (mediaFolder.getPath().contains("image")) {
+                                    File[] imageFiles = mediaFolder.listFiles();
+                                    String[] images = new String[imageFiles.length];
+                                    int i = 0;
+                                    for (File imageFile : imageFiles) {
+                                        Log.d("zheng", "image:" + imageFile.getAbsolutePath());
+                                        images[i++] = imageFile.getAbsolutePath();
+                                    }
+                                    item.setImages(images);
+                                }
+                            }
                         } else {
-                            
+                            mCategoryCoverMap.put(categoryFolder.getName(), cardItemFolder.getAbsolutePath());
                         }
                     }
                 }
+
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        displayCards();
+                    }
+                });
             }
         }.start();
     }
 
-	// 设置Container滑动背景图片
-	private void loadBackground() {
-		Options options = new Options();
-		options.inSampleSize = 2;
-        //Peter: we don't need the background
-		//mContainer.setBackGroud(BitmapFactory.decodeResource(getResources(),R.drawable.main_bg, options));
-	}
+    private void displayCards() {
+        mList = mCategoryCardsMap.get(mFirstCategory);
+        //初始化Container的Adapter
+        mItemsAdapter = new ScrollAdapter(this, mList);
+        //设置Adapter
+        mContainer.setSaAdapter(mItemsAdapter);
+        //调用refreView绘制所有的Item
+        mContainer.refreView();
+    }
 
 	private int getDrawableId(String name) {
 		return getResources().getIdentifier(name, "drawable", "com.children.littlewalter");
@@ -214,4 +250,15 @@ public class MainActivity extends BaseLittleWalterActivity implements OnAddOrDel
 	public void onAddOrDeletePage(int page, boolean isAdd) {
 		Log.e("test", "page-->" + page +"  isAdd-->" + isAdd);
 	}
+
+    public void onClick(View view) {
+        switch (view.getId()) {
+            case R.id.unlock:
+                findViewById(R.id.unlock_guide).setVisibility(View.VISIBLE);
+                break;
+            case R.id.unlock_guide:
+                findViewById(R.id.unlock_guide).setVisibility(View.GONE);
+                break;
+        }
+    }
 }

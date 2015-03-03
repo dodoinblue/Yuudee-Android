@@ -1,15 +1,36 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/root_container"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:gravity="center"
-    android:background="@mipmap/background" >
+    android:background="@mipmap/background">
+
 
     <com.children.littlewalter.widget.ScrollLayout
         android:id="@+id/container"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:gravity="center"/>
+        android:layout_gravity="center"
+        android:gravity="center" />
 
-</LinearLayout>
+    <ImageView
+        android:id="@+id/unlock"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:clickable="true"
+        android:onClick="onClick"
+        android:layout_gravity="left|bottom"
+        android:layout_marginLeft="15dp"
+        android:layout_marginBottom="15dp"
+        android:src="@mipmap/unlock_icon" />
+
+    <ImageView
+        android:id="@+id/unlock_guide"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:clickable="true"
+        android:onClick="onClick"
+        android:scaleType="fitCenter"
+        android:visibility="gone"
+        android:src="@mipmap/unlock_guide_foreground"/>
+</FrameLayout>

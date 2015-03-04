@@ -35,9 +35,7 @@ import java.util.Set;
 /**
  * Created by peter on 3/3/15.
  */
-@SuppressLint("UseSparseArrays")
 public class ScrollAdapter implements SAdapter {
-
 	private Context mContext;
 	private LayoutInflater mInflater;
 	
@@ -58,9 +56,9 @@ public class ScrollAdapter implements SAdapter {
 		View view = null;
 		if (position < mList.size()) {
 			final CardItem moveItem = mList.get(position);
-			view = mInflater.inflate(R.layout.item, parent, false);
+			view = mInflater.inflate(R.layout.card_item, parent, false);
 			ImageView iv = (ImageView) view.findViewById(R.id.content_iv);
-			String coverUrl = moveItem.getImages()[0];
+			String coverUrl = moveItem.getImages().get(0);
 
             Drawable cardCover = null;
             SoftReference<Drawable> cover = mCache.get(coverUrl);
@@ -120,11 +118,6 @@ public class ScrollAdapter implements SAdapter {
 	}
 
 	private OnDataChangeListener dataChangeListener = null;
-
-//	public interface OnDataChangeListener {
-//		void ondataChange();
-//
-//	}
 
 	public OnDataChangeListener getOnDataChangeListener() {
 		return dataChangeListener;

@@ -263,6 +263,7 @@ public class ScrollLayout extends LinearLayout implements OnDataChangeListener {
 		int thresholdX = DensityUtil.dip2px(mContext, 8);
 		switch (action) {
 		case MotionEvent.ACTION_DOWN:
+            Log.d("zheng", "ACTION_DOWN x:" + x + " y:" + y);
 			startX = (int) x;
 			if (mScroller.isFinished()) {
 				if (!mScroller.isFinished()) {

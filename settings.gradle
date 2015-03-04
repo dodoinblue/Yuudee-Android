@@ -1,5 +1,3 @@
 include ':LittleWalterProject'
 include ':AndroidPattern'
 include ':AndroidPatternResource'
-include ':UmengUpdateResources'
-include ':ThirdPartyLogin'

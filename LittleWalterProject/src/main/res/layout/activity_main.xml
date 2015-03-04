@@ -14,7 +14,7 @@
         android:gravity="center" />
 
     <ImageView
-        android:id="@+id/unlock"
+        android:id="@+id/unlock_parent_ui"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:clickable="true"
@@ -32,5 +32,7 @@
         android:onClick="onClick"
         android:scaleType="fitCenter"
         android:visibility="gone"
-        android:src="@mipmap/unlock_guide_foreground"/>
+        android:src="@mipmap/unlock_guide_foreground" />
+
+    <include layout="@layout/include_parent_ui" />
 </FrameLayout>

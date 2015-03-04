@@ -13,7 +13,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
 
-import com.umeng.update.UmengUpdateAgent;
+//import com.umeng.update.UmengUpdateAgent;
 
 /**
  * Created by peter on 15/1/11.
@@ -57,9 +57,9 @@ public abstract class BaseTabActivity extends BaseActivity {
     abstract protected void initTabs();
 
     private void initAppUpdate() {
-        UmengUpdateAgent.setDefault();
-        UmengUpdateAgent.setUpdateOnlyWifi(false);
-        UmengUpdateAgent.update(this);
+//        UmengUpdateAgent.setDefault();
+//        UmengUpdateAgent.setUpdateOnlyWifi(false);
+//        UmengUpdateAgent.update(this);
     }
 
     @Override

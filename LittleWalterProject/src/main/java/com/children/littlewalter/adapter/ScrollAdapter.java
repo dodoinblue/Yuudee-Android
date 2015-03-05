@@ -5,13 +5,11 @@
 
 package com.children.littlewalter.adapter;
 
-import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
-import android.graphics.drawable.StateListDrawable;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.view.LayoutInflater;
@@ -19,6 +17,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.ViewFlipper;
 
 import com.children.littlewalter.OnDataChangeListener;
 import com.children.littlewalter.R;
@@ -53,11 +52,10 @@ public class ScrollAdapter implements SAdapter {
 
 	@Override
 	public View getView(int position, View convertView, ViewGroup parent) {
-		View view = null;
 		if (position < mList.size()) {
 			final CardItem moveItem = mList.get(position);
-			view = mInflater.inflate(R.layout.card_item, parent, false);
-			ImageView iv = (ImageView) view.findViewById(R.id.content_iv);
+			final View view = mInflater.inflate(R.layout.card_item, parent, false);
+			final ImageView iv = (ImageView) view.findViewById(R.id.content_iv);
 			String coverUrl = moveItem.getImages().get(0);
 
             Drawable cardCover = null;
@@ -67,7 +65,7 @@ public class ScrollAdapter implements SAdapter {
             }
 			
             if (cardCover == null) {
-                cardCover = new BitmapDrawable(getCardCover(coverUrl));
+                cardCover = new BitmapDrawable(getBitmapFromSdCard(coverUrl));
                 mCache.put(coverUrl, new SoftReference<Drawable>(cardCover));
             }
 
@@ -79,10 +77,29 @@ public class ScrollAdapter implements SAdapter {
                 @Override
                 public void onClick(View v) {
                     playAudio(moveItem.getAudios()[0]);
+                    final ViewFlipper flipper = (ViewFlipper) view.findViewById(R.id.content_show);
+                    flipper.setVisibility(View.VISIBLE);
+                    iv.setVisibility(View.GONE);
+                    List<String> images = moveItem.getImages();
+                    flipper.removeAllViews();
+                    for (String image : images) {
+                        ImageView imageView = (ImageView) mInflater.inflate(R.layout.layout_image, flipper, false);
+                        imageView.setImageDrawable(new BitmapDrawable(getBitmapFromSdCard(image)));
+                        flipper.addView(imageView);
+                    }
+                    flipper.startFlipping();
+                    flipper.postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            flipper.setVisibility(View.GONE);
+                            iv.setVisibility(View.VISIBLE);
+                        }
+                    }, 500 * moveItem.getImages().size());
                 }
             });
+            return view;
 		}
-		return view;
+		return null;
 	}
 
     private void playAudio(String audioPath) {
@@ -99,7 +116,7 @@ public class ScrollAdapter implements SAdapter {
 //        mediaPlayer.release();
     }
 
-    private Bitmap getCardCover(String imageFilePath) {
+    private Bitmap getBitmapFromSdCard(String imageFilePath) {
         BitmapFactory.Options options = new BitmapFactory.Options();
         options.inSampleSize = 2;
         return BitmapFactory.decodeFile(imageFilePath, options);

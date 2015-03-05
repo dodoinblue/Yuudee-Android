@@ -10,4 +10,5 @@ package com.children.littlewalter.util;
  */
 public class LittleWalterConstant {
     public static final String SETTINGS_CURRENT_CATEGORY = "current_category";
+    public static final String SETTINGS_GUIDE_REMIND = "guide_remind";
 }

@@ -22,7 +22,7 @@ public class LittleWalterApplication extends BaseApplication {
         return (LittleWalterApplication) BaseApplication.getInstance();
     }
 
-    public static Preferences getSettingsPreferences() {
+    public static Preferences getAppSettingsPreferences() {
         return Preferences.getInstance(getInstance());
     }
 
@@ -32,5 +32,9 @@ public class LittleWalterApplication extends BaseApplication {
 
     public static Preferences getCategoryCoverPreferences() {
         return Preferences.getInstance(getInstance(), "category_cover");
+    }
+
+    public static Preferences getCategorySettingPreferences() {
+        return Preferences.getInstance(getInstance(), "category_setting");
     }
 }

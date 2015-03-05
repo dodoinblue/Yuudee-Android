@@ -335,4 +335,6 @@
 	<color name="seek_thumb">#2572AC</color>
 	<color name="seek_progress">#FFFFFF</color>
 <!-- 	<color name="drak_gray">#CAC9CF</color> -->
+
+    <color name="parent_about_content_text_color">@android:color/holo_orange_dark</color>
 </resources>

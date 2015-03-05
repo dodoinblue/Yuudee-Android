@@ -6,7 +6,7 @@
     android:background="@color/translate"
     android:clickable="true"
     android:longClickable="true"
-    android:orientation="vertical" >
+    android:orientation="vertical">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -15,15 +15,26 @@
         android:orientation="vertical"
         android:gravity="center">
 
-        <ImageView
-            android:id="@+id/content_iv"
+        <FrameLayout
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_marginLeft="19dp"
             android:layout_marginRight="20dp"
             android:layout_marginTop="5dp"
-            android:layout_weight="1"
-            android:layout_alignParentTop="true" />
+            android:layout_weight="1">
+
+            <ImageView
+                android:id="@+id/content_iv"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
+
+            <ViewFlipper
+                android:id="@+id/content_show"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:visibility="gone"
+                android:flipInterval="500" />
+        </FrameLayout>
 
         <TextView
             android:id="@+id/card_name"
@@ -32,17 +43,17 @@
             android:layout_marginBottom="18dp"
             android:textSize="14dp"
             android:gravity="center"
-            android:textColor="@android:color/holo_orange_dark"/>
+            android:textColor="@android:color/holo_orange_dark" />
     </LinearLayout>
 
     <ImageView
         android:id="@+id/delete_iv"
-        android:layout_width="20dp"
-        android:layout_height="20dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
         android:layout_alignParentTop="true"
-        android:layout_marginRight="10dp"
-        android:layout_marginTop="10dp"
+        android:layout_marginRight="0dp"
+        android:layout_marginTop="0dp"
         android:clickable="true"
         android:src="@mipmap/edit"
         android:visibility="gone"

@@ -3,7 +3,7 @@
  * All rights reserved.
  */
 
-package com.children.littlewalter.activity;
+package com.children.littlewalter;
 
 import android.os.Bundle;
 import android.pattern.BaseActivity;

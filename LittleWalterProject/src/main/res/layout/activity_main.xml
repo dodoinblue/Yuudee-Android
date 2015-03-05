@@ -92,5 +92,5 @@
         <include layout="@layout/include_guide_flicker3"/>
     </FrameLayout>
 
-    <include layout="@layout/include_parent_ui" />
+    <include layout="@layout/include_main_parent_ui" />
 </FrameLayout>

@@ -35,9 +35,10 @@
             android:background="@mipmap/parent_main_title">
 
             <ImageView
+                android:id="@+id/spinner_title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:background="@mipmap/parent_main_titlefoldbtn" />
+                android:background="@mipmap/parent_main_titleunfoldbtn" />
 
             <TextView
                 android:id="@+id/parent_category_content"

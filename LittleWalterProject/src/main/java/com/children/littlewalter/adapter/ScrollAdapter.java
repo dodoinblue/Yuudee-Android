@@ -21,6 +21,7 @@ import android.widget.ViewFlipper;
 
 import com.children.littlewalter.OnDataChangeListener;
 import com.children.littlewalter.R;
+import com.children.littlewalter.activity.ResourceLibraryDetailActivity;
 import com.children.littlewalter.model.CardItem;
 import com.children.littlewalter.widget.ScrollLayout.SAdapter;
 
@@ -38,11 +39,10 @@ public class ScrollAdapter implements SAdapter {
 	private Context mContext;
 	private LayoutInflater mInflater;
 	
-	private List<CardItem> mList;
-	private HashMap<String,SoftReference<Drawable>> mCache;
+	protected List<CardItem> mList;
+    protected HashMap<String,SoftReference<Drawable>> mCache;
 	
 	public ScrollAdapter(Context context, List<CardItem> list) {
-		
 		this.mContext = context;
 		this.mInflater = LayoutInflater.from(context);
 		
@@ -73,6 +73,10 @@ public class ScrollAdapter implements SAdapter {
             nameView.setText(moveItem.getName());
             iv.setImageDrawable(cardCover);
 			view.setTag(moveItem);
+            if (mContext instanceof ResourceLibraryDetailActivity) {
+                return view;
+            }
+
             view.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -116,7 +120,7 @@ public class ScrollAdapter implements SAdapter {
 //        mediaPlayer.release();
     }
 
-    private Bitmap getBitmapFromSdCard(String imageFilePath) {
+    protected Bitmap getBitmapFromSdCard(String imageFilePath) {
         BitmapFactory.Options options = new BitmapFactory.Options();
         options.inSampleSize = 2;
         return BitmapFactory.decodeFile(imageFilePath, options);

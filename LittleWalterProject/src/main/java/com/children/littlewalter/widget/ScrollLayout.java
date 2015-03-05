@@ -971,11 +971,13 @@ public class ScrollLayout extends LinearLayout implements OnDataChangeListener {
 				mAdapter.delete(deletePostion);
 				CardItem item = (CardItem) v.getTag();
 				DbUtils utils = DbUtils.create(mContext);
-				try {
-					utils.delete(CardItem.class,WhereBuilder.b("mid", "=", item.getMid()));
-				} catch (DbException e) {
-					e.printStackTrace();
-				}
+
+                //Peter:delete for build error
+//				try {
+//					utils.delete(CardItem.class,WhereBuilder.b("mid", "=", item.getMid()));
+//				} catch (DbException e) {
+//					e.printStackTrace();
+//				}
 				showEdit(false);
 				showEdit(true);
 

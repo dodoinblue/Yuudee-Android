@@ -41,8 +41,7 @@
                 android:onClick="onClick"
                 android:clickable="true"
                 android:textColor="@android:color/darker_gray"
-                android:textSize="14dp"
-                android:text="我需要帮助" />
+                android:textSize="14dp" />
 
             <EditText
                 android:id="@+id/parent_settings_edit_category_name"

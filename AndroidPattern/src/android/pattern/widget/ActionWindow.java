@@ -1,5 +1,6 @@
 package android.pattern.widget;
 
+import android.content.DialogInterface;
 import android.graphics.drawable.BitmapDrawable;
 import android.pattern.BaseActivity;
 import android.pattern.R;
@@ -96,5 +97,9 @@ public class ActionWindow {
 
     public void dismiss() {
         mBottomPopWindow.dismiss();
+    }
+
+    public void setOnDismissListener(PopupWindow.OnDismissListener dismissListener) {
+        mBottomPopWindow.setOnDismissListener(dismissListener);
     }
 }

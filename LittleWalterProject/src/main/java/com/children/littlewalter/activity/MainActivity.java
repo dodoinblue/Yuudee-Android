@@ -28,6 +28,7 @@ import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.PopupWindow;
 import android.widget.TextView;
 import android.widget.ViewFlipper;
 
@@ -122,7 +123,6 @@ public class MainActivity extends BaseLittleWalterActivity implements OnAddOrDel
 
     @Override
 	public void initViews() {
-        enterChildMode();
 		mContainer = (ScrollLayout) findViewById(R.id.container);
         mContainer.getLayoutParams().height = mScreenWidth;
         mContainer.requestLayout();
@@ -132,7 +132,7 @@ public class MainActivity extends BaseLittleWalterActivity implements OnAddOrDel
 		mContainer.setOnPageChangedListener(this);
 		//设置Container编辑模式的回调，长按进入修改模式
 		mContainer.setOnEditModeListener(this);
-
+        enterChildMode();
         mCategoryListAdapter = new BaseListAdapter<String>(this, new ArrayList<String>()) {
             @Override
             public View bindView(int position, View convertView, ViewGroup parent) {
@@ -490,14 +490,19 @@ public class MainActivity extends BaseLittleWalterActivity implements OnAddOrDel
     }
 
     private void showCategoryDropDownWindow() {
-        ViewGroup categoryListLayout = (ViewGroup) mInflater.inflate(R.layout.layout_category_list, null, false);
+        final ViewGroup categoryListLayout = (ViewGroup) mInflater.inflate(R.layout.layout_category_list, null, false);
         mDropDownCategoryListWindow = new ActionWindow(this, findViewById(R.id.parent_categories_title), categoryListLayout);
         mDropDownCategoryListWindow.dropDown();
+        final ImageView spinnerTitleView = (ImageView) findViewById(R.id.spinner_title);
+        spinnerTitleView.setBackgroundResource(R.mipmap.parent_main_titlefoldbtn);
+        mDropDownCategoryListWindow.setOnDismissListener(new PopupWindow.OnDismissListener() {
+            @Override
+            public void onDismiss() {
+                spinnerTitleView.setBackgroundResource(R.mipmap.parent_main_titleunfoldbtn);
+            }
+        });
         mCategoryListView = (ListView) categoryListLayout.findViewById(R.id.category_list);
         mCategoryListView.setAdapter(mCategoryListAdapter);
-
-        ImageView spinnerTitleView = (ImageView) findViewById(R.id.spinner_title);
-        spinnerTitleView.setBackgroundResource(R.mipmap.parent_main_titlefoldbtn);
     }
 
     private void popUpSettings() {
@@ -531,6 +536,7 @@ public class MainActivity extends BaseLittleWalterActivity implements OnAddOrDel
         mCategoryList = new ArrayList<String>(categorySet);
         mCategoryListAdapter.setList(mCategoryList);
         findViewById(R.id.root_container).setBackgroundResource(R.mipmap.background2);
+        mContainer.showEdit(true);
     }
 
     private void enterChildMode() {
@@ -540,5 +546,6 @@ public class MainActivity extends BaseLittleWalterActivity implements OnAddOrDel
         findViewById(R.id.unlock_parent_ui).setVisibility(View.VISIBLE);
 //        findViewById(R.id.unlock_guide_flicker).setVisibility(View.VISIBLE);
         findViewById(R.id.root_container).setBackgroundResource(R.mipmap.background);
+        mContainer.showEdit(false);
     }
 }

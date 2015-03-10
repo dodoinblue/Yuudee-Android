@@ -5,13 +5,16 @@
 
 package com.children.littlewalter.adapter;
 
+import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
+import android.pattern.BaseActivity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,7 +24,9 @@ import android.widget.ViewFlipper;
 
 import com.children.littlewalter.OnDataChangeListener;
 import com.children.littlewalter.R;
+import com.children.littlewalter.activity.MainActivity;
 import com.children.littlewalter.activity.ResourceLibraryDetailActivity;
+import com.children.littlewalter.activity.ScaleUpCardActivity;
 import com.children.littlewalter.model.CardItem;
 import com.children.littlewalter.widget.ScrollLayout.SAdapter;
 
@@ -31,19 +36,22 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
+import java.util.zip.Inflater;
 
 /**
  * Created by peter on 3/3/15.
  */
 public class ScrollAdapter implements SAdapter {
 	private Context mContext;
+    private BaseActivity mActivity;
 	private LayoutInflater mInflater;
 	
 	protected List<CardItem> mList;
     protected HashMap<String,SoftReference<Drawable>> mCache;
-	
-	public ScrollAdapter(Context context, List<CardItem> list) {
+
+	public ScrollAdapter(BaseActivity context, List<CardItem> list) {
 		this.mContext = context;
+        mActivity = context;
 		this.mInflater = LayoutInflater.from(context);
 		
 		this.mList = list;
@@ -80,23 +88,13 @@ public class ScrollAdapter implements SAdapter {
             view.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    playAudio(moveItem.getAudios()[0]);
-                    final ViewFlipper flipper = (ViewFlipper) view.findViewById(R.id.content_show);
-                    flipper.setVisibility(View.VISIBLE);
-                    iv.setVisibility(View.GONE);
-                    List<String> images = moveItem.getImages();
-                    flipper.removeAllViews();
-                    for (String image : images) {
-                        ImageView imageView = (ImageView) mInflater.inflate(R.layout.layout_image, flipper, false);
-                        imageView.setImageDrawable(new BitmapDrawable(getBitmapFromSdCard(image)));
-                        flipper.addView(imageView);
-                    }
-                    flipper.startFlipping();
-                    flipper.postDelayed(new Runnable() {
+                    view.setVisibility(View.INVISIBLE);
+//                    playCardByDefaultAnimation(view, moveItem);
+                    actionWithScaleUpAnimation(view, moveItem);
+                    view.postDelayed(new Runnable() {
                         @Override
                         public void run() {
-                            flipper.setVisibility(View.GONE);
-                            iv.setVisibility(View.VISIBLE);
+                            view.setVisibility(View.VISIBLE);
                         }
                     }, 500 * moveItem.getImages().size());
                 }
@@ -106,7 +104,40 @@ public class ScrollAdapter implements SAdapter {
 		return null;
 	}
 
-    private void playAudio(String audioPath) {
+    private void actionWithScaleUpAnimation(View view, CardItem moveItem) {
+        Intent intent = new Intent(mContext, ScaleUpCardActivity.class);
+        intent.putExtra("card_item", moveItem);
+        mActivity.startActivityForResult(intent, MainActivity.ACTIVITY_REQUEST_CODE_SCALE_UP);
+    }
+
+    public static void playCardByDefaultAnimation(final BaseActivity activity, View view, CardItem moveItem) {
+        final ImageView iv = (ImageView) view.findViewById(R.id.content_iv);
+        final ViewFlipper flipper = (ViewFlipper) view.findViewById(R.id.content_show);
+        flipper.setVisibility(View.VISIBLE);
+        iv.setVisibility(View.GONE);
+        playAudio(moveItem.getAudios()[0]);
+        List<String> images = moveItem.getImages();
+        flipper.removeAllViews();
+        for (String image : images) {
+            ImageView imageView = (ImageView) activity.getLayoutInflater().inflate(R.layout.layout_image, flipper, false);
+            imageView.setImageDrawable(new BitmapDrawable(getBitmapFromSdCard(image)));
+            flipper.addView(imageView);
+        }
+        flipper.startFlipping();
+        flipper.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                flipper.setVisibility(View.GONE);
+                iv.setVisibility(View.VISIBLE);
+                if (activity instanceof ScaleUpCardActivity) {
+                    activity.setResult(Activity.RESULT_OK);
+                    activity.finish();
+                }
+            }
+        }, 500 * moveItem.getImages().size());
+    }
+
+    private static void playAudio(String audioPath) {
         MediaPlayer mediaPlayer = new MediaPlayer();
         mediaPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
         try {
@@ -120,7 +151,7 @@ public class ScrollAdapter implements SAdapter {
 //        mediaPlayer.release();
     }
 
-    protected Bitmap getBitmapFromSdCard(String imageFilePath) {
+    public static Bitmap getBitmapFromSdCard(String imageFilePath) {
         BitmapFactory.Options options = new BitmapFactory.Options();
         options.inSampleSize = 2;
         return BitmapFactory.decodeFile(imageFilePath, options);

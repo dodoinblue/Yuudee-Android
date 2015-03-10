@@ -58,6 +58,10 @@
         <activity android:name=".activity.ResourceLibraryActivity"/>
 
         <activity android:name=".activity.ResourceLibraryDetailActivity"/>
+
+        <activity android:name=".activity.ScaleUpCardActivity"
+            android:theme="@style/Theme.Light.FullScreenDialogAct"/>
+
     </application>
 
 </manifest>

@@ -518,26 +518,34 @@ public abstract class BaseActivity extends FragmentActivity implements onHomeMen
     @Override
     public void setTitle(CharSequence title) {
     	super.setTitle(title);
-		mTopView.setTitle(title);
+        if (mTopView != null) {
+            mTopView.setTitle(title);
+        }
     }
     
     @Override
     public void setTitle(int titleId) {
     	super.setTitle(titleId);
-		mTopView.setTitle(titleId);
+        if (mTopView != null) {
+            mTopView.setTitle(titleId);
+        }
     }
     
     protected void hideActionBar() {
     	if (getActionBar() != null) {
     		getActionBar().hide();
     	}
-    	mTopView.hideActionBar();
+        if (mTopView != null) {
+            mTopView.hideActionBar();
+        }
     }
     
     protected void showActionBar() {
     	if (getActionBar() != null) {
     		getActionBar().show();
     	}
-    	mTopView.showActionBar();
+        if (mTopView != null) {
+            mTopView.showActionBar();
+        }
     }
 }

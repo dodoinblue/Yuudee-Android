@@ -15,7 +15,9 @@ import java.util.Map;
 import java.util.Set;
 
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.app.ProgressDialog;
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Environment;
 import android.pattern.adapter.BaseListAdapter;
@@ -53,6 +55,7 @@ import com.google.gson.reflect.TypeToken;
 @SuppressLint("HandlerLeak")
 public class MainActivity extends BaseLittleWalterActivity implements OnAddOrDeletePage,
 		OnPageChangedListener, OnEditModeListener {
+    public static final int ACTIVITY_REQUEST_CODE_SCALE_UP = 1000;
     private final String OUTPUT_DIRECTORY = Environment
             .getExternalStorageDirectory().getAbsolutePath() + "/LittleWalter";
     private final String LOCAL_CARDS_DIRECTORY = OUTPUT_DIRECTORY + "/cards/";
@@ -120,6 +123,18 @@ public class MainActivity extends BaseLittleWalterActivity implements OnAddOrDel
 		initViews();
         initEvents();
 	}
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (resultCode != Activity.RESULT_OK) {
+            return;
+        }
+        switch (requestCode) {
+            case ACTIVITY_REQUEST_CODE_SCALE_UP:
+
+                break;
+        }
+    }
 
     @Override
 	public void initViews() {

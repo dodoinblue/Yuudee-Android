@@ -9,6 +9,7 @@ import android.content.Intent;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.pattern.widget.ActionWindow;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -39,6 +40,7 @@ public class ResourceLibraryActivity extends BaseLittleWalterActivity {
     private ScrollAdapter mItemsAdapter;
     // Container中滑动控件列表
     private List<CardItem> mCardItemList = new ArrayList<CardItem>();
+    private ActionWindow mNewResourceWindow;
 
     @Override
     protected void onCreate(Bundle arg0) {
@@ -131,6 +133,18 @@ public class ResourceLibraryActivity extends BaseLittleWalterActivity {
         switch (view.getId()) {
             case R.id.resource_library_back:
                 finish();
+                break;
+            case R.id.resource_library_new:
+                mNewResourceWindow = new ActionWindow(this, findViewById(R.id.resource_library_new), R.layout.drop_down_menu_new_category_or_card);
+                mNewResourceWindow.dropDown();
+                break;
+            case R.id.create_card:
+                startActivity(NewCardActivity.class);
+                mNewResourceWindow.dismiss();
+                break;
+            case R.id.create_category:
+                startActivity(NewCategoryActivity.class);
+                mNewResourceWindow.dismiss();
                 break;
         }
     }

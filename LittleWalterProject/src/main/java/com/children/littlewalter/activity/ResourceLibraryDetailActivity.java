@@ -78,6 +78,9 @@ public class ResourceLibraryDetailActivity extends BaseLittleWalterActivity {
             case R.id.resource_library_back:
                 finish();
                 break;
+            case R.id.resource_library_new:
+                startActivity(NewCardActivity.class);
+                break;
         }
     }
 }

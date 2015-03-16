@@ -59,7 +59,16 @@
 
         <activity android:name=".activity.ResourceLibraryDetailActivity"/>
 
-        <activity android:name=".activity.ScaleUpCardActivity"
+        <activity android:name=".activity.ShowCardActivity"
+            android:theme="@style/Theme.Light.FullScreenDialogAct"/>
+
+        <activity android:name=".activity.NewCategoryActivity"
+            android:theme="@style/Theme.Light.FullScreenDialogAct"/>
+
+        <activity android:name=".activity.NewCardActivity"
+            android:theme="@style/Theme.Light.FullScreenDialogAct"/>
+
+        <activity android:name=".activity.EditCardActivity"
             android:theme="@style/Theme.Light.FullScreenDialogAct"/>
 
     </application>

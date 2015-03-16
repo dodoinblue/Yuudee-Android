@@ -33,6 +33,7 @@ import android.widget.LinearLayout;
 import android.widget.Scroller;
 
 import com.children.littlewalter.OnDataChangeListener;
+import com.children.littlewalter.activity.EditCardActivity;
 import com.children.littlewalter.adapter.ScrollAdapter;
 import com.children.littlewalter.model.CardItem;
 import com.children.littlewalter.util.DensityUtil;
@@ -902,7 +903,15 @@ public class ScrollLayout extends LinearLayout implements OnDataChangeListener {
 			iv.setTag(child.getTag());
 			iv.setVisibility(isEdit == true ? View.VISIBLE : View.GONE);
 			if (isEdit) {
-				iv.setOnClickListener(new DelItemClick(i));
+//				iv.setOnClickListener(new DelItemClick(i)); delete by peter
+                iv.setOnClickListener(new OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Intent intent = new Intent(getContext(), EditCardActivity.class);
+                        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                        getContext().startActivity(intent);
+                    }
+                });
 			}
 		}
 

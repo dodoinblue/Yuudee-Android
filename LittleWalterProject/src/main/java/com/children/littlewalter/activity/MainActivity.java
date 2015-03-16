@@ -486,6 +486,9 @@ public class MainActivity extends BaseLittleWalterActivity implements OnAddOrDel
 
     public static List<CardItem> getCategoryCardsList(String catetgory) {
         String curCategoryCardsJson = LittleWalterApplication.getCategoryCardsPreferences().getString(catetgory);
+        if (TextUtils.isEmpty(curCategoryCardsJson)) {
+            return new ArrayList<CardItem>();
+        }
         return new Gson().fromJson(curCategoryCardsJson, new TypeToken<List<CardItem>>() { }.getType());
     }
 

@@ -18,10 +18,6 @@ abstract public class BaseLittleWalterActivity extends BaseActivity {
         super.onCreate(arg0);
     }
 
-    protected void AddNewCategory() {
-
-    }
-
     protected void AddNewCardItem() {
 
     }

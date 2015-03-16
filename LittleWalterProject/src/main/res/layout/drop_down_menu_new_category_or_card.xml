@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?><!--
+  ~ Copyright (C) 2015 G-Wearable Inc.
+  ~ All rights reserved.
+  -->
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:gravity="top|right"
+    android:background="#30000000">
+
+    <LinearLayout
+        android:layout_width="200dp"
+        android:layout_height="wrap_content"
+        android:paddingTop="10dp"
+        android:layout_marginRight="8dp"
+        android:orientation="vertical"
+        android:gravity="center"
+        android:background="@drawable/choosearea_bg_right">
+
+        <TextView
+            android:id="@+id/create_category"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:textColor="@android:color/holo_blue_dark"
+            android:clickable="true"
+            android:gravity="center"
+            android:onClick="onClick"
+            android:background="@drawable/list_item_bg"
+            android:text="创建分类"
+            android:textSize="16dp" />
+
+        <TextView
+            android:id="@+id/create_card"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:textColor="@android:color/holo_blue_dark"
+            android:clickable="true"
+            android:gravity="center"
+            android:onClick="onClick"
+            android:background="@drawable/list_item_bg"
+            android:text="创建卡片"
+            android:textSize="16dp" />
+
+    </LinearLayout>
+</LinearLayout>

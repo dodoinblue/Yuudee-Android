@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  ~ Copyright (C) 2015 G-Wearable Inc.
+  ~ All rights reserved.
+  -->
+
+<selector
+  xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:state_focused="true" android:drawable="@mipmap/parent_editpop_confirmbtn_down" />
+    <item android:state_pressed="true" android:drawable="@mipmap/parent_editpop_confirmbtn_down" />
+    <item android:state_selected="true" android:drawable="@mipmap/parent_editpop_confirmbtn_down" />
+    <item android:drawable="@mipmap/parent_editpop_confirmbtn" />
+</selector>

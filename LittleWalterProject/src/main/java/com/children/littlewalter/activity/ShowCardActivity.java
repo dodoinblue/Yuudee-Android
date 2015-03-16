@@ -22,7 +22,7 @@ import java.util.List;
 /**
  * Created by peter on 3/10/15.
  */
-public class ScaleUpCardActivity extends BaseLittleWalterActivity {
+public class ShowCardActivity extends BaseLittleWalterActivity {
 
     @Override
     protected void onCreate(Bundle arg0) {

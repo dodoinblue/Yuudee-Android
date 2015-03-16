@@ -26,7 +26,7 @@ import com.children.littlewalter.OnDataChangeListener;
 import com.children.littlewalter.R;
 import com.children.littlewalter.activity.MainActivity;
 import com.children.littlewalter.activity.ResourceLibraryDetailActivity;
-import com.children.littlewalter.activity.ScaleUpCardActivity;
+import com.children.littlewalter.activity.ShowCardActivity;
 import com.children.littlewalter.model.CardItem;
 import com.children.littlewalter.widget.ScrollLayout.SAdapter;
 
@@ -36,7 +36,6 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
-import java.util.zip.Inflater;
 
 /**
  * Created by peter on 3/3/15.
@@ -105,7 +104,7 @@ public class ScrollAdapter implements SAdapter {
 	}
 
     private void actionWithScaleUpAnimation(View view, CardItem moveItem) {
-        Intent intent = new Intent(mContext, ScaleUpCardActivity.class);
+        Intent intent = new Intent(mContext, ShowCardActivity.class);
         intent.putExtra("card_item", moveItem);
         mActivity.startActivityForResult(intent, MainActivity.ACTIVITY_REQUEST_CODE_SCALE_UP);
     }
@@ -129,7 +128,7 @@ public class ScrollAdapter implements SAdapter {
             public void run() {
                 flipper.setVisibility(View.GONE);
                 iv.setVisibility(View.VISIBLE);
-                if (activity instanceof ScaleUpCardActivity) {
+                if (activity instanceof ShowCardActivity) {
                     activity.setResult(Activity.RESULT_OK);
                     activity.finish();
                 }

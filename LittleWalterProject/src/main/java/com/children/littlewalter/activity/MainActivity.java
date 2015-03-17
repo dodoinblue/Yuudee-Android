@@ -486,9 +486,9 @@ public class MainActivity extends BaseLittleWalterActivity implements OnAddOrDel
         LittleWalterApplication.getCategoryCoverPreferences().remove(oldCategoryName);
         LittleWalterApplication.getCategoryCoverPreferences().putString(newCategoryName, cateoryCoverStr);
 
-        String cateorySettingStr = LittleWalterApplication.getCategorySettingPreferences().getString(oldCategoryName);
+        int cateorySetting = LittleWalterApplication.getCategorySettingPreferences().getInt(oldCategoryName);
         LittleWalterApplication.getCategorySettingPreferences().remove(oldCategoryName);
-        LittleWalterApplication.getCategorySettingPreferences().putString(newCategoryName, cateorySettingStr);
+        LittleWalterApplication.getCategorySettingPreferences().putInt(newCategoryName, cateorySetting);
     }
 
     public static List<CardItem> getCategoryCardsList(String catetgory) {
@@ -540,9 +540,9 @@ public class MainActivity extends BaseLittleWalterActivity implements OnAddOrDel
         mCategoryNameEdit.setText(mCurrentCategory);
         if (mCurrentCategoryCardLayoutSetting == LAYOUT_TYPE_1_X_1) {
             mParentSettingsLayout.findViewById(R.id.parent_settings_layout1_1_checked).setVisibility(View.VISIBLE);
-            mParentSettingsLayout.findViewById(R.id.parent_settings_layout2_2_checked).setVisibility(View.GONE);
+            mParentSettingsLayout.findViewById(R.id.parent_settings_layout2_2_checked).setVisibility(View.INVISIBLE);
         } else {
-            mParentSettingsLayout.findViewById(R.id.parent_settings_layout1_1_checked).setVisibility(View.GONE);
+            mParentSettingsLayout.findViewById(R.id.parent_settings_layout1_1_checked).setVisibility(View.INVISIBLE);
             mParentSettingsLayout.findViewById(R.id.parent_settings_layout2_2_checked).setVisibility(View.VISIBLE);
         }
     }

@@ -53,7 +53,7 @@
                 android:gravity="center"
                 android:singleLine="true"
                 android:visibility="gone"
-                android:layout_centerVertical="true"/>
+                android:layout_centerVertical="true" />
         </RelativeLayout>
 
         <TextView
@@ -71,6 +71,11 @@
             android:gravity="center"
             android:orientation="horizontal">
 
+            <View
+                android:layout_width="0dp"
+                android:layout_height="1dp"
+                android:layout_weight="1" />
+
             <FrameLayout
                 android:id="@+id/parent_settings_layout1_1"
                 android:layout_width="wrap_content"
@@ -81,44 +86,51 @@
                 <ImageView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:layout_marginTop="5dp"
+                    android:layout_marginTop="12dp"
+                    android:layout_marginLeft="2dp"
                     android:background="@mipmap/parent_settingspop_layout1_1" />
 
                 <ImageView
                     android:id="@+id/parent_settings_layout1_1_checked"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:visibility="gone"
-                    android:layout_marginLeft="2dp"
+                    android:layout_gravity="top|center_horizontal"
+                    android:visibility="invisible"
                     android:background="@mipmap/parent_editppop_checked" />
             </FrameLayout>
+
+            <View
+                android:layout_width="0dp"
+                android:layout_height="1dp"
+                android:layout_weight="1" />
 
             <FrameLayout
                 android:id="@+id/parent_settings_layout2_2"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:clickable="true"
-                android:onClick="onClick"
-                android:layout_marginLeft="25dp">
+                android:onClick="onClick">
 
                 <ImageView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:layout_marginTop="5dp"
+                    android:layout_marginTop="12dp"
+                    android:layout_marginLeft="2dp"
                     android:background="@mipmap/parent_settingspop_layout2_2" />
 
                 <ImageView
                     android:id="@+id/parent_settings_layout2_2_checked"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:layout_marginLeft="2dp"
+                    android:layout_gravity="top|center_horizontal"
+                    android:visibility="invisible"
                     android:background="@mipmap/parent_editppop_checked" />
             </FrameLayout>
 
+            <View
+                android:layout_width="0dp"
+                android:layout_height="1dp"
+                android:layout_weight="1" />
         </LinearLayout>
 
         <TextView

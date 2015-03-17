@@ -46,8 +46,11 @@
             android:gravity="center">
 
             <LinearLayout
+                android:id="@+id/no_animation_container"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:clickable="true"
+                android:onClick="onClick"
                 android:gravity="center"
                 android:orientation="vertical">
 
@@ -63,9 +66,11 @@
                         android:background="@mipmap/parent_editpop_demo1" />
 
                     <ImageView
+                        android:id="@+id/no_animation_checked"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="top|center_horizontal"
+                        android:visibility="invisible"
                         android:background="@mipmap/parent_editppop_checked" />
                 </FrameLayout>
 
@@ -85,9 +90,12 @@
                 android:layout_weight="1" />
 
             <LinearLayout
+                android:id="@+id/animation_zoom_in_container"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:gravity="center"
+                android:clickable="true"
+                android:onClick="onClick"
                 android:orientation="vertical">
 
                 <FrameLayout
@@ -102,6 +110,7 @@
                         android:background="@mipmap/parent_editpop_demo2" />
 
                     <ImageView
+                        android:id="@+id/zoomin_animation_checked"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="top|center_horizontal"
@@ -124,9 +133,12 @@
                 android:layout_weight="1" />
 
             <LinearLayout
+                android:id="@+id/animation_zoomin_and_rotate_container"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:gravity="center"
+                android:clickable="true"
+                android:onClick="onClick"
                 android:orientation="vertical">
 
                 <FrameLayout
@@ -141,9 +153,11 @@
                         android:background="@mipmap/parent_editpop_demo3" />
 
                     <ImageView
+                        android:id="@+id/zoomin_and_rotate_animation_checked"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="top|center_horizontal"
+                        android:visibility="invisible"
                         android:background="@mipmap/parent_editppop_checked" />
                 </FrameLayout>
 

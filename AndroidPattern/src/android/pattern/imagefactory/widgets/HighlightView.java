@@ -392,9 +392,9 @@ public class HighlightView {
 		mImageRect = new RectF(imageRect);
 		mMaintainAspectRatio = maintainAspectRatio;
 
-        // By Peter:please revert this if you want the picture to be cut by rectangle
-		// mCircle = circle;
-        mCircle = true;
+		mCircle = circle;
+        // By Peter:please revert this if you want the picture to be cut by circle
+//        mCircle = true;
 
 		mInitialAspectRatio = mCropRect.width() / mCropRect.height();
 		mDrawRect = computeLayout();

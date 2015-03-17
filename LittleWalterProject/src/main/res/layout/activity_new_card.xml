@@ -28,7 +28,7 @@
             android:gravity="top|center_horizontal">
 
             <ImageView
-                android:id="@+id/content_iv"
+                android:id="@+id/card_cover"
                 android:layout_width="105dp"
                 android:layout_height="80dp"
                 android:layout_marginTop="8dp"
@@ -139,6 +139,7 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:gravity="center"
+                    android:textSize="12dp"
                     android:layout_marginLeft="20dp"
                     android:textColor="@android:color/white"/>
             </LinearLayout>

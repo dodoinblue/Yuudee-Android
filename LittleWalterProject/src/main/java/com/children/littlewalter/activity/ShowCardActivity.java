@@ -27,7 +27,7 @@ public class ShowCardActivity extends BaseLittleWalterActivity {
     @Override
     protected void onCreate(Bundle arg0) {
         super.onCreate(arg0);
-        setContentView(R.layout.card_item);
+        setContentView(R.layout.big_card_item);
         initViews();
         initEvents();
     }

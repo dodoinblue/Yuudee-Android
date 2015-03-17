@@ -80,7 +80,7 @@ public class ResourceLibraryActivity extends BaseLittleWalterActivity {
             @Override
             public View getView(int position, View convertView, ViewGroup parent) {
                 final CardItem moveItem = mList.get(position);
-                final View view = mInflater.inflate(R.layout.card_item, parent, false);
+                final View view = mInflater.inflate(R.layout.category_item, parent, false);
                 final ImageView iv = (ImageView) view.findViewById(R.id.content_iv);
                 Drawable cardCover = null;
                 SoftReference<Drawable> cover = mCache.get(moveItem.cover);
@@ -97,8 +97,6 @@ public class ResourceLibraryActivity extends BaseLittleWalterActivity {
                 } else {
                     iv.setImageDrawable(cardCover);
                 }
-
-                view.findViewById(R.id.card_bg).setBackgroundResource(R.mipmap.cat_bg);
 
                 TextView nameView = (TextView) view.findViewById(R.id.card_name);
                 nameView.setText(moveItem.name);

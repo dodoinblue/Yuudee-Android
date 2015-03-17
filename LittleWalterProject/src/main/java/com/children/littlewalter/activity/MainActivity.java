@@ -61,7 +61,7 @@ public class MainActivity extends BaseLittleWalterActivity implements OnAddOrDel
     private final String LOCAL_CARDS_DIRECTORY = OUTPUT_DIRECTORY + "/cards/";
     private static final String FIRST_TIME_ENTER_APP = "first_time_enter_app";
     private EditText mCategoryNameEdit;
-
+    private long mFirstPressBackTime;
     private String mCurrentCategory;
     private int mCurrentCategorySetting = 2;
     private boolean mNeedGuideRemind = true;
@@ -308,15 +308,20 @@ public class MainActivity extends BaseLittleWalterActivity implements OnAddOrDel
 	@Override
 	public void onBackPressed() {
 		//back键监听，如果在编辑模式，则取消编辑模式
-		if (mContainer.isEditting()) {
-			mContainer.showEdit(false);
+		if (mIsInParentMode) {
+			enterChildMode();
 			return;
 		} else {
-            //退出APP前，保存当前的Items，记得所有item的位置
-            List<CardItem> list = mContainer.getAllMoveItems();
-            LittleWalterApplication.getCategoryCardsPreferences().putString(mCurrentCategory, new Gson().toJson(list));
-			super.onBackPressed();
-			android.os.Process.killProcess(android.os.Process.myPid());
+            if (mFirstPressBackTime + 2000 > System.currentTimeMillis()) {
+                //退出APP前，保存当前的Items，记得所有item的位置
+                List<CardItem> list = mContainer.getAllMoveItems();
+                LittleWalterApplication.getCategoryCardsPreferences().putString(mCurrentCategory, new Gson().toJson(list));
+                super.onBackPressed();
+                android.os.Process.killProcess(android.os.Process.myPid());
+            } else {
+                showCustomToast("再按一次退出程序");
+            }
+            mFirstPressBackTime = System.currentTimeMillis();
 		}
 	}
 

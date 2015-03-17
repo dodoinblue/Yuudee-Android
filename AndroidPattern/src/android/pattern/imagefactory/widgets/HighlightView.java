@@ -90,7 +90,7 @@ public class HighlightView {
 			Rect r = new Rect();
 			while (iter.next(r)) {
                 //By peter:delete temporary
-//				canvas.drawRect(r, hasFocus() ? mFocusPaint : mNoFocusPaint);
+				canvas.drawRect(r, hasFocus() ? mFocusPaint : mNoFocusPaint);
 			}
 			// canvas.clipPath(path, Region.Op.DIFFERENCE);//android 4.0 Support
 			// bad.java.lang.UnsupportedOperationException

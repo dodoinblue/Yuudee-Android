@@ -63,9 +63,11 @@ public class MainActivity extends BaseLittleWalterActivity implements OnAddOrDel
     private EditText mCategoryNameEdit;
     private long mFirstPressBackTime;
     private String mCurrentCategory;
-    private int mCurrentCategorySetting = 2;
+    public static final int LAYOUT_TYPE_1_X_1 = 1;
+    public static final int LAYOUT_TYPE_2_X_2 = 2;
+    private int mCurrentCategoryCardLayoutSetting = LAYOUT_TYPE_2_X_2;
     private boolean mNeedGuideRemind = true;
-
+    public static int sRoundPx = 5;
 	// 滑动控件的容器Container
 	private ScrollLayout mContainer;
 
@@ -164,7 +166,7 @@ public class MainActivity extends BaseLittleWalterActivity implements OnAddOrDel
             public void OnClickListener(View convertView, View clickedView, Integer position, Object value) {
                 mCurrentCategory = (String)value;
                 LittleWalterApplication.getAppSettingsPreferences().putString(LittleWalterConstant.SETTINGS_CURRENT_CATEGORY, mCurrentCategory);
-                mCurrentCategorySetting = LittleWalterApplication.getCategorySettingPreferences().getInt(mCurrentCategory, 2);
+                mCurrentCategoryCardLayoutSetting = LittleWalterApplication.getCategorySettingPreferences().getInt(mCurrentCategory, LAYOUT_TYPE_2_X_2);
                 mCardItemList = getCategoryCardsList(mCurrentCategory);
                 displayCards();
                 if (mDropDownCategoryListWindow != null) {
@@ -187,7 +189,7 @@ public class MainActivity extends BaseLittleWalterActivity implements OnAddOrDel
     private void getCardsFromCache() {
         mNeedGuideRemind = LittleWalterApplication.getAppSettingsPreferences().getBoolean(LittleWalterConstant.SETTINGS_GUIDE_REMIND, true);
         mCurrentCategory = LittleWalterApplication.getAppSettingsPreferences().getString(LittleWalterConstant.SETTINGS_CURRENT_CATEGORY);
-        mCurrentCategorySetting = LittleWalterApplication.getCategorySettingPreferences().getInt(mCurrentCategory, 2);
+        mCurrentCategoryCardLayoutSetting = LittleWalterApplication.getCategorySettingPreferences().getInt(mCurrentCategory, LAYOUT_TYPE_2_X_2);
 
         mCardItemList = getCategoryCardsList(mCurrentCategory);
         displayCards();
@@ -288,14 +290,14 @@ public class MainActivity extends BaseLittleWalterActivity implements OnAddOrDel
     }
 
     private void displayCards() {
+        //动态设置Container每页的列数为2行
+        mContainer.setColCount(mCurrentCategoryCardLayoutSetting);
+        //动态设置Container每页的行数为2行
+        mContainer.setRowCount(mCurrentCategoryCardLayoutSetting);
         //初始化Container的Adapter
-        mItemsAdapter = new ScrollAdapter(this, mCardItemList);
+        mItemsAdapter = new ScrollAdapter(mContainer, mCardItemList);
         //设置Adapter
         mContainer.setSaAdapter(mItemsAdapter);
-        //动态设置Container每页的列数为2行
-        mContainer.setColCount(mCurrentCategorySetting);
-        //动态设置Container每页的行数为2行
-        mContainer.setRowCount(mCurrentCategorySetting);
         //调用refreView绘制所有的Item
         mContainer.refreView();
         mParentCategoryContent.setText(mCurrentCategory);
@@ -462,12 +464,12 @@ public class MainActivity extends BaseLittleWalterActivity implements OnAddOrDel
 
         if (mParentSettingsLayout != null) {
             int visibility = mParentSettingsLayout.findViewById(R.id.parent_settings_layout1_1_checked).getVisibility();
-            int newCategorySetting = (visibility == View.VISIBLE) ? 1 : 2;
-            if (mCurrentCategorySetting != newCategorySetting) {
-                mCurrentCategorySetting = newCategorySetting;
-                LittleWalterApplication.getCategorySettingPreferences().putInt(mCurrentCategory, mCurrentCategorySetting);
-                mContainer.setColCount(mCurrentCategorySetting);
-                mContainer.setRowCount(mCurrentCategorySetting);
+            int newCategorySetting = (visibility == View.VISIBLE) ? LAYOUT_TYPE_1_X_1 : LAYOUT_TYPE_2_X_2;
+            if (mCurrentCategoryCardLayoutSetting != newCategorySetting) {
+                mCurrentCategoryCardLayoutSetting = newCategorySetting;
+                LittleWalterApplication.getCategorySettingPreferences().putInt(mCurrentCategory, mCurrentCategoryCardLayoutSetting);
+                mContainer.setColCount(mCurrentCategoryCardLayoutSetting);
+                mContainer.setRowCount(mCurrentCategoryCardLayoutSetting);
                 displayCards();
             }
         }
@@ -536,7 +538,7 @@ public class MainActivity extends BaseLittleWalterActivity implements OnAddOrDel
         TextView categoryNameView = (TextView) mParentSettingsLayout.findViewById(R.id.parent_settings_title_category);
         categoryNameView.setText(mCurrentCategory);
         mCategoryNameEdit.setText(mCurrentCategory);
-        if (mCurrentCategorySetting == 1) {
+        if (mCurrentCategoryCardLayoutSetting == LAYOUT_TYPE_1_X_1) {
             mParentSettingsLayout.findViewById(R.id.parent_settings_layout1_1_checked).setVisibility(View.VISIBLE);
             mParentSettingsLayout.findViewById(R.id.parent_settings_layout2_2_checked).setVisibility(View.GONE);
         } else {

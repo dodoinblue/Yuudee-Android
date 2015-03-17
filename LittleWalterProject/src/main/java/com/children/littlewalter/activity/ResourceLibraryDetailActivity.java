@@ -56,14 +56,14 @@ public class ResourceLibraryDetailActivity extends BaseLittleWalterActivity {
             mCardItemList = MainActivity.getCategoryCardsList(category);
         }
 
-        //初始化Container的Adapter
-        mItemsAdapter = new ScrollAdapter(this, mCardItemList);
-        //设置Adapter
-        mContainer.setSaAdapter(mItemsAdapter);
         //动态设置Container每页的列数为2行
         mContainer.setColCount(2);
         //动态设置Container每页的行数为2行
         mContainer.setRowCount(2);
+        //初始化Container的Adapter
+        mItemsAdapter = new ScrollAdapter(mContainer, mCardItemList);
+        //设置Adapter
+        mContainer.setSaAdapter(mItemsAdapter);
         //调用refreView绘制所有的Item
         mContainer.refreView();
     }

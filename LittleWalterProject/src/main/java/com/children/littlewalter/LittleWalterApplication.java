@@ -37,4 +37,8 @@ public class LittleWalterApplication extends BaseApplication {
     public static Preferences getCategorySettingPreferences() {
         return Preferences.getInstance(getInstance(), "category_setting");
     }
+
+    public static Preferences getCardSettingPreferences() {
+        return Preferences.getInstance(getInstance(), "card_setting");
+    }
 }

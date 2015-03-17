@@ -75,8 +75,12 @@ public class ResourceLibraryActivity extends BaseLittleWalterActivity {
             mCardItemList.add(item);
         }
 
+        //动态设置Container每页的列数为2行
+        mContainer.setColCount(MainActivity.LAYOUT_TYPE_2_X_2);
+        //动态设置Container每页的行数为2行
+        mContainer.setRowCount(MainActivity.LAYOUT_TYPE_2_X_2);
         //初始化Container的Adapter
-        mItemsAdapter = new ScrollAdapter(this, mCardItemList) {
+        mItemsAdapter = new ScrollAdapter(mContainer, mCardItemList) {
             @Override
             public View getView(int position, View convertView, ViewGroup parent) {
                 final CardItem moveItem = mList.get(position);
@@ -114,10 +118,6 @@ public class ResourceLibraryActivity extends BaseLittleWalterActivity {
         };
         //设置Adapter
         mContainer.setSaAdapter(mItemsAdapter);
-        //动态设置Container每页的列数为2行
-        mContainer.setColCount(2);
-        //动态设置Container每页的行数为2行
-        mContainer.setRowCount(2);
         //调用refreView绘制所有的Item
         mContainer.refreView();
     }

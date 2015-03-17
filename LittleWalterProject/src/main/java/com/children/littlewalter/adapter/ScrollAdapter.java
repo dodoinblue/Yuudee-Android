@@ -15,6 +15,7 @@ import android.graphics.drawable.Drawable;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.pattern.BaseActivity;
+import android.pattern.util.BitmapUtil;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -28,6 +29,7 @@ import com.children.littlewalter.activity.MainActivity;
 import com.children.littlewalter.activity.ResourceLibraryDetailActivity;
 import com.children.littlewalter.activity.ShowCardActivity;
 import com.children.littlewalter.model.CardItem;
+import com.children.littlewalter.widget.ScrollLayout;
 import com.children.littlewalter.widget.ScrollLayout.SAdapter;
 
 import java.io.IOException;
@@ -42,26 +44,30 @@ import java.util.Set;
  */
 public class ScrollAdapter implements SAdapter {
 	private Context mContext;
-    private BaseActivity mActivity;
+    private ScrollLayout mScrollLayout;
 	private LayoutInflater mInflater;
-	
 	protected List<CardItem> mList;
     protected HashMap<String,SoftReference<Drawable>> mCache;
 
-	public ScrollAdapter(BaseActivity context, List<CardItem> list) {
-		this.mContext = context;
-        mActivity = context;
-		this.mInflater = LayoutInflater.from(context);
-		
-		this.mList = list;
-	    this.mCache = new HashMap<String, SoftReference<Drawable>>();
+	public ScrollAdapter(ScrollLayout layout, List<CardItem> list) {
+		mContext = layout.getContext();
+		mInflater = LayoutInflater.from(mContext);
+        mScrollLayout = layout;
+		mList = list;
+	    mCache = new HashMap<String, SoftReference<Drawable>>();
 	}
 
 	@Override
 	public View getView(int position, View convertView, ViewGroup parent) {
 		if (position < mList.size()) {
 			final CardItem moveItem = mList.get(position);
-			final View view = mInflater.inflate(R.layout.card_item, parent, false);
+            int layoutRes = 0;
+            if (mScrollLayout.getColCount() == MainActivity.LAYOUT_TYPE_2_X_2) {
+                layoutRes = R.layout.card_item;
+            } else {
+                layoutRes = R.layout.single_card_item;
+            }
+			final View view = mInflater.inflate(layoutRes, parent, false);
 			final ImageView iv = (ImageView) view.findViewById(R.id.content_iv);
 			String coverUrl = moveItem.getImages().get(0);
 
@@ -72,7 +78,7 @@ public class ScrollAdapter implements SAdapter {
             }
 			
             if (cardCover == null) {
-                cardCover = new BitmapDrawable(getBitmapFromSdCard(coverUrl));
+                cardCover = new BitmapDrawable(BitmapUtil.getRoundedCornerBitmap(getBitmapFromSdCard(coverUrl), MainActivity.sRoundPx));
                 mCache.put(coverUrl, new SoftReference<Drawable>(cardCover));
             }
 
@@ -106,7 +112,8 @@ public class ScrollAdapter implements SAdapter {
     private void actionWithScaleUpAnimation(View view, CardItem moveItem) {
         Intent intent = new Intent(mContext, ShowCardActivity.class);
         intent.putExtra("card_item", moveItem);
-        mActivity.startActivityForResult(intent, MainActivity.ACTIVITY_REQUEST_CODE_SCALE_UP);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        mContext.startActivity(intent);
     }
 
     public static void playCardByDefaultAnimation(final BaseActivity activity, View view, CardItem moveItem) {
@@ -119,7 +126,7 @@ public class ScrollAdapter implements SAdapter {
         flipper.removeAllViews();
         for (String image : images) {
             ImageView imageView = (ImageView) activity.getLayoutInflater().inflate(R.layout.layout_image, flipper, false);
-            imageView.setImageDrawable(new BitmapDrawable(getBitmapFromSdCard(image)));
+            imageView.setImageDrawable(new BitmapDrawable(BitmapUtil.getRoundedCornerBitmap(getBitmapFromSdCard(image), MainActivity.sRoundPx)));
             flipper.addView(imageView);
         }
         flipper.startFlipping();

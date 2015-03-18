@@ -24,7 +24,6 @@ import com.children.littlewalter.widget.ScrollLayout;
 
 import java.lang.ref.SoftReference;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -33,7 +32,7 @@ import java.util.Set;
 /**
  * Created by peter on 15/3/5.
  */
-public class ResourceLibraryActivity extends BaseLittleWalterActivity {
+public class ResourceLibrariesActivity extends BaseLittleWalterActivity {
     // 滑动控件的容器Container
     private ScrollLayout mContainer;
     // Container的Adapter
@@ -45,7 +44,7 @@ public class ResourceLibraryActivity extends BaseLittleWalterActivity {
     @Override
     protected void onCreate(Bundle arg0) {
         super.onCreate(arg0);
-        setContentView(R.layout.activity_resource_library);
+        setContentView(R.layout.activity_resource_libraries);
         initViews();
         initEvents();
     }
@@ -108,7 +107,7 @@ public class ResourceLibraryActivity extends BaseLittleWalterActivity {
                 view.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        Intent intent = new Intent(ResourceLibraryActivity.this, ResourceLibraryDetailActivity.class);
+                        Intent intent = new Intent(ResourceLibrariesActivity.this, ResourceLibraryDetailActivity.class);
                         intent.putExtra("category", moveItem.name);
                         startActivity(intent);
                     }
@@ -141,7 +140,7 @@ public class ResourceLibraryActivity extends BaseLittleWalterActivity {
                 mNewResourceWindow.dismiss();
                 break;
             case R.id.create_category:
-                startActivity(NewCategoryActivity.class);
+                startActivity(NewResourceLibraryActivity.class);
                 mNewResourceWindow.dismiss();
                 break;
         }

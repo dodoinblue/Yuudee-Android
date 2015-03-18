@@ -5,8 +5,6 @@
 
 package com.children.littlewalter.activity;
 
-import android.app.Activity;
-import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextUtils;
@@ -23,23 +21,26 @@ import com.children.littlewalter.R;
 /**
  * Created by peter on 3/10/15.
  */
-public class NewCategoryActivity extends BaseLittleWalterActivity {
+public class NewResourceLibraryActivity extends BaseLittleWalterActivity implements TextWatcher {
     private EditText mNameEditView;
+    private TextView mCategoryName;
 
     @Override
     protected void onCreate(Bundle arg0) {
         super.onCreate(arg0);
-        setContentView(R.layout.activity_new_category);
+        setContentView(R.layout.activity_new_resource_library);
         initViews();
         initEvents();
     }
 
     protected void initViews() {
         setTitle("");
-        mNameEditView = (EditText) findViewById(R.id.edit_new_category_name);
+        mNameEditView = (EditText) findViewById(R.id.edit_name);
+        mCategoryName = (TextView) findViewById(R.id.category_name);
     }
 
     protected void initEvents() {
+        mNameEditView.addTextChangedListener(this);
     }
 
     public void onClick(View view) {
@@ -54,15 +55,27 @@ public class NewCategoryActivity extends BaseLittleWalterActivity {
     }
 
     private void saveNewCategory() {
-        if (TextUtils.isEmpty(mNameEditView.getText().toString())) {
-            showCustomToast("请输入新课件名称");
+        if (TextUtils.isEmpty(mCategoryName.getText().toString())) {
+            showCustomToast("请输入分类名称");
             return;
         }
-        String newCategoryName = mNameEditView.getText().toString();
-        LittleWalterApplication.getCategoryCardsPreferences().putString(newCategoryName, "");
-        Intent intent = new Intent();
-        intent.putExtra("result_new_category_name", newCategoryName);
-        setResult(Activity.RESULT_OK, intent);
+        LittleWalterApplication.getCategoryCardsPreferences().putString(mCategoryName.getText().toString(), "");
         finish();
+    }
+
+    @Override
+    public void onTextChanged(CharSequence s, int start, int before, int count) {
+        Log.d("zheng", "onTextChanged");
+    }
+
+    @Override
+    public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+        Log.d("zheng", "beforeTextChanged");
+    }
+
+    @Override
+    public void afterTextChanged(Editable s) {
+        Log.d("zheng", "afterTextChanged");
+        mCategoryName.setText(mNameEditView.getText().toString());
     }
 }

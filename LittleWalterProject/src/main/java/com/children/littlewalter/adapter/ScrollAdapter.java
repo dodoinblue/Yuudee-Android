@@ -105,8 +105,12 @@ public class ScrollAdapter implements SAdapter {
                 }
             });
             return view;
-		}
-		return null;
+		} else {
+            ImageView view = new ImageView(mContext);
+            view.setImageResource(R.mipmap.parent_main_blankcard);
+            view.setTag(new CardItem());
+            return view;
+        }
 	}
 
     private void actionWithScaleUpAnimation(View view, CardItem moveItem) {
@@ -165,7 +169,8 @@ public class ScrollAdapter implements SAdapter {
 	
 	@Override
 	public int getCount() {
-		return mList.size();
+//		return mList.size();
+        return mScrollLayout.getDisplayCount(mList.size());
 	}
 
 	@Override

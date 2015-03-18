@@ -55,7 +55,7 @@ import com.google.gson.reflect.TypeToken;
 @SuppressLint("HandlerLeak")
 public class MainActivity extends BaseLittleWalterActivity implements OnAddOrDeletePage,
 		OnPageChangedListener, OnEditModeListener {
-    public static final int ACTIVITY_REQUEST_CODE_SCALE_UP = 1000;
+    public static final int ACTIVITY_REQUEST_CODE_NEW_CATEGORY = 1000;
     private final String OUTPUT_DIRECTORY = Environment
             .getExternalStorageDirectory().getAbsolutePath() + "/LittleWalter";
     private final String LOCAL_CARDS_DIRECTORY = OUTPUT_DIRECTORY + "/cards/";
@@ -78,7 +78,7 @@ public class MainActivity extends BaseLittleWalterActivity implements OnAddOrDel
 
     private HashMap<String, ArrayList<CardItem>> mCategoryCardsMap = new HashMap<String, ArrayList<CardItem>>();
     private HashMap<String, String> mCategoryCoverMap = new HashMap<String, String>();
-    private boolean mIsInParentMode;
+    public static boolean mIsInParentMode;
     private ListView mCategoryListView;
     private List<String> mCategoryList;
     private BaseListAdapter mCategoryListAdapter;
@@ -86,6 +86,7 @@ public class MainActivity extends BaseLittleWalterActivity implements OnAddOrDel
     private ActionWindow mSettingsActionWindow;
     private ActionWindow mTrainIntroductionWindow;
     private ActionWindow mProductIntroductionWindow;
+    private ActionWindow mAddNewCategoryWindow;
     private TextView mParentCategoryContent;
     private ViewGroup mParentSettingsLayout;
     private HashMap<Integer, Boolean> mEnterParentCheckMap = new HashMap<Integer, Boolean>();
@@ -132,8 +133,12 @@ public class MainActivity extends BaseLittleWalterActivity implements OnAddOrDel
             return;
         }
         switch (requestCode) {
-            case ACTIVITY_REQUEST_CODE_SCALE_UP:
-
+            case ACTIVITY_REQUEST_CODE_NEW_CATEGORY:
+                String newCategoryName = data.getStringExtra("result_new_category_name");
+                mCurrentCategory = newCategoryName;
+                mCardItemList = getCategoryCardsList(mCurrentCategory);
+                displayCards();
+                mDropDownCategoryListWindow.dismiss();
                 break;
         }
     }
@@ -397,6 +402,10 @@ public class MainActivity extends BaseLittleWalterActivity implements OnAddOrDel
             case R.id.parent_resource_library:
                 showResourceLibrary();
                 break;
+            case R.id.parent_add_new_category:
+                Intent intent = new Intent(this, NewCategoryActivity.class);
+                startActivityForResult(intent, ACTIVITY_REQUEST_CODE_NEW_CATEGORY);
+                break;
             case R.id.about_product_introduction:
                 showProductIntroductionWindow();
                 break;
@@ -524,6 +533,7 @@ public class MainActivity extends BaseLittleWalterActivity implements OnAddOrDel
             @Override
             public void onDismiss() {
                 spinnerTitleView.setBackgroundResource(R.mipmap.parent_main_titleunfoldbtn);
+                mParentCategoryContent.setText(mCurrentCategory);
             }
         });
         mCategoryListView = (ListView) categoryListLayout.findViewById(R.id.category_list);
@@ -548,7 +558,7 @@ public class MainActivity extends BaseLittleWalterActivity implements OnAddOrDel
     }
 
     private void showResourceLibrary() {
-        startActivity(ResourceLibraryActivity.class);
+        startActivity(ResourceLibrariesActivity.class);
     }
 
     private void enterParentMode() {
@@ -561,6 +571,7 @@ public class MainActivity extends BaseLittleWalterActivity implements OnAddOrDel
         mCategoryList = new ArrayList<String>(categorySet);
         mCategoryListAdapter.setList(mCategoryList);
         findViewById(R.id.root_container).setBackgroundResource(R.mipmap.background2);
+        mContainer.refreView();
         mContainer.showEdit(true);
     }
 
@@ -571,6 +582,9 @@ public class MainActivity extends BaseLittleWalterActivity implements OnAddOrDel
         findViewById(R.id.unlock_parent_ui).setVisibility(View.VISIBLE);
 //        findViewById(R.id.unlock_guide_flicker).setVisibility(View.VISIBLE);
         findViewById(R.id.root_container).setBackgroundResource(R.mipmap.background);
+        if (mItemsAdapter != null) {
+            mContainer.refreView();
+        }
         mContainer.showEdit(false);
     }
 }

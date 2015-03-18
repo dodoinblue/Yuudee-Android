@@ -45,6 +45,22 @@
                     android:text="2. 编辑图片\n进入编辑状态后点击图片右上角的图标便可以对每张图片进行编辑。对于不再需要的图片可以点击"
                     android:textSize="@dimen/parent_about_content_text_size"
                     android:textColor="@color/parent_about_content_text_color" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:text="3. 删除该卡片\n将图片从课件中去除。还可以对图片被点击后的动画效果进行设置。图片的动画效果分为 无动画 放大 放大并旋转 三种。后两种动画效果可以给孩子很好的视觉提示。"
+                    android:textSize="@dimen/parent_about_content_text_size"
+                    android:textColor="@color/parent_about_content_text_color" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:text="4. 改变布局\n"
+                    android:textSize="@dimen/parent_about_content_text_size"
+                    android:textColor="@color/parent_about_content_text_color" />
             </LinearLayout>
         </ScrollView>
 

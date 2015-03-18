@@ -34,6 +34,7 @@ import android.widget.Scroller;
 
 import com.children.littlewalter.OnDataChangeListener;
 import com.children.littlewalter.activity.EditCardActivity;
+import com.children.littlewalter.activity.MainActivity;
 import com.children.littlewalter.adapter.ScrollAdapter;
 import com.children.littlewalter.model.CardItem;
 import com.children.littlewalter.util.DensityUtil;
@@ -226,6 +227,7 @@ public class ScrollLayout extends LinearLayout implements OnDataChangeListener {
 	//绘制Container所有item
 	public void refreView() {
 		removeAllViews();
+        mCurScreen = 0;
 		for (int i = 0; i < mAdapter.getCount(); i++) {
 			this.addView(getView(i));
 		}
@@ -642,7 +644,17 @@ public class ScrollLayout extends LinearLayout implements OnDataChangeListener {
 		return totalPage;
 	}
 
-
+    public int getDisplayCount(int actualCount) {
+        if (!MainActivity.mIsInParentMode) {
+            return actualCount;
+        }
+        int pageCount = colCount * rowCount;
+        if (actualCount % pageCount == 0) {
+            return actualCount + pageCount * 2;
+        } else {
+            return actualCount + pageCount * 2 - actualCount % pageCount;
+        }
+    }
 
 	@Override
 	public void ondataChange() {
@@ -791,7 +803,6 @@ public class ScrollLayout extends LinearLayout implements OnDataChangeListener {
 		point.x = left;
 		point.y = top;
 		return point;
-
 	}
 
 	public PointF positionToPoint2(int position) {
@@ -805,7 +816,6 @@ public class ScrollLayout extends LinearLayout implements OnDataChangeListener {
 		point.x = left;
 		point.y = top;
 		return point;
-
 	}
 
 	public void setBackGroud(Bitmap paramBitmap) {
@@ -900,6 +910,10 @@ public class ScrollLayout extends LinearLayout implements OnDataChangeListener {
 		for (int i = 0; i < count; i++) {
 			View child = getChildAt(i);
 			ImageView iv = (ImageView) child.findViewById(R.id.delete_iv);
+            if (iv == null) {
+                // if iv is null, then it indicates current view is a blank card, no need to have the edit function
+                continue;
+            }
 			iv.setTag(child.getTag());
 			iv.setVisibility(isEdit == true ? View.VISIBLE : View.GONE);
 			if (isEdit) {
@@ -915,7 +929,7 @@ public class ScrollLayout extends LinearLayout implements OnDataChangeListener {
 			}
 		}
 
-		if (isEdit == false) {
+		if (!isEdit) {
 			int pages = (int) Math.ceil(getChildCount() * 1.0 / itemPerPage);
 			if (pages < totalPage) {
 				totalPage = pages;

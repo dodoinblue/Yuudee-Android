@@ -1,8 +1,14 @@
 apply plugin: 'com.android.application'
+apply plugin: 'checkstyle'
+apply plugin: 'findbugs'
 
 android {
     compileSdkVersion 21
     buildToolsVersion "21.1.2"
+
+    lintOptions {
+        abortOnError false
+    }
 
     defaultConfig {
         applicationId "com.children.littlewalter"
@@ -11,6 +17,7 @@ android {
         versionCode 1
         versionName "1.0"
     }
+
     buildTypes {
         release {
             minifyEnabled false
@@ -22,4 +29,40 @@ android {
 dependencies {
     compile fileTree(dir: 'libs', include: '*.jar')
     compile project(':AndroidPattern')
+}
+
+task checkstyle(type: Checkstyle) {
+    source 'src'
+    include '**/*.java'
+    exclude '**/gen/**'
+
+    // empty classpath
+    classpath = files()
+
+    //Do not fail build
+    ignoreFailures = true
+}
+
+tasks.withType(FindBugs) {
+    reports {
+        xml.enabled = false
+        html.enabled = true
+    }
+}
+
+task findbugs(type: FindBugs) {
+    ignoreFailures = true
+    classes = fileTree('build/intermediates/classes/debug/')
+    source = fileTree('src/main/java/')
+    classpath = files()
+    effort = 'max'
+}
+
+tasks.withType(FindBugs) {
+    excludeFilter = file("config/findbugs/excludeFilter.xml")
+
+    reports {
+        xml.enabled = false
+        html.enabled = true
+    }
 }

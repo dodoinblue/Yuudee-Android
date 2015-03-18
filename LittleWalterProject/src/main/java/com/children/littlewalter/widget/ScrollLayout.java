@@ -229,7 +229,10 @@ public class ScrollLayout extends LinearLayout implements OnDataChangeListener {
 		removeAllViews();
         mCurScreen = 0;
 		for (int i = 0; i < mAdapter.getCount(); i++) {
-			this.addView(getView(i));
+            View view = getView(i);
+            if (view != null) {
+                this.addView(view);
+            }
 		}
 		totalPage = (int) Math.ceil(getChildCount() * 1.0 / itemPerPage);
 		requestLayout();
@@ -524,17 +527,18 @@ public class ScrollLayout extends LinearLayout implements OnDataChangeListener {
 		View view = null;
 		if (mAdapter != null) {
 			view = mAdapter.getView(position, null, this);
-			view.setOnLongClickListener(new OnLongClickListener() {
-				@Override
-				public boolean onLongClick(View v) {
-					Log.e("test", "onLongClick");
+            if (view != null) {
+                view.setOnLongClickListener(new OnLongClickListener() {
+                    @Override
+                    public boolean onLongClick(View v) {
+                        Log.e("test", "onLongClick");
 //					if (Mode != Mode_Scroll) {
-						return onItemLongClick(v);
+                        return onItemLongClick(v);
 //					}
 //					return false;
-				}
-			});
-
+                    }
+                });
+            }
 		}
 		return view;
 	}

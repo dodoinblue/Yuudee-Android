@@ -65,7 +65,7 @@ public class ResourceLibrariesActivity extends BaseLittleWalterActivity {
         item.name = "未分类";
         item.cover = "";
         mCardItemList.add(item);
-        HashMap<String, String> categoryCoverMap =  (HashMap<String, String>) LittleWalterApplication.getCategoryCoverPreferences().getAll();
+        HashMap<String, String> categoryCoverMap = (HashMap<String, String>) LittleWalterApplication.getCategoryCoverPreferences().getAll();
         Set<Map.Entry<String, String>> categoryCoverSet = categoryCoverMap.entrySet();
         for (Map.Entry<String, String> categoryCover : categoryCoverSet) {
             item = new CardItem();
@@ -82,37 +82,41 @@ public class ResourceLibrariesActivity extends BaseLittleWalterActivity {
         mItemsAdapter = new ScrollAdapter(mContainer, mCardItemList) {
             @Override
             public View getView(int position, View convertView, ViewGroup parent) {
-                final CardItem moveItem = mList.get(position);
-                final View view = mInflater.inflate(R.layout.category_item, parent, false);
-                final ImageView iv = (ImageView) view.findViewById(R.id.content_iv);
-                Drawable cardCover = null;
-                SoftReference<Drawable> cover = mCache.get(moveItem.cover);
-                if (cover != null) {
-                    cardCover = cover.get();
-                }
-
-                if (cardCover == null) {
-                    cardCover = new BitmapDrawable(getBitmapFromSdCard(moveItem.cover));
-                    mCache.put(moveItem.cover, new SoftReference<Drawable>(cardCover));
-                }
-                if ("未分类".equals(moveItem.name)) {
-                    iv.setImageResource(R.mipmap.default_image);
-                } else {
-                    iv.setImageDrawable(cardCover);
-                }
-
-                TextView nameView = (TextView) view.findViewById(R.id.card_name);
-                nameView.setText(moveItem.name);
-
-                view.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        Intent intent = new Intent(ResourceLibrariesActivity.this, ResourceLibraryDetailActivity.class);
-                        intent.putExtra("category", moveItem.name);
-                        startActivity(intent);
+                if (position < mList.size()) {
+                    final CardItem moveItem = mList.get(position);
+                    final View view = mInflater.inflate(R.layout.category_item, parent, false);
+                    final ImageView iv = (ImageView) view.findViewById(R.id.content_iv);
+                    Drawable cardCover = null;
+                    SoftReference<Drawable> cover = mCache.get(moveItem.cover);
+                    if (cover != null) {
+                        cardCover = cover.get();
                     }
-                });
-                return view;
+
+                    if (cardCover == null) {
+                        cardCover = new BitmapDrawable(getBitmapFromSdCard(moveItem.cover));
+                        mCache.put(moveItem.cover, new SoftReference<Drawable>(cardCover));
+                    }
+                    if ("未分类".equals(moveItem.name)) {
+                        iv.setImageResource(R.mipmap.default_image);
+                    } else {
+                        iv.setImageDrawable(cardCover);
+                    }
+
+                    TextView nameView = (TextView) view.findViewById(R.id.card_name);
+                    nameView.setText(moveItem.name);
+
+                    view.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            Intent intent = new Intent(ResourceLibrariesActivity.this, ResourceLibraryDetailActivity.class);
+                            intent.putExtra("category", moveItem.name);
+                            startActivity(intent);
+                        }
+                    });
+                    return view;
+                } else {
+                    return null;
+                }
             }
         };
         //设置Adapter

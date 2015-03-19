@@ -26,7 +26,7 @@ import android.widget.ViewFlipper;
 import com.children.littlewalter.OnDataChangeListener;
 import com.children.littlewalter.R;
 import com.children.littlewalter.activity.MainActivity;
-import com.children.littlewalter.activity.ResourceLibraryDetailActivity;
+import com.children.littlewalter.activity.MaterialLibraryCardsActivity;
 import com.children.littlewalter.activity.ShowCardActivity;
 import com.children.littlewalter.model.CardItem;
 import com.children.littlewalter.widget.ScrollLayout;
@@ -86,7 +86,7 @@ public class ScrollAdapter implements SAdapter {
             nameView.setText(moveItem.getName());
             iv.setImageDrawable(cardCover);
 			view.setTag(moveItem);
-            if (mContext instanceof ResourceLibraryDetailActivity) {
+            if (mContext instanceof MaterialLibraryCardsActivity) {
                 return view;
             }
 

@@ -23,7 +23,7 @@ public class LittleWalterApplication extends BaseApplication {
     }
 
     public static Preferences getAppSettingsPreferences() {
-        return Preferences.getInstance(getInstance());
+        return Preferences.getInstance(getInstance(), "app_settings");
     }
 
     public static Preferences getCategoryCardsPreferences() {
@@ -34,11 +34,19 @@ public class LittleWalterApplication extends BaseApplication {
         return Preferences.getInstance(getInstance(), "category_cover");
     }
 
-    public static Preferences getCategorySettingPreferences() {
-        return Preferences.getInstance(getInstance(), "category_setting");
+    public static Preferences getCategorySettingsPreferences() {
+        return Preferences.getInstance(getInstance(), "category_settings");
     }
 
-    public static Preferences getCardSettingPreferences() {
-        return Preferences.getInstance(getInstance(), "card_setting");
+    public static Preferences getCardSettingsPreferences() {
+        return Preferences.getInstance(getInstance(), "card_settings");
+    }
+
+    public static Preferences getMaterialLibraryCardsPreferences() {
+        return Preferences.getInstance(getInstance(), "material_library_cards");
+    }
+
+    public static Preferences getMaterialLibraryCoverPreferences() {
+        return Preferences.getInstance(getInstance(), "material_library_cover");
     }
 }

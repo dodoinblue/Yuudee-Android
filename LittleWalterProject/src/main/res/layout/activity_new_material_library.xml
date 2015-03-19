@@ -35,7 +35,7 @@
                 android:background="@mipmap/default_image" />
 
             <TextView
-                android:id="@+id/category_name"
+                android:id="@+id/library_name"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center"

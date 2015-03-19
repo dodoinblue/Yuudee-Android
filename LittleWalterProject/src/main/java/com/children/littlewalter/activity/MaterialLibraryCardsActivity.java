@@ -9,10 +9,10 @@ import android.os.Bundle;
 import android.view.View;
 
 import com.children.littlewalter.BaseLittleWalterActivity;
-import com.children.littlewalter.LittleWalterApplication;
 import com.children.littlewalter.R;
 import com.children.littlewalter.adapter.ScrollAdapter;
 import com.children.littlewalter.model.CardItem;
+import com.children.littlewalter.util.LittleWalterUtility;
 import com.children.littlewalter.widget.ScrollLayout;
 
 import java.util.ArrayList;
@@ -21,7 +21,7 @@ import java.util.List;
 /**
  * Created by peter on 15/3/5.
  */
-public class ResourceLibraryDetailActivity extends BaseLittleWalterActivity {
+public class MaterialLibraryCardsActivity extends BaseLittleWalterActivity {
     // 滑动控件的容器Container
     private ScrollLayout mContainer;
     // Container的Adapter
@@ -32,7 +32,7 @@ public class ResourceLibraryDetailActivity extends BaseLittleWalterActivity {
     @Override
     protected void onCreate(Bundle arg0) {
         super.onCreate(arg0);
-        setContentView(R.layout.activity_resource_library_detail);
+        setContentView(R.layout.activity_material_library_cards);
         initViews();
         initEvents();
     }
@@ -49,11 +49,11 @@ public class ResourceLibraryDetailActivity extends BaseLittleWalterActivity {
         //设置Container编辑模式的回调，长按进入修改模式
 //        mContainer.setOnEditModeListener(this);
 
-        String category = getIntent().getStringExtra("category");
-        if ("未分类".equals(category)) {
-            mCardItemList = new ArrayList<CardItem>();
+        CardItem cardItem = (CardItem) getIntent().getSerializableExtra("library");
+        if (cardItem.getEditable()) {
+            mCardItemList = LittleWalterUtility.getMaterialLibraryCardsList(cardItem.name);
         } else {
-            mCardItemList = MainActivity.getCategoryCardsList(category);
+            mCardItemList = LittleWalterUtility.getCategoryCardsList(cardItem.name);
         }
 
         //动态设置Container每页的列数为2行
@@ -75,11 +75,11 @@ public class ResourceLibraryDetailActivity extends BaseLittleWalterActivity {
 
     public void onClick(View view) {
         switch (view.getId()) {
-            case R.id.resource_library_back:
+            case R.id.material_library_back:
                 finish();
                 break;
-            case R.id.resource_library_new:
-                startActivity(NewCardActivity.class);
+            case R.id.material_library_new:
+                startActivity(NewMaterialLibraryCardActivity.class);
                 break;
         }
     }

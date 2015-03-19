@@ -39,6 +39,7 @@ import com.children.littlewalter.LittleWalterApplication;
 import com.children.littlewalter.adapter.ScrollAdapter;
 import com.children.littlewalter.model.CardItem;
 import com.children.littlewalter.util.LittleWalterConstant;
+import com.children.littlewalter.util.LittleWalterUtility;
 import com.children.littlewalter.util.UnzipAssets;
 import com.children.littlewalter.widget.ScrollLayout;
 import com.children.littlewalter.widget.ScrollLayout.OnAddOrDeletePage;
@@ -56,7 +57,7 @@ import com.google.gson.reflect.TypeToken;
 public class MainActivity extends BaseLittleWalterActivity implements OnAddOrDeletePage,
 		OnPageChangedListener, OnEditModeListener {
     public static final int ACTIVITY_REQUEST_CODE_NEW_CATEGORY = 1000;
-    private final String OUTPUT_DIRECTORY = Environment
+    public static final String OUTPUT_DIRECTORY = Environment
             .getExternalStorageDirectory().getAbsolutePath() + "/LittleWalter";
     private final String LOCAL_CARDS_DIRECTORY = OUTPUT_DIRECTORY + "/cards/";
     private static final String FIRST_TIME_ENTER_APP = "first_time_enter_app";
@@ -136,7 +137,7 @@ public class MainActivity extends BaseLittleWalterActivity implements OnAddOrDel
             case ACTIVITY_REQUEST_CODE_NEW_CATEGORY:
                 String newCategoryName = data.getStringExtra("result_new_category_name");
                 mCurrentCategory = newCategoryName;
-                mCardItemList = getCategoryCardsList(mCurrentCategory);
+                mCardItemList = LittleWalterUtility.getCategoryCardsList(mCurrentCategory);
                 displayCards();
                 mDropDownCategoryListWindow.dismiss();
                 break;
@@ -166,13 +167,13 @@ public class MainActivity extends BaseLittleWalterActivity implements OnAddOrDel
                 return convertView;
             }
         };
-        mCategoryListAdapter.setOnInViewClickListener(R.id.category_name, new BaseListAdapter.OnInternalClickListener() {
+        mCategoryListAdapter.setOnInViewClickListener(R.id.library_name, new BaseListAdapter.OnInternalClickListener() {
             @Override
             public void OnClickListener(View convertView, View clickedView, Integer position, Object value) {
                 mCurrentCategory = (String)value;
                 LittleWalterApplication.getAppSettingsPreferences().putString(LittleWalterConstant.SETTINGS_CURRENT_CATEGORY, mCurrentCategory);
-                mCurrentCategoryCardLayoutSetting = LittleWalterApplication.getCategorySettingPreferences().getInt(mCurrentCategory, LAYOUT_TYPE_2_X_2);
-                mCardItemList = getCategoryCardsList(mCurrentCategory);
+                mCurrentCategoryCardLayoutSetting = LittleWalterApplication.getCategorySettingsPreferences().getInt(mCurrentCategory, LAYOUT_TYPE_2_X_2);
+                mCardItemList = LittleWalterUtility.getCategoryCardsList(mCurrentCategory);
                 displayCards();
                 if (mDropDownCategoryListWindow != null) {
                     mDropDownCategoryListWindow.dismiss();
@@ -194,9 +195,9 @@ public class MainActivity extends BaseLittleWalterActivity implements OnAddOrDel
     private void getCardsFromCache() {
         mNeedGuideRemind = LittleWalterApplication.getAppSettingsPreferences().getBoolean(LittleWalterConstant.SETTINGS_GUIDE_REMIND, true);
         mCurrentCategory = LittleWalterApplication.getAppSettingsPreferences().getString(LittleWalterConstant.SETTINGS_CURRENT_CATEGORY);
-        mCurrentCategoryCardLayoutSetting = LittleWalterApplication.getCategorySettingPreferences().getInt(mCurrentCategory, LAYOUT_TYPE_2_X_2);
+        mCurrentCategoryCardLayoutSetting = LittleWalterApplication.getCategorySettingsPreferences().getInt(mCurrentCategory, LAYOUT_TYPE_2_X_2);
 
-        mCardItemList = getCategoryCardsList(mCurrentCategory);
+        mCardItemList = LittleWalterUtility.getCategoryCardsList(mCurrentCategory);
         displayCards();
     }
 
@@ -455,7 +456,7 @@ public class MainActivity extends BaseLittleWalterActivity implements OnAddOrDel
         mCategoryList.remove(mCurrentCategory);
         mCurrentCategory = mCategoryList.get(0);
         LittleWalterApplication.getAppSettingsPreferences().putString(LittleWalterConstant.SETTINGS_CURRENT_CATEGORY, mCurrentCategory);
-        mCardItemList = getCategoryCardsList(mCurrentCategory);
+        mCardItemList = LittleWalterUtility.getCategoryCardsList(mCurrentCategory);
         displayCards();
         mSettingsActionWindow.dismiss();
     }
@@ -476,7 +477,7 @@ public class MainActivity extends BaseLittleWalterActivity implements OnAddOrDel
             int newCategorySetting = (visibility == View.VISIBLE) ? LAYOUT_TYPE_1_X_1 : LAYOUT_TYPE_2_X_2;
             if (mCurrentCategoryCardLayoutSetting != newCategorySetting) {
                 mCurrentCategoryCardLayoutSetting = newCategorySetting;
-                LittleWalterApplication.getCategorySettingPreferences().putInt(mCurrentCategory, mCurrentCategoryCardLayoutSetting);
+                LittleWalterApplication.getCategorySettingsPreferences().putInt(mCurrentCategory, mCurrentCategoryCardLayoutSetting);
                 mContainer.setColCount(mCurrentCategoryCardLayoutSetting);
                 mContainer.setRowCount(mCurrentCategoryCardLayoutSetting);
                 displayCards();
@@ -495,17 +496,9 @@ public class MainActivity extends BaseLittleWalterActivity implements OnAddOrDel
         LittleWalterApplication.getCategoryCoverPreferences().remove(oldCategoryName);
         LittleWalterApplication.getCategoryCoverPreferences().putString(newCategoryName, cateoryCoverStr);
 
-        int cateorySetting = LittleWalterApplication.getCategorySettingPreferences().getInt(oldCategoryName);
-        LittleWalterApplication.getCategorySettingPreferences().remove(oldCategoryName);
-        LittleWalterApplication.getCategorySettingPreferences().putInt(newCategoryName, cateorySetting);
-    }
-
-    public static List<CardItem> getCategoryCardsList(String catetgory) {
-        String curCategoryCardsJson = LittleWalterApplication.getCategoryCardsPreferences().getString(catetgory);
-        if (TextUtils.isEmpty(curCategoryCardsJson)) {
-            return new ArrayList<CardItem>();
-        }
-        return new Gson().fromJson(curCategoryCardsJson, new TypeToken<List<CardItem>>() { }.getType());
+        int cateorySetting = LittleWalterApplication.getCategorySettingsPreferences().getInt(oldCategoryName);
+        LittleWalterApplication.getCategorySettingsPreferences().remove(oldCategoryName);
+        LittleWalterApplication.getCategorySettingsPreferences().putInt(newCategoryName, cateorySetting);
     }
 
     private void openAboutLittleWalterWindow() {
@@ -558,7 +551,7 @@ public class MainActivity extends BaseLittleWalterActivity implements OnAddOrDel
     }
 
     private void showResourceLibrary() {
-        startActivity(ResourceLibrariesActivity.class);
+        startActivity(MaterialLibrariesActivity.class);
     }
 
     private void enterParentMode() {

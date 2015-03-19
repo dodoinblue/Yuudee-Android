@@ -9,7 +9,6 @@ import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -21,14 +20,14 @@ import com.children.littlewalter.R;
 /**
  * Created by peter on 3/10/15.
  */
-public class NewResourceLibraryActivity extends BaseLittleWalterActivity implements TextWatcher {
+public class NewMaterialLibraryActivity extends BaseLittleWalterActivity implements TextWatcher {
     private EditText mNameEditView;
-    private TextView mCategoryName;
+    private TextView mLibraryName;
 
     @Override
     protected void onCreate(Bundle arg0) {
         super.onCreate(arg0);
-        setContentView(R.layout.activity_new_resource_library);
+        setContentView(R.layout.activity_new_material_library);
         initViews();
         initEvents();
     }
@@ -36,7 +35,7 @@ public class NewResourceLibraryActivity extends BaseLittleWalterActivity impleme
     protected void initViews() {
         setTitle("");
         mNameEditView = (EditText) findViewById(R.id.edit_name);
-        mCategoryName = (TextView) findViewById(R.id.category_name);
+        mLibraryName = (TextView) findViewById(R.id.library_name);
     }
 
     protected void initEvents() {
@@ -49,33 +48,30 @@ public class NewResourceLibraryActivity extends BaseLittleWalterActivity impleme
                 finish();
                 break;
             case R.id.confirm:
-                saveNewCategory();
+                saveNewLibrary();
                 break;
         }
     }
 
-    private void saveNewCategory() {
-        if (TextUtils.isEmpty(mCategoryName.getText().toString())) {
+    private void saveNewLibrary() {
+        if (TextUtils.isEmpty(mLibraryName.getText().toString())) {
             showCustomToast("请输入分类名称");
             return;
         }
-        LittleWalterApplication.getCategoryCardsPreferences().putString(mCategoryName.getText().toString(), "");
+        LittleWalterApplication.getMaterialLibraryCardsPreferences().putString(mLibraryName.getText().toString(), "");
         finish();
     }
 
     @Override
     public void onTextChanged(CharSequence s, int start, int before, int count) {
-        Log.d("zheng", "onTextChanged");
     }
 
     @Override
     public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-        Log.d("zheng", "beforeTextChanged");
     }
 
     @Override
     public void afterTextChanged(Editable s) {
-        Log.d("zheng", "afterTextChanged");
-        mCategoryName.setText(mNameEditView.getText().toString());
+        mLibraryName.setText(mNameEditView.getText().toString());
     }
 }

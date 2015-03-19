@@ -53,7 +53,7 @@ import java.util.Set;
 /**
  * Created by peter on 3/10/15.
  */
-public class NewCardActivity extends BaseLittleWalterActivity implements TextWatcher, MediaPlayer.OnCompletionListener {
+public class NewMaterialLibraryCardActivity extends BaseLittleWalterActivity implements TextWatcher, MediaPlayer.OnCompletionListener {
     private EditText mNameEditView;
     private TextView mCardName;
     private ViewGroup mCoverContainer;
@@ -76,7 +76,7 @@ public class NewCardActivity extends BaseLittleWalterActivity implements TextWat
     @Override
     protected void onCreate(Bundle arg0) {
         super.onCreate(arg0);
-        setContentView(R.layout.activity_new_card);
+        setContentView(R.layout.activity_new_material_library_card);
         initViews();
         initEvents();
     }
@@ -188,7 +188,7 @@ public class NewCardActivity extends BaseLittleWalterActivity implements TextWat
                 saveNewCategory();
                 break;
             case R.id.camera:
-                filePath = PhotoUtils.takePicture(NewCardActivity.this);
+                filePath = PhotoUtils.takePicture(NewMaterialLibraryCardActivity.this);
                 break;
             case R.id.album:
                 Intent intent = new Intent(Intent.ACTION_PICK, null);
@@ -319,7 +319,7 @@ public class NewCardActivity extends BaseLittleWalterActivity implements TextWat
                 if (resultCode == Activity.RESULT_OK) {
                     if (!Environment.getExternalStorageState().equals(
                             Environment.MEDIA_MOUNTED)) {
-                        DialogManager.showTipMessage(NewCardActivity.this, "SD不可用");
+                        DialogManager.showTipMessage(NewMaterialLibraryCardActivity.this, "SD不可用");
                         return;
                     }
                     isFromCamera = false;

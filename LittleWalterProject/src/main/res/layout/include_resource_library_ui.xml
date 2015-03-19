@@ -15,7 +15,7 @@
         android:orientation="horizontal">
 
         <ImageView
-            android:id="@+id/resource_library_back"
+            android:id="@+id/material_library_back"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentLeft="true"
@@ -35,7 +35,7 @@
             android:textColor="@android:color/holo_orange_dark" />
 
         <ImageView
-            android:id="@+id/resource_library_new"
+            android:id="@+id/material_library_new"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"

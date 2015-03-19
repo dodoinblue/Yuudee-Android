@@ -20,7 +20,7 @@
         android:background="@drawable/choosearea_bg_right">
 
         <TextView
-            android:id="@+id/create_category"
+            android:id="@+id/create_library"
             android:layout_width="match_parent"
             android:layout_height="40dp"
             android:textColor="@android:color/holo_blue_dark"

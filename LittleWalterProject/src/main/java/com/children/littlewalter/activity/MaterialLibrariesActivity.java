@@ -10,6 +10,7 @@ import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.pattern.widget.ActionWindow;
+import android.text.TextUtils;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -22,6 +23,7 @@ import com.children.littlewalter.adapter.ScrollAdapter;
 import com.children.littlewalter.model.CardItem;
 import com.children.littlewalter.widget.ScrollLayout;
 
+import java.io.File;
 import java.lang.ref.SoftReference;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -32,7 +34,8 @@ import java.util.Set;
 /**
  * Created by peter on 15/3/5.
  */
-public class ResourceLibrariesActivity extends BaseLittleWalterActivity {
+public class MaterialLibrariesActivity extends BaseLittleWalterActivity {
+    private static final String LOCAL_RESOURCES_DIRECTORY = MainActivity.OUTPUT_DIRECTORY + "/resources";
     // 滑动控件的容器Container
     private ScrollLayout mContainer;
     // Container的Adapter
@@ -44,7 +47,7 @@ public class ResourceLibrariesActivity extends BaseLittleWalterActivity {
     @Override
     protected void onCreate(Bundle arg0) {
         super.onCreate(arg0);
-        setContentView(R.layout.activity_resource_libraries);
+        setContentView(R.layout.activity_material_libraries);
         initViews();
         initEvents();
     }
@@ -61,18 +64,17 @@ public class ResourceLibrariesActivity extends BaseLittleWalterActivity {
         //设置Container编辑模式的回调，长按进入修改模式
 //        mContainer.setOnEditModeListener(this);
 
-        CardItem item = new CardItem();
-        item.name = "未分类";
-        item.cover = "";
-        mCardItemList.add(item);
-        HashMap<String, String> categoryCoverMap = (HashMap<String, String>) LittleWalterApplication.getCategoryCoverPreferences().getAll();
-        Set<Map.Entry<String, String>> categoryCoverSet = categoryCoverMap.entrySet();
-        for (Map.Entry<String, String> categoryCover : categoryCoverSet) {
-            item = new CardItem();
-            item.name = categoryCover.getKey();
-            item.cover = categoryCover.getValue();
-            mCardItemList.add(item);
-        }
+        initResourcesInSDcard();
+
+//        CardItem item = new CardItem();
+//        item.name = "未分类";
+//        item.cover = "";
+//        mCardItemList.add(item);
+        HashMap<String, String> libraryCoverMap = (HashMap<String, String>) LittleWalterApplication.getCategoryCoverPreferences().getAll();
+        getMeterialLibrary(libraryCoverMap, false);
+
+        libraryCoverMap = (HashMap<String, String>) LittleWalterApplication.getMaterialLibraryCoverPreferences().getAll();
+        getMeterialLibrary(libraryCoverMap, true);
 
         //动态设置Container每页的列数为2行
         mContainer.setColCount(MainActivity.LAYOUT_TYPE_2_X_2);
@@ -86,19 +88,19 @@ public class ResourceLibrariesActivity extends BaseLittleWalterActivity {
                     final CardItem moveItem = mList.get(position);
                     final View view = mInflater.inflate(R.layout.category_item, parent, false);
                     final ImageView iv = (ImageView) view.findViewById(R.id.content_iv);
-                    Drawable cardCover = null;
-                    SoftReference<Drawable> cover = mCache.get(moveItem.cover);
-                    if (cover != null) {
-                        cardCover = cover.get();
-                    }
-
-                    if (cardCover == null) {
-                        cardCover = new BitmapDrawable(getBitmapFromSdCard(moveItem.cover));
-                        mCache.put(moveItem.cover, new SoftReference<Drawable>(cardCover));
-                    }
-                    if ("未分类".equals(moveItem.name)) {
+                    if (TextUtils.isEmpty(moveItem.cover)) {
                         iv.setImageResource(R.mipmap.default_image);
                     } else {
+                        Drawable cardCover = null;
+                        SoftReference<Drawable> cover = mCache.get(moveItem.cover);
+                        if (cover != null) {
+                            cardCover = cover.get();
+                        }
+
+                        if (cardCover == null) {
+                            cardCover = new BitmapDrawable(getBitmapFromSdCard(moveItem.cover));
+                            mCache.put(moveItem.cover, new SoftReference<Drawable>(cardCover));
+                        }
                         iv.setImageDrawable(cardCover);
                     }
 
@@ -108,8 +110,8 @@ public class ResourceLibrariesActivity extends BaseLittleWalterActivity {
                     view.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
-                            Intent intent = new Intent(ResourceLibrariesActivity.this, ResourceLibraryDetailActivity.class);
-                            intent.putExtra("category", moveItem.name);
+                            Intent intent = new Intent(MaterialLibrariesActivity.this, MaterialLibraryCardsActivity.class);
+                            intent.putExtra("library", moveItem);
                             startActivity(intent);
                         }
                     });
@@ -125,28 +127,49 @@ public class ResourceLibrariesActivity extends BaseLittleWalterActivity {
         mContainer.refreView();
     }
 
+    private void getMeterialLibrary(HashMap<String, String> libraryCoverMap, boolean editable) {
+        Set<Map.Entry<String, String>> categoryCoverSet = libraryCoverMap.entrySet();
+        for (Map.Entry<String, String> categoryCover : categoryCoverSet) {
+            CardItem item = new CardItem();
+            item.name = categoryCover.getKey();
+            item.cover = categoryCover.getValue();
+            item.editable = editable;
+            mCardItemList.add(item);
+        }
+    }
+
     @Override
     protected void initEvents() {
-
     }
 
     public void onClick(View view) {
         switch (view.getId()) {
-            case R.id.resource_library_back:
+            case R.id.material_library_back:
                 finish();
                 break;
-            case R.id.resource_library_new:
-                mNewResourceWindow = new ActionWindow(this, findViewById(R.id.resource_library_new), R.layout.drop_down_menu_new_category_or_card);
+            case R.id.material_library_new:
+                mNewResourceWindow = new ActionWindow(this, findViewById(R.id.material_library_new),
+                        R.layout.drop_down_menu_new_material_or_card);
                 mNewResourceWindow.dropDown();
                 break;
             case R.id.create_card:
-                startActivity(NewCardActivity.class);
+                startActivity(NewMaterialLibraryCardActivity.class);
                 mNewResourceWindow.dismiss();
                 break;
-            case R.id.create_category:
-                startActivity(NewResourceLibraryActivity.class);
+            case R.id.create_library:
+                startActivity(NewMaterialLibraryActivity.class);
                 mNewResourceWindow.dismiss();
                 break;
+        }
+    }
+
+    private void initResourcesInSDcard() {
+        File file = new File(LOCAL_RESOURCES_DIRECTORY);
+        //如果目标目录不存在，则创建
+        if (!file.exists()) {
+            file.mkdirs();
+            file = new File(LOCAL_RESOURCES_DIRECTORY + "/未分类");
+            file.mkdir();
         }
     }
 }

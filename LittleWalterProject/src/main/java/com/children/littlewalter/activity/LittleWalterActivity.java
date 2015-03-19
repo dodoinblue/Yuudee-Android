@@ -124,6 +124,7 @@ public class LittleWalterActivity extends BaseLittleWalterActivity implements On
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
         if (resultCode != Activity.RESULT_OK) {
             return;
         }

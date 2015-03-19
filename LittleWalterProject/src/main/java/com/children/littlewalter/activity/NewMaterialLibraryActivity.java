@@ -12,13 +12,18 @@ import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.children.littlewalter.BaseLittleWalterActivity;
 import com.children.littlewalter.LittleWalterApplication;
 import com.children.littlewalter.R;
 import com.children.littlewalter.model.CardItem;
+import com.children.littlewalter.util.LittleWalterConstant;
+
+import java.io.File;
 
 /**
  * Created by peter on 3/10/15.
@@ -26,7 +31,7 @@ import com.children.littlewalter.model.CardItem;
 public class NewMaterialLibraryActivity extends BaseLittleWalterActivity implements TextWatcher {
     private EditText mNameEditView;
     private TextView mLibraryName;
-    private CardItem mCardItem;
+    private CardItem mCardItem = new CardItem();
 
     @Override
     protected void onCreate(Bundle arg0) {
@@ -38,6 +43,9 @@ public class NewMaterialLibraryActivity extends BaseLittleWalterActivity impleme
 
     protected void initViews() {
         setTitle("");
+
+        mCardCoverView = (ImageView) findViewById(R.id.content_iv);
+        mRootView = (ViewGroup) findViewById(R.id.root_view);
         mNameEditView = (EditText) findViewById(R.id.edit_name);
         mLibraryName = (TextView) findViewById(R.id.library_name);
     }
@@ -48,6 +56,9 @@ public class NewMaterialLibraryActivity extends BaseLittleWalterActivity impleme
 
     public void onClick(View view) {
         switch (view.getId()) {
+            case R.id.change_cover:
+                showAvatarPop();
+                break;
             case R.id.cancel:
                 finish();
                 break;
@@ -63,6 +74,13 @@ public class NewMaterialLibraryActivity extends BaseLittleWalterActivity impleme
             return;
         }
         String libraryName = mLibraryName.getText().toString();
+        File libFile = new File(LittleWalterConstant.MATERIAL_LIBRARIES_DIRECTORY + libraryName);
+        if (libFile.exists()) {
+            showCustomToast("分类名称已存在, 请换个名称.");
+            return;
+        }
+        libFile.mkdirs();
+
         LittleWalterApplication.getMaterialLibraryCardsPreferences().putString(libraryName, "");
 
         mCardItem.name = libraryName;

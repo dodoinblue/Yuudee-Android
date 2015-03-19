@@ -29,9 +29,9 @@
 
             <ImageView
                 android:id="@+id/content_iv"
-                android:layout_width="102dp"
-                android:layout_height="75dp"
-                android:layout_marginTop="5dp"
+                android:layout_width="98dp"
+                android:layout_height="70dp"
+                android:layout_marginTop="8dp"
                 android:background="@mipmap/default_image" />
 
             <TextView
@@ -55,12 +55,16 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="选择一张卡片做为分类封面:"
+                android:singleLine="true"
                 android:textColor="@android:color/holo_orange_dark"
-                android:textSize="12dp" />
+                android:textSize="13dp" />
 
             <ImageView
+                android:id="@+id/change_cover"
                 android:layout_width="match_parent"
                 android:layout_height="45dp"
+                android:clickable="true"
+                android:onClick="onClick"
                 android:layout_marginTop="2dp"
                 android:background="@mipmap/pick_cat_cover" />
 

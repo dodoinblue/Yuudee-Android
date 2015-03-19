@@ -15,7 +15,7 @@ public class LittleWalterConstant {
     public static final String LITTLE_WALTER_DIRECTORY = Environment
             .getExternalStorageDirectory().getAbsolutePath() + "/LittleWalter";
     public static final String CATEGORIES_DIRECTORY = LITTLE_WALTER_DIRECTORY + "/cards";
-    public static final String MATERIAL_LIBRARIES_DIRECTORY = LITTLE_WALTER_DIRECTORY + "/material_libraries";
+    public static final String MATERIAL_LIBRARIES_DIRECTORY = LITTLE_WALTER_DIRECTORY + "/material_libraries/";
 
     // About Settings
     public static final String SETTINGS_CURRENT_CATEGORY = "current_category";

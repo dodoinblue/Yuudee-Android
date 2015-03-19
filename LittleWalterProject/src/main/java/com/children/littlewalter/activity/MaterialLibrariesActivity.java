@@ -23,7 +23,6 @@ import com.children.littlewalter.R;
 import com.children.littlewalter.adapter.ScrollAdapter;
 import com.children.littlewalter.model.CardItem;
 import com.children.littlewalter.util.LittleWalterConstant;
-import com.children.littlewalter.util.LittleWalterUtility;
 import com.children.littlewalter.widget.ScrollLayout;
 
 import java.io.File;
@@ -164,6 +163,7 @@ public class MaterialLibrariesActivity extends BaseLittleWalterActivity {
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
         if (resultCode != Activity.RESULT_OK) {
             return;
         }

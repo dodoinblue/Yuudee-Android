@@ -62,7 +62,6 @@ public class NewMaterialLibraryCardActivity extends BaseLittleWalterActivity imp
     private ViewGroup mNextContainer;
     private ActionWindow mNewResourceWindow;
     private Button mChooseCategoryBtn;
-    private ImageView mCardCoverView;
 
     private Button mRecordButton;
     private TextView mRecordNoticeView;
@@ -143,6 +142,7 @@ public class NewMaterialLibraryCardActivity extends BaseLittleWalterActivity imp
 
     protected void initViews() {
         setTitle("");
+        mRootView = (ViewGroup) findViewById(R.id.root_view);
         mNameEditView = (EditText) findViewById(R.id.edit_name);
         mCardName = (TextView) findViewById(R.id.card_name);
         mCoverContainer = (ViewGroup) findViewById(R.id.cover_container);
@@ -283,116 +283,4 @@ public class NewMaterialLibraryCardActivity extends BaseLittleWalterActivity imp
         mCardName.setText(mNameEditView.getText().toString());
     }
 
-    PopupWindow avatorPop;
-    public String filePath = "";
-    boolean isFromCamera = false;// 区分拍照旋转
-    int degree = 0;
-    String path;
-
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        switch (requestCode) {
-
-            case PhotoUtils.REQUESTCODE_UPLOADAVATAR_CAMERA:// 拍照修改头像
-                System.out.println("拍照修改头像");
-                if (resultCode == Activity.RESULT_OK) {
-                    if (!Environment.getExternalStorageState().equals(
-                            Environment.MEDIA_MOUNTED)) {
-                        showCustomToast("SD不可用");
-                        return;
-                    }
-                    filePath = PhotoUtils.savePhotoToSDCard(PhotoUtils
-                            .CompressionPhoto(mScreenWidth, filePath, 2));
-                    PhotoUtils.cropPhoto(this, this, filePath);
-                }
-                break;
-            case PhotoUtils.REQUESTCODE_UPLOADAVATAR_LOCATION:// 本地修改头像
-                System.out.println("本地修改头像");
-                if (avatorPop != null) {
-                    avatorPop.dismiss();
-                }
-                Uri uri = null;
-                if (data == null) {
-                    return;
-                }
-                if (resultCode == Activity.RESULT_OK) {
-                    if (!Environment.getExternalStorageState().equals(
-                            Environment.MEDIA_MOUNTED)) {
-                        DialogManager.showTipMessage(NewMaterialLibraryCardActivity.this, "SD不可用");
-                        return;
-                    }
-                    isFromCamera = false;
-                    uri = data.getData();
-                    PhotoUtils.cropPhoto(this, this, /*data.getExtras().getString("path")*/Utility.getFilePathFromUri(this, uri));
-                } else {
-                    DialogManager.showTipMessage(this, "照片获取失败");
-                }
-                break;
-            case PhotoUtils.REQUESTCODE_UPLOADAVATAR_CROP:// 裁剪头像返回
-
-                if (avatorPop != null) {
-                    avatorPop.dismiss();
-                }
-                if (data == null) {
-                    // Toast.makeText(this, "取消选择", Toast.LENGTH_SHORT).show();
-                    return;
-                } else {
-                    saveCropAvator(data);
-                }
-                // 初始化文件路径
-                filePath = "";
-                break;
-            default:
-                break;
-        }
-    }
-
-    /**
-     * 保存裁剪的头像
-     */
-    private void saveCropAvator(Intent data) {
-        Bundle extras = data.getExtras();
-        if (extras != null) {
-//            Bitmap bitmap = extras.getParcelable("data");
-            BitmapFactory.Options opts = new BitmapFactory.Options();
-            opts.inJustDecodeBounds = true;
-            Log.d("zheng", "path:" + extras.getString("path") + " path:" + data.getStringExtra("path"));
-            File file = new File(extras.getString("path"));
-            Bitmap bitmap = null;
-            try {
-                FileInputStream stream = new FileInputStream(file);
-                bitmap = BitmapFactory.decodeStream(stream);
-            } catch (FileNotFoundException e) {
-                e.printStackTrace();
-            }
-            Log.i("life", "avatar - bitmap = " + bitmap);
-            if (bitmap != null) {
-                bitmap = PhotoUtil.toRoundCorner(bitmap, 10);
-                if (isFromCamera && degree != 0) {
-                    bitmap = PhotoUtil.rotaingImageView(degree, bitmap);
-                }
-
-                final Bitmap bm = bitmap;
-                mHandler.postDelayed(new Runnable() {
-
-                    @Override
-                    public void run() {
-                        mCardCoverView.setImageBitmap(bm);
-                    }
-                }, 300);
-                mCardCoverView.invalidate();
-                // 保存图片
-                String filename = new SimpleDateFormat("yyMMddHHmmss")
-                        .format(new Date()) + ".png";
-                path = PhotoUtils.MyAvatarDir + filename;
-                PhotoUtil.saveBitmap(PhotoUtils.MyAvatarDir, filename, bitmap,
-                        true);
-                // 上传头像
-                if (bitmap != null && bitmap.isRecycled()) {
-                    bitmap.recycle();
-                }
-            }
-        }
-    }
 }

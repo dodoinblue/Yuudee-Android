@@ -34,14 +34,12 @@ import android.widget.Scroller;
 
 import com.children.littlewalter.OnDataChangeListener;
 import com.children.littlewalter.activity.EditCardActivity;
-import com.children.littlewalter.activity.MainActivity;
+import com.children.littlewalter.activity.LittleWalterActivity;
 import com.children.littlewalter.adapter.ScrollAdapter;
 import com.children.littlewalter.model.CardItem;
 import com.children.littlewalter.util.DensityUtil;
 import com.children.littlewalter.R;
 import com.lidroid.xutils.DbUtils;
-import com.lidroid.xutils.db.sqlite.WhereBuilder;
-import com.lidroid.xutils.exception.DbException;
 
 /**
  * Created by peter on 3/3/15.
@@ -649,7 +647,7 @@ public class ScrollLayout extends LinearLayout implements OnDataChangeListener {
 	}
 
     public int getDisplayCount(int actualCount) {
-        if (!MainActivity.mIsInParentMode) {
+        if (!LittleWalterActivity.mIsInParentMode) {
             return actualCount;
         }
         int pageCount = colCount * rowCount;

@@ -5,6 +5,7 @@
 
 package com.children.littlewalter.activity;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
@@ -21,6 +22,8 @@ import com.children.littlewalter.LittleWalterApplication;
 import com.children.littlewalter.R;
 import com.children.littlewalter.adapter.ScrollAdapter;
 import com.children.littlewalter.model.CardItem;
+import com.children.littlewalter.util.LittleWalterConstant;
+import com.children.littlewalter.util.LittleWalterUtility;
 import com.children.littlewalter.widget.ScrollLayout;
 
 import java.io.File;
@@ -35,7 +38,6 @@ import java.util.Set;
  * Created by peter on 15/3/5.
  */
 public class MaterialLibrariesActivity extends BaseLittleWalterActivity {
-    private static final String LOCAL_RESOURCES_DIRECTORY = MainActivity.OUTPUT_DIRECTORY + "/resources";
     // 滑动控件的容器Container
     private ScrollLayout mContainer;
     // Container的Adapter
@@ -66,10 +68,6 @@ public class MaterialLibrariesActivity extends BaseLittleWalterActivity {
 
         initResourcesInSDcard();
 
-//        CardItem item = new CardItem();
-//        item.name = "未分类";
-//        item.cover = "";
-//        mCardItemList.add(item);
         HashMap<String, String> libraryCoverMap = (HashMap<String, String>) LittleWalterApplication.getCategoryCoverPreferences().getAll();
         getMeterialLibrary(libraryCoverMap, false);
 
@@ -77,9 +75,9 @@ public class MaterialLibrariesActivity extends BaseLittleWalterActivity {
         getMeterialLibrary(libraryCoverMap, true);
 
         //动态设置Container每页的列数为2行
-        mContainer.setColCount(MainActivity.LAYOUT_TYPE_2_X_2);
+        mContainer.setColCount(LittleWalterActivity.LAYOUT_TYPE_2_X_2);
         //动态设置Container每页的行数为2行
-        mContainer.setRowCount(MainActivity.LAYOUT_TYPE_2_X_2);
+        mContainer.setRowCount(LittleWalterActivity.LAYOUT_TYPE_2_X_2);
         //初始化Container的Adapter
         mItemsAdapter = new ScrollAdapter(mContainer, mCardItemList) {
             @Override
@@ -157,18 +155,33 @@ public class MaterialLibrariesActivity extends BaseLittleWalterActivity {
                 mNewResourceWindow.dismiss();
                 break;
             case R.id.create_library:
-                startActivity(NewMaterialLibraryActivity.class);
+                Intent intent = new Intent(this, NewMaterialLibraryActivity.class);
+                startActivityForResult(intent, LittleWalterConstant.ACTIVITY_REQUEST_CODE_NEW_MATERIAL_LIBRARY);
                 mNewResourceWindow.dismiss();
                 break;
         }
     }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (resultCode != Activity.RESULT_OK) {
+            return;
+        }
+        switch (requestCode) {
+            case LittleWalterConstant.ACTIVITY_REQUEST_CODE_NEW_MATERIAL_LIBRARY:
+                CardItem cardItem = (CardItem) data.getSerializableExtra("result_new_material_library");
+                mCardItemList.add(cardItem);
+                mContainer.refreView();
+                break;
+        }
+    }
+
     private void initResourcesInSDcard() {
-        File file = new File(LOCAL_RESOURCES_DIRECTORY);
+        File file = new File(LittleWalterConstant.MATERIAL_LIBRARIES_DIRECTORY);
         //如果目标目录不存在，则创建
         if (!file.exists()) {
             file.mkdirs();
-            file = new File(LOCAL_RESOURCES_DIRECTORY + "/未分类");
+            file = new File(LittleWalterConstant.MATERIAL_LIBRARIES_DIRECTORY + "/未分类");
             file.mkdir();
         }
     }

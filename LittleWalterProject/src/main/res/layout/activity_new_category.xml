@@ -14,13 +14,13 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="44dp"
+        android:layout_marginTop="42dp"
         android:padding="60dp"
         android:orientation="vertical">
 
         <EditText
             android:id="@+id/edit_new_category_name"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textSize="14dp"
             android:hint="输入新课件名称"

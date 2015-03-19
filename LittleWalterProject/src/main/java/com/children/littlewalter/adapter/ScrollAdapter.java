@@ -25,7 +25,7 @@ import android.widget.ViewFlipper;
 
 import com.children.littlewalter.OnDataChangeListener;
 import com.children.littlewalter.R;
-import com.children.littlewalter.activity.MainActivity;
+import com.children.littlewalter.activity.LittleWalterActivity;
 import com.children.littlewalter.activity.MaterialLibraryCardsActivity;
 import com.children.littlewalter.activity.ShowCardActivity;
 import com.children.littlewalter.model.CardItem;
@@ -62,7 +62,7 @@ public class ScrollAdapter implements SAdapter {
 		if (position < mList.size()) {
 			final CardItem moveItem = mList.get(position);
             int layoutRes = 0;
-            if (mScrollLayout.getColCount() == MainActivity.LAYOUT_TYPE_2_X_2) {
+            if (mScrollLayout.getColCount() == LittleWalterActivity.LAYOUT_TYPE_2_X_2) {
                 layoutRes = R.layout.card_item;
             } else {
                 layoutRes = R.layout.single_card_item;
@@ -78,7 +78,7 @@ public class ScrollAdapter implements SAdapter {
             }
 			
             if (cardCover == null) {
-                cardCover = new BitmapDrawable(BitmapUtil.getRoundedCornerBitmap(getBitmapFromSdCard(coverUrl), MainActivity.sRoundPx));
+                cardCover = new BitmapDrawable(BitmapUtil.getRoundedCornerBitmap(getBitmapFromSdCard(coverUrl), LittleWalterActivity.sRoundPx));
                 mCache.put(coverUrl, new SoftReference<Drawable>(cardCover));
             }
 
@@ -130,7 +130,7 @@ public class ScrollAdapter implements SAdapter {
         flipper.removeAllViews();
         for (String image : images) {
             ImageView imageView = (ImageView) activity.getLayoutInflater().inflate(R.layout.layout_image, flipper, false);
-            imageView.setImageDrawable(new BitmapDrawable(BitmapUtil.getRoundedCornerBitmap(getBitmapFromSdCard(image), MainActivity.sRoundPx)));
+            imageView.setImageDrawable(new BitmapDrawable(BitmapUtil.getRoundedCornerBitmap(getBitmapFromSdCard(image), LittleWalterActivity.sRoundPx)));
             flipper.addView(imageView);
         }
         flipper.startFlipping();

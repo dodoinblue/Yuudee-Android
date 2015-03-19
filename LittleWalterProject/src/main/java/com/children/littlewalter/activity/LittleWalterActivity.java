@@ -19,7 +19,6 @@ import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Environment;
 import android.pattern.adapter.BaseListAdapter;
 import android.pattern.widget.ActionWindow;
 import android.text.TextUtils;
@@ -47,19 +46,14 @@ import com.children.littlewalter.widget.ScrollLayout.OnEditModeListener;
 import com.children.littlewalter.widget.ScrollLayout.OnPageChangedListener;
 import com.children.littlewalter.R;
 import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
 
 /**
  * Created by peter on 3/3/15.
  */
 
 @SuppressLint("HandlerLeak")
-public class MainActivity extends BaseLittleWalterActivity implements OnAddOrDeletePage,
+public class LittleWalterActivity extends BaseLittleWalterActivity implements OnAddOrDeletePage,
 		OnPageChangedListener, OnEditModeListener {
-    public static final int ACTIVITY_REQUEST_CODE_NEW_CATEGORY = 1000;
-    public static final String OUTPUT_DIRECTORY = Environment
-            .getExternalStorageDirectory().getAbsolutePath() + "/LittleWalter";
-    private final String LOCAL_CARDS_DIRECTORY = OUTPUT_DIRECTORY + "/cards/";
     private static final String FIRST_TIME_ENTER_APP = "first_time_enter_app";
     private EditText mCategoryNameEdit;
     private long mFirstPressBackTime;
@@ -122,7 +116,7 @@ public class MainActivity extends BaseLittleWalterActivity implements OnAddOrDel
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_main);
+		setContentView(R.layout.activity_little_walter);
 		// 初始化控件
 		initViews();
         initEvents();
@@ -134,7 +128,7 @@ public class MainActivity extends BaseLittleWalterActivity implements OnAddOrDel
             return;
         }
         switch (requestCode) {
-            case ACTIVITY_REQUEST_CODE_NEW_CATEGORY:
+            case LittleWalterConstant.ACTIVITY_REQUEST_CODE_NEW_CATEGORY:
                 String newCategoryName = data.getStringExtra("result_new_category_name");
                 mCurrentCategory = newCategoryName;
                 mCardItemList = LittleWalterUtility.getCategoryCardsList(mCurrentCategory);
@@ -210,7 +204,7 @@ public class MainActivity extends BaseLittleWalterActivity implements OnAddOrDel
         }
         LittleWalterApplication.getAppSettingsPreferences().putBoolean(FIRST_TIME_ENTER_APP, false);
 
-        final ProgressDialog dialog = new ProgressDialog(MainActivity.this);
+        final ProgressDialog dialog = new ProgressDialog(LittleWalterActivity.this);
         dialog.setTitle("提示");
         dialog.setMessage("正在解压文件，请稍后！");
         dialog.show();//显示对话框
@@ -218,7 +212,7 @@ public class MainActivity extends BaseLittleWalterActivity implements OnAddOrDel
             public void run() {
                 //在新线程中以同名覆盖方式解压
                 try {
-                    UnzipAssets.unZip(MainActivity.this, "cards.zip", OUTPUT_DIRECTORY, true);
+                    UnzipAssets.unZip(LittleWalterActivity.this, "cards.zip", LittleWalterConstant.LITTLE_WALTER_DIRECTORY, true);
                     initCardsFromSDcard();
                 } catch (IOException e) {
                     e.printStackTrace();
@@ -229,7 +223,7 @@ public class MainActivity extends BaseLittleWalterActivity implements OnAddOrDel
     }
 
     private void initCardsFromSDcard() {
-        File cardResourceFolder = new File(LOCAL_CARDS_DIRECTORY);
+        File cardResourceFolder = new File(LittleWalterConstant.CATEGORIES_DIRECTORY);
         File[] categoryFolders = cardResourceFolder.listFiles();
         for (File categoryFolder : categoryFolders) {
             ArrayList<CardItem> cardList = new ArrayList<CardItem>();
@@ -405,7 +399,7 @@ public class MainActivity extends BaseLittleWalterActivity implements OnAddOrDel
                 break;
             case R.id.parent_add_new_category:
                 Intent intent = new Intent(this, NewCategoryActivity.class);
-                startActivityForResult(intent, ACTIVITY_REQUEST_CODE_NEW_CATEGORY);
+                startActivityForResult(intent, LittleWalterConstant.ACTIVITY_REQUEST_CODE_NEW_CATEGORY);
                 break;
             case R.id.about_product_introduction:
                 showProductIntroductionWindow();

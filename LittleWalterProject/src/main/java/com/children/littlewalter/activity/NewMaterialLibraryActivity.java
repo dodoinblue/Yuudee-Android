@@ -5,6 +5,8 @@
 
 package com.children.littlewalter.activity;
 
+import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextUtils;
@@ -16,6 +18,7 @@ import android.widget.TextView;
 import com.children.littlewalter.BaseLittleWalterActivity;
 import com.children.littlewalter.LittleWalterApplication;
 import com.children.littlewalter.R;
+import com.children.littlewalter.model.CardItem;
 
 /**
  * Created by peter on 3/10/15.
@@ -23,6 +26,7 @@ import com.children.littlewalter.R;
 public class NewMaterialLibraryActivity extends BaseLittleWalterActivity implements TextWatcher {
     private EditText mNameEditView;
     private TextView mLibraryName;
+    private CardItem mCardItem;
 
     @Override
     protected void onCreate(Bundle arg0) {
@@ -58,7 +62,13 @@ public class NewMaterialLibraryActivity extends BaseLittleWalterActivity impleme
             showCustomToast("请输入分类名称");
             return;
         }
-        LittleWalterApplication.getMaterialLibraryCardsPreferences().putString(mLibraryName.getText().toString(), "");
+        String libraryName = mLibraryName.getText().toString();
+        LittleWalterApplication.getMaterialLibraryCardsPreferences().putString(libraryName, "");
+
+        mCardItem.name = libraryName;
+        Intent data = new Intent();
+        data.putExtra("result_new_material_library", mCardItem);
+        setResult(Activity.RESULT_OK, data);
         finish();
     }
 

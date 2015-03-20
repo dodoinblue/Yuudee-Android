@@ -7,7 +7,11 @@ package com.gcwt.yudee.activity;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
+import android.pattern.util.PhotoUtil;
+import android.pattern.util.PhotoUtils;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
@@ -24,6 +28,8 @@ import com.gcwt.yudee.model.CardItem;
 import com.gcwt.yudee.util.LittleWaterConstant;
 
 import java.io.File;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 /**
  * Created by peter on 3/10/15.
@@ -83,7 +89,19 @@ public class NewMaterialLibraryActivity extends BaseLittleWaterActivity implemen
 
         LittleWaterApplication.getMaterialLibraryCardsPreferences().putString(libraryName, "");
 
+        BitmapDrawable drawable = (BitmapDrawable) mCardCoverView.getDrawable();
+        String cover = null;
+        if (drawable != null && drawable.getBitmap() != null) {
+            Bitmap bitmap = drawable.getBitmap();
+            String coverFolder = LittleWaterConstant.MATERIAL_LIBRARIES_DIRECTORY + libraryName;
+            String coverName = "cover.png";
+            PhotoUtil.saveBitmap(coverFolder, coverName, bitmap, true);
+            cover = coverFolder + "/" + coverName;
+            LittleWaterApplication.getMaterialLibraryCoverPreferences().putString(libraryName, cover);
+        }
+
         mCardItem.name = libraryName;
+        mCardItem.cover = cover;
         Intent data = new Intent();
         data.putExtra("result_new_material_library", mCardItem);
         setResult(Activity.RESULT_OK, data);
@@ -102,4 +120,5 @@ public class NewMaterialLibraryActivity extends BaseLittleWaterActivity implemen
     public void afterTextChanged(Editable s) {
         mLibraryName.setText(mNameEditView.getText().toString());
     }
+
 }

@@ -58,7 +58,6 @@ abstract public class BaseLittleWaterActivity extends BaseActivity {
     public String filePath = "";
     boolean isFromCamera = false;// 区分拍照旋转
     int degree = 0;
-    String path;
     protected ImageView mCardCoverView;
 
     protected void showAvatarPop() {
@@ -227,12 +226,8 @@ abstract public class BaseLittleWaterActivity extends BaseActivity {
                 }, 300);
                 mCardCoverView.invalidate();
                 // 保存图片
-                String filename = new SimpleDateFormat("yyMMddHHmmss")
-                        .format(new Date()) + ".png";
-                path = PhotoUtils.MyAvatarDir + filename;
-                PhotoUtil.saveBitmap(PhotoUtils.MyAvatarDir, filename, bitmap,
-                        true);
-                // 上传头像
+//                PhotoUtil.saveBitmap(getPictureSavePath(), getPictureSaveName(), bitmap,
+//                        true);
                 if (bitmap != null && bitmap.isRecycled()) {
                     bitmap.recycle();
                 }

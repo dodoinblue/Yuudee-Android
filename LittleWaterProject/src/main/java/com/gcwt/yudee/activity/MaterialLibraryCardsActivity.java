@@ -5,6 +5,7 @@
 
 package com.gcwt.yudee.activity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 
@@ -21,6 +22,7 @@ import java.util.List;
  * Created by peter on 15/3/5.
  */
 public class MaterialLibraryCardsActivity extends BaseLittleWaterActivity {
+    private CardItem mMaterialLibraryItem;
     // 滑动控件的容器Container
     private ScrollLayout mContainer;
     // Container的Adapter
@@ -48,11 +50,11 @@ public class MaterialLibraryCardsActivity extends BaseLittleWaterActivity {
         //设置Container编辑模式的回调，长按进入修改模式
 //        mContainer.setOnEditModeListener(this);
 
-        CardItem cardItem = (CardItem) getIntent().getSerializableExtra("library");
-        if (cardItem.getEditable()) {
-            mCardItemList = LittleWaterUtility.getMaterialLibraryCardsList(cardItem.name);
+        mMaterialLibraryItem = (CardItem) getIntent().getSerializableExtra("library");
+        if (mMaterialLibraryItem.getEditable()) {
+            mCardItemList = LittleWaterUtility.getMaterialLibraryCardsList(mMaterialLibraryItem.name);
         } else {
-            mCardItemList = LittleWaterUtility.getCategoryCardsList(cardItem.name);
+            mCardItemList = LittleWaterUtility.getCategoryCardsList(mMaterialLibraryItem.name);
         }
 
         //动态设置Container每页的列数为2行
@@ -78,7 +80,9 @@ public class MaterialLibraryCardsActivity extends BaseLittleWaterActivity {
                 finish();
                 break;
             case R.id.material_library_new:
-                startActivity(NewMaterialLibraryCardActivity.class);
+                Intent intent = new Intent(this, NewMaterialLibraryCardActivity.class);
+                intent.putExtra("material_library", mMaterialLibraryItem.name);
+                startActivity(intent);
                 break;
         }
     }

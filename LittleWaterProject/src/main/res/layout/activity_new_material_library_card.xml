@@ -31,6 +31,7 @@
                 android:id="@+id/card_cover"
                 android:layout_width="105dp"
                 android:layout_height="80dp"
+                android:scaleType="fitXY"
                 android:layout_marginTop="8dp"
                 android:background="@mipmap/default_image" />
 
@@ -139,6 +140,7 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:gravity="center"
+                    android:text="准备"
                     android:textSize="12dp"
                     android:layout_marginLeft="20dp"
                     android:textColor="@android:color/white"/>

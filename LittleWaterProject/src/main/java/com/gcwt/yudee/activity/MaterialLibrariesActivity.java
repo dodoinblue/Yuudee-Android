@@ -182,6 +182,8 @@ public class MaterialLibrariesActivity extends BaseLittleWaterActivity {
         if (!file.exists()) {
             file.mkdirs();
             file = new File(LittleWaterConstant.MATERIAL_LIBRARIES_DIRECTORY + "/未分类");
+            LittleWaterApplication.getMaterialLibraryCoverPreferences().putString("未分类", "");
+            LittleWaterApplication.getMaterialLibraryCardsPreferences().putString("未分类", "");
             file.mkdir();
         }
     }

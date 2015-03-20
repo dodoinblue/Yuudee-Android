@@ -31,6 +31,7 @@ import android.widget.TextView;
 import com.gcwt.yudee.BaseLittleWaterActivity;
 import com.gcwt.yudee.LittleWaterApplication;
 import com.gcwt.yudee.R;
+import com.gcwt.yudee.model.CardItem;
 import com.gcwt.yudee.soundrecorder.RecordService;
 
 import java.io.File;
@@ -58,6 +59,7 @@ public class NewMaterialLibraryCardActivity extends BaseLittleWaterActivity impl
     private boolean mIsPlaying;
     private MediaPlayer mPlayer;
     private String mAudioFile;
+    private CardItem mLibraryCard = new CardItem();
 
     @Override
     protected void onCreate(Bundle arg0) {
@@ -103,10 +105,10 @@ public class NewMaterialLibraryCardActivity extends BaseLittleWaterActivity impl
             mRecordService = ((RecordService.RecordServiceBinder)service).getService();
             if (mRecordService.isRecording()) {
                 mIsRecording = true;
-                mRecordNoticeView.setText(R.string.stoprecorder);
+                mRecordNoticeView.setText(R.string.startrecorder);
             } else {
                 mIsRecording = false;
-                mRecordNoticeView.setText(R.string.startrecorder);
+                mRecordNoticeView.setText(R.string.stoprecorder);
             }
         }
 
@@ -123,7 +125,7 @@ public class NewMaterialLibraryCardActivity extends BaseLittleWaterActivity impl
         }
         mp.release();
 
-        mPlayButton.setText(R.string.startplay);
+        mRecordNoticeView.setText(R.string.stopplay);
         mIsPlaying = false;
     }
 
@@ -145,6 +147,11 @@ public class NewMaterialLibraryCardActivity extends BaseLittleWaterActivity impl
     }
 
     protected void initEvents() {
+        String materialLibrary = getIntent().getStringExtra("material_library");
+        if (TextUtils.isEmpty(materialLibrary)) {
+            materialLibrary = "未分类";
+        }
+        mChooseCategoryBtn.setText(materialLibrary);
         mNameEditView.addTextChangedListener(this);
         Intent service = new Intent(this, RecordService.class);
         startService(service);
@@ -172,7 +179,7 @@ public class NewMaterialLibraryCardActivity extends BaseLittleWaterActivity impl
                 mNextContainer.setVisibility(View.GONE);
                 break;
             case R.id.confirm:
-                saveNewCategory();
+                saveNewLibraryCard();
                 break;
             case R.id.camera:
                 filePath = PhotoUtils.takePicture(NewMaterialLibraryCardActivity.this);
@@ -189,10 +196,12 @@ public class NewMaterialLibraryCardActivity extends BaseLittleWaterActivity impl
                 mNewResourceWindow = new ActionWindow(this, findViewById(R.id.choose_category), layoutCategoryList);
                 mNewResourceWindow.dropDown();
 
-                Set<String> mCategorySet = LittleWaterApplication.getCategoryCoverPreferences().getAll().keySet();
-                ArrayList<String> categoryList = new ArrayList<String>(mCategorySet);
+                Set<String> categorySet = LittleWaterApplication.getCategoryCoverPreferences().getAll().keySet();
+                ArrayList<String> libraryList = new ArrayList<String>(categorySet);
+                Set<String> librarySet = LittleWaterApplication.getMaterialLibraryCoverPreferences().getAll().keySet();
+                libraryList.addAll(librarySet);
                 ListView listView = (ListView) layoutCategoryList.findViewById(R.id.list_view);
-                BaseListAdapter adapter = new BaseListAdapter<String>(this, categoryList) {
+                BaseListAdapter adapter = new BaseListAdapter<String>(this, libraryList) {
                     @Override
                     public View bindView(int position, View convertView, ViewGroup parent) {
                         if (convertView == null) {
@@ -215,14 +224,15 @@ public class NewMaterialLibraryCardActivity extends BaseLittleWaterActivity impl
             case R.id.record_sound:
                 if (!mIsRecording) {
                     mRecordService.startRecord();
-                    mRecordNoticeView.setText(R.string.stoprecorder);
+                    mRecordButton.setBackgroundResource(R.mipmap.record_down);
+                    mRecordNoticeView.setText(R.string.startrecorder);
                     mIsRecording = true;
                 } else {
-                    mIsRecording = false;
                     mRecordService.stopRecord();
+                    mRecordButton.setBackgroundResource(R.mipmap.record);
                     mAudioFile = mRecordService.getAudioFilePath();
-                    mRecordNoticeView.setText(R.string.startrecorder);
-                    mPlayButton.setText(R.string.startplay);
+                    mRecordNoticeView.setText(R.string.stoprecorder);
+                    mIsRecording = false;
                 }
                 break;
             case R.id.play_sound:
@@ -233,27 +243,25 @@ public class NewMaterialLibraryCardActivity extends BaseLittleWaterActivity impl
                     mPlayer.setOnCompletionListener(this);
                     mPlayer.start();
 
-                    mPlayButton.setText(R.string.stopplay);
+                    mRecordNoticeView.setText(R.string.startplay);
                     mIsPlaying = true;
                 } else {
                     mPlayer.stop();
                     mPlayer.release();
 
-                    mPlayButton.setText(R.string.startplay);
+                    mRecordNoticeView.setText(R.string.stopplay);
                     mIsPlaying = false;
                 }
                 break;
             case R.id.delete_sound:
+
                 break;
         }
     }
 
-    private void saveNewCategory() {
-        if (TextUtils.isEmpty(mCardName.getText().toString())) {
-            showCustomToast("请输入分类名称");
-            return;
-        }
-        LittleWaterApplication.getCategoryCardsPreferences().putString(mCardName.getText().toString(), "");
+    private void saveNewLibraryCard() {
+        mLibraryCard.name = mCardName.getText().toString();
+
         finish();
     }
 

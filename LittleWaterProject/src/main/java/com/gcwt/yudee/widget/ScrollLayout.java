@@ -30,7 +30,6 @@ import android.widget.Scroller;
 
 import com.gcwt.yudee.OnDataChangeListener;
 import com.gcwt.yudee.R;
-import com.gcwt.yudee.activity.EditCardActivity;
 import com.gcwt.yudee.activity.LittleWaterActivity;
 import com.gcwt.yudee.adapter.ScrollAdapter;
 import com.gcwt.yudee.model.CardItem;
@@ -189,7 +188,7 @@ public class ScrollLayout extends LinearLayout implements OnDataChangeListener {
 		this.rowSpace = DensityUtil.dip2px(mContext, 15);
 		
 		if (mAdapter != null)
-			refreView();
+			refreshView();
 
 		this.setOnClickListener(new OnClickListener() {
 
@@ -223,7 +222,7 @@ public class ScrollLayout extends LinearLayout implements OnDataChangeListener {
 	}
 	
 	//绘制Container所有item
-	public void refreView() {
+	public void refreshView() {
 		removeAllViews();
         mCurScreen = 0;
 		for (int i = 0; i < mAdapter.getCount(); i++) {
@@ -665,7 +664,7 @@ public class ScrollLayout extends LinearLayout implements OnDataChangeListener {
 
 	@Override
 	public void ondataChange() {
-		refreView();
+		refreshView();
 	}
 
 	//根据手势绘制不断变化位置的dragView

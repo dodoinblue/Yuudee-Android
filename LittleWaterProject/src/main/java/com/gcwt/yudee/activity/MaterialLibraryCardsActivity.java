@@ -68,7 +68,7 @@ public class MaterialLibraryCardsActivity extends BaseLittleWaterActivity {
         //设置Adapter
         mContainer.setSaAdapter(mItemsAdapter);
         //调用refreView绘制所有的Item
-        mContainer.refreView();
+        mContainer.refreshView();
     }
 
     @Override
@@ -100,7 +100,7 @@ public class MaterialLibraryCardsActivity extends BaseLittleWaterActivity {
             case LittleWaterConstant.ACTIVITY_REQUEST_CODE_NEW_MATERIAL_LIBRARY_CARD:
                 CardItem cardItem = (CardItem) data.getSerializableExtra("library_card");
                 mCardItemList.add(cardItem);
-                mContainer.refreView();
+                mContainer.refreshView();
                 break;
         }
     }

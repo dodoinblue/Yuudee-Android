@@ -124,7 +124,7 @@ public class MaterialLibrariesActivity extends BaseLittleWaterActivity {
         //设置Adapter
         mContainer.setSaAdapter(mItemsAdapter);
         //调用refreView绘制所有的Item
-        mContainer.refreView();
+        mContainer.refreshView();
     }
 
     private void getMeterialLibrary(HashMap<String, String> libraryCoverMap, boolean editable) {
@@ -174,7 +174,7 @@ public class MaterialLibrariesActivity extends BaseLittleWaterActivity {
             case LittleWaterConstant.ACTIVITY_REQUEST_CODE_NEW_MATERIAL_LIBRARY:
                 CardItem cardItem = (CardItem) data.getSerializableExtra("result_new_material_library");
                 mCardItemList.add(cardItem);
-                mContainer.refreView();
+                mContainer.refreshView();
                 break;
         }
     }

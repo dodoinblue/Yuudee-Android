@@ -149,6 +149,8 @@ public class LittleWaterActivity extends BaseLittleWaterActivity implements OnAd
                     }
                     pos++;
                 }
+                mContainer.refreshView();
+                mContainer.showEdit(true);
                 break;
         }
     }
@@ -313,7 +315,7 @@ public class LittleWaterActivity extends BaseLittleWaterActivity implements OnAd
         //设置Adapter
         mContainer.setSaAdapter(mItemsAdapter);
         //调用refreView绘制所有的Item
-        mContainer.refreView();
+        mContainer.refreshView();
         mParentCategoryContent.setText(mCurrentCategory);
     }
 
@@ -437,6 +439,10 @@ public class LittleWaterActivity extends BaseLittleWaterActivity implements OnAd
                 Intent in = new Intent(this, EditCardActivity.class);
                 in.putExtra("card_item", (CardItem) view.getTag());
                 startActivityForResult(in, LittleWaterConstant.ACTIVITY_REQUEST_CODE_EDIT_CARD_SETTINGS);
+                break;
+            case R.id.add_new_card:
+                Intent newCardIntent = new Intent(this, NewCategoryCardActivity.class);
+                startActivityForResult(newCardIntent, );
                 break;
         }
     }
@@ -577,7 +583,7 @@ public class LittleWaterActivity extends BaseLittleWaterActivity implements OnAd
         mCategoryList = new ArrayList<String>(categorySet);
         mCategoryListAdapter.setList(mCategoryList);
         findViewById(R.id.root_container).setBackgroundResource(R.mipmap.background2);
-        mContainer.refreView();
+        mContainer.refreshView();
         mContainer.showEdit(true);
     }
 
@@ -589,7 +595,7 @@ public class LittleWaterActivity extends BaseLittleWaterActivity implements OnAd
 //        findViewById(R.id.unlock_guide_flicker).setVisibility(View.VISIBLE);
         findViewById(R.id.root_container).setBackgroundResource(R.mipmap.background);
         if (mItemsAdapter != null) {
-            mContainer.refreView();
+            mContainer.refreshView();
         }
         mContainer.showEdit(false);
     }

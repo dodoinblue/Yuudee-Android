@@ -107,7 +107,7 @@ public class ScrollAdapter implements SAdapter {
             });
             return view;
 		} else {
-            ImageView view = new ImageView(mContext);
+            ImageView view = (ImageView) mInflater.inflate(R.layout.layout_empty_card_position, mScrollLayout, false);
             view.setBackgroundResource(R.mipmap.parent_main_blankcard);
             view.setTag(new CardItem());
             return view;

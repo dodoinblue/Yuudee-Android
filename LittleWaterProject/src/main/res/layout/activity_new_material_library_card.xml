@@ -33,7 +33,7 @@
                 android:layout_height="80dp"
                 android:scaleType="fitXY"
                 android:layout_marginTop="8dp"
-                android:background="@mipmap/default_image" />
+                android:src="@mipmap/default_image" />
 
             <TextView
                 android:id="@+id/card_name"

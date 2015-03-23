@@ -38,9 +38,9 @@ public class LittleWaterApplication extends BaseApplication {
         return Preferences.getInstance(getInstance(), "category_settings");
     }
 
-    public static Preferences getCardSettingsPreferences() {
-        return Preferences.getInstance(getInstance(), "card_settings");
-    }
+//    public static Preferences getCardSettingsPreferences() {
+//        return Preferences.getInstance(getInstance(), "card_settings");
+//    }
 
     public static Preferences getMaterialLibraryCardsPreferences() {
         return Preferences.getInstance(getInstance(), "material_library_cards");

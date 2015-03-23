@@ -102,6 +102,7 @@ public class NewMaterialLibraryActivity extends BaseLittleWaterActivity implemen
 
         mCardItem.name = libraryName;
         mCardItem.cover = cover;
+        mCardItem.editable = true;
         Intent data = new Intent();
         data.putExtra("result_new_material_library", mCardItem);
         setResult(Activity.RESULT_OK, data);

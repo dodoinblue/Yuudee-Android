@@ -5,11 +5,16 @@
 
 package com.gcwt.yudee.activity;
 
+import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 
 import com.gcwt.yudee.BaseLittleWaterActivity;
+import com.gcwt.yudee.LittleWaterApplication;
 import com.gcwt.yudee.R;
+import com.gcwt.yudee.model.CardItem;
+import com.gcwt.yudee.util.LittleWaterConstant;
 
 /**
  * Created by peter on 3/10/15.
@@ -18,10 +23,8 @@ public class EditCardActivity extends BaseLittleWaterActivity {
     private View mNoNanimationChecked;
     private View mZoomInAnimationChecked;
     private View mZoomInAndRotateAnimationChecked;
-    private static final int ANIMATION_NONE = 0;
-    private static final int ANIMATION_ZOOM_IN = 1;
-    private static final int ANIMATION_ZOOM_IN_AND_ROTATE = 2;
-    private int mAnimatonType = ANIMATION_ZOOM_IN;
+
+    private CardItem mCardItem;
 
     @Override
     protected void onCreate(Bundle arg0) {
@@ -39,7 +42,18 @@ public class EditCardActivity extends BaseLittleWaterActivity {
     }
 
     protected void initEvents() {
-
+        mCardItem = (CardItem) getIntent().getSerializableExtra("card_item");
+        switch (mCardItem.cardSettings.animationType) {
+            case LittleWaterConstant.ANIMATION_NONE:
+                setNoNanimationChecked();
+                break;
+            case LittleWaterConstant.ANIMATION_ZOOM_IN:
+                setZoomInAnimationChecked();
+                break;
+            case LittleWaterConstant.ANIMATION_ZOOM_IN_AND_ROTATE:
+                setZoomInAndRotateAnimationChecked();
+                break;
+        }
     }
 
     public void onClick(View view) {
@@ -48,26 +62,41 @@ public class EditCardActivity extends BaseLittleWaterActivity {
                 finish();
                 break;
             case R.id.confirm:
+                Intent data = new Intent();
+                data.putExtra("card_item", mCardItem);
+                setResult(Activity.RESULT_OK, data);
                 finish();
                 break;
             case R.id.no_animation_container:
-                mNoNanimationChecked.setVisibility(View.VISIBLE);
-                mZoomInAnimationChecked.setVisibility(View.INVISIBLE);
-                mZoomInAndRotateAnimationChecked.setVisibility(View.INVISIBLE);
-                mAnimatonType = ANIMATION_NONE;
+                setNoNanimationChecked();
                 break;
             case R.id.animation_zoom_in_container:
-                mNoNanimationChecked.setVisibility(View.INVISIBLE);
-                mZoomInAnimationChecked.setVisibility(View.VISIBLE);
-                mZoomInAndRotateAnimationChecked.setVisibility(View.INVISIBLE);
-                mAnimatonType = ANIMATION_ZOOM_IN;
+                setZoomInAnimationChecked();
                 break;
             case R.id.animation_zoomin_and_rotate_container:
-                mNoNanimationChecked.setVisibility(View.INVISIBLE);
-                mZoomInAnimationChecked.setVisibility(View.INVISIBLE);
-                mZoomInAndRotateAnimationChecked.setVisibility(View.VISIBLE);
-                mAnimatonType = ANIMATION_ZOOM_IN_AND_ROTATE;
+                setZoomInAndRotateAnimationChecked();
                 break;
         }
+    }
+
+    private void setNoNanimationChecked() {
+        mNoNanimationChecked.setVisibility(View.VISIBLE);
+        mZoomInAnimationChecked.setVisibility(View.INVISIBLE);
+        mZoomInAndRotateAnimationChecked.setVisibility(View.INVISIBLE);
+        mCardItem.cardSettings.animationType = LittleWaterConstant.ANIMATION_NONE;
+    }
+
+    private void setZoomInAnimationChecked() {
+        mNoNanimationChecked.setVisibility(View.INVISIBLE);
+        mZoomInAnimationChecked.setVisibility(View.VISIBLE);
+        mZoomInAndRotateAnimationChecked.setVisibility(View.INVISIBLE);
+        mCardItem.cardSettings.animationType = LittleWaterConstant.ANIMATION_ZOOM_IN;
+    }
+
+    private void setZoomInAndRotateAnimationChecked() {
+        mNoNanimationChecked.setVisibility(View.INVISIBLE);
+        mZoomInAnimationChecked.setVisibility(View.INVISIBLE);
+        mZoomInAndRotateAnimationChecked.setVisibility(View.VISIBLE);
+        mCardItem.cardSettings.animationType = LittleWaterConstant.ANIMATION_ZOOM_IN_AND_ROTATE;
     }
 }

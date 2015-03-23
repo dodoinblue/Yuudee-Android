@@ -12,6 +12,7 @@ import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.pattern.widget.ActionWindow;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -23,6 +24,7 @@ import com.gcwt.yudee.R;
 import com.gcwt.yudee.adapter.ScrollAdapter;
 import com.gcwt.yudee.model.CardItem;
 import com.gcwt.yudee.util.LittleWaterConstant;
+import com.gcwt.yudee.util.LittleWaterUtility;
 import com.gcwt.yudee.widget.ScrollLayout;
 
 import java.io.File;
@@ -71,6 +73,7 @@ public class MaterialLibrariesActivity extends BaseLittleWaterActivity {
         getMeterialLibrary(libraryCoverMap, false);
 
         libraryCoverMap = (HashMap<String, String>) LittleWaterApplication.getMaterialLibraryCoverPreferences().getAll();
+        Log.d("zheng", "libarymap:" + libraryCoverMap.toString());
         getMeterialLibrary(libraryCoverMap, true);
 
         //动态设置Container每页的列数为2行
@@ -182,9 +185,14 @@ public class MaterialLibrariesActivity extends BaseLittleWaterActivity {
         if (!file.exists()) {
             file.mkdirs();
             file = new File(LittleWaterConstant.MATERIAL_LIBRARIES_DIRECTORY + "/未分类");
-            LittleWaterApplication.getMaterialLibraryCoverPreferences().putString("未分类", "");
-            LittleWaterApplication.getMaterialLibraryCardsPreferences().putString("未分类", "");
             file.mkdir();
+
+            String coverFolder = LittleWaterConstant.MATERIAL_LIBRARIES_DIRECTORY + "/未分类/";
+            String coverName = "cover.jpg";
+            LittleWaterUtility.saveDrawable(coverFolder, coverName,
+                    (BitmapDrawable) getResources().getDrawable(R.mipmap.default_image));
+            LittleWaterApplication.getMaterialLibraryCoverPreferences().putString("未分类", coverFolder + coverName);
+            LittleWaterApplication.getMaterialLibraryCardsPreferences().putString("未分类", "");
         }
     }
 }

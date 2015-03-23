@@ -24,4 +24,12 @@ public class LittleWaterConstant {
     // About activity request code
     public static final int ACTIVITY_REQUEST_CODE_NEW_CATEGORY = 1000;
     public static final int ACTIVITY_REQUEST_CODE_NEW_MATERIAL_LIBRARY = 1001;
+    public static final int ACTIVITY_REQUEST_CODE_NEW_MATERIAL_LIBRARY_CARD = 1002;
+    public static final int ACTIVITY_REQUEST_CODE_EDIT_CARD_SETTINGS = 1003;
+
+
+    // Animation types
+    public static final int ANIMATION_NONE = 0;
+    public static final int ANIMATION_ZOOM_IN = 1;
+    public static final int ANIMATION_ZOOM_IN_AND_ROTATE = 2;
 }

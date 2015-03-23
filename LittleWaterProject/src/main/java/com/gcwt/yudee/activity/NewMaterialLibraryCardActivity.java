@@ -5,15 +5,19 @@
 
 package com.gcwt.yudee.activity;
 
+import android.app.Activity;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.ServiceConnection;
+import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
 import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.IBinder;
 import android.pattern.adapter.BaseListAdapter;
+import android.pattern.util.PhotoUtil;
 import android.pattern.util.PhotoUtils;
 import android.pattern.widget.ActionWindow;
 import android.provider.MediaStore;
@@ -33,9 +37,14 @@ import com.gcwt.yudee.LittleWaterApplication;
 import com.gcwt.yudee.R;
 import com.gcwt.yudee.model.CardItem;
 import com.gcwt.yudee.soundrecorder.RecordService;
+import com.gcwt.yudee.util.FileService;
+import com.gcwt.yudee.util.LittleWaterConstant;
+import com.gcwt.yudee.util.LittleWaterUtility;
 
 import java.io.File;
+import java.io.FileInputStream;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Set;
 
 /**
@@ -60,6 +69,8 @@ public class NewMaterialLibraryCardActivity extends BaseLittleWaterActivity impl
     private MediaPlayer mPlayer;
     private String mAudioFile;
     private CardItem mLibraryCard = new CardItem();
+    private String mMaterialLibraryPath;
+    private String mMaterialLibraryName;
 
     @Override
     protected void onCreate(Bundle arg0) {
@@ -147,11 +158,12 @@ public class NewMaterialLibraryCardActivity extends BaseLittleWaterActivity impl
     }
 
     protected void initEvents() {
-        String materialLibrary = getIntent().getStringExtra("material_library");
-        if (TextUtils.isEmpty(materialLibrary)) {
-            materialLibrary = "未分类";
+        mMaterialLibraryName = getIntent().getStringExtra("material_library");
+        if (TextUtils.isEmpty(mMaterialLibraryName)) {
+            mMaterialLibraryName = "未分类";
         }
-        mChooseCategoryBtn.setText(materialLibrary);
+        mMaterialLibraryPath = LittleWaterConstant.MATERIAL_LIBRARIES_DIRECTORY + mMaterialLibraryName + "/";
+        mChooseCategoryBtn.setText(mMaterialLibraryName);
         mNameEditView.addTextChangedListener(this);
         Intent service = new Intent(this, RecordService.class);
         startService(service);
@@ -163,8 +175,15 @@ public class NewMaterialLibraryCardActivity extends BaseLittleWaterActivity impl
                 finish();
                 break;
             case R.id.next:
-                if (TextUtils.isEmpty(mNameEditView.getEditableText().toString())) {
+                String cardName = mNameEditView.getEditableText().toString();
+                if (TextUtils.isEmpty(cardName)) {
                     showCustomToast("请输入卡片名称");
+                    return;
+                }
+
+                File cardFile = new File(mMaterialLibraryPath + cardName);
+                if (cardFile.exists()) {
+                    showCustomToast("卡片名称已存在, 请换个名称.");
                     return;
                 }
                 mCoverContainer.setVisibility(View.GONE);
@@ -260,8 +279,46 @@ public class NewMaterialLibraryCardActivity extends BaseLittleWaterActivity impl
     }
 
     private void saveNewLibraryCard() {
+        // Create card folder in SD card.
         mLibraryCard.name = mCardName.getText().toString();
+        mLibraryCard.editable = true;
+        File cardFile = new File(mMaterialLibraryPath + mLibraryCard.name);
+        cardFile.mkdirs();
+        String audiosFolder = mMaterialLibraryPath + mLibraryCard.name + "/audios";
+        File audiosFile = new File(audiosFolder);
+        audiosFile.mkdirs();
+        String imagesFolder = mMaterialLibraryPath + mLibraryCard.name + "/images";
+        File imagesFile = new File(imagesFolder);
+        imagesFile.mkdirs();
 
+        // Save image
+        BitmapDrawable drawable = (BitmapDrawable) mCardCoverView.getDrawable();
+        if (drawable != null && drawable.getBitmap() != null) {
+            Bitmap bitmap = drawable.getBitmap();
+            String imageName = "1.png";
+            PhotoUtil.saveBitmap(imagesFolder, imageName, bitmap, true);
+            mLibraryCard.images.add(imagesFolder + "/" + imageName);
+        }
+
+        // Save audio
+        FileService fileService = new FileService(this);
+        try {
+            String newAudioName = audiosFolder + "/1.mp3";
+            File oldAudioFile = new File(mAudioFile);
+            oldAudioFile.renameTo(new File(newAudioName));
+//            fileService.save(newAudioName, fileService.read(mAudioFile));
+            mLibraryCard.audios.add(newAudioName);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        // Save new card into cache
+        List<CardItem> cardItemList =  LittleWaterUtility.getMaterialLibraryCardsList(mMaterialLibraryName);
+        cardItemList.add(mLibraryCard);
+        LittleWaterUtility.setMaterialLibraryCardsList(mMaterialLibraryName, cardItemList);
+        Intent data = new Intent();
+        data.putExtra("library_card", mLibraryCard);
+        setResult(Activity.RESULT_OK, data);
         finish();
     }
 

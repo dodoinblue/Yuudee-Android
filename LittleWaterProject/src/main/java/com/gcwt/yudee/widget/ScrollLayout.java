@@ -490,7 +490,9 @@ public class ScrollLayout extends LinearLayout implements OnDataChangeListener {
 		final int count = getChildCount() - 1;
 		for (int i = count; i >= 0; i--) {
 			View child = getChildAt(i);
-			child.getBackground().setAlpha(180);
+            if (child != null) {
+                child.getBackground().setAlpha(180);
+            }
 		}
 	}
 
@@ -499,6 +501,9 @@ public class ScrollLayout extends LinearLayout implements OnDataChangeListener {
 		final int count = getChildCount() - 1;
 		for (int i = count; i >= 0; i--) {
 			final View child = getChildAt(i);
+            if (child == null) {
+                continue;
+            }
 			// child.setAlpha(1.0f);
 			child.getBackground().setAlpha(255);
 			Drawable drawable = child.getBackground();
@@ -911,7 +916,7 @@ public class ScrollLayout extends LinearLayout implements OnDataChangeListener {
 		int count = getChildCount();
 		for (int i = 0; i < count; i++) {
 			View child = getChildAt(i);
-			ImageView iv = (ImageView) child.findViewById(R.id.delete_iv);
+			final ImageView iv = (ImageView) child.findViewById(R.id.card_edit);
             if (iv == null) {
                 // if iv is null, then it indicates current view is a blank card, no need to have the edit function
                 continue;
@@ -920,14 +925,6 @@ public class ScrollLayout extends LinearLayout implements OnDataChangeListener {
 			iv.setVisibility(isEdit == true ? View.VISIBLE : View.GONE);
 			if (isEdit) {
 //				iv.setOnClickListener(new DelItemClick(i)); delete by peter
-                iv.setOnClickListener(new OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        Intent intent = new Intent(getContext(), EditCardActivity.class);
-                        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                        getContext().startActivity(intent);
-                    }
-                });
 			}
 		}
 

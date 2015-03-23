@@ -108,7 +108,7 @@ public class ScrollAdapter implements SAdapter {
             return view;
 		} else {
             ImageView view = new ImageView(mContext);
-            view.setImageResource(R.mipmap.parent_main_blankcard);
+            view.setBackgroundResource(R.mipmap.parent_main_blankcard);
             view.setTag(new CardItem());
             return view;
         }
@@ -127,7 +127,7 @@ public class ScrollAdapter implements SAdapter {
         final ViewFlipper flipper = (ViewFlipper) view.findViewById(R.id.content_show);
         flipper.setVisibility(View.VISIBLE);
         iv.setVisibility(View.GONE);
-        playAudio(moveItem.getAudios()[0]);
+        playAudio(moveItem.getAudios().get(0));
         List<String> images = moveItem.getImages();
         flipper.removeAllViews();
         for (String image : images) {

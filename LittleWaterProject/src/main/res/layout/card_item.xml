@@ -51,7 +51,7 @@
     </LinearLayout>
 
     <ImageView
-        android:id="@+id/delete_iv"
+        android:id="@+id/card_edit"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
@@ -59,6 +59,7 @@
         android:layout_marginRight="0dp"
         android:layout_marginTop="0dp"
         android:clickable="true"
+        android:onClick="onClick"
         android:src="@mipmap/edit"
         android:visibility="gone"
         tools:ignore="ContentDescription" />

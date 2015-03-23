@@ -136,6 +136,20 @@ public class LittleWaterActivity extends BaseLittleWaterActivity implements OnAd
                 displayCards();
                 mDropDownCategoryListWindow.dismiss();
                 break;
+
+            case LittleWaterConstant.ACTIVITY_REQUEST_CODE_EDIT_CARD_SETTINGS:
+                CardItem cardItem = (CardItem) data.getSerializableExtra("card_item");
+                int pos = 0;
+                for (CardItem item : mCardItemList) {
+                    if (TextUtils.equals(item.getName(), cardItem.getName())) {
+                        mCardItemList.set(pos, cardItem);
+                        LittleWaterUtility.setCategoryCardsList(mCurrentCategory, mCardItemList);
+                        Log.d("zheng", "onActivityResult ACTIVITY_REQUEST_CODE_EDIT_CARD_SETTINGS");
+                        break;
+                    }
+                    pos++;
+                }
+                break;
         }
     }
 
@@ -245,11 +259,10 @@ public class LittleWaterActivity extends BaseLittleWaterActivity implements OnAd
                     for (File mediaFolder : mediaFolders) {
                         if (mediaFolder.getPath().contains("audio")) {
                             File[] audioFiles = mediaFolder.listFiles();
-                            String[] audios = new String[audioFiles.length];
-                            int i = 0;
+                            List<String> audios = new ArrayList<String>();
                             for (File audioFile : audioFiles) {
                                 Log.d("zheng", "audio:" + audioFile.getAbsolutePath());
-                                audios[i++] = audioFile.getAbsolutePath();
+                                audios.add(audioFile.getAbsolutePath());
                             }
                             item.setAudios(audios);
                         } else if (mediaFolder.getPath().contains("image")) {
@@ -419,6 +432,11 @@ public class LittleWaterActivity extends BaseLittleWaterActivity implements OnAd
                 break;
             case R.id.about_product_introduction_window_quit:
                 mProductIntroductionWindow.dismiss();
+                break;
+            case R.id.card_edit:
+                Intent in = new Intent(this, EditCardActivity.class);
+                in.putExtra("card_item", (CardItem) view.getTag());
+                startActivityForResult(in, LittleWaterConstant.ACTIVITY_REQUEST_CODE_EDIT_CARD_SETTINGS);
                 break;
         }
     }

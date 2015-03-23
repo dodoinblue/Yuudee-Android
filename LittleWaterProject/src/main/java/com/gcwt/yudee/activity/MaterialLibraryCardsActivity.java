@@ -5,6 +5,7 @@
 
 package com.gcwt.yudee.activity;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -13,6 +14,7 @@ import com.gcwt.yudee.BaseLittleWaterActivity;
 import com.gcwt.yudee.R;
 import com.gcwt.yudee.adapter.ScrollAdapter;
 import com.gcwt.yudee.model.CardItem;
+import com.gcwt.yudee.util.LittleWaterConstant;
 import com.gcwt.yudee.util.LittleWaterUtility;
 import com.gcwt.yudee.widget.ScrollLayout;
 
@@ -82,7 +84,23 @@ public class MaterialLibraryCardsActivity extends BaseLittleWaterActivity {
             case R.id.material_library_new:
                 Intent intent = new Intent(this, NewMaterialLibraryCardActivity.class);
                 intent.putExtra("material_library", mMaterialLibraryItem.name);
-                startActivity(intent);
+                startActivityForResult(intent, LittleWaterConstant.ACTIVITY_REQUEST_CODE_NEW_MATERIAL_LIBRARY_CARD);
+                break;
+        }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (resultCode != Activity.RESULT_OK) {
+            return;
+        }
+
+        switch (requestCode) {
+            case LittleWaterConstant.ACTIVITY_REQUEST_CODE_NEW_MATERIAL_LIBRARY_CARD:
+                CardItem cardItem = (CardItem) data.getSerializableExtra("library_card");
+                mCardItemList.add(cardItem);
+                mContainer.refreView();
                 break;
         }
     }

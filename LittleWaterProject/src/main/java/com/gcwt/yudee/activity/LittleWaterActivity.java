@@ -152,6 +152,9 @@ public class LittleWaterActivity extends BaseLittleWaterActivity implements OnAd
                 mContainer.refreshView();
                 mContainer.showEdit(true);
                 break;
+            case LittleWaterConstant.ACTIVITY_REQUEST_CODE_NEW_CATEGORY_CARD:
+
+                break;
         }
     }
 
@@ -442,7 +445,8 @@ public class LittleWaterActivity extends BaseLittleWaterActivity implements OnAd
                 break;
             case R.id.add_new_card:
                 Intent newCardIntent = new Intent(this, NewCategoryCardActivity.class);
-                startActivityForResult(newCardIntent, );
+                newCardIntent.putExtra("current_category", mCurrentCategory);
+                startActivityForResult(newCardIntent, LittleWaterConstant.ACTIVITY_REQUEST_CODE_NEW_CATEGORY_CARD);
                 break;
         }
     }

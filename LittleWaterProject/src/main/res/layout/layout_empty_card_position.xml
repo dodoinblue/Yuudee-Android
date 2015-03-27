@@ -11,4 +11,5 @@
     android:clickable="true"
     android:onClick="onClick"
     android:layout_gravity="center"
-    android:background="@mipmap/parent_main_blankcard"/>
+    android:scaleType="centerInside"
+    android:src="@mipmap/parent_main_blankcard"/>

@@ -9,7 +9,7 @@
     android:layout_height="wrap_content"
     android:paddingLeft="35dp"
     android:paddingRight="35dp"
-    android:paddingTop="120dp"
+    android:paddingTop="100dp"
     android:paddingBottom="60dp"
     android:gravity="top|center_horizontal"
     android:orientation="vertical"
@@ -51,6 +51,6 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:onClick="onClick"
-        android:layout_marginTop="15dp"
+        android:layout_marginTop="25dp"
         android:background="@drawable/parent_editpop_cancel" />
 </LinearLayout>

@@ -7,9 +7,11 @@ package com.gcwt.yudee.activity;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.pattern.util.PhotoUtil;
 import android.pattern.widget.ActionWindow;
 import android.text.TextUtils;
 import android.util.Log;
@@ -39,6 +41,7 @@ import java.util.Set;
  * Created by peter on 15/3/5.
  */
 public class MaterialLibrariesActivity extends BaseLittleWaterActivity {
+    private boolean mSelectMode;
     // 滑动控件的容器Container
     private ScrollLayout mContainer;
     // Container的Adapter
@@ -80,6 +83,26 @@ public class MaterialLibrariesActivity extends BaseLittleWaterActivity {
         mContainer.setColCount(LittleWaterActivity.LAYOUT_TYPE_2_X_2);
         //动态设置Container每页的行数为2行
         mContainer.setRowCount(LittleWaterActivity.LAYOUT_TYPE_2_X_2);
+    }
+
+    private void getMeterialLibrary(HashMap<String, String> libraryCoverMap, boolean editable) {
+        Set<Map.Entry<String, String>> categoryCoverSet = libraryCoverMap.entrySet();
+        for (Map.Entry<String, String> categoryCover : categoryCoverSet) {
+            CardItem item = new CardItem();
+            item.name = categoryCover.getKey();
+            item.cover = categoryCover.getValue();
+            item.editable = editable;
+            mCardItemList.add(item);
+        }
+    }
+
+    @Override
+    protected void initEvents() {
+        mSelectMode = getIntent().getBooleanExtra("select_mode", false);
+        if (mSelectMode) {
+            findViewById(R.id.material_library_new).setVisibility(View.INVISIBLE);
+        }
+
         //初始化Container的Adapter
         mItemsAdapter = new ScrollAdapter(mContainer, mCardItemList) {
             @Override
@@ -112,9 +135,20 @@ public class MaterialLibrariesActivity extends BaseLittleWaterActivity {
                         public void onClick(View v) {
                             Intent intent = new Intent(MaterialLibrariesActivity.this, MaterialLibraryCardsActivity.class);
                             intent.putExtra("library", moveItem);
-                            startActivity(intent);
+                            intent.putExtra("select_mode", mSelectMode);
+                            startActivityForResult(intent, LittleWaterConstant.ACTIVITY_REQUEST_CODE_ADD_MATERIAL_LIBRARY_CARD);
                         }
                     });
+                    if (mSelectMode) {
+                        final ImageView addView = (ImageView) view.findViewById(R.id.add_icon);
+                        addView.setVisibility(View.VISIBLE);
+                        addView.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+//                                addView.setImageResource(R.mipmap.checkedbox);
+                            }
+                        });
+                    }
                     return view;
                 } else {
                     return null;
@@ -125,21 +159,6 @@ public class MaterialLibrariesActivity extends BaseLittleWaterActivity {
         mContainer.setSaAdapter(mItemsAdapter);
         //调用refreView绘制所有的Item
         mContainer.refreshView();
-    }
-
-    private void getMeterialLibrary(HashMap<String, String> libraryCoverMap, boolean editable) {
-        Set<Map.Entry<String, String>> categoryCoverSet = libraryCoverMap.entrySet();
-        for (Map.Entry<String, String> categoryCover : categoryCoverSet) {
-            CardItem item = new CardItem();
-            item.name = categoryCover.getKey();
-            item.cover = categoryCover.getValue();
-            item.editable = editable;
-            mCardItemList.add(item);
-        }
-    }
-
-    @Override
-    protected void initEvents() {
     }
 
     public void onClick(View view) {
@@ -176,6 +195,13 @@ public class MaterialLibrariesActivity extends BaseLittleWaterActivity {
                 mCardItemList.add(cardItem);
                 mContainer.refreshView();
                 break;
+            case LittleWaterConstant.ACTIVITY_REQUEST_CODE_ADD_MATERIAL_LIBRARY_CARD:
+                ArrayList<CardItem> selectedList = (ArrayList<CardItem>) data.getSerializableExtra("selected_card_list");
+                Intent intent = new Intent();
+                intent.putExtra("selected_card_list", selectedList);
+                setResult(Activity.RESULT_OK, intent);
+                finish();
+                break;
         }
     }
 
@@ -184,14 +210,17 @@ public class MaterialLibrariesActivity extends BaseLittleWaterActivity {
         //如果目标目录不存在，则创建
         if (!file.exists()) {
             file.mkdirs();
-            file = new File(LittleWaterConstant.MATERIAL_LIBRARIES_DIRECTORY + "/未分类");
+            file = new File(LittleWaterConstant.MATERIAL_LIBRARIES_DIRECTORY + "未分类");
             file.mkdir();
 
-            String coverFolder = LittleWaterConstant.MATERIAL_LIBRARIES_DIRECTORY + "/未分类/";
-            String coverName = "cover.jpg";
-            LittleWaterUtility.saveDrawable(coverFolder, coverName,
-                    (BitmapDrawable) getResources().getDrawable(R.mipmap.default_image));
-            LittleWaterApplication.getMaterialLibraryCoverPreferences().putString("未分类", coverFolder + coverName);
+            String libraryName = "未分类";
+            Bitmap bitmap = ((BitmapDrawable) getResources().getDrawable(R.mipmap.default_image)).getBitmap();
+            String coverFolder = LittleWaterConstant.MATERIAL_LIBRARIES_DIRECTORY + libraryName;
+            String coverName = "cover.png";
+            PhotoUtil.saveBitmap(coverFolder, coverName, bitmap, true);
+            String cover = coverFolder + "/" + coverName;
+            LittleWaterApplication.getMaterialLibraryCoverPreferences().putString(libraryName, cover);
+
             LittleWaterApplication.getMaterialLibraryCardsPreferences().putString("未分类", "");
         }
     }

@@ -15,6 +15,8 @@ import com.gcwt.yudee.R;
 import com.gcwt.yudee.model.CardItem;
 import com.gcwt.yudee.util.LittleWaterConstant;
 
+import java.util.ArrayList;
+
 /**
  * Created by peter on 15/3/23.
  */
@@ -32,7 +34,7 @@ public class NewCategoryCardActivity extends BaseLittleWaterActivity {
 
     @Override
     protected void initViews() {
-
+        setTitle("");
     }
 
     @Override
@@ -47,13 +49,12 @@ public class NewCategoryCardActivity extends BaseLittleWaterActivity {
                 break;
             case R.id.add_card_from_resource:
                 Intent addIntent = new Intent(this, MaterialLibrariesActivity.class);
+                addIntent.putExtra("select_mode", true);
                 startActivityForResult(addIntent, LittleWaterConstant.ACTIVITY_REQUEST_CODE_ADD_MATERIAL_LIBRARY_CARD);
-                finish();
                 break;
             case R.id.create_a_new_card:
                 Intent newIntent = new Intent(this, NewMaterialLibraryCardActivity.class);
                 startActivityForResult(newIntent, LittleWaterConstant.ACTIVITY_REQUEST_CODE_NEW_MATERIAL_LIBRARY_CARD);
-                finish();
                 break;
         }
     }
@@ -65,12 +66,22 @@ public class NewCategoryCardActivity extends BaseLittleWaterActivity {
             return;
         }
 
+        Intent intent = new Intent();
+        ArrayList<CardItem> selectedList = null;
         switch (requestCode) {
             case LittleWaterConstant.ACTIVITY_REQUEST_CODE_ADD_MATERIAL_LIBRARY_CARD:
+                selectedList = (ArrayList<CardItem>) data.getSerializableExtra("selected_card_list");
+                intent.putExtra("selected_card_list", selectedList);
+                setResult(Activity.RESULT_OK, intent);
+                finish();
                 break;
             case LittleWaterConstant.ACTIVITY_REQUEST_CODE_NEW_MATERIAL_LIBRARY_CARD:
                 mCardItem = (CardItem) data.getSerializableExtra("library_card");
-                setResult(Activity.RESULT_OK, data);
+                selectedList = new ArrayList<CardItem>();
+                selectedList.add(mCardItem);
+                intent.putExtra("selected_card_list", selectedList);
+                setResult(Activity.RESULT_OK, intent);
+                finish();
                 break;
         }
     }

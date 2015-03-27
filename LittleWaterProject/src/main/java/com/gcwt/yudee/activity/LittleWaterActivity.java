@@ -153,7 +153,15 @@ public class LittleWaterActivity extends BaseLittleWaterActivity implements OnAd
                 mContainer.showEdit(true);
                 break;
             case LittleWaterConstant.ACTIVITY_REQUEST_CODE_NEW_CATEGORY_CARD:
+                ArrayList<CardItem> selectedList = (ArrayList<CardItem>) data.getSerializableExtra("selected_card_list");
+                for (CardItem item : selectedList) {
+                    if (!mCardItemList.contains(item)) {
+                        mCardItemList.addAll(selectedList);
+                    }
+                }
 
+                LittleWaterUtility.setCategoryCardsList(mCurrentCategory, mCardItemList);
+                mContainer.refreshView();
                 break;
         }
     }

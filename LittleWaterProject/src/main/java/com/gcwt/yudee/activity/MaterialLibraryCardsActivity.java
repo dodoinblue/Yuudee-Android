@@ -8,7 +8,11 @@ package com.gcwt.yudee.activity;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.View;
+import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.ImageView;
 
 import com.gcwt.yudee.BaseLittleWaterActivity;
 import com.gcwt.yudee.R;
@@ -18,12 +22,14 @@ import com.gcwt.yudee.util.LittleWaterConstant;
 import com.gcwt.yudee.util.LittleWaterUtility;
 import com.gcwt.yudee.widget.ScrollLayout;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
  * Created by peter on 15/3/5.
  */
 public class MaterialLibraryCardsActivity extends BaseLittleWaterActivity {
+    private boolean mSelectMode;
     private CardItem mMaterialLibraryItem;
     // 滑动控件的容器Container
     private ScrollLayout mContainer;
@@ -31,6 +37,8 @@ public class MaterialLibraryCardsActivity extends BaseLittleWaterActivity {
     private ScrollAdapter mItemsAdapter;
     // Container中滑动控件列表
     private List<CardItem> mCardItemList;
+    private ArrayList<CardItem> mSelectedCardItemList;
+    private Button mConfirmButton;
 
     @Override
     protected void onCreate(Bundle arg0) {
@@ -51,8 +59,16 @@ public class MaterialLibraryCardsActivity extends BaseLittleWaterActivity {
 //        mContainer.setOnPageChangedListener(this);
         //设置Container编辑模式的回调，长按进入修改模式
 //        mContainer.setOnEditModeListener(this);
-
+        mConfirmButton = (Button) findViewById(R.id.confirm);
         mMaterialLibraryItem = (CardItem) getIntent().getSerializableExtra("library");
+        mSelectMode = getIntent().getBooleanExtra("select_mode", false);
+        if (mSelectMode) {
+            findViewById(R.id.material_library_new).setVisibility(View.INVISIBLE);
+            mSelectedCardItemList = new ArrayList<CardItem>();
+            mConfirmButton.setVisibility(View.VISIBLE);
+            mConfirmButton.setEnabled(false);
+            mConfirmButton.setAlpha(.6f);
+        }
         if (mMaterialLibraryItem.getEditable()) {
             mCardItemList = LittleWaterUtility.getMaterialLibraryCardsList(mMaterialLibraryItem.name);
         } else {
@@ -64,7 +80,39 @@ public class MaterialLibraryCardsActivity extends BaseLittleWaterActivity {
         //动态设置Container每页的行数为2行
         mContainer.setRowCount(2);
         //初始化Container的Adapter
-        mItemsAdapter = new ScrollAdapter(mContainer, mCardItemList);
+        mItemsAdapter = new ScrollAdapter(mContainer, mCardItemList) {
+            @Override
+            public View getView(final int position, View convertView, ViewGroup parent) {
+                View view = super.getView(position, convertView, parent);
+                if (mSelectMode && position < mCardItemList.size()) {
+                    final ImageView selectView = (ImageView) view.findViewById(R.id.card_edit);
+                    selectView.setImageResource(R.mipmap.box);
+                    selectView.setVisibility(View.VISIBLE);
+                    selectView.setOnClickListener(new View.OnClickListener(){
+                        @Override
+                        public void onClick(View v) {
+                            CardItem cardItem = mCardItemList.get(position);
+                            if (mSelectedCardItemList.contains(cardItem)) {
+                                selectView.setImageResource(R.mipmap.box);
+                                mSelectedCardItemList.remove(cardItem);
+                            } else {
+                                selectView.setImageResource(R.mipmap.checkedbox);
+                                mSelectedCardItemList.add(cardItem);
+                            }
+
+                            if (mSelectedCardItemList.size() == 0) {
+                                mConfirmButton.setEnabled(false);
+                                mConfirmButton.setAlpha(.6f);
+                            } else {
+                                mConfirmButton.setAlpha(1f);
+                                mConfirmButton.setEnabled(true);
+                            }
+                        }
+                    });
+                }
+                return view;
+            }
+        };
         //设置Adapter
         mContainer.setSaAdapter(mItemsAdapter);
         //调用refreView绘制所有的Item
@@ -73,7 +121,6 @@ public class MaterialLibraryCardsActivity extends BaseLittleWaterActivity {
 
     @Override
     protected void initEvents() {
-
     }
 
     public void onClick(View view) {
@@ -85,6 +132,12 @@ public class MaterialLibraryCardsActivity extends BaseLittleWaterActivity {
                 Intent intent = new Intent(this, NewMaterialLibraryCardActivity.class);
                 intent.putExtra("material_library", mMaterialLibraryItem.name);
                 startActivityForResult(intent, LittleWaterConstant.ACTIVITY_REQUEST_CODE_NEW_MATERIAL_LIBRARY_CARD);
+                break;
+            case R.id.confirm:
+                Intent data = new Intent();
+                data.putExtra("selected_card_list", mSelectedCardItemList);
+                setResult(Activity.RESULT_OK, data);
+                finish();
                 break;
         }
     }

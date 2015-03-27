@@ -50,6 +50,12 @@ public class ScrollAdapter implements SAdapter {
 	protected List<CardItem> mList;
     protected HashMap<String,SoftReference<Drawable>> mCache;
 
+//    public static final int DISPLAY_MODE_NORMAL = 0;
+//    public static final int DISPLAY_MODE_EDIT = 1;
+//    public static final int DISPLAY_MODE_SELECT = 2;
+//
+//    private int mDisplayMode;
+
 	public ScrollAdapter(ScrollLayout layout, List<CardItem> list) {
 		mContext = layout.getContext();
 		mInflater = LayoutInflater.from(mContext);
@@ -108,7 +114,6 @@ public class ScrollAdapter implements SAdapter {
             return view;
 		} else {
             ImageView view = (ImageView) mInflater.inflate(R.layout.layout_empty_card_position, mScrollLayout, false);
-            view.setBackgroundResource(R.mipmap.parent_main_blankcard);
             view.setTag(new CardItem());
             return view;
         }
@@ -127,7 +132,9 @@ public class ScrollAdapter implements SAdapter {
         final ViewFlipper flipper = (ViewFlipper) view.findViewById(R.id.content_show);
         flipper.setVisibility(View.VISIBLE);
         iv.setVisibility(View.GONE);
-        playAudio(moveItem.getAudios().get(0));
+        if (moveItem.getAudios().size() > 0) {
+            playAudio(moveItem.getAudios().get(0));
+        }
         List<String> images = moveItem.getImages();
         flipper.removeAllViews();
         for (String image : images) {

@@ -8,6 +8,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@mipmap/background2">
+    <include layout="@layout/include_resource_library_ui" />
 
     <com.gcwt.yudee.widget.ScrollLayout
         android:id="@+id/container"
@@ -16,6 +17,15 @@
         android:layout_gravity="center"
         android:gravity="center" />
 
-    <include layout="@layout/include_resource_library_ui" />
+    <Button
+        android:id="@+id/confirm"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="15dp"
+        android:clickable="true"
+        android:onClick="onClick"
+        android:visibility="gone"
+        android:layout_gravity="bottom|center_horizontal"
+        android:background="@drawable/parent_editpop_confirm"/>
 
 </FrameLayout>

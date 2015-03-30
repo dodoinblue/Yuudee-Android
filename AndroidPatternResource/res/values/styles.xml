@@ -118,9 +118,13 @@
         <item name="android:textColor">#ff555555</item>
         <item name="android:backgroundDimEnabled">false</item>
         <item name="android:windowSoftInputMode">adjustPan</item>
-        <item name="android:windowAnimationStyle">@android:style/Animation.Activity</item>
+        <item name="android:windowAnimationStyle">@null</item>
     </style>
-    <!--<item name="android:windowAnimationStyle">@android:style/Animation.Dialog</item>-->
+
+    <style name="ActivityZoomAnimation" parent="@android:style/Animation.Activity" mce_bogus="1">
+        <item name="android:windowEnterAnimation">@anim/zoom_enter</item>
+        <item name="android:windowExitAnimation">@anim/zoom_exit</item>
+    </style>
 
     <style name="Popup_Animation_Zoom" parent="@android:style/Animation">
         <item name="android:windowEnterAnimation">@android:anim/fade_in</item>

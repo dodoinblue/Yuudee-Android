@@ -194,7 +194,7 @@ public class ScrollLayout extends LinearLayout implements OnDataChangeListener {
 
 			@Override
 			public void onClick(View v) {
-				showEdit(false);
+//				showEdit(false);
 			}
 		});
 	}
@@ -265,60 +265,65 @@ public class ScrollLayout extends LinearLayout implements OnDataChangeListener {
 		final float y = ev.getY();
 		int thresholdX = DensityUtil.dip2px(mContext, 8);
 		switch (action) {
-		case MotionEvent.ACTION_DOWN:
-            Log.d("zheng", "ACTION_DOWN x:" + x + " y:" + y);
-			startX = (int) x;
-			if (mScroller.isFinished()) {
-				if (!mScroller.isFinished()) {
-					mScroller.abortAnimation();
-				}
-				temChangPosition = dragPosition = pointToPosition((int) x, (int) y);
-				dragOffsetX = (int) (ev.getRawX() - x);
-				dragOffsetY = (int) (ev.getRawY() - y);
+            case MotionEvent.ACTION_DOWN:
+                Log.d("zheng", "ACTION_DOWN x:" + x + " y:" + y);
+                startX = (int) x;
+                if (mScroller.isFinished()) {
+                    if (!mScroller.isFinished()) {
+                        mScroller.abortAnimation();
+                    }
+                    temChangPosition = dragPosition = pointToPosition((int) x, (int) y);
+                    dragOffsetX = (int) (ev.getRawX() - x);
+                    dragOffsetY = (int) (ev.getRawY() - y);
 
-				mLastMotionX = x;
-				mLastMotionY = y;
-				startX = (int) x;
-			}
-			break;
-		case MotionEvent.ACTION_MOVE:
-			int deltaX = (int) (mLastMotionX - x);
+                    mLastMotionX = x;
+                    mLastMotionY = y;
+                    startX = (int) x;
+                }
+                break;
+            case MotionEvent.ACTION_MOVE:
+                int deltaX = (int) (mLastMotionX - x);
 
-			if (IsCanMove(deltaX) && Math.abs(deltaX) > thresholdX && Mode != Mode_Drag) {
-				mLastMotionX = x;
-				scrollBy(deltaX, 0);
-				Mode = Mode_Scroll;
-			}
+                if (IsCanMove(deltaX) && Math.abs(deltaX) > thresholdX && Mode != Mode_Drag) {
+                    mLastMotionX = x;
+                    scrollBy(deltaX, 0);
+                    Mode = Mode_Scroll;
+                }
 
-			if (Mode == Mode_Drag) {
-				onDrag((int) x, (int) y);
-			}
-			break;
-		case MotionEvent.ACTION_UP:
-			float distance = ev.getRawX() - startX;
-			if (distance > screenWidth / 6 && mCurScreen > 0
-					&& Mode != Mode_Drag) {
-				snapToScreen(mCurScreen - 1);
-			} else if (distance < -screenWidth / 6
-					&& mCurScreen < totalPage - 1 && Mode != Mode_Drag) {
-				snapToScreen(mCurScreen + 1);
-			} else if (Mode != Mode_Drag) {
-				snapToDestination();
-			}
-			if (Mode == Mode_Drag) {
-				stopDrag();
-			}
-			if (dragImageView != null) {
-				animationMap.clear();
-				showDropAnimation((int) x, (int) y);
-			}
-			startX = 0;
-			break;
-		case MotionEvent.ACTION_CANCEL:
-			showEdit(false);
+                if (Mode == Mode_Drag) {
+                    onDrag((int) x, (int) y);
+                }
+                break;
+            case MotionEvent.ACTION_UP:
+                float distance = ev.getRawX() - startX;
+                if (distance > screenWidth / 6 && mCurScreen > 0
+                        && Mode != Mode_Drag) {
+                    snapToScreen(mCurScreen - 1);
+                } else if (distance < -screenWidth / 6
+                        && mCurScreen < totalPage - 1 && Mode != Mode_Drag) {
+                    snapToScreen(mCurScreen + 1);
+                } else if (Mode != Mode_Drag) {
+                    snapToDestination();
+                }
+                if (Mode == Mode_Drag) {
+                    stopDrag();
+                }
+                if (dragImageView != null) {
+                    animationMap.clear();
+                    showDropAnimation((int) x, (int) y);
+                }
+                startX = 0;
+                if (Math.abs(distance) > 20.f) {
+                    return true;
+                }
+                break;
+            case MotionEvent.ACTION_CANCEL:
+//                showEdit(false);
+                break;
+            default:
 		}
-		super.dispatchTouchEvent(ev);
-		return true;
+        super.dispatchTouchEvent(ev);
+        return true;
 	}
 	
 	//开始拖动
@@ -489,7 +494,7 @@ public class ScrollLayout extends LinearLayout implements OnDataChangeListener {
 		final int count = getChildCount() - 1;
 		for (int i = count; i >= 0; i--) {
 			View child = getChildAt(i);
-            if (child != null) {
+            if (child != null && child.getBackground() != null) {
                 child.getBackground().setAlpha(180);
             }
 		}
@@ -714,7 +719,7 @@ public class ScrollLayout extends LinearLayout implements OnDataChangeListener {
 			if (onEditModeListener != null)
 				onEditModeListener.onEdit();
 			Bitmap bm = Bitmap.createBitmap(v.getDrawingCache());
-			showEdit(true);
+//			showEdit(true);
 			v.setVisibility(View.GONE);
 			startDrag(bm, (int) (mLastMotionX), (int) (mLastMotionY), v);
 			return true;

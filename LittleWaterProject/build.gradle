@@ -8,7 +8,7 @@ android {
         abortOnError false
     }
     defaultConfig {
-        applicationId "com.children.littlewalter"
+        applicationId "com.gcwt.yudee"
         minSdkVersion 16
         targetSdkVersion 21
         versionCode 1

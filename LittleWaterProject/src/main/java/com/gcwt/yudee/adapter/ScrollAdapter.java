@@ -30,6 +30,7 @@ import com.gcwt.yudee.activity.LittleWaterActivity;
 import com.gcwt.yudee.activity.MaterialLibraryCardsActivity;
 import com.gcwt.yudee.activity.ShowCardActivity;
 import com.gcwt.yudee.model.CardItem;
+import com.gcwt.yudee.util.LittleWaterUtility;
 import com.gcwt.yudee.widget.ScrollLayout;
 import com.gcwt.yudee.widget.ScrollLayout.SAdapter;
 
@@ -90,7 +91,8 @@ public class ScrollAdapter implements SAdapter {
             }
 
             TextView nameView = (TextView) view.findViewById(R.id.card_name);
-            nameView.setText(moveItem.getName());
+//            nameView.setText(moveItem.getName());
+            nameView.setText(LittleWaterUtility.getCardDisplayName(moveItem.getName()));
             iv.setImageDrawable(cardCover);
 			view.setTag(moveItem);
             if (mContext instanceof MaterialLibraryCardsActivity) {
@@ -123,7 +125,8 @@ public class ScrollAdapter implements SAdapter {
         Intent intent = new Intent(mContext, ShowCardActivity.class);
         intent.putExtra("card_item", moveItem);
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        ActivityOptions opts = ActivityOptions.makeScaleUpAnimation(view, 0, 0, view.getWidth(), view.getHeight());
+//        ActivityOptions opts = ActivityOptions.makeScaleUpAnimation(view, 0, 0, view.getWidth(), view.getHeight());
+        ActivityOptions opts = ActivityOptions.makeCustomAnimation(mContext, R.anim.zoom_enter, R.anim.dialog_exit);
         mContext.startActivity(intent, opts.toBundle());
     }
 
@@ -132,8 +135,9 @@ public class ScrollAdapter implements SAdapter {
         final ViewFlipper flipper = (ViewFlipper) view.findViewById(R.id.content_show);
         flipper.setVisibility(View.VISIBLE);
         iv.setVisibility(View.GONE);
-        if (moveItem.getAudios().size() > 0) {
-            playAudio(moveItem.getAudios().get(0));
+        if (moveItem.getAudios().size() > 0 && !moveItem.getCardSettings().getMute()) {
+            // will add back later for develop silently
+//            playAudio(moveItem.getAudios().get(0));
         }
         List<String> images = moveItem.getImages();
         flipper.removeAllViews();

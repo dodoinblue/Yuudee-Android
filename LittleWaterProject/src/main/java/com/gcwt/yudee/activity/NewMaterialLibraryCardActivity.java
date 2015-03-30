@@ -227,7 +227,9 @@ public class NewMaterialLibraryCardActivity extends BaseLittleWaterActivity impl
                             convertView = mInflater.inflate(R.layout.layout_new_card_category_list_item, parent, false);
                         }
                         TextView categoryView = (TextView) convertView;
-                        categoryView.setText(getItem(position));
+                        mMaterialLibraryName = getItem(position);
+                        mMaterialLibraryPath = LittleWaterConstant.MATERIAL_LIBRARIES_DIRECTORY + mMaterialLibraryName + "/";
+                        categoryView.setText(mMaterialLibraryName);
                         return convertView;
                     }
                 };

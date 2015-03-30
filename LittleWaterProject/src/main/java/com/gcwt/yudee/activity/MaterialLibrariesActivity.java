@@ -136,7 +136,7 @@ public class MaterialLibrariesActivity extends BaseLittleWaterActivity {
                             Intent intent = new Intent(MaterialLibrariesActivity.this, MaterialLibraryCardsActivity.class);
                             intent.putExtra("library", moveItem);
                             intent.putExtra("select_mode", mSelectMode);
-                            startActivityForResult(intent, LittleWaterConstant.ACTIVITY_REQUEST_CODE_ADD_MATERIAL_LIBRARY_CARD);
+                            startActivityForResult(intent, LittleWaterConstant.ACTIVITY_REQUEST_CODE_ADD_MATERIAL_LIBRARY_CARDS);
                         }
                     });
                     if (mSelectMode) {
@@ -145,7 +145,12 @@ public class MaterialLibrariesActivity extends BaseLittleWaterActivity {
                         addView.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
-//                                addView.setImageResource(R.mipmap.checkedbox);
+                                ArrayList<CardItem> selectedList = LittleWaterUtility.getMaterialLibraryCardsList(LittleWaterUtility.getCardDisplayName(moveItem.getName()));
+                                Log.d("zheng", "selectedList:" + selectedList.size() + " library name:" + LittleWaterUtility.getCardDisplayName(moveItem.getName()));
+                                Intent intent = new Intent();
+                                intent.putExtra("selected_card_list", selectedList);
+                                setResult(Activity.RESULT_OK, intent);
+                                finish();
                             }
                         });
                     }
@@ -195,7 +200,7 @@ public class MaterialLibrariesActivity extends BaseLittleWaterActivity {
                 mCardItemList.add(cardItem);
                 mContainer.refreshView();
                 break;
-            case LittleWaterConstant.ACTIVITY_REQUEST_CODE_ADD_MATERIAL_LIBRARY_CARD:
+            case LittleWaterConstant.ACTIVITY_REQUEST_CODE_ADD_MATERIAL_LIBRARY_CARDS:
                 ArrayList<CardItem> selectedList = (ArrayList<CardItem>) data.getSerializableExtra("selected_card_list");
                 Intent intent = new Intent();
                 intent.putExtra("selected_card_list", selectedList);

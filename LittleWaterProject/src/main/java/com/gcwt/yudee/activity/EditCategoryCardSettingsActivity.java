@@ -9,9 +9,9 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Switch;
 
 import com.gcwt.yudee.BaseLittleWaterActivity;
-import com.gcwt.yudee.LittleWaterApplication;
 import com.gcwt.yudee.R;
 import com.gcwt.yudee.model.CardItem;
 import com.gcwt.yudee.util.LittleWaterConstant;
@@ -19,17 +19,17 @@ import com.gcwt.yudee.util.LittleWaterConstant;
 /**
  * Created by peter on 3/10/15.
  */
-public class EditCardActivity extends BaseLittleWaterActivity {
+public class EditCategoryCardSettingsActivity extends BaseLittleWaterActivity {
     private View mNoNanimationChecked;
     private View mZoomInAnimationChecked;
     private View mZoomInAndRotateAnimationChecked;
-
+    private Switch mMuteSwitch;
     private CardItem mCardItem;
 
     @Override
     protected void onCreate(Bundle arg0) {
         super.onCreate(arg0);
-        setContentView(R.layout.activity_edit_card);
+        setContentView(R.layout.activity_edit_category_card_settings);
         initViews();
         initEvents();
     }
@@ -39,6 +39,7 @@ public class EditCardActivity extends BaseLittleWaterActivity {
         mNoNanimationChecked = findViewById(R.id.no_animation_checked);
         mZoomInAnimationChecked = findViewById(R.id.zoomin_animation_checked);
         mZoomInAndRotateAnimationChecked = findViewById(R.id.zoomin_and_rotate_animation_checked);
+        mMuteSwitch = (Switch) findViewById(R.id.mute_switch);
     }
 
     protected void initEvents() {
@@ -54,6 +55,7 @@ public class EditCardActivity extends BaseLittleWaterActivity {
                 setZoomInAndRotateAnimationChecked();
                 break;
         }
+        mMuteSwitch.setChecked(mCardItem.getCardSettings().getMute());
     }
 
     public void onClick(View view) {
@@ -63,6 +65,7 @@ public class EditCardActivity extends BaseLittleWaterActivity {
                 break;
             case R.id.confirm:
                 Intent data = new Intent();
+                mCardItem.getCardSettings().setMute(mMuteSwitch.isChecked());
                 data.putExtra("card_item", mCardItem);
                 setResult(Activity.RESULT_OK, data);
                 finish();

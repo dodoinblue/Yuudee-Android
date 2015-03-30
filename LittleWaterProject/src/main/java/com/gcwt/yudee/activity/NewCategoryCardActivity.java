@@ -50,7 +50,7 @@ public class NewCategoryCardActivity extends BaseLittleWaterActivity {
             case R.id.add_card_from_resource:
                 Intent addIntent = new Intent(this, MaterialLibrariesActivity.class);
                 addIntent.putExtra("select_mode", true);
-                startActivityForResult(addIntent, LittleWaterConstant.ACTIVITY_REQUEST_CODE_ADD_MATERIAL_LIBRARY_CARD);
+                startActivityForResult(addIntent, LittleWaterConstant.ACTIVITY_REQUEST_CODE_ADD_MATERIAL_LIBRARY_CARDS);
                 break;
             case R.id.create_a_new_card:
                 Intent newIntent = new Intent(this, NewMaterialLibraryCardActivity.class);
@@ -69,7 +69,7 @@ public class NewCategoryCardActivity extends BaseLittleWaterActivity {
         Intent intent = new Intent();
         ArrayList<CardItem> selectedList = null;
         switch (requestCode) {
-            case LittleWaterConstant.ACTIVITY_REQUEST_CODE_ADD_MATERIAL_LIBRARY_CARD:
+            case LittleWaterConstant.ACTIVITY_REQUEST_CODE_ADD_MATERIAL_LIBRARY_CARDS:
                 selectedList = (ArrayList<CardItem>) data.getSerializableExtra("selected_card_list");
                 intent.putExtra("selected_card_list", selectedList);
                 setResult(Activity.RESULT_OK, intent);

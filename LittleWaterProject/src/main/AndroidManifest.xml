@@ -72,7 +72,7 @@
         <activity android:name=".activity.NewCategoryActivity"
             android:theme="@style/Theme.Light.FullScreenDialogAct"/>
 
-        <activity android:name=".activity.EditCardActivity"
+        <activity android:name=".activity.EditCategoryCardSettingsActivity"
             android:theme="@style/Theme.Light.FullScreenDialogAct"/>
 
         <activity android:name=".activity.NewCategoryCardActivity"

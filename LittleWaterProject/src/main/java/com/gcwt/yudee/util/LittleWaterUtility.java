@@ -23,7 +23,7 @@ import java.util.List;
  * Created by peter on 3/19/15.
  */
 public class LittleWaterUtility {
-    public static List<CardItem> getCategoryCardsList(String catetgory) {
+    public static ArrayList<CardItem> getCategoryCardsList(String catetgory) {
         String curCategoryCardsJson = LittleWaterApplication.getCategoryCardsPreferences().getString(catetgory);
         return getCardsList(curCategoryCardsJson);
     }
@@ -33,9 +33,13 @@ public class LittleWaterUtility {
         LittleWaterApplication.getCategoryCardsPreferences().putString(catetgory, curCategoryCardsJson);
     }
 
-    public static List<CardItem> getMaterialLibraryCardsList(String library) {
+    public static ArrayList<CardItem> getMaterialLibraryCardsList(String library) {
         String curLibraryCardsJson = LittleWaterApplication.getMaterialLibraryCardsPreferences().getString(library);
-        return getCardsList(curLibraryCardsJson);
+        ArrayList<CardItem> libraryCardList = getCardsList(curLibraryCardsJson);
+
+        curLibraryCardsJson = LittleWaterApplication.getCategoryCardsPreferences().getString(library);
+        libraryCardList.addAll(getCardsList(curLibraryCardsJson));
+        return libraryCardList;
     }
 
     public static void setMaterialLibraryCardsList(String library, List<CardItem> cardItemList) {
@@ -43,7 +47,7 @@ public class LittleWaterUtility {
         LittleWaterApplication.getMaterialLibraryCardsPreferences().putString(library, cardsJson);
     }
 
-    private static List<CardItem> getCardsList(String cardsJsonStr) {
+    private static ArrayList<CardItem> getCardsList(String cardsJsonStr) {
         if (TextUtils.isEmpty(cardsJsonStr)) {
             return new ArrayList<CardItem>();
         }
@@ -70,4 +74,22 @@ public class LittleWaterUtility {
 //    public static void setCardSettings(String cardName, CardSettings cardSettings) {
 //        LittleWaterApplication.getCardSettingsPreferences().putString(cardName, new Gson().toJson(cardSettings));
 //    }
+
+    public static int getCardPosition(String cardName) {
+        String[] cardInfoArray = cardName.split("-");
+        if (cardInfoArray.length >= 2) {
+            return Integer.valueOf(cardInfoArray[0]);
+        }
+        return 0;
+    }
+
+    public static String getCardDisplayName(String cardName) {
+        String[] cardInfoArray = cardName.split("-");
+        if (cardInfoArray.length >= 2) {
+            return cardInfoArray[1];
+        }
+        return cardName;
+    }
+
+
 }

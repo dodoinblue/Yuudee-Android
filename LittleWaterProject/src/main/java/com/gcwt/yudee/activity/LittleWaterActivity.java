@@ -9,6 +9,8 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -20,6 +22,7 @@ import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.pattern.adapter.BaseListAdapter;
+import android.pattern.util.FileUtils;
 import android.pattern.widget.ActionWindow;
 import android.text.TextUtils;
 import android.util.Log;
@@ -54,7 +57,6 @@ import com.google.gson.Gson;
 @SuppressLint("HandlerLeak")
 public class LittleWaterActivity extends BaseLittleWaterActivity implements OnAddOrDeletePage,
 		OnPageChangedListener, OnEditModeListener {
-    private static final String FIRST_TIME_ENTER_APP = "first_time_enter_app";
     private EditText mCategoryNameEdit;
     private long mFirstPressBackTime;
     private String mCurrentCategory;
@@ -82,6 +84,7 @@ public class LittleWaterActivity extends BaseLittleWaterActivity implements OnAd
     private ActionWindow mTrainIntroductionWindow;
     private ActionWindow mProductIntroductionWindow;
     private ActionWindow mAddNewCategoryWindow;
+    private ActionWindow mAboutMenuwindow;
     private TextView mParentCategoryContent;
     private ViewGroup mParentSettingsLayout;
     private HashMap<Integer, Boolean> mEnterParentCheckMap = new HashMap<Integer, Boolean>();
@@ -133,6 +136,9 @@ public class LittleWaterActivity extends BaseLittleWaterActivity implements OnAd
                 String newCategoryName = data.getStringExtra("result_new_category_name");
                 mCurrentCategory = newCategoryName;
                 mCardItemList = LittleWaterUtility.getCategoryCardsList(mCurrentCategory);
+                LittleWaterUtility.setCategoryCardsList(mCurrentCategory, mCardItemList);
+                LittleWaterApplication.getAppSettingsPreferences().putString(LittleWaterConstant.SETTINGS_CURRENT_CATEGORY, mCurrentCategory);
+
                 displayCards();
                 mDropDownCategoryListWindow.dismiss();
                 break;
@@ -224,13 +230,14 @@ public class LittleWaterActivity extends BaseLittleWaterActivity implements OnAd
     }
 
     private void initLocalCardResources() {
-        boolean firstEnterApp = LittleWaterApplication.getAppSettingsPreferences().getBoolean(FIRST_TIME_ENTER_APP, true);
+        boolean firstEnterApp = LittleWaterApplication.getAppSettingsPreferences().getBoolean(LittleWaterConstant.FIRST_TIME_ENTER_APP, true);
         if (!firstEnterApp) {
             // 从DB中初始化滑动控件列表
             getCardsFromCache();
             return;
         }
-        LittleWaterApplication.getAppSettingsPreferences().putBoolean(FIRST_TIME_ENTER_APP, false);
+        LittleWaterApplication.getAppSettingsPreferences().putBoolean(LittleWaterConstant.FIRST_TIME_ENTER_APP, false);
+        FileUtils.delFolder(LittleWaterConstant.LITTLE_WALTER_DIRECTORY);
 
         final ProgressDialog dialog = new ProgressDialog(LittleWaterActivity.this);
         dialog.setTitle("提示");
@@ -267,7 +274,8 @@ public class LittleWaterActivity extends BaseLittleWaterActivity implements OnAd
                 if (cardItemFolder.isDirectory()) {
                     CardItem item = new CardItem();
                     cardList.add(item);
-                    item.setName(cardItemFolder.getName().split("-")[1].split("\\.")[0]);
+//                    item.setName(cardItemFolder.getName().split("-")[1].split("\\.")[0]);
+                    item.setName(cardItemFolder.getName().split("\\.")[0]);
                     File[] mediaFolders = cardItemFolder.listFiles();
                     for (File mediaFolder : mediaFolders) {
                         if (mediaFolder.getPath().contains("audio")) {
@@ -322,6 +330,7 @@ public class LittleWaterActivity extends BaseLittleWaterActivity implements OnAd
         //动态设置Container每页的行数为2行
         mContainer.setRowCount(mCurrentCategoryCardLayoutSetting);
         //初始化Container的Adapter
+        Collections.sort(mCardItemList, new CardItemComparator());
         mItemsAdapter = new ScrollAdapter(mContainer, mCardItemList);
         //设置Adapter
         mContainer.setSaAdapter(mItemsAdapter);
@@ -430,15 +439,20 @@ public class LittleWaterActivity extends BaseLittleWaterActivity implements OnAd
                 break;
             case R.id.about_product_introduction:
                 showProductIntroductionWindow();
+                mAboutMenuwindow.dismiss();
                 break;
             case R.id.about_train_introduction:
                 showTrainIntroductionWindow();
+                mAboutMenuwindow.dismiss();
                 break;
             case R.id.about_feedback_advice:
+                mAboutMenuwindow.dismiss();
                 break;
             case R.id.about_export_resource_library:
+                mAboutMenuwindow.dismiss();
                 break;
             case R.id.about_reset_cards:
+                mAboutMenuwindow.dismiss();
                 break;
             case R.id.about_train_introduction_window_quit:
                 mTrainIntroductionWindow.dismiss();
@@ -447,7 +461,7 @@ public class LittleWaterActivity extends BaseLittleWaterActivity implements OnAd
                 mProductIntroductionWindow.dismiss();
                 break;
             case R.id.card_edit:
-                Intent in = new Intent(this, EditCardActivity.class);
+                Intent in = new Intent(this, EditCategoryCardSettingsActivity.class);
                 in.putExtra("card_item", (CardItem) view.getTag());
                 startActivityForResult(in, LittleWaterConstant.ACTIVITY_REQUEST_CODE_EDIT_CARD_SETTINGS);
                 break;
@@ -499,7 +513,6 @@ public class LittleWaterActivity extends BaseLittleWaterActivity implements OnAd
             mCategoryList.set(mCategoryList.indexOf(mCurrentCategory), newCategoryName);
             mCategoryListAdapter.notifyDataSetChanged();
             mCurrentCategory = newCategoryName;
-            LittleWaterApplication.getAppSettingsPreferences().putString(LittleWaterConstant.SETTINGS_CURRENT_CATEGORY, mCurrentCategory);
             mParentCategoryContent.setText(mCurrentCategory);
         }
 
@@ -519,6 +532,8 @@ public class LittleWaterActivity extends BaseLittleWaterActivity implements OnAd
     }
 
     private void updateCategoryNameInPreferences(String oldCategoryName, String newCategoryName) {
+        LittleWaterApplication.getAppSettingsPreferences().putString(LittleWaterConstant.SETTINGS_CURRENT_CATEGORY, newCategoryName);
+
         String cateoryCardListStr = LittleWaterApplication.getCategoryCardsPreferences().getString(oldCategoryName);
         LittleWaterApplication.getCategoryCardsPreferences().remove(oldCategoryName);
         LittleWaterApplication.getCategoryCardsPreferences().putString(newCategoryName, cateoryCardListStr);
@@ -527,14 +542,14 @@ public class LittleWaterActivity extends BaseLittleWaterActivity implements OnAd
         LittleWaterApplication.getCategoryCoverPreferences().remove(oldCategoryName);
         LittleWaterApplication.getCategoryCoverPreferences().putString(newCategoryName, cateoryCoverStr);
 
-        int cateorySetting = LittleWaterApplication.getCategorySettingsPreferences().getInt(oldCategoryName);
+        int cateorySetting = LittleWaterApplication.getCategorySettingsPreferences().getInt(oldCategoryName, LAYOUT_TYPE_2_X_2);
         LittleWaterApplication.getCategorySettingsPreferences().remove(oldCategoryName);
         LittleWaterApplication.getCategorySettingsPreferences().putInt(newCategoryName, cateorySetting);
     }
 
     private void openAboutLittleWalterWindow() {
-        ActionWindow window = new ActionWindow(this, findViewById(R.id.parent_about_open), R.layout.layout_about_menu);
-        window.popup();
+        mAboutMenuwindow = new ActionWindow(this, findViewById(R.id.parent_about_open), R.layout.layout_about_menu);
+        mAboutMenuwindow.popup();
     }
 
     private void showTrainIntroductionWindow() {
@@ -610,5 +625,19 @@ public class LittleWaterActivity extends BaseLittleWaterActivity implements OnAd
             mContainer.refreshView();
         }
         mContainer.showEdit(false);
+    }
+
+    private static class CardNameComparator implements Comparator<String> {
+        @Override
+        public int compare(String obj1, String obj2) {
+            return obj1.compareTo(obj2);
+        }
+    }
+
+    private static class CardItemComparator implements Comparator<CardItem> {
+        @Override
+        public int compare(CardItem obj1, CardItem obj2) {
+            return obj1.getName().compareTo(obj2.getName());
+        }
     }
 }

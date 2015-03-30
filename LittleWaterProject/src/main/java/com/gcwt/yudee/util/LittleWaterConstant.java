@@ -18,6 +18,7 @@ public class LittleWaterConstant {
     public static final String MATERIAL_LIBRARIES_DIRECTORY = LITTLE_WALTER_DIRECTORY + "/material_libraries/";
 
     // About Settings
+    public static final String FIRST_TIME_ENTER_APP = "first_time_enter_app";
     public static final String SETTINGS_CURRENT_CATEGORY = "current_category";
     public static final String SETTINGS_GUIDE_REMIND = "guide_remind";
 
@@ -26,7 +27,7 @@ public class LittleWaterConstant {
     public static final int ACTIVITY_REQUEST_CODE_NEW_CATEGORY_CARD = 1001;
     public static final int ACTIVITY_REQUEST_CODE_NEW_MATERIAL_LIBRARY = 1002;
     public static final int ACTIVITY_REQUEST_CODE_NEW_MATERIAL_LIBRARY_CARD = 1003;
-    public static final int ACTIVITY_REQUEST_CODE_ADD_MATERIAL_LIBRARY_CARD = 1004;
+    public static final int ACTIVITY_REQUEST_CODE_ADD_MATERIAL_LIBRARY_CARDS = 1004;
     public static final int ACTIVITY_REQUEST_CODE_EDIT_CARD_SETTINGS = 1005;
 
 

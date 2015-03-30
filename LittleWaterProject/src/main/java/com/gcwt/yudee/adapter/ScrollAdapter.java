@@ -125,8 +125,8 @@ public class ScrollAdapter implements SAdapter {
         Intent intent = new Intent(mContext, ShowCardActivity.class);
         intent.putExtra("card_item", moveItem);
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-//        ActivityOptions opts = ActivityOptions.makeScaleUpAnimation(view, 0, 0, view.getWidth(), view.getHeight());
-        ActivityOptions opts = ActivityOptions.makeCustomAnimation(mContext, R.anim.zoom_enter, R.anim.dialog_exit);
+        ActivityOptions opts = ActivityOptions.makeScaleUpAnimation(view, 0, 0, view.getWidth(), view.getHeight());
+//        ActivityOptions opts = ActivityOptions.makeCustomAnimation(mContext, R.anim.zoom_enter, R.anim.dialog_exit);
         mContext.startActivity(intent, opts.toBundle());
     }
 

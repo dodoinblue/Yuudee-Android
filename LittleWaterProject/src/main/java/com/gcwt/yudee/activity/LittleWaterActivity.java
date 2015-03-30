@@ -442,7 +442,7 @@ public class LittleWaterActivity extends BaseLittleWaterActivity implements OnAd
                 mAboutMenuwindow.dismiss();
                 break;
             case R.id.about_train_introduction:
-                showTrainIntroductionWindow();
+                showTrainingIntroductionWindow();
                 mAboutMenuwindow.dismiss();
                 break;
             case R.id.about_feedback_advice:
@@ -552,13 +552,13 @@ public class LittleWaterActivity extends BaseLittleWaterActivity implements OnAd
         mAboutMenuwindow.popup();
     }
 
-    private void showTrainIntroductionWindow() {
-        mTrainIntroductionWindow = new ActionWindow(this, findViewById(R.id.parent_about_open), R.layout.action_window_train_introduction);
+    private void showProductIntroductionWindow() {
+        mTrainIntroductionWindow = new ActionWindow(this, findViewById(R.id.parent_about_open), R.layout.action_window_product_introduction);
         mTrainIntroductionWindow.popup();
     }
 
-    private void showProductIntroductionWindow() {
-        mProductIntroductionWindow = new ActionWindow(this, findViewById(R.id.parent_about_open), R.layout.action_window_product_introduction);
+    private void showTrainingIntroductionWindow() {
+        mProductIntroductionWindow = new ActionWindow(this, findViewById(R.id.parent_about_open), R.layout.action_window_training_introduction);
         mProductIntroductionWindow.popup();
     }
 

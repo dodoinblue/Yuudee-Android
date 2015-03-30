@@ -263,7 +263,7 @@ public class ScrollLayout extends LinearLayout implements OnDataChangeListener {
 		final int action = ev.getAction();
 		final float x = ev.getX();
 		final float y = ev.getY();
-		int thresholdX = DensityUtil.dip2px(mContext, 8);
+		int thresholdX = DensityUtil.dip2px(mContext, 2);
 		switch (action) {
             case MotionEvent.ACTION_DOWN:
                 Log.d("zheng", "ACTION_DOWN x:" + x + " y:" + y);
@@ -288,6 +288,8 @@ public class ScrollLayout extends LinearLayout implements OnDataChangeListener {
                     mLastMotionX = x;
                     scrollBy(deltaX, 0);
                     Mode = Mode_Scroll;
+                } else if (!IsCanMove(deltaX)) {
+
                 }
 
                 if (Mode == Mode_Drag) {
@@ -357,18 +359,14 @@ public class ScrollLayout extends LinearLayout implements OnDataChangeListener {
 
 		halfBitmapWidth = bm.getWidth() / 2;
 		halfBitmapHeight = bm.getHeight() / 2;
-
-		for (int i = 0; i < getChildCount(); i++) {
-			getChildAt(i).getBackground().setAlpha((int) (0.8f * 255));
-		}
 	}
 
 	//停止拖动
 	private void stopDrag() {
-		recoverChildren();
 		if (Mode == Mode_Drag) {
-			if (getChildAt(dragPosition).getVisibility() != View.VISIBLE)
-				getChildAt(dragPosition).setVisibility(View.VISIBLE);
+			if (getChildAt(dragPosition) != null && getChildAt(dragPosition).getVisibility() != View.VISIBLE) {
+                getChildAt(dragPosition).setVisibility(View.VISIBLE);
+            }
 			Mode = Mode_Free;
 			Log.e("test", "scroll menu move");
 			mContext.sendBroadcast(new Intent("com.stg.menu_move"));
@@ -488,35 +486,7 @@ public class ScrollLayout extends LinearLayout implements OnDataChangeListener {
 			}
 		}
 	}
-	
-	//滑动过程中，使所有的item暗掉
-	private void fadeChildren() {
-		final int count = getChildCount() - 1;
-		for (int i = count; i >= 0; i--) {
-			View child = getChildAt(i);
-            if (child != null && child.getBackground() != null) {
-                child.getBackground().setAlpha(180);
-            }
-		}
-	}
 
-	//滑动停止后，恢复item的透明度
-	private void recoverChildren() {
-		final int count = getChildCount() - 1;
-		for (int i = count; i >= 0; i--) {
-			final View child = getChildAt(i);
-            if (child == null) {
-                continue;
-            }
-			// child.setAlpha(1.0f);
-			child.getBackground().setAlpha(255);
-			Drawable drawable = child.getBackground();
-			if (drawable != null) {
-				child.getBackground().setAlpha(255);
-			}
-		}
-	}
-	
 	public int getChildIndex(View view) {
 		if (view != null && view.getParent() instanceof ScrollLayout) {
 			final int childCount = ((ScrollLayout) view.getParent()).getChildCount();
@@ -715,7 +685,6 @@ public class ScrollLayout extends LinearLayout implements OnDataChangeListener {
 		if (mScroller.isFinished()) {
 			v.destroyDrawingCache();
 			v.setDrawingCacheEnabled(true);
-			fadeChildren();
 			if (onEditModeListener != null)
 				onEditModeListener.onEdit();
 			Bitmap bm = Bitmap.createBitmap(v.getDrawingCache());

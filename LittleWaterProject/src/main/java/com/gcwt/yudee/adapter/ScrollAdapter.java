@@ -137,7 +137,7 @@ public class ScrollAdapter implements SAdapter {
         iv.setVisibility(View.GONE);
         if (moveItem.getAudios().size() > 0 && !moveItem.getCardSettings().getMute()) {
             // will add back later for develop silently
-//            playAudio(moveItem.getAudios().get(0));
+            playAudio(moveItem.getAudios().get(0));
         }
         List<String> images = moveItem.getImages();
         flipper.removeAllViews();

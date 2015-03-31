@@ -81,7 +81,7 @@
         </ScrollView>
 
         <TextView
-            android:id="@+id/about_train_introduction_window_quit"
+            android:id="@+id/about_product_introduction_window_quit"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="50dp"

@@ -86,7 +86,7 @@ public class ScrollAdapter implements SAdapter {
             }
 			
             if (cardCover == null) {
-                cardCover = new BitmapDrawable(BitmapUtil.getRoundedCornerBitmap(getBitmapFromSdCard(coverUrl), LittleWaterActivity.sRoundPx));
+                cardCover = LittleWaterUtility.getRoundCornerDrawableFromSdCard(coverUrl);
                 mCache.put(coverUrl, new SoftReference<Drawable>(cardCover));
             }
 
@@ -137,13 +137,13 @@ public class ScrollAdapter implements SAdapter {
         iv.setVisibility(View.GONE);
         if (moveItem.getAudios().size() > 0 && !moveItem.getCardSettings().getMute()) {
             // will add back later for develop silently
-            playAudio(moveItem.getAudios().get(0));
+//            playAudio(moveItem.getAudios().get(0));
         }
         List<String> images = moveItem.getImages();
         flipper.removeAllViews();
         for (String image : images) {
             ImageView imageView = (ImageView) activity.getLayoutInflater().inflate(R.layout.layout_image, flipper, false);
-            imageView.setImageDrawable(new BitmapDrawable(BitmapUtil.getRoundedCornerBitmap(getBitmapFromSdCard(image), LittleWaterActivity.sRoundPx)));
+            imageView.setImageDrawable(LittleWaterUtility.getRoundCornerDrawableFromSdCard(image));
             flipper.addView(imageView);
         }
         flipper.startFlipping();
@@ -152,10 +152,16 @@ public class ScrollAdapter implements SAdapter {
             public void run() {
                 flipper.setVisibility(View.GONE);
                 iv.setVisibility(View.VISIBLE);
-                if (activity instanceof ShowCardActivity) {
-                    activity.setResult(Activity.RESULT_OK);
-                    activity.finish();
-                }
+                flipper.postDelayed(new Runnable() {
+
+                    @Override
+                    public void run() {
+                        if (activity instanceof ShowCardActivity) {
+                            activity.setResult(Activity.RESULT_OK);
+                            activity.finish();
+                        }
+                    }
+                }, 500);
             }
         }, 500 * moveItem.getImages().size());
     }
@@ -174,12 +180,6 @@ public class ScrollAdapter implements SAdapter {
 //        mediaPlayer.release();
     }
 
-    public static Bitmap getBitmapFromSdCard(String imageFilePath) {
-        BitmapFactory.Options options = new BitmapFactory.Options();
-        options.inSampleSize = 2;
-        return BitmapFactory.decodeFile(imageFilePath, options);
-    }
-	
 	@Override
 	public int getCount() {
 //		return mList.size();

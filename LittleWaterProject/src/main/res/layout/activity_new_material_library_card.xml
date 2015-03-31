@@ -23,7 +23,7 @@
             android:id="@+id/card_bg"
             android:layout_width="140dp"
             android:layout_height="130dp"
-            android:background="@mipmap/cat_bg"
+            android:background="@mipmap/card_bg"
             android:orientation="vertical"
             android:gravity="top|center_horizontal">
 
@@ -124,6 +124,7 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:gravity="center"
                 android:orientation="horizontal">
 
                 <Button
@@ -140,7 +141,8 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:gravity="center"
-                    android:text="准备"
+                    android:layout_marginTop="3dp"
+                    android:text="@string/prepare"
                     android:textSize="12dp"
                     android:layout_marginLeft="20dp"
                     android:textColor="@android:color/white"/>

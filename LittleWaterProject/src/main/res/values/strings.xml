@@ -2,11 +2,10 @@
 <resources>
 
     <string name="app_name">小雨滴</string>
-    <string name="menu_settings">Settings</string>
-    <string name="hello_world">Hello world!</string>
-
     <string name="startrecorder">录音中...</string>
     <string name="stoprecorder">录音结束</string>
     <string name="startplay">播放中...</string>
     <string name="stopplay">播放结束</string>
+    <string name="prepare">准备</string>
+
 </resources>

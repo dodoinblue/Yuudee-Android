@@ -865,7 +865,7 @@ public class ScrollLayout extends LinearLayout implements OnDataChangeListener {
 
 	//执行松手动画
 	private void showDropAnimation(int x, int y) {
-		ViewGroup moveView = (ViewGroup) getChildAt(dragPosition);
+		View moveView = (View) getChildAt(dragPosition);
 		TranslateAnimation animation = new TranslateAnimation(x
 				- halfBitmapWidth - moveView.getLeft(), 0, y - halfBitmapHeight
 				- moveView.getTop(), 0);

@@ -64,7 +64,6 @@ public class LittleWaterActivity extends BaseLittleWaterActivity implements OnAd
     public static final int LAYOUT_TYPE_2_X_2 = 2;
     private int mCurrentCategoryCardLayoutSetting = LAYOUT_TYPE_2_X_2;
     private boolean mNeedGuideRemind = true;
-    public static int sRoundPx = 5;
 	// 滑动控件的容器Container
 	private ScrollLayout mContainer;
 
@@ -81,8 +80,8 @@ public class LittleWaterActivity extends BaseLittleWaterActivity implements OnAd
     private BaseListAdapter mCategoryListAdapter;
     private ActionWindow mDropDownCategoryListWindow;
     private ActionWindow mSettingsActionWindow;
-    private ActionWindow mTrainIntroductionWindow;
     private ActionWindow mProductIntroductionWindow;
+    private ActionWindow mTrainingIntroductionWindow;
     private ActionWindow mAddNewCategoryWindow;
     private ActionWindow mAboutMenuwindow;
     private TextView mParentCategoryContent;
@@ -325,6 +324,7 @@ public class LittleWaterActivity extends BaseLittleWaterActivity implements OnAd
     }
 
     private void displayCards() {
+        validateCardsEffectiveness();
         //动态设置Container每页的列数为2行
         mContainer.setColCount(mCurrentCategoryCardLayoutSetting);
         //动态设置Container每页的行数为2行
@@ -337,6 +337,16 @@ public class LittleWaterActivity extends BaseLittleWaterActivity implements OnAd
         //调用refreView绘制所有的Item
         mContainer.refreshView();
         mParentCategoryContent.setText(mCurrentCategory);
+    }
+
+    private void validateCardsEffectiveness() {
+        for (CardItem item : mCardItemList) {
+            File file = new File(item.getImages().get(0));
+            if (!file.exists()) {
+                mCardItemList.remove(item);
+            }
+        }
+        LittleWaterUtility.setCategoryCardsList(mCurrentCategory, mCardItemList);
     }
 
 	private int getDrawableId(String name) {
@@ -455,7 +465,7 @@ public class LittleWaterActivity extends BaseLittleWaterActivity implements OnAd
                 mAboutMenuwindow.dismiss();
                 break;
             case R.id.about_train_introduction_window_quit:
-                mTrainIntroductionWindow.dismiss();
+                mTrainingIntroductionWindow.dismiss();
                 break;
             case R.id.about_product_introduction_window_quit:
                 mProductIntroductionWindow.dismiss();
@@ -553,13 +563,13 @@ public class LittleWaterActivity extends BaseLittleWaterActivity implements OnAd
     }
 
     private void showProductIntroductionWindow() {
-        mTrainIntroductionWindow = new ActionWindow(this, findViewById(R.id.parent_about_open), R.layout.action_window_product_introduction);
-        mTrainIntroductionWindow.popup();
+        mProductIntroductionWindow = new ActionWindow(this, findViewById(R.id.parent_about_open), R.layout.action_window_product_introduction);
+        mProductIntroductionWindow.popup();
     }
 
     private void showTrainingIntroductionWindow() {
-        mProductIntroductionWindow = new ActionWindow(this, findViewById(R.id.parent_about_open), R.layout.action_window_training_introduction);
-        mProductIntroductionWindow.popup();
+        mTrainingIntroductionWindow = new ActionWindow(this, findViewById(R.id.parent_about_open), R.layout.action_window_training_introduction);
+        mTrainingIntroductionWindow.popup();
     }
 
     private void showCategoryDropDownWindow() {

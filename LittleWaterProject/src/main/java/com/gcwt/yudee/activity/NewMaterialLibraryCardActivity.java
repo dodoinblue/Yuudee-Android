@@ -119,7 +119,7 @@ public class NewMaterialLibraryCardActivity extends BaseLittleWaterActivity impl
                 mRecordNoticeView.setText(R.string.startrecorder);
             } else {
                 mIsRecording = false;
-                mRecordNoticeView.setText(R.string.stoprecorder);
+                mRecordNoticeView.setText(R.string.prepare);
             }
         }
 
@@ -155,6 +155,7 @@ public class NewMaterialLibraryCardActivity extends BaseLittleWaterActivity impl
         mRecordButton = (Button)findViewById(R.id.record_sound);
         mPlayButton = (Button)findViewById(R.id.play_sound);
         mRecordNoticeView = (TextView) findViewById(R.id.record_notice);
+        mRecordNoticeView.setText("准备");
     }
 
     protected void initEvents() {

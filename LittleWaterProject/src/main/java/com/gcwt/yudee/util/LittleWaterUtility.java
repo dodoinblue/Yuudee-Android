@@ -6,11 +6,15 @@
 package com.gcwt.yudee.util;
 
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
+import android.pattern.util.BitmapUtil;
 import android.pattern.util.PhotoUtil;
 import android.text.TextUtils;
 
 import com.gcwt.yudee.LittleWaterApplication;
+import com.gcwt.yudee.activity.LittleWaterActivity;
 import com.gcwt.yudee.model.CardItem;
 import com.gcwt.yudee.model.CardSettings;
 import com.google.gson.Gson;
@@ -23,6 +27,8 @@ import java.util.List;
  * Created by peter on 3/19/15.
  */
 public class LittleWaterUtility {
+    private static final int ROUND_PX = 5;
+
     public static ArrayList<CardItem> getCategoryCardsList(String catetgory) {
         String curCategoryCardsJson = LittleWaterApplication.getCategoryCardsPreferences().getString(catetgory);
         return getCardsList(curCategoryCardsJson);
@@ -91,5 +97,13 @@ public class LittleWaterUtility {
         return cardName;
     }
 
+    public static Bitmap getBitmapFromSdCard(String imageFilePath) {
+        BitmapFactory.Options options = new BitmapFactory.Options();
+        options.inSampleSize = 2;
+        return BitmapFactory.decodeFile(imageFilePath, options);
+    }
 
+    public static Drawable getRoundCornerDrawableFromSdCard(String imageFilePath) {
+        return new BitmapDrawable(BitmapUtil.getRoundedCornerBitmap(getBitmapFromSdCard(imageFilePath), ROUND_PX));
+    }
 }

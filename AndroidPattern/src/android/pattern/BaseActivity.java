@@ -69,6 +69,7 @@ import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import com.google.analytics.tracking.android.EasyTracker;
+import com.umeng.analytics.MobclickAgent;
 
 /**
  * Created by 郑志佳 on 1/23/15.
@@ -160,7 +161,7 @@ public abstract class BaseActivity extends FragmentActivity implements onHomeMen
     protected void onCreate(Bundle arg0) {
         super.onCreate(arg0);
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
-
+        MobclickAgent.setDebugMode(true);
         ActionBar actionBar = getActionBar();
         if (actionBar != null) {
         	actionBar.setDisplayHomeAsUpEnabled(true); // show the '<' in action bar
@@ -421,7 +422,14 @@ public abstract class BaseActivity extends FragmentActivity implements onHomeMen
     @Override
     protected void onResume() {
     	super.onResume();
+        MobclickAgent.onResume(this);
 //    	showNoNetworkAlert();
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        MobclickAgent.onPause(this);
     }
 
     public synchronized void dismissAlertDialog() {

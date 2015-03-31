@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/ll_partent"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
     android:background="@drawable/layout_shape"
     android:orientation="vertical" >
 
@@ -15,14 +15,14 @@
         android:textSize="18dp" />
 
     <RelativeLayout
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:padding="20dp"
         android:orientation="horizontal" >
 
         <TextView
             android:id="@+id/tv_dialog_message"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentLeft="true"
             android:layout_alignParentTop="true"
@@ -37,8 +37,10 @@
         android:background="@color/gray" />
 
     <LinearLayout
-        android:layout_width="fill_parent"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:minHeight="45dp"
+        android:gravity="center"
         android:background="@drawable/layout_shape"
         android:orientation="horizontal" >
 
@@ -47,9 +49,10 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
+            android:gravity="center"
             android:background="@drawable/popup_item_bg3"
             android:text="@string/global_btn_cancel"
-            android:textColor="@color/blue" />
+            android:textColor="@android:color/holo_blue_light" />
 
         <View
             android:layout_width="0.5dp"
@@ -61,9 +64,10 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
+            android:gravity="center"
             android:background="@drawable/popup_item_bg4"
             android:text="@string/global_btn_ok"
-            android:textColor="@color/blue" />
+            android:textColor="@android:color/holo_blue_light" />
     </LinearLayout>
 
 </LinearLayout>

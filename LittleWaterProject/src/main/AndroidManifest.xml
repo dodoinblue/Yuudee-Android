@@ -56,6 +56,17 @@
             </intent-filter>
         </activity>
 
+        <!--umeng begin-->
+        <meta-data
+            android:name="UMENG_APPKEY"
+            android:value="551a2dd3fd98c524cd000189" >
+        </meta-data>
+        <meta-data
+            android:name="UMENG_CHANNEL"
+            android:value="LittleWater" >
+        </meta-data>
+        <!--umeng end-->
+
         <activity android:name=".activity.MaterialLibrariesActivity"/>
 
         <activity android:name=".activity.MaterialLibraryCardsActivity"/>
@@ -76,6 +87,9 @@
             android:theme="@style/Theme.Light.FullScreenDialogAct"/>
 
         <activity android:name=".activity.NewCategoryCardActivity"
+            android:theme="@style/Theme.Light.FullScreenDialogAct"/>
+
+        <activity android:name=".activity.EditMaterialLibraryActivity"
             android:theme="@style/Theme.Light.FullScreenDialogAct"/>
 
         <activity android:name="android.pattern.imagefactory.ImageFactoryActivity"/>

@@ -4,12 +4,12 @@
 
     <gradient
         android:angle="90"
-        android:endColor="@color/white"
-        android:startColor="@color/white" />
+        android:endColor="@android:color/white"
+        android:startColor="@android:color/white" />
 
-    <solid android:color="@color/white" />
+    <solid android:color="@android:color/white" />
 
     <!-- 圆角 -->
-    <corners android:radius="5dp" />
+    <corners android:radius="4dp" />
 
 </shape>

@@ -121,7 +121,7 @@ public class MaterialLibrariesActivity extends BaseLittleWaterActivity {
                         }
 
                         if (cardCover == null) {
-                            cardCover = new BitmapDrawable(getBitmapFromSdCard(moveItem.cover));
+                            cardCover = LittleWaterUtility.getRoundCornerDrawableFromSdCard(moveItem.cover);
                             mCache.put(moveItem.cover, new SoftReference<Drawable>(cardCover));
                         }
                         iv.setImageDrawable(cardCover);
@@ -139,10 +139,11 @@ public class MaterialLibrariesActivity extends BaseLittleWaterActivity {
                             startActivityForResult(intent, LittleWaterConstant.ACTIVITY_REQUEST_CODE_ADD_MATERIAL_LIBRARY_CARDS);
                         }
                     });
+
+                    final ImageView editView = (ImageView) view.findViewById(R.id.edit_icon);
                     if (mSelectMode) {
-                        final ImageView addView = (ImageView) view.findViewById(R.id.add_icon);
-                        addView.setVisibility(View.VISIBLE);
-                        addView.setOnClickListener(new View.OnClickListener() {
+                        editView.setVisibility(View.VISIBLE);
+                        editView.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
                                 ArrayList<CardItem> selectedList = LittleWaterUtility.getMaterialLibraryCardsList(LittleWaterUtility.getCardDisplayName(moveItem.getName()));
@@ -151,6 +152,17 @@ public class MaterialLibrariesActivity extends BaseLittleWaterActivity {
                                 intent.putExtra("selected_card_list", selectedList);
                                 setResult(Activity.RESULT_OK, intent);
                                 finish();
+                            }
+                        });
+                    } else if (moveItem.getEditable()) {
+                        editView.setImageResource(R.mipmap.edit);
+                        editView.setVisibility(View.VISIBLE);
+                        editView.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View view) {
+                                Intent intent = new Intent(MaterialLibrariesActivity.this, EditMaterialLibraryActivity.class);
+                                intent.putExtra("library", moveItem);
+                                startActivityForResult(intent, LittleWaterConstant.ACTIVITY_REQUEST_CODE_EDIT_MATERIAL_LIBRARY);
                             }
                         });
                     }
@@ -206,6 +218,19 @@ public class MaterialLibrariesActivity extends BaseLittleWaterActivity {
                 intent.putExtra("selected_card_list", selectedList);
                 setResult(Activity.RESULT_OK, intent);
                 finish();
+                break;
+            case LittleWaterConstant.ACTIVITY_REQUEST_CODE_EDIT_MATERIAL_LIBRARY:
+                boolean libraryDeleted = data.getBooleanExtra("library_deleted", false);
+                CardItem libraryItem = (CardItem) data.getSerializableExtra("result_material_library");
+                if (libraryDeleted) {
+                    mCardItemList.remove(libraryItem);
+                    String libraryName = libraryItem.getName();
+                    LittleWaterApplication.getMaterialLibraryCardsPreferences().remove(libraryName);
+                    LittleWaterApplication.getMaterialLibraryCoverPreferences().remove(libraryName);
+                } else {
+                    mCardItemList.set(mCardItemList.indexOf(libraryItem), libraryItem);
+                }
+                mContainer.refreshView();
                 break;
         }
     }

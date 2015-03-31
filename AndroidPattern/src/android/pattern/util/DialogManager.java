@@ -194,7 +194,7 @@ public class DialogManager {
 		// Showing Alert Message
 		alertDialog.show();
 		alertDialog.getWindow().setLayout(
-				WindowManager.LayoutParams.FILL_PARENT,
+				WindowManager.LayoutParams.WRAP_CONTENT,
 				WindowManager.LayoutParams.WRAP_CONTENT);
 		return alertDialog;
 	}

@@ -46,7 +46,7 @@ public class ShowCardActivity extends BaseLittleWaterActivity {
             public void run() {
                 ScrollAdapter.playCardByDefaultAnimation(ShowCardActivity.this, findViewById(R.id.card_root_view), item);
             }
-        }, 500);
+        }, 800);
     }
 
     protected void initEvents() {

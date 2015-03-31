@@ -65,12 +65,12 @@ public class LittleWaterActivity extends BaseLittleWaterActivity implements OnAd
     private int mCurrentCategoryCardLayoutSetting = LAYOUT_TYPE_2_X_2;
     private boolean mNeedGuideRemind = true;
 	// 滑动控件的容器Container
-	private ScrollLayout mContainer;
+	protected ScrollLayout mContainer;
 
 	// Container的Adapter
 	private ScrollAdapter mItemsAdapter;
 	// Container中滑动控件列表
-	private List<CardItem> mCardItemList;
+	protected List<CardItem> mCardItemList;
 
     private HashMap<String, ArrayList<CardItem>> mCategoryCardsMap = new HashMap<String, ArrayList<CardItem>>();
     private HashMap<String, String> mCategoryCoverMap = new HashMap<String, String>();
@@ -82,7 +82,6 @@ public class LittleWaterActivity extends BaseLittleWaterActivity implements OnAd
     private ActionWindow mSettingsActionWindow;
     private ActionWindow mProductIntroductionWindow;
     private ActionWindow mTrainingIntroductionWindow;
-    private ActionWindow mAddNewCategoryWindow;
     private ActionWindow mAboutMenuwindow;
     private TextView mParentCategoryContent;
     private ViewGroup mParentSettingsLayout;
@@ -323,7 +322,7 @@ public class LittleWaterActivity extends BaseLittleWaterActivity implements OnAd
         }
     }
 
-    private void displayCards() {
+    protected void displayCards() {
         validateCardsEffectiveness();
         //动态设置Container每页的列数为2行
         mContainer.setColCount(mCurrentCategoryCardLayoutSetting);
@@ -341,7 +340,12 @@ public class LittleWaterActivity extends BaseLittleWaterActivity implements OnAd
 
     private void validateCardsEffectiveness() {
         for (CardItem item : mCardItemList) {
-            File file = new File(item.getImages().get(0));
+            File file;
+            if (item.isLibraryFolder) {
+                file = new File(item.getCover());
+            } else {
+                file = new File(item.getImages().get(0));
+            }
             if (!file.exists()) {
                 mCardItemList.remove(item);
             }
@@ -355,6 +359,10 @@ public class LittleWaterActivity extends BaseLittleWaterActivity implements OnAd
 
 	@Override
 	public void onBackPressed() {
+        if (this instanceof SubLittleWaterActivity) {
+            super.onBackPressed();
+            return;
+        }
 		//back键监听，如果在编辑模式，则取消编辑模式
 		if (mIsInParentMode) {
 			enterChildMode();

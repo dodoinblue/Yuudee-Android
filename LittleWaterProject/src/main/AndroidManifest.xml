@@ -92,6 +92,10 @@
         <activity android:name=".activity.EditMaterialLibraryActivity"
             android:theme="@style/Theme.Light.FullScreenDialogAct"/>
 
+        <activity android:name=".activity.SubLittleWaterActivity"
+            android:theme="@style/Theme.Light.FullScreenDialogAct"/>
+
+
         <activity android:name="android.pattern.imagefactory.ImageFactoryActivity"/>
 
         <service android:name=".soundrecorder.RecordService" />

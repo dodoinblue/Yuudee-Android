@@ -146,9 +146,12 @@ public class MaterialLibrariesActivity extends BaseLittleWaterActivity {
                         editView.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
-                                ArrayList<CardItem> selectedList = LittleWaterUtility.getMaterialLibraryCardsList(LittleWaterUtility.getCardDisplayName(moveItem.getName()));
-                                Log.d("zheng", "selectedList:" + selectedList.size() + " library name:" + LittleWaterUtility.getCardDisplayName(moveItem.getName()));
+//                                ArrayList<CardItem> selectedList = LittleWaterUtility.getMaterialLibraryCardsList(LittleWaterUtility.getCardDisplayName(moveItem.getName()));
+//                                Log.d("zheng", "selectedList:" + selectedList.size() + " library name:" + LittleWaterUtility.getCardDisplayName(moveItem.getName()));
                                 Intent intent = new Intent();
+                                ArrayList<CardItem> selectedList = new ArrayList<CardItem>();
+                                moveItem.isLibraryFolder = true;
+                                selectedList.add(moveItem);
                                 intent.putExtra("selected_card_list", selectedList);
                                 setResult(Activity.RESULT_OK, intent);
                                 finish();

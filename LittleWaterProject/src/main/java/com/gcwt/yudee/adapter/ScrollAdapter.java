@@ -29,6 +29,7 @@ import com.gcwt.yudee.R;
 import com.gcwt.yudee.activity.LittleWaterActivity;
 import com.gcwt.yudee.activity.MaterialLibraryCardsActivity;
 import com.gcwt.yudee.activity.ShowCardActivity;
+import com.gcwt.yudee.activity.SubLittleWaterActivity;
 import com.gcwt.yudee.model.CardItem;
 import com.gcwt.yudee.util.LittleWaterUtility;
 import com.gcwt.yudee.widget.ScrollLayout;
@@ -77,7 +78,12 @@ public class ScrollAdapter implements SAdapter {
             }
 			final View view = mInflater.inflate(layoutRes, parent, false);
 			final ImageView iv = (ImageView) view.findViewById(R.id.content_iv);
-			String coverUrl = moveItem.getImages().get(0);
+            String coverUrl;
+            if (moveItem.isLibraryFolder) {
+                coverUrl = moveItem.getCover();
+            } else {
+                coverUrl = moveItem.getImages().get(0);
+            }
 
             Drawable cardCover = null;
             SoftReference<Drawable> cover = mCache.get(coverUrl);
@@ -99,18 +105,30 @@ public class ScrollAdapter implements SAdapter {
                 return view;
             }
 
+            if (moveItem.isLibraryFolder) {
+                View cardBgView = view.findViewById(R.id.card_bg);
+                cardBgView.setBackgroundResource(R.mipmap.cat_bg);
+            }
+
             view.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    view.setVisibility(View.INVISIBLE);
+                    if (moveItem.isLibraryFolder) {
+                        Intent intent = new Intent(mContext, SubLittleWaterActivity.class);
+                        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                        intent.putExtra("library", moveItem.getName());
+                        mContext.startActivity(intent);
+                    } else {
+                        view.setVisibility(View.INVISIBLE);
 //                    playCardByDefaultAnimation(view, moveItem);
-                    actionWithScaleUpAnimation(view, moveItem);
-                    view.postDelayed(new Runnable() {
-                        @Override
-                        public void run() {
-                            view.setVisibility(View.VISIBLE);
-                        }
-                    }, 500 * moveItem.getImages().size());
+                        actionWithScaleUpAnimation(view, moveItem);
+                        view.postDelayed(new Runnable() {
+                            @Override
+                            public void run() {
+                                view.setVisibility(View.VISIBLE);
+                            }
+                        }, 800 * (moveItem.getImages().size() + 2));
+                    }
                 }
             });
             return view;
@@ -137,7 +155,7 @@ public class ScrollAdapter implements SAdapter {
         iv.setVisibility(View.GONE);
         if (moveItem.getAudios().size() > 0 && !moveItem.getCardSettings().getMute()) {
             // will add back later for develop silently
-//            playAudio(moveItem.getAudios().get(0));
+            playAudio(moveItem.getAudios().get(0));
         }
         List<String> images = moveItem.getImages();
         flipper.removeAllViews();
@@ -161,9 +179,9 @@ public class ScrollAdapter implements SAdapter {
                             activity.finish();
                         }
                     }
-                }, 500);
+                }, 800);
             }
-        }, 500 * moveItem.getImages().size());
+        }, 800 * moveItem.getImages().size());
     }
 
     private static void playAudio(String audioPath) {

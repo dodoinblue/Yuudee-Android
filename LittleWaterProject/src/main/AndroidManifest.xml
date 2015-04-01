@@ -95,7 +95,7 @@
         <activity android:name=".activity.EditMaterialLibraryActivity"
             android:theme="@style/Theme.Light.FullScreenDialogAct"/>
 
-        <activity android:name=".activity.SubLittleWaterActivity"
+        <activity android:name=".activity.SubFolderLittleWaterActivity"
             android:theme="@style/Theme.Light.FullScreenDialogAct"/>
 
 

@@ -9,14 +9,10 @@ import android.app.Activity;
 import android.app.ActivityOptions;
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.pattern.BaseActivity;
-import android.pattern.util.BitmapUtil;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -29,7 +25,7 @@ import com.gcwt.yudee.R;
 import com.gcwt.yudee.activity.LittleWaterActivity;
 import com.gcwt.yudee.activity.MaterialLibraryCardsActivity;
 import com.gcwt.yudee.activity.ShowCardActivity;
-import com.gcwt.yudee.activity.SubLittleWaterActivity;
+import com.gcwt.yudee.activity.SubFolderLittleWaterActivity;
 import com.gcwt.yudee.model.CardItem;
 import com.gcwt.yudee.util.LittleWaterUtility;
 import com.gcwt.yudee.widget.ScrollLayout;
@@ -114,7 +110,7 @@ public class ScrollAdapter implements SAdapter {
                 @Override
                 public void onClick(View v) {
                     if (moveItem.isLibraryFolder) {
-                        Intent intent = new Intent(mContext, SubLittleWaterActivity.class);
+                        Intent intent = new Intent(mContext, SubFolderLittleWaterActivity.class);
                         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                         intent.putExtra("library", moveItem.getName());
                         mContext.startActivity(intent);
@@ -155,7 +151,7 @@ public class ScrollAdapter implements SAdapter {
         iv.setVisibility(View.GONE);
         if (moveItem.getAudios().size() > 0 && !moveItem.getCardSettings().getMute()) {
             // will add back later for develop silently
-            playAudio(moveItem.getAudios().get(0));
+//            playAudio(moveItem.getAudios().get(0));
         }
         List<String> images = moveItem.getImages();
         flipper.removeAllViews();

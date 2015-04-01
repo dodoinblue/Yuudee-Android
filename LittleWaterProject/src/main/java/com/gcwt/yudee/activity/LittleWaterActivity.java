@@ -352,7 +352,9 @@ public class LittleWaterActivity extends BaseLittleWaterActivity implements OnAd
                 mCardItemList.remove(item);
             }
         }
-        LittleWaterUtility.setCategoryCardsList(mCurrentCategory, mCardItemList);
+        if (!(this instanceof SubFolderLittleWaterActivity)) {
+            LittleWaterUtility.setCategoryCardsList(mCurrentCategory, mCardItemList);
+        }
     }
 
 	private int getDrawableId(String name) {
@@ -361,7 +363,7 @@ public class LittleWaterActivity extends BaseLittleWaterActivity implements OnAd
 
 	@Override
 	public void onBackPressed() {
-        if (this instanceof SubLittleWaterActivity) {
+        if (this instanceof SubFolderLittleWaterActivity) {
             super.onBackPressed();
             return;
         }

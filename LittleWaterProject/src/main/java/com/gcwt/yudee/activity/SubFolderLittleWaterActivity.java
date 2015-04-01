@@ -13,7 +13,7 @@ import com.gcwt.yudee.util.LittleWaterUtility;
 /**
  * Created by peter on 15/3/31.
  */
-public class SubLittleWaterActivity extends LittleWaterActivity {
+public class SubFolderLittleWaterActivity extends LittleWaterActivity {
 
     @Override
     public void initViews() {

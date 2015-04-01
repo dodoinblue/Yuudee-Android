@@ -19,14 +19,22 @@ public class SubFolderLittleWaterActivity extends LittleWaterActivity {
     public void initViews() {
         super.initViews();
         setTitle("");
-        findViewById(R.id.root_container).setBackgroundResource(R.mipmap.child_incat_woodbg);
         findViewById(R.id.unlock_parent_ui).setVisibility(View.GONE);
+        findViewById(R.id.root_container).setBackgroundResource(R.mipmap.child_incat_woodbg);
+        findViewById(R.id.back_to_main_ui).setVisibility(View.VISIBLE);
     }
 
     @Override
     protected void initEvents() {
-//        super.initEvents();
         mCardItemList = LittleWaterUtility.getMaterialLibraryCardsList(getIntent().getStringExtra("library"));
         displayCards();
+    }
+
+    public void onClick(View view) {
+        switch (view.getId()) {
+            case R.id.back_to_main_ui:
+                finish();
+                break;
+        }
     }
 }

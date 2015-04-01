@@ -5,7 +5,6 @@
 
 package com.gcwt.yudee.activity;
 
-import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.widget.ImageView;
@@ -15,12 +14,14 @@ import com.gcwt.yudee.BaseLittleWaterActivity;
 import com.gcwt.yudee.R;
 import com.gcwt.yudee.adapter.ScrollAdapter;
 import com.gcwt.yudee.model.CardItem;
+import com.gcwt.yudee.util.LittleWaterConstant;
 import com.gcwt.yudee.util.LittleWaterUtility;
 
 /**
  * Created by peter on 3/10/15.
  */
 public class ShowCardActivity extends BaseLittleWaterActivity {
+    private CardItem mCardItem;
 
     @Override
     protected void onCreate(Bundle arg0) {
@@ -32,24 +33,34 @@ public class ShowCardActivity extends BaseLittleWaterActivity {
 
     protected void initViews() {
         setTitle("");
-        final CardItem item = (CardItem) getIntent().getSerializableExtra("card_item");
+        mCardItem = (CardItem) getIntent().getSerializableExtra("card_item");
         final ImageView iv = (ImageView) findViewById(R.id.content_iv);
-        String coverUrl = item.getImages().get(0);
+        String coverUrl = mCardItem.getImages().get(0);
         Drawable cardCover = LittleWaterUtility.getRoundCornerDrawableFromSdCard(coverUrl);
         iv.setImageDrawable(cardCover);
 
         TextView nameView = (TextView) findViewById(R.id.card_name);
-        nameView.setText(item.getName());
-
-        mHandler.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                ScrollAdapter.playCardByDefaultAnimation(ShowCardActivity.this, findViewById(R.id.card_root_view), item);
-            }
-        }, 800);
+        nameView.setText(mCardItem.getName());
     }
 
     protected void initEvents() {
-
+        switch (mCardItem.getCardSettings().getAnimationType()) {
+            case LittleWaterConstant.ANIMATION_ZOOM_IN:
+                mHandler.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        ScrollAdapter.playCardByAnimation(ShowCardActivity.this, findViewById(R.id.card_root_view), mCardItem);
+                    }
+                }, 800);
+                break;
+            case LittleWaterConstant.ANIMATION_ZOOM_IN_AND_ROTATE:
+                mHandler.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        ScrollAdapter.playCardByAnimation(ShowCardActivity.this, findViewById(R.id.card_root_view), mCardItem);
+                    }
+                }, 800);
+                break;
+        }
     }
 }

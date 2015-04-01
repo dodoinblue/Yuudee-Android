@@ -183,7 +183,6 @@ public class LittleWaterActivity extends BaseLittleWaterActivity implements OnAd
 		mContainer.setOnPageChangedListener(this);
 		//设置Container编辑模式的回调，长按进入修改模式
 		mContainer.setOnEditModeListener(this);
-        enterChildMode();
         mCategoryListAdapter = new BaseListAdapter<String>(this, new ArrayList<String>()) {
             @Override
             public View bindView(int position, View convertView, ViewGroup parent) {
@@ -213,6 +212,12 @@ public class LittleWaterActivity extends BaseLittleWaterActivity implements OnAd
         findViewById(R.id.flipper1).setOnTouchListener(mViewFlipperOnTouchListener);
         findViewById(R.id.flipper2).setOnTouchListener(mViewFlipperOnTouchListener);
         findViewById(R.id.flipper3).setOnTouchListener(mViewFlipperOnTouchListener);
+
+        if (mIsInParentMode) {
+            enterParentMode();
+        } else {
+            enterChildMode();
+        }
 	}
 
     @Override
@@ -626,15 +631,21 @@ public class LittleWaterActivity extends BaseLittleWaterActivity implements OnAd
 
     private void enterParentMode() {
         mIsInParentMode = true;
-        findViewById(R.id.parent_top).setVisibility(View.VISIBLE);
-        findViewById(R.id.parent_bottom).setVisibility(View.VISIBLE);
-        findViewById(R.id.unlock_parent_ui).setVisibility(View.GONE);
-//        findViewById(R.id.unlock_guide_flicker).setVisibility(View.GONE);
+        if (this instanceof SubFolderLittleWaterActivity) {
+            findViewById(R.id.parent_top).setVisibility(View.GONE);
+            findViewById(R.id.parent_bottom).setVisibility(View.GONE);
+        } else {
+            findViewById(R.id.parent_top).setVisibility(View.VISIBLE);
+            findViewById(R.id.parent_bottom).setVisibility(View.VISIBLE);
+            findViewById(R.id.unlock_parent_ui).setVisibility(View.GONE);
+            findViewById(R.id.root_container).setBackgroundResource(R.mipmap.background2);
+        }
         Set<String> categorySet = LittleWaterApplication.getCategoryCardsPreferences().getAll().keySet();
         mCategoryList = new ArrayList<String>(categorySet);
         mCategoryListAdapter.setList(mCategoryList);
-        findViewById(R.id.root_container).setBackgroundResource(R.mipmap.background2);
-        mContainer.refreshView();
+        if (mItemsAdapter != null) {
+            mContainer.refreshView();
+        }
         mContainer.showEdit(true);
     }
 
@@ -643,7 +654,6 @@ public class LittleWaterActivity extends BaseLittleWaterActivity implements OnAd
         findViewById(R.id.parent_top).setVisibility(View.GONE);
         findViewById(R.id.parent_bottom).setVisibility(View.GONE);
         findViewById(R.id.unlock_parent_ui).setVisibility(View.VISIBLE);
-//        findViewById(R.id.unlock_guide_flicker).setVisibility(View.VISIBLE);
         findViewById(R.id.root_container).setBackgroundResource(R.mipmap.background);
         if (mItemsAdapter != null) {
             mContainer.refreshView();

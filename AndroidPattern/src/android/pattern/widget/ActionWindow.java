@@ -67,11 +67,11 @@ public class ActionWindow {
             }
         });
 
-        mBottomPopWindow.setWidth(WindowManager.LayoutParams.MATCH_PARENT);
-        mBottomPopWindow.setHeight(WindowManager.LayoutParams.MATCH_PARENT);
+        mBottomPopWindow.setWidth(WindowManager.LayoutParams.WRAP_CONTENT);
+        mBottomPopWindow.setHeight(WindowManager.LayoutParams.WRAP_CONTENT);
         mBottomPopWindow.setTouchable(true);
         mBottomPopWindow.setFocusable(true);
-        mBottomPopWindow.setOutsideTouchable(false);
+        mBottomPopWindow.setOutsideTouchable(true);
         mBottomPopWindow.setBackgroundDrawable(new BitmapDrawable());
     }
     

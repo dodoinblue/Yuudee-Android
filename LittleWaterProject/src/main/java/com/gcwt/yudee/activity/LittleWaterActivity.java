@@ -26,6 +26,7 @@ import android.pattern.util.FileUtils;
 import android.pattern.widget.ActionWindow;
 import android.text.TextUtils;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
@@ -49,6 +50,7 @@ import com.gcwt.yudee.widget.ScrollLayout.OnAddOrDeletePage;
 import com.gcwt.yudee.widget.ScrollLayout.OnEditModeListener;
 import com.gcwt.yudee.widget.ScrollLayout.OnPageChangedListener;
 import com.google.gson.Gson;
+import com.umeng.fb.FeedbackAgent;
 
 /**
  * Created by peter on 3/3/15.
@@ -464,6 +466,8 @@ public class LittleWaterActivity extends BaseLittleWaterActivity implements OnAd
                 mAboutMenuwindow.dismiss();
                 break;
             case R.id.about_feedback_advice:
+                FeedbackAgent agent = new FeedbackAgent(this);
+                agent.startFeedbackActivity();
                 mAboutMenuwindow.dismiss();
                 break;
             case R.id.about_export_resource_library:
@@ -567,7 +571,7 @@ public class LittleWaterActivity extends BaseLittleWaterActivity implements OnAd
 
     private void openAboutLittleWalterWindow() {
         mAboutMenuwindow = new ActionWindow(this, findViewById(R.id.parent_about_open), R.layout.layout_about_menu);
-        mAboutMenuwindow.popup();
+        mAboutMenuwindow.popup(Gravity.LEFT|Gravity.BOTTOM);
     }
 
     private void showProductIntroductionWindow() {
@@ -600,7 +604,7 @@ public class LittleWaterActivity extends BaseLittleWaterActivity implements OnAd
     private void popUpSettings() {
         mParentSettingsLayout = (ViewGroup) mInflater.inflate(R.layout.action_window_parent_settings, null);
         mSettingsActionWindow = new ActionWindow(this, findViewById(R.id.parent_settings), mParentSettingsLayout);
-        mSettingsActionWindow.popup();
+        mSettingsActionWindow.popup(Gravity.CENTER);
         mCategoryNameEdit = (EditText) mParentSettingsLayout.findViewById(R.id.parent_settings_edit_category_name);
         TextView categoryNameView = (TextView) mParentSettingsLayout.findViewById(R.id.parent_settings_title_category);
         categoryNameView.setText(mCurrentCategory);

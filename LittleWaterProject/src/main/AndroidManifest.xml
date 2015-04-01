@@ -57,6 +57,9 @@
         </activity>
 
         <!--umeng begin-->
+        <activity
+            android:name="com.umeng.fb.ConversationActivity"/>
+
         <meta-data
             android:name="UMENG_APPKEY"
             android:value="551a2dd3fd98c524cd000189" >

@@ -55,6 +55,7 @@ public class NewMaterialLibraryCardActivity extends BaseLittleWaterActivity impl
     private TextView mCardName;
     private ViewGroup mCoverContainer;
     private ViewGroup mSoundContainer;
+    private TextView mRecordDescription;
     private ViewGroup mPreviousContainer;
     private ViewGroup mNextContainer;
     private ActionWindow mNewResourceWindow;
@@ -147,6 +148,7 @@ public class NewMaterialLibraryCardActivity extends BaseLittleWaterActivity impl
         mCardName = (TextView) findViewById(R.id.card_name);
         mCoverContainer = (ViewGroup) findViewById(R.id.cover_container);
         mSoundContainer = (ViewGroup) findViewById(R.id.sound_container);
+        mRecordDescription = (TextView) findViewById(R.id.record_description);
         mPreviousContainer = (ViewGroup) findViewById(R.id.previous_container);
         mNextContainer = (ViewGroup) findViewById(R.id.next_container);
         mChooseCategoryBtn = (Button) findViewById(R.id.choose_category);
@@ -189,12 +191,14 @@ public class NewMaterialLibraryCardActivity extends BaseLittleWaterActivity impl
                 }
                 mCoverContainer.setVisibility(View.GONE);
                 mSoundContainer.setVisibility(View.VISIBLE);
+                mRecordDescription.setVisibility(View.VISIBLE);
                 mPreviousContainer.setVisibility(View.GONE);
                 mNextContainer.setVisibility(View.VISIBLE);
                 break;
             case R.id.previous:
                 mCoverContainer.setVisibility(View.VISIBLE);
                 mSoundContainer.setVisibility(View.GONE);
+                mRecordDescription.setVisibility(View.GONE);
                 mPreviousContainer.setVisibility(View.VISIBLE);
                 mNextContainer.setVisibility(View.GONE);
                 break;

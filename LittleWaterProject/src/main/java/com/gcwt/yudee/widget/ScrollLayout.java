@@ -184,8 +184,8 @@ public class ScrollLayout extends LinearLayout implements OnDataChangeListener {
 		this.topPadding = DensityUtil.dip2px(mContext, 30);
 		this.bottomPadding = DensityUtil.dip2px(mContext, 30);
 		
-		this.colSpace = DensityUtil.dip2px(mContext, 15);
-		this.rowSpace = DensityUtil.dip2px(mContext, 15);
+		this.colSpace = DensityUtil.dip2px(mContext, 0);
+		this.rowSpace = DensityUtil.dip2px(mContext, 4);
 		
 		if (mAdapter != null)
 			refreshView();

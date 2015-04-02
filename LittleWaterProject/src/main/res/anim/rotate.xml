@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ Copyright (C) 2015 G-Wearable Inc.
+  ~ All rights reserved.
+  -->
+
+<set xmlns:android="http://schemas.android.com/apk/res/android"
+    android:interpolator="@android:anim/accelerate_interpolator"
+    android:shareInterpolator="true">
+    <!--repeatMode 这个属性是定义动画播放完后再尾向头播放-->
+    <rotate
+        android:fromDegrees="0"
+        android:toDegrees="-30"
+        android:pivotX="50%"
+        android:pivotY="50%"
+        android:repeatCount="1"
+        android:repeatMode="reverse"
+        android:duration="400"/>
+
+    <rotate
+        android:fromDegrees="0"
+        android:toDegrees="30"
+        android:startOffset="400"
+        android:pivotX="50%"
+        android:pivotY="50%"
+        android:repeatCount="1"
+        android:repeatMode="reverse"
+        android:duration="400"/>
+
+    <rotate
+        android:fromDegrees="0"
+        android:toDegrees="-30"
+        android:startOffset="800"
+        android:pivotX="50%"
+        android:pivotY="50%"
+        android:repeatCount="1"
+        android:repeatMode="reverse"
+        android:duration="400"/>
+</set>

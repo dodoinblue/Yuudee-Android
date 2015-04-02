@@ -20,16 +20,20 @@ import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.pattern.adapter.BaseListAdapter;
 import android.pattern.util.FileUtils;
 import android.pattern.widget.ActionWindow;
 import android.text.TextUtils;
 import android.util.Log;
+import android.view.Display;
 import android.view.Gravity;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ListView;
@@ -42,6 +46,7 @@ import com.gcwt.yudee.LittleWaterApplication;
 import com.gcwt.yudee.R;
 import com.gcwt.yudee.adapter.ScrollAdapter;
 import com.gcwt.yudee.model.CardItem;
+import com.gcwt.yudee.util.BlurUtility;
 import com.gcwt.yudee.util.LittleWaterConstant;
 import com.gcwt.yudee.util.LittleWaterUtility;
 import com.gcwt.yudee.util.UnzipAssets;
@@ -611,6 +616,8 @@ public class LittleWaterActivity extends BaseLittleWaterActivity implements OnAd
     private void popUpSettings() {
         mParentSettingsLayout = (ViewGroup) mInflater.inflate(R.layout.action_window_parent_settings, null);
         mSettingsActionWindow = new ActionWindow(this, findViewById(R.id.parent_settings), mParentSettingsLayout);
+        mSettingsActionWindow.setWindowHeight(WindowManager.LayoutParams.MATCH_PARENT);
+        mSettingsActionWindow.setWindowWidth(WindowManager.LayoutParams.MATCH_PARENT);
         mSettingsActionWindow.popup(Gravity.CENTER);
         mCategoryNameEdit = (EditText) mParentSettingsLayout.findViewById(R.id.parent_settings_edit_category_name);
         TextView categoryNameView = (TextView) mParentSettingsLayout.findViewById(R.id.parent_settings_title_category);
@@ -623,6 +630,21 @@ public class LittleWaterActivity extends BaseLittleWaterActivity implements OnAd
             mParentSettingsLayout.findViewById(R.id.parent_settings_layout1_1_checked).setVisibility(View.INVISIBLE);
             mParentSettingsLayout.findViewById(R.id.parent_settings_layout2_2_checked).setVisibility(View.VISIBLE);
         }
+
+        mHandler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                View view = getWindow().getDecorView();
+                Display display = getWindowManager().getDefaultDisplay();
+                view.layout(0, 0, display.getWidth(), display.getHeight());
+                view.setDrawingCacheEnabled(true);
+                Bitmap bitmap = Bitmap.createBitmap(view.getDrawingCache());
+                view.setDrawingCacheEnabled(false);
+
+                mParentSettingsLayout.findViewById(R.id.settings_root_container).setBackground(new BitmapDrawable(bitmap));
+                BlurUtility.blur(LittleWaterActivity.this, mParentSettingsLayout.findViewById(R.id.settings_root_container));
+            }
+        }, 100);
     }
 
     private void showResourceLibrary() {

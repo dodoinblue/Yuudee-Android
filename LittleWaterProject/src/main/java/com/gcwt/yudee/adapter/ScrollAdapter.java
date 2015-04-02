@@ -109,6 +109,9 @@ public class ScrollAdapter implements SAdapter {
             view.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+                    if (LittleWaterActivity.mIsInParentMode) {
+                        return;
+                    }
                     if (moveItem.isLibraryFolder) {
                         Intent intent = new Intent(mContext, SubFolderLittleWaterActivity.class);
                         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);

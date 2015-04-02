@@ -15,8 +15,9 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="50dp"
-        android:padding="35dp"
+        android:layout_marginTop="85dp"
+        android:paddingLeft="35dp"
+        android:paddingRight="35dp"
         android:orientation="horizontal">
 
         <LinearLayout
@@ -40,7 +41,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center"
-                android:textColor="@android:color/black"
+                android:textColor="@color/card_name_color"
                 android:textSize="14dp" />
         </LinearLayout>
 
@@ -77,7 +78,7 @@
                 <View
                     android:layout_width="0dp"
                     android:layout_height="1dp"
-                    android:layout_weight="1"/>
+                    android:layout_weight="1" />
 
                 <Button
                     android:id="@+id/album"
@@ -103,78 +104,81 @@
                 android:background="@mipmap/name_edit_field" />
         </LinearLayout>
 
-        <LinearLayout
-            android:id="@+id/sound_container"
+        <TextView
+            android:id="@+id/record_description"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginLeft="5dp"
-            android:paddingTop="6dp"
             android:layout_weight="1"
             android:visibility="gone"
-            android:gravity="left|center_vertical"
-            android:orientation="vertical">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="给卡片录一段语音吧,\n比如“我要吃苹果”。\n让孩子随时听到你的声音。"
-                android:textColor="@android:color/holo_orange_dark"
-                android:textSize="12dp" />
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="center"
-                android:orientation="horizontal">
-
-                <Button
-                    android:id="@+id/record_sound"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:onClick="onClick"
-                    android:background="@mipmap/record" />
-
-                <TextView
-                    android:id="@+id/record_notice"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:gravity="center"
-                    android:layout_marginTop="3dp"
-                    android:text="@string/prepare"
-                    android:textSize="12dp"
-                    android:layout_marginLeft="20dp"
-                    android:textColor="@android:color/white"/>
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
-
-                <Button
-                    android:id="@+id/play_sound"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:onClick="onClick"
-                    android:background="@drawable/play_btn" />
-
-                <View
-                    android:layout_width="0dp"
-                    android:layout_height="1dp"
-                    android:layout_weight="1"/>
-
-                <Button
-                    android:id="@+id/delete_sound"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:onClick="onClick"
-                    android:background="@drawable/delete_btn" />
-            </LinearLayout>
-        </LinearLayout>
+            android:layout_gravity="left|center_vertical"
+            android:text="给卡片录一段语音吧,\n\n比如“我要吃苹果”。\n\n让孩子随时听到你的声音。"
+            android:textColor="@color/card_name_color"
+            android:textSize="12dp" />
     </LinearLayout>
 
+    <LinearLayout
+        android:id="@+id/sound_container"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="40dp"
+        android:layout_marginRight="40dp"
+        android:layout_marginTop="0dp"
+        android:visibility="gone"
+        android:gravity="center"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:gravity="center"
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/record_sound"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:onClick="onClick"
+                android:background="@mipmap/record" />
+
+            <View
+                android:layout_width="0dp"
+                android:layout_height="1dp"
+                android:layout_weight="1" />
+
+            <Button
+                android:id="@+id/play_sound"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:onClick="onClick"
+                android:background="@drawable/play_btn" />
+
+            <View
+                android:layout_width="0dp"
+                android:layout_height="1dp"
+                android:layout_weight="1" />
+
+            <Button
+                android:id="@+id/delete_sound"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:onClick="onClick"
+                android:background="@drawable/delete_btn" />
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/record_notice"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="left|center_vertical"
+            android:layout_marginTop="3dp"
+            android:text="@string/prepare"
+            android:textSize="12dp"
+            android:layout_marginLeft="20dp"
+            android:textColor="@android:color/white" />
+    </LinearLayout>
 
     <LinearLayout
         android:id="@+id/previous_container"

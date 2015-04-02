@@ -75,7 +75,7 @@
         <activity android:name=".activity.MaterialLibraryCardsActivity"/>
 
         <activity android:name=".activity.ShowCardActivity"
-            android:theme="@style/Theme.Light.FullScreenDialogAct"/>
+            android:theme="@android:style/Theme.Translucent.NoTitleBar"/>
 
         <activity android:name=".activity.NewMaterialLibraryActivity"
             android:theme="@style/Theme.Light.FullScreenDialogAct"/>

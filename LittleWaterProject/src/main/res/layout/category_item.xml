@@ -47,7 +47,7 @@
             android:layout_marginBottom="26dp"
             android:textSize="14dp"
             android:gravity="center"
-            android:textColor="@android:color/holo_orange_dark" />
+            android:textColor="@color/card_name_color" />
     </LinearLayout>
 
     <ImageView

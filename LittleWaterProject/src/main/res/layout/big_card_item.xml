@@ -2,8 +2,9 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/card_root_view"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center"
     android:background="@color/translate"
     android:clickable="true"
     android:longClickable="true"
@@ -15,7 +16,7 @@
         android:layout_height="wrap_content"
         android:background="@mipmap/card_bg"
         android:orientation="vertical"
-        android:gravity="top|center_horizontal">
+        android:gravity="center">
 
         <FrameLayout
             android:layout_width="match_parent"
@@ -29,7 +30,7 @@
                 android:id="@+id/content_iv"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:scaleType="fitXY"/>
+                android:scaleType="fitCenter"/>
 
             <ViewFlipper
                 android:id="@+id/content_show"
@@ -47,7 +48,7 @@
             android:layout_marginBottom="55dp"
             android:textSize="18dp"
             android:gravity="center"
-            android:textColor="@android:color/holo_orange_dark" />
+            android:textColor="@color/card_name_color" />
     </LinearLayout>
 
     <ImageView

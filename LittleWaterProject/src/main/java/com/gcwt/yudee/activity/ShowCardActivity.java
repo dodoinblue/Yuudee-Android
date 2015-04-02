@@ -5,8 +5,15 @@
 
 package com.gcwt.yudee.activity;
 
+import android.app.Activity;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.os.Handler;
+import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
+import android.view.animation.RotateAnimation;
+import android.view.animation.Transformation;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -17,10 +24,13 @@ import com.gcwt.yudee.model.CardItem;
 import com.gcwt.yudee.util.LittleWaterConstant;
 import com.gcwt.yudee.util.LittleWaterUtility;
 
+import java.util.Timer;
+import java.util.TimerTask;
+
 /**
  * Created by peter on 3/10/15.
  */
-public class ShowCardActivity extends BaseLittleWaterActivity {
+public class ShowCardActivity extends Activity {
     private CardItem mCardItem;
 
     @Override
@@ -46,7 +56,7 @@ public class ShowCardActivity extends BaseLittleWaterActivity {
     protected void initEvents() {
         switch (mCardItem.getCardSettings().getAnimationType()) {
             case LittleWaterConstant.ANIMATION_ZOOM_IN:
-                mHandler.postDelayed(new Runnable() {
+                new Handler().postDelayed(new Runnable() {
                     @Override
                     public void run() {
                         ScrollAdapter.playCardByAnimation(ShowCardActivity.this, findViewById(R.id.card_root_view), mCardItem);
@@ -54,9 +64,13 @@ public class ShowCardActivity extends BaseLittleWaterActivity {
                 }, 800);
                 break;
             case LittleWaterConstant.ANIMATION_ZOOM_IN_AND_ROTATE:
-                mHandler.postDelayed(new Runnable() {
+                new Handler().postDelayed(new Runnable() {
                     @Override
                     public void run() {
+                        final View view = findViewById(R.id.card_bg);
+                        Animation shake = AnimationUtils.loadAnimation(ShowCardActivity.this, R.anim.rotate);
+                        shake.setFillAfter(false);
+                        view.startAnimation(shake);
                         ScrollAdapter.playCardByAnimation(ShowCardActivity.this, findViewById(R.id.card_root_view), mCardItem);
                     }
                 }, 800);

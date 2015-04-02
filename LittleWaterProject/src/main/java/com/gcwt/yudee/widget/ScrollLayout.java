@@ -626,9 +626,9 @@ public class ScrollLayout extends LinearLayout implements OnDataChangeListener {
 	}
 
     public int getDisplayCount(int actualCount) {
-        if (!LittleWaterActivity.mIsInParentMode) {
-            return actualCount;
-        }
+//        if (!LittleWaterActivity.mIsInParentMode) {
+//            return actualCount;
+//        }
         int pageCount = colCount * rowCount;
         if (actualCount % pageCount == 0) {
             return actualCount + pageCount * 2;

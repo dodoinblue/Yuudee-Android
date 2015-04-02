@@ -64,8 +64,8 @@ public class ScrollAdapter implements SAdapter {
 
 	@Override
 	public View getView(int position, View convertView, ViewGroup parent) {
-		if (position < mList.size()) {
-			final CardItem moveItem = mList.get(position);
+        final CardItem moveItem = mList.get(position);
+        if (!moveItem.isEmpty) {
             int layoutRes = 0;
             if (mScrollLayout.getColCount() == LittleWaterActivity.LAYOUT_TYPE_2_X_2) {
                 layoutRes = R.layout.card_item;
@@ -146,6 +146,11 @@ public class ScrollAdapter implements SAdapter {
 		} else {
             ImageView view = (ImageView) mInflater.inflate(R.layout.layout_empty_card_position, mScrollLayout, false);
             view.setTag(new CardItem());
+            if (LittleWaterActivity.mIsInParentMode) {
+                view.setVisibility(View.VISIBLE);
+            } else {
+                view.setVisibility(View.INVISIBLE);
+            }
             return view;
         }
 	}
@@ -203,8 +208,7 @@ public class ScrollAdapter implements SAdapter {
 
 	@Override
 	public int getCount() {
-//		return mList.size();
-        return mScrollLayout.getDisplayCount(mList.size());
+		return mList.size();
 	}
 
 	@Override

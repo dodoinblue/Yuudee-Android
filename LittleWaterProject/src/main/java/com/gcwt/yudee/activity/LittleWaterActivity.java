@@ -336,6 +336,7 @@ public class LittleWaterActivity extends BaseLittleWaterActivity implements OnAd
 
     protected void displayCards() {
         validateCardsEffectiveness();
+//        addEmptyCardItems();
         //动态设置Container每页的列数为2行
         mContainer.setColCount(mCurrentCategoryCardLayoutSetting);
         //动态设置Container每页的行数为2行
@@ -352,6 +353,9 @@ public class LittleWaterActivity extends BaseLittleWaterActivity implements OnAd
 
     private void validateCardsEffectiveness() {
         for (CardItem item : mCardItemList) {
+            if (item.getIsEmpty()) {
+                continue;
+            }
             File file;
             if (item.isLibraryFolder) {
                 file = new File(item.getCover());
@@ -366,10 +370,6 @@ public class LittleWaterActivity extends BaseLittleWaterActivity implements OnAd
             LittleWaterUtility.setCategoryCardsList(mCurrentCategory, mCardItemList);
         }
     }
-
-	private int getDrawableId(String name) {
-		return getResources().getIdentifier(name, "drawable", "com.children.littlewalter");
-	}
 
 	@Override
 	public void onBackPressed() {
@@ -693,7 +693,45 @@ public class LittleWaterActivity extends BaseLittleWaterActivity implements OnAd
     private static class CardItemComparator implements Comparator<CardItem> {
         @Override
         public int compare(CardItem obj1, CardItem obj2) {
+            if (obj1.getName() == null) {
+                return 1;
+            }
+            if (obj2.getName() == null) {
+                return -1;
+            }
             return obj1.getName().compareTo(obj2.getName());
         }
+    }
+
+    /**
+     * 判断是否需要为当前的卡片列表增加空的卡片页, 如果需要就增加之, 在不确定是否要增加空卡片时可以调用此方法
+     */
+    private void addEmptyCardItems() {
+        int displayCount = mContainer.getDisplayCount(getActualCardCount());
+        int extraEmptyCardCount = displayCount - mCardItemList.size();
+        if (extraEmptyCardCount != 0) {
+            for (int i = 0; i < extraEmptyCardCount; i++) {
+                CardItem item = new CardItem();
+                item.setIsEmpty(true);
+                mCardItemList.add(item);
+            }
+        }
+    }
+
+    /**
+     * 返回从第一张卡片至最后一张不为空的卡片的个数
+     * @return
+     */
+    private int getActualCardCount() {
+        CardItem lastNotEmptyItem = null;
+        for (CardItem item : mCardItemList) {
+            if (!item.getIsEmpty()) {
+                lastNotEmptyItem = item;
+            }
+        }
+        if (lastNotEmptyItem != null) {
+            return mCardItemList.indexOf(lastNotEmptyItem) + 1;
+        }
+        return 0;
     }
 }

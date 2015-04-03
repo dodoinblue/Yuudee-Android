@@ -5,6 +5,7 @@
 
 package com.gcwt.yudee.activity;
 
+import android.os.Bundle;
 import android.view.View;
 
 import com.gcwt.yudee.LittleWaterApplication;
@@ -18,11 +19,17 @@ import com.gcwt.yudee.util.LittleWaterUtility;
 public class SubFolderLittleWaterActivity extends LittleWaterActivity {
 
     @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        mRctivityLayout = R.layout.activity_sub_folder_little_walter;
+        super.onCreate(savedInstanceState);
+    }
+
+    @Override
     public void initViews() {
         super.initViews();
         setTitle("");
         findViewById(R.id.unlock_parent_ui).setVisibility(View.GONE);
-        findViewById(R.id.root_container).setBackgroundResource(R.mipmap.child_incat_woodbg);
+        findViewById(R.id.root_container).setBackgroundColor(getResources().getColor(android.R.color.transparent));
         findViewById(R.id.back_to_main_ui).setVisibility(View.VISIBLE);
     }
 

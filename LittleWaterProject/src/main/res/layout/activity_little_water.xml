@@ -1,119 +1,96 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/root_container"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@android:color/transparent"
-    android:orientation="vertical">
+    android:background="@mipmap/background">
 
-    <LinearLayout
+    <com.gcwt.yudee.widget.ScrollLayout
+        android:id="@+id/container"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical">
-        <ImageView
-            android:id="@+id/back_to_main_ui"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="36dp"
-            android:clickable="true"
-            android:onClick="onClick"
-            android:visibility="gone"
-            android:src="@mipmap/child_incat_backbutton"/>
-    </LinearLayout>
+        android:layout_gravity="center"
+        android:gravity="center" />
+
+    <ImageView
+        android:id="@+id/unlock_parent_ui"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:clickable="true"
+        android:onClick="onClick"
+        android:layout_gravity="left|bottom"
+        android:layout_marginLeft="15dp"
+        android:layout_marginBottom="15dp"
+        android:src="@mipmap/unlock_icon" />
 
     <FrameLayout
-        android:id="@+id/root_container"
+        android:id="@+id/unlock_guide"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@mipmap/background">
-
-        <com.gcwt.yudee.widget.ScrollLayout
-            android:id="@+id/container"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:gravity="center" />
+        android:visibility="gone">
 
         <ImageView
-            android:id="@+id/unlock_parent_ui"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:clickable="true"
-            android:onClick="onClick"
-            android:layout_gravity="left|bottom"
-            android:layout_marginLeft="15dp"
-            android:layout_marginBottom="15dp"
-            android:src="@mipmap/unlock_icon" />
-
-        <FrameLayout
-            android:id="@+id/unlock_guide"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:visibility="gone">
+            android:scaleType="fitCenter"
+            android:src="@mipmap/unlock_guide_foreground" />
 
-            <ImageView
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:scaleType="fitCenter"
-                android:src="@mipmap/unlock_guide_foreground" />
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:paddingTop="30dp"
-                android:layout_gravity="center"
-                android:orientation="horizontal">
-
-                <View
-                    android:layout_width="0dp"
-                    android:layout_height="1dp"
-                    android:layout_weight="1" />
-
-                <Button
-                    android:id="@+id/unlock_guide_ok"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textSize="14dp"
-                    android:textColor="@color/white"
-                    android:text="好的"
-                    android:onClick="onClick"
-                    android:background="@mipmap/unlock_guide_blue_button" />
-
-                <View
-                    android:layout_width="0dp"
-                    android:layout_height="1dp"
-                    android:layout_weight="1" />
-
-                <Button
-                    android:id="@+id/unlock_guide_never_remind"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textColor="@color/white"
-                    android:textSize="14dp"
-                    android:text="不再提醒"
-                    android:onClick="onClick"
-                    android:background="@mipmap/unlock_guide_black_button" />
-
-                <View
-                    android:layout_width="0dp"
-                    android:layout_height="1dp"
-                    android:layout_weight="1" />
-            </LinearLayout>
-
-        </FrameLayout>
-
-        <FrameLayout
-            android:id="@+id/unlock_guide_flicker"
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="wrap_content"
+            android:paddingTop="30dp"
+            android:layout_gravity="center"
+            android:orientation="horizontal">
 
-            <include layout="@layout/include_guide_flicker1" />
+            <View
+                android:layout_width="0dp"
+                android:layout_height="1dp"
+                android:layout_weight="1" />
 
-            <include layout="@layout/include_guide_flicker2" />
+            <Button
+                android:id="@+id/unlock_guide_ok"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="14dp"
+                android:textColor="@color/white"
+                android:text="好的"
+                android:onClick="onClick"
+                android:background="@mipmap/unlock_guide_blue_button" />
 
-            <include layout="@layout/include_guide_flicker3" />
-        </FrameLayout>
+            <View
+                android:layout_width="0dp"
+                android:layout_height="1dp"
+                android:layout_weight="1" />
 
-        <include layout="@layout/include_main_parent_ui" />
+            <Button
+                android:id="@+id/unlock_guide_never_remind"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/white"
+                android:textSize="14dp"
+                android:text="不再提醒"
+                android:onClick="onClick"
+                android:background="@mipmap/unlock_guide_black_button" />
+
+            <View
+                android:layout_width="0dp"
+                android:layout_height="1dp"
+                android:layout_weight="1" />
+        </LinearLayout>
+
     </FrameLayout>
 
-</LinearLayout>
+    <FrameLayout
+        android:id="@+id/unlock_guide_flicker"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <include layout="@layout/include_guide_flicker1" />
+
+        <include layout="@layout/include_guide_flicker2" />
+
+        <include layout="@layout/include_guide_flicker3" />
+    </FrameLayout>
+
+    <include layout="@layout/include_main_parent_ui" />
+</FrameLayout>

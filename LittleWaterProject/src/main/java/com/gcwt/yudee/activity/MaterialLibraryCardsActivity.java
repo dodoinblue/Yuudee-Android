@@ -84,7 +84,10 @@ public class MaterialLibraryCardsActivity extends BaseLittleWaterActivity {
             @Override
             public View getView(final int position, View convertView, ViewGroup parent) {
                 View view = super.getView(position, convertView, parent);
-                if (mSelectMode && position < mCardItemList.size()) {
+                final CardItem moveItem = mList.get(position);
+                if (moveItem.getIsEmpty()) {
+                    view.setVisibility(View.INVISIBLE);
+                } else if (mSelectMode) {
                     final ImageView selectView = (ImageView) view.findViewById(R.id.card_edit);
                     selectView.setImageResource(R.mipmap.box);
                     selectView.setVisibility(View.VISIBLE);
@@ -111,10 +114,6 @@ public class MaterialLibraryCardsActivity extends BaseLittleWaterActivity {
                     });
                 }
 
-                final CardItem moveItem = mList.get(position);
-                if (moveItem.getIsEmpty()) {
-                    view.setVisibility(View.INVISIBLE);
-                }
                 return view;
             }
         };

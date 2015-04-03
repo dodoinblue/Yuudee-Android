@@ -119,10 +119,11 @@ public class LittleWaterActivity extends BaseLittleWaterActivity implements OnAd
         }
     };
 
+    protected int mRctivityLayout = R.layout.activity_little_water;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_little_water);
+		setContentView(mRctivityLayout);
 		// 初始化控件
 		initViews();
         initEvents();
@@ -158,7 +159,9 @@ public class LittleWaterActivity extends BaseLittleWaterActivity implements OnAd
                 }
 
                 LittleWaterUtility.setCategoryCardsList(mCurrentCategory, mCardItemList);
+//                displayCards();
                 mContainer.refreshView();
+                mContainer.showEdit(mIsInParentMode);
                 break;
         }
     }

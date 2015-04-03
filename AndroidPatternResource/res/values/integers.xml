@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ Copyright (C) 2015 G-Wearable Inc.
+  ~ All rights reserved.
+  -->
+
+<resources>
+
+   <integer name="config_longAnimTime">500</integer>
+</resources>

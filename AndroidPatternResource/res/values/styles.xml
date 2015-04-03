@@ -92,6 +92,13 @@
         <item name="android:activityCloseExitAnimation">@anim/slide_out_right</item>
     </style>
 
+    <style name="ActivitySlowAnimation">
+        <item name="android:activityOpenEnterAnimation">@anim/slide_in_right_slow</item>
+        <item name="android:activityOpenExitAnimation">@anim/slide_out_left_slow</item>
+        <item name="android:activityCloseEnterAnimation">@anim/slide_in_left_slow</item>
+        <item name="android:activityCloseExitAnimation">@anim/slide_out_right_slow</item>
+    </style>
+
     <style name="LoginFormContainer">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>
@@ -118,7 +125,7 @@
         <item name="android:textColor">#ff555555</item>
         <item name="android:backgroundDimEnabled">false</item>
         <item name="android:windowSoftInputMode">adjustPan</item>
-        <item name="@android:windowAnimationStyle">@style/ActivityAnimation</item>
+        <item name="@android:windowAnimationStyle">@style/ActivitySlowAnimation</item>
     </style>
 
     <style name="Theme.Light.TransparentBackground" parent="@android:style/Theme">

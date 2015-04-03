@@ -335,8 +335,8 @@ public class LittleWaterActivity extends BaseLittleWaterActivity implements OnAd
     }
 
     protected void displayCards() {
-        validateCardsEffectiveness();
 //        addEmptyCardItems();
+        validateCardsEffectiveness();
         //动态设置Container每页的列数为2行
         mContainer.setColCount(mCurrentCategoryCardLayoutSetting);
         //动态设置Container每页的行数为2行
@@ -471,22 +471,22 @@ public class LittleWaterActivity extends BaseLittleWaterActivity implements OnAd
                 break;
             case R.id.about_product_introduction:
                 showProductIntroductionWindow();
-                mAboutMenuwindow.dismiss();
+//                mAboutMenuwindow.dismiss();
                 break;
             case R.id.about_train_introduction:
                 showTrainingIntroductionWindow();
-                mAboutMenuwindow.dismiss();
+//                mAboutMenuwindow.dismiss();
                 break;
             case R.id.about_feedback_advice:
                 FeedbackAgent agent = new FeedbackAgent(this);
                 agent.startFeedbackActivity();
-                mAboutMenuwindow.dismiss();
+//                mAboutMenuwindow.dismiss();
                 break;
             case R.id.about_export_resource_library:
-                mAboutMenuwindow.dismiss();
+//                mAboutMenuwindow.dismiss();
                 break;
             case R.id.about_reset_cards:
-                mAboutMenuwindow.dismiss();
+//                mAboutMenuwindow.dismiss();
                 break;
             case R.id.about_train_introduction_window_quit:
                 mTrainingIntroductionWindow.dismiss();
@@ -582,8 +582,14 @@ public class LittleWaterActivity extends BaseLittleWaterActivity implements OnAd
     }
 
     private void openAboutLittleWalterWindow() {
-        mAboutMenuwindow = new ActionWindow(this, findViewById(R.id.parent_about_open), R.layout.layout_about_menu);
-        mAboutMenuwindow.popup(Gravity.LEFT|Gravity.BOTTOM);
+//        mAboutMenuwindow = new ActionWindow(this, findViewById(R.id.parent_about_open), R.layout.layout_about_menu);
+//        mAboutMenuwindow.popup(Gravity.LEFT|Gravity.BOTTOM);
+        View menuContainer = findViewById(R.id.about_menu_container);
+        if (menuContainer.getVisibility() == View.VISIBLE) {
+            menuContainer.setVisibility(View.INVISIBLE);
+        } else {
+            menuContainer.setVisibility(View.VISIBLE);
+        }
     }
 
     private void showProductIntroductionWindow() {

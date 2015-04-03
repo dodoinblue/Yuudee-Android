@@ -2,97 +2,86 @@
   ~ Copyright (C) 2015 G-Wearable Inc.
   ~ All rights reserved.
   -->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/about_menu_container"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_gravity="bottom|center_horizontal"
+    android:gravity="center"
+    android:paddingTop="8dp"
+    android:paddingBottom="4dp"
+    android:layout_marginBottom="20dp"
+    android:orientation="vertical"
+    android:visibility="invisible"
+    android:background="@mipmap/about_menu">
 
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@android:color/transparent">
-
-    <LinearLayout
+    <TextView
+        android:id="@+id/about_product_introduction"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="bottom|center_horizontal"
-        android:gravity="center"
-        android:paddingTop="8dp"
-        android:paddingBottom="4dp"
-        android:layout_margin="15dp"
-        android:orientation="vertical"
-        android:background="@mipmap/about_menu">
-        <TextView
-            android:id="@+id/about_product_introduction"
-            android:layout_width="wrap_content"
-            android:layout_height="0dp"
-            android:layout_weight="1"
-            android:clickable="true"
-            android:onClick="onClick"
-            android:text="产品介绍"
-            android:gravity="center"
-            android:textSize="14dp"
-            android:textColor="@color/white"/>
-        <TextView
-            android:id="@+id/about_train_introduction"
-            android:layout_width="wrap_content"
-            android:layout_height="0dp"
-            android:layout_weight="1"
-            android:clickable="true"
-            android:onClick="onClick"
-            android:text="训练简介"
-            android:gravity="center"
-            android:textSize="14dp"
-            android:textColor="@color/white"/>
-        <TextView
-            android:id="@+id/about_feedback_advice"
-            android:layout_width="wrap_content"
-            android:layout_height="0dp"
-            android:layout_weight="1"
-            android:clickable="true"
-            android:onClick="onClick"
-            android:text="反馈意见"
-            android:gravity="center"
-            android:textSize="14dp"
-            android:textColor="@color/white"/>
-        <TextView
-            android:id="@+id/about_export_resource_library"
-            android:layout_width="wrap_content"
-            android:layout_height="0dp"
-            android:layout_weight="1"
-            android:clickable="true"
-            android:onClick="onClick"
-            android:text="导出素材库"
-            android:gravity="center"
-            android:textSize="14dp"
-            android:textColor="@color/white"/>
-        <TextView
-            android:id="@+id/about_reset_cards"
-            android:layout_width="wrap_content"
-            android:layout_height="0dp"
-            android:layout_weight="1"
-            android:clickable="true"
-            android:onClick="onClick"
-            android:text="重置卡片"
-            android:gravity="center"
-            android:textSize="14dp"
-            android:textColor="@color/white"/>
-
-        <TextView
-            android:id="@+id/null_content"
-            android:layout_width="wrap_content"
-            android:layout_height="0dp"
-            android:layout_weight="1"
-            android:text=" "
-            android:gravity="center"
-            android:textSize="14dp"
-            android:textColor="@color/white"/>
-    </LinearLayout>
-
-    <ImageView
-        android:id="@+id/parent_about_close"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="bottom|center_horizontal"
-        android:layout_margin="9dp"
+        android:layout_height="0dp"
+        android:layout_weight="1"
         android:clickable="true"
         android:onClick="onClick"
-        android:background="@mipmap/about_button" />
+        android:text="产品介绍"
+        android:gravity="center"
+        android:textSize="14dp"
+        android:textColor="@color/white" />
 
-</FrameLayout>
+    <TextView
+        android:id="@+id/about_train_introduction"
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:clickable="true"
+        android:onClick="onClick"
+        android:text="训练简介"
+        android:gravity="center"
+        android:textSize="14dp"
+        android:textColor="@color/white" />
+
+    <TextView
+        android:id="@+id/about_feedback_advice"
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:clickable="true"
+        android:onClick="onClick"
+        android:text="反馈意见"
+        android:gravity="center"
+        android:textSize="14dp"
+        android:textColor="@color/white" />
+
+    <TextView
+        android:id="@+id/about_export_resource_library"
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:clickable="true"
+        android:onClick="onClick"
+        android:text="导出素材库"
+        android:gravity="center"
+        android:textSize="14dp"
+        android:textColor="@color/white" />
+
+    <TextView
+        android:id="@+id/about_reset_cards"
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:clickable="true"
+        android:onClick="onClick"
+        android:text="重置卡片"
+        android:gravity="center"
+        android:textSize="14dp"
+        android:textColor="@color/white" />
+
+    <TextView
+        android:id="@+id/null_content"
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:text=" "
+        android:gravity="center"
+        android:textSize="14dp"
+        android:textColor="@color/white" />
+</LinearLayout>

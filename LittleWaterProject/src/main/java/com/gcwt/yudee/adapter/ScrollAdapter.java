@@ -65,7 +65,7 @@ public class ScrollAdapter implements SAdapter {
 	@Override
 	public View getView(int position, View convertView, ViewGroup parent) {
         final CardItem moveItem = mList.get(position);
-        if (!moveItem.isEmpty) {
+        if (!moveItem.getIsEmpty()) {
             int layoutRes = 0;
             if (mScrollLayout.getColCount() == LittleWaterActivity.LAYOUT_TYPE_2_X_2) {
                 layoutRes = R.layout.card_item;
@@ -162,7 +162,7 @@ public class ScrollAdapter implements SAdapter {
         iv.setVisibility(View.GONE);
         if (moveItem.getAudios().size() > 0 && !moveItem.getCardSettings().getMute()) {
             // will add back later for develop silently
-            playAudio(moveItem.getAudios().get(0));
+//            playAudio(moveItem.getAudios().get(0));
         }
         List<String> images = moveItem.getImages();
         flipper.removeAllViews();

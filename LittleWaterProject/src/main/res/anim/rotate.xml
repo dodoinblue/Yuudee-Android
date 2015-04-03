@@ -13,6 +13,7 @@
         android:toDegrees="-30"
         android:pivotX="50%"
         android:pivotY="50%"
+        android:startOffset="0"
         android:repeatCount="1"
         android:repeatMode="reverse"
         android:duration="400"/>
@@ -36,4 +37,5 @@
         android:repeatCount="1"
         android:repeatMode="reverse"
         android:duration="400"/>
+
 </set>

@@ -50,7 +50,7 @@ public class ShowCardActivity extends Activity {
         iv.setImageDrawable(cardCover);
 
         TextView nameView = (TextView) findViewById(R.id.card_name);
-        nameView.setText(mCardItem.getName());
+        nameView.setText(LittleWaterUtility.getCardDisplayName(mCardItem.getName()));
     }
 
     protected void initEvents() {
@@ -64,16 +64,16 @@ public class ShowCardActivity extends Activity {
                 }, 800);
                 break;
             case LittleWaterConstant.ANIMATION_ZOOM_IN_AND_ROTATE:
+                final View view = findViewById(R.id.card_bg);
+                Animation shake = AnimationUtils.loadAnimation(ShowCardActivity.this, R.anim.rotate);
+                shake.setFillAfter(false);
+                view.startAnimation(shake);
                 new Handler().postDelayed(new Runnable() {
                     @Override
                     public void run() {
-                        final View view = findViewById(R.id.card_bg);
-                        Animation shake = AnimationUtils.loadAnimation(ShowCardActivity.this, R.anim.rotate);
-                        shake.setFillAfter(false);
-                        view.startAnimation(shake);
                         ScrollAdapter.playCardByAnimation(ShowCardActivity.this, findViewById(R.id.card_root_view), mCardItem);
                     }
-                }, 800);
+                }, 1600);
                 break;
         }
     }

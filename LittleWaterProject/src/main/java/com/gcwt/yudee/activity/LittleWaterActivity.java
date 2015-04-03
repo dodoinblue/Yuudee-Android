@@ -146,7 +146,6 @@ public class LittleWaterActivity extends BaseLittleWaterActivity implements OnAd
                     if (TextUtils.equals(item.getName(), cardItem.getName())) {
                         mCardItemList.set(pos, cardItem);
                         LittleWaterUtility.setCategoryCardsList(mCurrentCategory, mCardItemList);
-                        Log.d("zheng", "onActivityResult ACTIVITY_REQUEST_CODE_EDIT_CARD_SETTINGS");
                         break;
                     }
                     pos++;
@@ -602,6 +601,7 @@ public class LittleWaterActivity extends BaseLittleWaterActivity implements OnAd
         mNewCategorywindow.setWindowHeight(WindowManager.LayoutParams.MATCH_PARENT);
         mNewCategorywindow.setWindowWidth(WindowManager.LayoutParams.MATCH_PARENT);
         mNewCategorywindow.popup(Gravity.CENTER);
+
         mHandler.postDelayed(new Runnable() {
             @Override
             public void run() {
@@ -654,6 +654,7 @@ public class LittleWaterActivity extends BaseLittleWaterActivity implements OnAd
         mSettingsActionWindow = new ActionWindow(this, findViewById(R.id.parent_settings), mParentSettingsLayout);
         mSettingsActionWindow.setWindowHeight(WindowManager.LayoutParams.MATCH_PARENT);
         mSettingsActionWindow.setWindowWidth(WindowManager.LayoutParams.MATCH_PARENT);
+        mSettingsActionWindow.setAnimationStyle(0);
         mSettingsActionWindow.popup(Gravity.CENTER);
         mCategoryNameEdit = (EditText) mParentSettingsLayout.findViewById(R.id.parent_settings_edit_category_name);
         TextView categoryNameView = (TextView) mParentSettingsLayout.findViewById(R.id.parent_settings_title_category);
@@ -667,8 +668,13 @@ public class LittleWaterActivity extends BaseLittleWaterActivity implements OnAd
             mParentSettingsLayout.findViewById(R.id.parent_settings_layout2_2_checked).setVisibility(View.VISIBLE);
         }
 
-        mParentSettingsLayout.findViewById(R.id.settings_root_container).setBackground(new BitmapDrawable(getScreenshot()));
-        BlurUtility.blur(LittleWaterActivity.this, mParentSettingsLayout.findViewById(R.id.settings_root_container));
+        mHandler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                mParentSettingsLayout.findViewById(R.id.settings_root_container).setBackground(new BitmapDrawable(getScreenshot()));
+                BlurUtility.blur(LittleWaterActivity.this, mParentSettingsLayout.findViewById(R.id.settings_root_container));
+            }
+        }, 100);
     }
 
     private Bitmap getScreenshot() {

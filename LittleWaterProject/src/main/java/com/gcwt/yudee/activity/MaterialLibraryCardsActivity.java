@@ -110,6 +110,11 @@ public class MaterialLibraryCardsActivity extends BaseLittleWaterActivity {
                         }
                     });
                 }
+
+                final CardItem moveItem = mList.get(position);
+                if (moveItem.getIsEmpty()) {
+                    view.setVisibility(View.INVISIBLE);
+                }
                 return view;
             }
         };

@@ -335,7 +335,7 @@ public class LittleWaterActivity extends BaseLittleWaterActivity implements OnAd
     }
 
     protected void displayCards() {
-//        addEmptyCardItems();
+        addEmptyCardItems();
         validateCardsEffectiveness();
         //动态设置Container每页的列数为2行
         mContainer.setColCount(mCurrentCategoryCardLayoutSetting);

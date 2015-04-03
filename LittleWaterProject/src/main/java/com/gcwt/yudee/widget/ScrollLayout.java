@@ -210,8 +210,8 @@ public class ScrollLayout extends LinearLayout implements OnDataChangeListener {
 	@Override
 	public void addView(View child, int index, ViewGroup.LayoutParams params) {
 		child.setClickable(true);
-		if (child.getVisibility() != View.VISIBLE)
-			child.setVisibility(View.VISIBLE);
+//		if (child.getVisibility() != View.VISIBLE)
+//			child.setVisibility(View.VISIBLE);
 		super.addView(child, index, params);
 		int pages = (int) Math.ceil(getChildCount() * 1.0 / itemPerPage);
 		if (pages > totalPage) {

@@ -145,7 +145,7 @@ public class ScrollAdapter implements SAdapter {
             return view;
 		} else {
             ImageView view = (ImageView) mInflater.inflate(R.layout.layout_empty_card_position, mScrollLayout, false);
-            view.setTag(new CardItem());
+            view.setTag(moveItem);
             if (LittleWaterActivity.mIsInParentMode) {
                 view.setVisibility(View.VISIBLE);
             } else {

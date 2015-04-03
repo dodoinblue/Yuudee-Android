@@ -90,8 +90,10 @@ public class LittleWaterActivity extends BaseLittleWaterActivity implements OnAd
     private ActionWindow mProductIntroductionWindow;
     private ActionWindow mTrainingIntroductionWindow;
     private ActionWindow mAboutMenuwindow;
+    private ActionWindow mNewCategorywindow;
     private TextView mParentCategoryContent;
     private ViewGroup mParentSettingsLayout;
+    private ViewGroup mNewCategoryLayout;
     private HashMap<Integer, Boolean> mEnterParentCheckMap = new HashMap<Integer, Boolean>();
     private View.OnTouchListener mViewFlipperOnTouchListener = new View.OnTouchListener() {
         @Override
@@ -137,17 +139,6 @@ public class LittleWaterActivity extends BaseLittleWaterActivity implements OnAd
             return;
         }
         switch (requestCode) {
-            case LittleWaterConstant.ACTIVITY_REQUEST_CODE_NEW_CATEGORY:
-                String newCategoryName = data.getStringExtra("result_new_category_name");
-                mCurrentCategory = newCategoryName;
-                mCardItemList = LittleWaterUtility.getCategoryCardsList(mCurrentCategory);
-                LittleWaterUtility.setCategoryCardsList(mCurrentCategory, mCardItemList);
-                LittleWaterApplication.getAppSettingsPreferences().putString(LittleWaterConstant.SETTINGS_CURRENT_CATEGORY, mCurrentCategory);
-
-                displayCards();
-                mDropDownCategoryListWindow.dismiss();
-                break;
-
             case LittleWaterConstant.ACTIVITY_REQUEST_CODE_EDIT_CARD_SETTINGS:
                 CardItem cardItem = (CardItem) data.getSerializableExtra("card_item");
                 int pos = 0;
@@ -426,7 +417,7 @@ public class LittleWaterActivity extends BaseLittleWaterActivity implements OnAd
                 enterChildMode();
                 break;
             case R.id.parent_about_open:
-                openAboutLittleWalterWindow();
+                showAboutLittleWalterWindow();
                 break;
             case R.id.parent_settings:
                 popUpSettings();
@@ -466,8 +457,16 @@ public class LittleWaterActivity extends BaseLittleWaterActivity implements OnAd
                 showResourceLibrary();
                 break;
             case R.id.parent_add_new_category:
-                Intent intent = new Intent(this, NewCategoryActivity.class);
-                startActivityForResult(intent, LittleWaterConstant.ACTIVITY_REQUEST_CODE_NEW_CATEGORY);
+//                Intent intent = new Intent(this, NewCategoryActivity.class);
+//                startActivityForResult(intent, LittleWaterConstant.ACTIVITY_REQUEST_CODE_NEW_CATEGORY);
+                showAddNewCategoryWindow();
+                break;
+            case R.id.parent_add_new_category_confirm:
+                saveNewCategory();
+                mNewCategorywindow.dismiss();
+                break;
+            case R.id.parent_add_new_category_cancel:
+                mNewCategorywindow.dismiss();
                 break;
             case R.id.about_product_introduction:
                 showProductIntroductionWindow();
@@ -581,7 +580,38 @@ public class LittleWaterActivity extends BaseLittleWaterActivity implements OnAd
         LittleWaterApplication.getCategorySettingsPreferences().putInt(newCategoryName, cateorySetting);
     }
 
-    private void openAboutLittleWalterWindow() {
+    private void saveNewCategory() {
+        EditText categoryNameEditView = (EditText) mNewCategoryLayout.findViewById(R.id.edit_new_category_name);
+        if (TextUtils.isEmpty(categoryNameEditView.getText().toString())) {
+            showCustomToast("请输入新课件名称");
+            return;
+        }
+        mCurrentCategory = categoryNameEditView.getText().toString();
+        LittleWaterApplication.getCategoryCardsPreferences().putString(mCurrentCategory, "");
+        mCardItemList = LittleWaterUtility.getCategoryCardsList(mCurrentCategory);
+        LittleWaterUtility.setCategoryCardsList(mCurrentCategory, mCardItemList);
+        LittleWaterApplication.getAppSettingsPreferences().putString(LittleWaterConstant.SETTINGS_CURRENT_CATEGORY, mCurrentCategory);
+
+        displayCards();
+        mDropDownCategoryListWindow.dismiss();
+    }
+
+    private void showAddNewCategoryWindow() {
+        mNewCategoryLayout = (ViewGroup) mInflater.inflate(R.layout.action_window_new_category, null);
+        mNewCategorywindow = new ActionWindow(this, findViewById(R.id.parent_settings), mNewCategoryLayout);
+        mNewCategorywindow.setWindowHeight(WindowManager.LayoutParams.MATCH_PARENT);
+        mNewCategorywindow.setWindowWidth(WindowManager.LayoutParams.MATCH_PARENT);
+        mNewCategorywindow.popup(Gravity.CENTER);
+        mHandler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                mNewCategoryLayout.findViewById(R.id.settings_root_container).setBackground(new BitmapDrawable(getScreenshot()));
+                BlurUtility.blur(LittleWaterActivity.this, mNewCategoryLayout.findViewById(R.id.settings_root_container));
+            }
+        }, 100);
+    }
+
+    private void showAboutLittleWalterWindow() {
 //        mAboutMenuwindow = new ActionWindow(this, findViewById(R.id.parent_about_open), R.layout.layout_about_menu);
 //        mAboutMenuwindow.popup(Gravity.LEFT|Gravity.BOTTOM);
         View menuContainer = findViewById(R.id.about_menu_container);
@@ -637,20 +667,18 @@ public class LittleWaterActivity extends BaseLittleWaterActivity implements OnAd
             mParentSettingsLayout.findViewById(R.id.parent_settings_layout2_2_checked).setVisibility(View.VISIBLE);
         }
 
-        mHandler.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                View view = getWindow().getDecorView();
-                Display display = getWindowManager().getDefaultDisplay();
-                view.layout(0, 0, display.getWidth(), display.getHeight());
-                view.setDrawingCacheEnabled(true);
-                Bitmap bitmap = Bitmap.createBitmap(view.getDrawingCache());
-                view.setDrawingCacheEnabled(false);
+        mParentSettingsLayout.findViewById(R.id.settings_root_container).setBackground(new BitmapDrawable(getScreenshot()));
+        BlurUtility.blur(LittleWaterActivity.this, mParentSettingsLayout.findViewById(R.id.settings_root_container));
+    }
 
-                mParentSettingsLayout.findViewById(R.id.settings_root_container).setBackground(new BitmapDrawable(bitmap));
-                BlurUtility.blur(LittleWaterActivity.this, mParentSettingsLayout.findViewById(R.id.settings_root_container));
-            }
-        }, 100);
+    private Bitmap getScreenshot() {
+        View view = getWindow().getDecorView();
+        Display display = getWindowManager().getDefaultDisplay();
+        view.layout(0, 0, display.getWidth(), display.getHeight());
+        view.setDrawingCacheEnabled(true);
+        Bitmap bitmap = Bitmap.createBitmap(view.getDrawingCache());
+        view.setDrawingCacheEnabled(false);
+        return bitmap;
     }
 
     private void showResourceLibrary() {

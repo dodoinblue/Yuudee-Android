@@ -8,8 +8,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:layout_gravity="center"
-    android:gravity="center"
-    android:background="@mipmap/child_presshint_p8">
+    android:gravity="center">
 
     <LinearLayout
         android:layout_width="wrap_content"

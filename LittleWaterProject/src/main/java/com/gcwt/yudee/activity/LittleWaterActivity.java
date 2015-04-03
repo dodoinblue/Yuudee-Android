@@ -504,26 +504,25 @@ public class LittleWaterActivity extends BaseLittleWaterActivity implements OnAd
         }
     }
 
+    private int[] flipperResIds = {R.id.flipper1, R.id.flipper2, R.id.flipper3};
+
     private void showUnloackParentUIRemind() {
         if (mNeedGuideRemind) {
             findViewById(R.id.unlock_guide).setVisibility(View.VISIBLE);
         } else {
-//            findViewById(R.id.unlock_guide_flicker).setVisibility(View.VISIBLE);
-            final ViewFlipper flipper1 = (ViewFlipper) findViewById(R.id.flipper1);
-            flipper1.startFlipping();
-            final ViewFlipper flipper2 = (ViewFlipper) findViewById(R.id.flipper2);
-            flipper2.startFlipping();
-            final ViewFlipper flipper3 = (ViewFlipper) findViewById(R.id.flipper3);
-            flipper3.startFlipping();
-            mHandler.postDelayed(new Runnable() {
-                @Override
-                public void run() {
-                    flipper1.stopFlipping();
-                    flipper2.stopFlipping();
-                    flipper3.stopFlipping();
-//                    findViewById(R.id.unlock_guide_flicker).setVisibility(View.INVISIBLE);
-                }
-            }, 1000);
+            findViewById(R.id.unlock_guide_flicker).setVisibility(View.VISIBLE);
+            for (int flipperResId : flipperResIds) {
+                final ViewFlipper flipper = (ViewFlipper) findViewById(flipperResId);
+                flipper.setDisplayedChild(0);
+                flipper.startFlipping();
+                mHandler.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        flipper.stopFlipping();
+                        findViewById(R.id.unlock_guide_flicker).setVisibility(View.INVISIBLE);
+                    }
+                }, 900);
+            }
         }
     }
 

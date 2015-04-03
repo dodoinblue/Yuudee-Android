@@ -5,21 +5,35 @@
 
 package com.gcwt.yudee.util;
 
+import android.app.Activity;
+import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
+import android.media.AudioManager;
+import android.media.MediaPlayer;
+import android.os.Handler;
 import android.pattern.util.BitmapUtil;
 import android.pattern.util.PhotoUtil;
 import android.text.TextUtils;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
+import android.widget.ImageView;
+import android.widget.ViewFlipper;
 
 import com.gcwt.yudee.LittleWaterApplication;
+import com.gcwt.yudee.R;
 import com.gcwt.yudee.activity.LittleWaterActivity;
+import com.gcwt.yudee.activity.ShowCardActivity;
 import com.gcwt.yudee.model.CardItem;
 import com.gcwt.yudee.model.CardSettings;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -123,5 +137,72 @@ public class LittleWaterUtility {
                 }
             }
         }
+    }
+
+    public static void playCardByFlippingAnimation(final Context context, View view, CardItem moveItem) {
+        final ImageView iv = (ImageView) view.findViewById(R.id.content_iv);
+        final ViewFlipper flipper = (ViewFlipper) view.findViewById(R.id.content_show);
+        if (flipper.isFlipping()) {
+            return;
+        }
+        flipper.setVisibility(View.VISIBLE);
+        iv.setVisibility(View.GONE);
+        if (moveItem.getAudios().size() > 0 && !moveItem.getCardSettings().getMute()) {
+            // will add back later for develop silently
+            playAudio(moveItem.getAudios().get(0));
+        }
+        List<String> images = moveItem.getImages();
+        flipper.removeAllViews();
+        for (String image : images) {
+            ImageView imageView = (ImageView) LayoutInflater.from(context).inflate(R.layout.layout_image, flipper, false);
+            imageView.setImageDrawable(LittleWaterUtility.getRoundCornerDrawableFromSdCard(image));
+            flipper.addView(imageView);
+        }
+        flipper.startFlipping();
+        flipper.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                flipper.stopFlipping();
+                flipper.setVisibility(View.GONE);
+                iv.setVisibility(View.VISIBLE);
+                flipper.postDelayed(new Runnable() {
+
+                    @Override
+                    public void run() {
+                        if (context instanceof ShowCardActivity) {
+                            ShowCardActivity activity = (ShowCardActivity) context;
+                            activity.setResult(Activity.RESULT_OK);
+                            activity.finish();
+                        }
+                    }
+                }, 800);
+            }
+        }, 800 * moveItem.getImages().size());
+    }
+
+    private static void playAudio(String audioPath) {
+        MediaPlayer mediaPlayer = new MediaPlayer();
+        mediaPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
+        try {
+            mediaPlayer.setDataSource(audioPath);
+            mediaPlayer.prepare();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        mediaPlayer.start();
+//        mediaPlayer.stop();
+//        mediaPlayer.release();
+    }
+
+    public static void playCardByRotateAndFlippingAnimation(final Context context, final View view, final CardItem cardItem) {
+        Animation shake = AnimationUtils.loadAnimation(context, R.anim.rotate);
+        shake.setFillAfter(false);
+        view.startAnimation(shake);
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                LittleWaterUtility.playCardByFlippingAnimation(context, view, cardItem);
+            }
+        }, 1600);
     }
 }

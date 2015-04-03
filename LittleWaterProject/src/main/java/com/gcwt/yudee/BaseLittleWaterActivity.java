@@ -147,8 +147,10 @@ abstract public class BaseLittleWaterActivity extends BaseActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
+        if (resultCode != Activity.RESULT_OK) {
+            return;
+        }
         switch (requestCode) {
-
             case PhotoUtils.REQUESTCODE_UPLOADAVATAR_CAMERA:// 拍照修改头像
                 System.out.println("拍照修改头像");
                 if (resultCode == Activity.RESULT_OK) {

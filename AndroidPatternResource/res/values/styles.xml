@@ -118,7 +118,7 @@
         <item name="android:textColor">#ff555555</item>
         <item name="android:backgroundDimEnabled">false</item>
         <item name="android:windowSoftInputMode">adjustPan</item>
-        <item name="android:windowAnimationStyle">@null</item>
+        <item name="@android:windowAnimationStyle">@style/ActivityAnimation</item>
     </style>
 
     <style name="Theme.Light.TransparentBackground" parent="@android:style/Theme">

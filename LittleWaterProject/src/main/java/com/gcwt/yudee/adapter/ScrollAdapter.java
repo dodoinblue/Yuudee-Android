@@ -16,6 +16,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.ViewFlipper;
 
@@ -26,6 +27,7 @@ import com.gcwt.yudee.activity.MaterialLibraryCardsActivity;
 import com.gcwt.yudee.activity.ShowCardActivity;
 import com.gcwt.yudee.activity.SubFolderLittleWaterActivity;
 import com.gcwt.yudee.model.CardItem;
+import com.gcwt.yudee.util.DensityUtil;
 import com.gcwt.yudee.util.LittleWaterConstant;
 import com.gcwt.yudee.util.LittleWaterUtility;
 import com.gcwt.yudee.widget.ScrollLayout;
@@ -67,16 +69,24 @@ public class ScrollAdapter implements SAdapter {
         final CardItem moveItem = mList.get(position);
         if (!moveItem.getIsEmpty()) {
             int layoutRes = 0;
+            int categoryBottomMargin;
             if (mScrollLayout.getColCount() == LittleWaterActivity.LAYOUT_TYPE_2_X_2) {
+                categoryBottomMargin = DensityUtil.dip2px(mContext, 29);
                 layoutRes = R.layout.card_item;
             } else {
-                layoutRes = R.layout.single_card_item;
+                categoryBottomMargin = DensityUtil.dip2px(mContext, 66);
+                layoutRes = R.layout.big_card_item;
             }
 			final View view = mInflater.inflate(layoutRes, parent, false);
+            TextView nameView = (TextView) view.findViewById(R.id.card_name);
+            nameView.setText(LittleWaterUtility.getCardDisplayName(moveItem.getName()));
+
 			final ImageView iv = (ImageView) view.findViewById(R.id.content_iv);
             String coverUrl;
             if (moveItem.isLibraryFolder) {
                 coverUrl = moveItem.getCover();
+                LinearLayout.LayoutParams params = (LinearLayout.LayoutParams)nameView.getLayoutParams();
+                params.setMargins(0, 0, 0, categoryBottomMargin);
             } else {
                 coverUrl = moveItem.getImages().get(0);
             }
@@ -92,9 +102,6 @@ public class ScrollAdapter implements SAdapter {
                 mCache.put(coverUrl, new SoftReference<Drawable>(cardCover));
             }
 
-            TextView nameView = (TextView) view.findViewById(R.id.card_name);
-//            nameView.setText(moveItem.getName());
-            nameView.setText(LittleWaterUtility.getCardDisplayName(moveItem.getName()));
             iv.setImageDrawable(cardCover);
 			view.setTag(moveItem);
             if (mContext instanceof MaterialLibraryCardsActivity) {
@@ -119,10 +126,20 @@ public class ScrollAdapter implements SAdapter {
                         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                         intent.putExtra("library", moveItem.getName());
                         mContext.startActivity(intent);
+                    } else if (mScrollLayout.getColCount() == LittleWaterActivity.LAYOUT_TYPE_1_X_1) {
+                        switch (moveItem.getCardSettings().getAnimationType()) {
+                            case LittleWaterConstant.ANIMATION_NONE:
+                            case LittleWaterConstant.ANIMATION_ZOOM_IN:
+                                LittleWaterUtility.playCardByFlippingAnimation(mContext, view, moveItem);
+                                break;
+                            case LittleWaterConstant.ANIMATION_ZOOM_IN_AND_ROTATE:
+                                LittleWaterUtility.playCardByRotateAndFlippingAnimation(mContext, view, moveItem);
+                                break;
+                        }
                     } else {
                         switch (moveItem.getCardSettings().getAnimationType()) {
                             case LittleWaterConstant.ANIMATION_NONE:
-                                playCardByFlippingAnimation(mContext, view, moveItem);
+                                LittleWaterUtility.playCardByFlippingAnimation(mContext, view, moveItem);
                                 break;
                             case LittleWaterConstant.ANIMATION_ZOOM_IN:
                             case LittleWaterConstant.ANIMATION_ZOOM_IN_AND_ROTATE:
@@ -156,57 +173,6 @@ public class ScrollAdapter implements SAdapter {
             return view;
         }
 	}
-
-    public static void playCardByFlippingAnimation(final Context context, View view, CardItem moveItem) {
-        final ImageView iv = (ImageView) view.findViewById(R.id.content_iv);
-        final ViewFlipper flipper = (ViewFlipper) view.findViewById(R.id.content_show);
-        flipper.setVisibility(View.VISIBLE);
-        iv.setVisibility(View.GONE);
-        if (moveItem.getAudios().size() > 0 && !moveItem.getCardSettings().getMute()) {
-            // will add back later for develop silently
-//            playAudio(moveItem.getAudios().get(0));
-        }
-        List<String> images = moveItem.getImages();
-        flipper.removeAllViews();
-        for (String image : images) {
-            ImageView imageView = (ImageView) LayoutInflater.from(context).inflate(R.layout.layout_image, flipper, false);
-            imageView.setImageDrawable(LittleWaterUtility.getRoundCornerDrawableFromSdCard(image));
-            flipper.addView(imageView);
-        }
-        flipper.startFlipping();
-        flipper.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                flipper.setVisibility(View.GONE);
-                iv.setVisibility(View.VISIBLE);
-                flipper.postDelayed(new Runnable() {
-
-                    @Override
-                    public void run() {
-                        if (context instanceof ShowCardActivity) {
-                            ShowCardActivity activity = (ShowCardActivity) context;
-                            activity.setResult(Activity.RESULT_OK);
-                            activity.finish();
-                        }
-                    }
-                }, 800);
-            }
-        }, 800 * moveItem.getImages().size());
-    }
-
-    private static void playAudio(String audioPath) {
-        MediaPlayer mediaPlayer = new MediaPlayer();
-        mediaPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
-        try {
-            mediaPlayer.setDataSource(audioPath);
-            mediaPlayer.prepare();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        mediaPlayer.start();
-//        mediaPlayer.stop();
-//        mediaPlayer.release();
-    }
 
 	@Override
 	public int getCount() {

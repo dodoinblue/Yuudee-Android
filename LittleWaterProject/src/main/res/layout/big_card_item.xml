@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/card_root_view"
     android:layout_width="match_parent"
@@ -12,7 +12,8 @@
 
     <FrameLayout
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content" >
+        android:layout_height="wrap_content"
+        android:layout_gravity="center">
 
         <FrameLayout
             android:layout_width="match_parent"
@@ -64,16 +65,15 @@
 
     <ImageView
         android:id="@+id/card_edit"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentTop="true"
-        android:layout_marginRight="0dp"
-        android:layout_marginTop="0dp"
+        android:layout_width="55dp"
+        android:layout_height="55dp"
+        android:layout_gravity="right|top"
+        android:layout_marginRight="20dp"
+        android:layout_marginTop="-3dp"
         android:clickable="true"
         android:onClick="onClick"
         android:src="@mipmap/edit"
         android:visibility="gone"
         tools:ignore="ContentDescription" />
 
-</RelativeLayout>
+</FrameLayout>

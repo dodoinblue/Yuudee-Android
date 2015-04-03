@@ -66,10 +66,10 @@ public class LittleWaterActivity extends BaseLittleWaterActivity implements OnAd
 		OnPageChangedListener, OnEditModeListener {
     private EditText mCategoryNameEdit;
     private long mFirstPressBackTime;
-    private String mCurrentCategory;
+    protected String mCurrentCategory;
     public static final int LAYOUT_TYPE_1_X_1 = 1;
     public static final int LAYOUT_TYPE_2_X_2 = 2;
-    private int mCurrentCategoryCardLayoutSetting = LAYOUT_TYPE_2_X_2;
+    protected int mCurrentCategoryCardLayoutSetting = LAYOUT_TYPE_2_X_2;
     private boolean mNeedGuideRemind = true;
     private int[] flipperResIds = { R.id.flipper1, R.id.flipper2, R.id.flipper3 };
     // Container的Adapter
@@ -334,6 +334,7 @@ public class LittleWaterActivity extends BaseLittleWaterActivity implements OnAd
         mContainer.setSaAdapter(mItemsAdapter);
         //调用refreView绘制所有的Item
         mContainer.refreshView();
+        mContainer.showEdit(mIsInParentMode);
         mParentCategoryContent.setText(mCurrentCategory);
     }
 
@@ -394,7 +395,6 @@ public class LittleWaterActivity extends BaseLittleWaterActivity implements OnAd
 		Log.e("zheng", "page-->" + page +"  isAdd-->" + isAdd);
 	}
 
-    private View mClickedEmptyCardView;
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.unlock_parent_ui:
@@ -489,6 +489,7 @@ public class LittleWaterActivity extends BaseLittleWaterActivity implements OnAd
                 mProductIntroductionWindow.dismiss();
                 break;
             case R.id.card_edit:
+                Log.d("zheng", "card_edit");
                 CardItem cardItem = (CardItem) view.getTag();
                 if (cardItem.isLibraryFolder) {
                     Intent intent = new Intent(LittleWaterActivity.this, EditMaterialLibraryActivity.class);
@@ -501,7 +502,6 @@ public class LittleWaterActivity extends BaseLittleWaterActivity implements OnAd
                 }
                 break;
             case R.id.add_new_card:
-                mClickedEmptyCardView = view;
                 Intent newCardIntent = new Intent(this, NewCategoryCardActivity.class);
                 newCardIntent.putExtra("current_category", mCurrentCategory);
                 startActivityForResult(newCardIntent, LittleWaterConstant.ACTIVITY_REQUEST_CODE_NEW_CATEGORY_CARD);

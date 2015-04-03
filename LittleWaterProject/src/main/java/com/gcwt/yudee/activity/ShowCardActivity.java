@@ -53,22 +53,12 @@ public class ShowCardActivity extends Activity {
                 new Handler().postDelayed(new Runnable() {
                     @Override
                     public void run() {
-                        ScrollAdapter.playCardByFlippingAnimation(ShowCardActivity.this, findViewById(R.id.card_root_view), mCardItem);
+                        LittleWaterUtility.playCardByFlippingAnimation(ShowCardActivity.this, findViewById(R.id.card_root_view), mCardItem);
                     }
                 }, 800);
                 break;
             case LittleWaterConstant.ANIMATION_ZOOM_IN_AND_ROTATE:
-                final View view = findViewById(R.id.card_root_view);
-                Animation shake = AnimationUtils.loadAnimation(ShowCardActivity.this, R.anim.rotate);
-                shake.setFillAfter(false);
-                view.startAnimation(shake);
-                new Handler().postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        ScrollAdapter.playCardByFlippingAnimation(ShowCardActivity.this, findViewById(R.id.card_root_view), mCardItem);
-                    }
-                }, 1600);
-                break;
+                LittleWaterUtility.playCardByRotateAndFlippingAnimation(this, findViewById(R.id.card_root_view), mCardItem);
         }
     }
 }

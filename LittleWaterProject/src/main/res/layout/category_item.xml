@@ -50,7 +50,7 @@
                 android:id="@+id/card_name"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="2dp"
+                android:paddingTop="2dp"
                 android:layout_marginBottom="29dp"
                 android:textSize="14dp"
                 android:gravity="center"

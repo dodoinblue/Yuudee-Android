@@ -7,7 +7,9 @@ package com.gcwt.yudee.activity;
 
 import android.view.View;
 
+import com.gcwt.yudee.LittleWaterApplication;
 import com.gcwt.yudee.R;
+import com.gcwt.yudee.util.LittleWaterConstant;
 import com.gcwt.yudee.util.LittleWaterUtility;
 
 /**
@@ -26,6 +28,8 @@ public class SubFolderLittleWaterActivity extends LittleWaterActivity {
 
     @Override
     protected void initEvents() {
+        mCurrentCategory = LittleWaterApplication.getAppSettingsPreferences().getString(LittleWaterConstant.SETTINGS_CURRENT_CATEGORY);
+        mCurrentCategoryCardLayoutSetting = LittleWaterApplication.getCategorySettingsPreferences().getInt(mCurrentCategory, LAYOUT_TYPE_2_X_2);
         mCardItemList = LittleWaterUtility.getMaterialLibraryCardsList(getIntent().getStringExtra("library"));
         displayCards();
     }

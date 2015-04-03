@@ -7,7 +7,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/root_view"
     android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
+    android:layout_height="330dp"
     android:background="@mipmap/cat_edit_bg"
     android:orientation="vertical"
     android:gravity="top|center_horizontal">
@@ -15,7 +15,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="50dp"
+        android:layout_marginTop="35dp"
         android:padding="35dp"
         android:orientation="horizontal">
 
@@ -44,8 +44,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:gravity="center"
-                    android:textColor="@android:color/black"
-                    android:textSize="14dp" />
+                    android:textColor="@color/card_name_color"
+                    android:textSize="13dp" />
             </LinearLayout>
 
             <ImageView
@@ -71,7 +71,7 @@
                 android:layout_height="wrap_content"
                 android:text="选择一张卡片做为分类封面:"
                 android:singleLine="true"
-                android:textColor="@android:color/holo_orange_dark"
+                android:textColor="@color/card_name_color"
                 android:textSize="13dp" />
 
             <ImageView
@@ -102,7 +102,9 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="40dp"
+        android:layout_marginLeft="40dp"
+        android:layout_marginRight="40dp"
+        android:layout_marginTop="0dp"
         android:orientation="horizontal">
 
         <Button

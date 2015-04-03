@@ -10,7 +10,7 @@
     <!--repeatMode 这个属性是定义动画播放完后再尾向头播放-->
     <rotate
         android:fromDegrees="0"
-        android:toDegrees="-30"
+        android:toDegrees="-20"
         android:pivotX="50%"
         android:pivotY="50%"
         android:startOffset="0"
@@ -20,7 +20,7 @@
 
     <rotate
         android:fromDegrees="0"
-        android:toDegrees="30"
+        android:toDegrees="20"
         android:startOffset="400"
         android:pivotX="50%"
         android:pivotY="50%"
@@ -30,7 +30,7 @@
 
     <rotate
         android:fromDegrees="0"
-        android:toDegrees="-30"
+        android:toDegrees="-20"
         android:startOffset="800"
         android:pivotX="50%"
         android:pivotY="50%"

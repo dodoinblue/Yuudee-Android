@@ -71,13 +71,9 @@ public class LittleWaterActivity extends BaseLittleWaterActivity implements OnAd
     public static final int LAYOUT_TYPE_2_X_2 = 2;
     private int mCurrentCategoryCardLayoutSetting = LAYOUT_TYPE_2_X_2;
     private boolean mNeedGuideRemind = true;
-	// 滑动控件的容器Container
-	protected ScrollLayout mContainer;
-
-	// Container的Adapter
+    private int[] flipperResIds = { R.id.flipper1, R.id.flipper2, R.id.flipper3 };
+    // Container的Adapter
 	private ScrollAdapter mItemsAdapter;
-	// Container中滑动控件列表
-	protected List<CardItem> mCardItemList;
 
     private HashMap<String, ArrayList<CardItem>> mCategoryCardsMap = new HashMap<String, ArrayList<CardItem>>();
     private HashMap<String, String> mCategoryCoverMap = new HashMap<String, String>();
@@ -398,6 +394,7 @@ public class LittleWaterActivity extends BaseLittleWaterActivity implements OnAd
 		Log.e("zheng", "page-->" + page +"  isAdd-->" + isAdd);
 	}
 
+    private View mClickedEmptyCardView;
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.unlock_parent_ui:
@@ -492,19 +489,25 @@ public class LittleWaterActivity extends BaseLittleWaterActivity implements OnAd
                 mProductIntroductionWindow.dismiss();
                 break;
             case R.id.card_edit:
-                Intent in = new Intent(this, EditCategoryCardSettingsActivity.class);
-                in.putExtra("card_item", (CardItem) view.getTag());
-                startActivityForResult(in, LittleWaterConstant.ACTIVITY_REQUEST_CODE_EDIT_CARD_SETTINGS);
+                CardItem cardItem = (CardItem) view.getTag();
+                if (cardItem.isLibraryFolder) {
+                    Intent intent = new Intent(LittleWaterActivity.this, EditMaterialLibraryActivity.class);
+                    intent.putExtra("library", cardItem);
+                    startActivityForResult(intent, LittleWaterConstant.ACTIVITY_REQUEST_CODE_EDIT_MATERIAL_LIBRARY);
+                } else {
+                    Intent in = new Intent(this, EditCategoryCardSettingsActivity.class);
+                    in.putExtra("card_item", cardItem);
+                    startActivityForResult(in, LittleWaterConstant.ACTIVITY_REQUEST_CODE_EDIT_CARD_SETTINGS);
+                }
                 break;
             case R.id.add_new_card:
+                mClickedEmptyCardView = view;
                 Intent newCardIntent = new Intent(this, NewCategoryCardActivity.class);
                 newCardIntent.putExtra("current_category", mCurrentCategory);
                 startActivityForResult(newCardIntent, LittleWaterConstant.ACTIVITY_REQUEST_CODE_NEW_CATEGORY_CARD);
                 break;
         }
     }
-
-    private int[] flipperResIds = {R.id.flipper1, R.id.flipper2, R.id.flipper3};
 
     private void showUnloackParentUIRemind() {
         if (mNeedGuideRemind) {

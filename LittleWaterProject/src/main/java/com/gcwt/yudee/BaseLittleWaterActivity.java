@@ -31,18 +31,27 @@ import android.widget.PopupWindow;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.gcwt.yudee.model.CardItem;
+import com.gcwt.yudee.util.LittleWaterConstant;
 import com.gcwt.yudee.util.LittleWaterUtility;
+import com.gcwt.yudee.widget.ScrollLayout;
 
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 /**
  * Created by peter on 3/3/15.
  */
 abstract public class BaseLittleWaterActivity extends BaseActivity {
+    // Container中滑动控件列表
+    protected List<CardItem> mCardItemList = new ArrayList<CardItem>();;
+    // 滑动控件的容器Container
+    protected ScrollLayout mContainer;
 
     @Override
     protected void onCreate(Bundle arg0) {
@@ -188,6 +197,27 @@ abstract public class BaseLittleWaterActivity extends BaseActivity {
                 }
                 // 初始化文件路径
                 filePath = "";
+                break;
+            case LittleWaterConstant.ACTIVITY_REQUEST_CODE_EDIT_MATERIAL_LIBRARY:
+                boolean libraryDeleted = data.getBooleanExtra("library_deleted", false);
+                CardItem libraryItem = (CardItem) data.getSerializableExtra("result_material_library");
+                if (libraryDeleted) {
+                    mCardItemList.remove(libraryItem);
+                    String libraryName = libraryItem.getName();
+                    LittleWaterApplication.getMaterialLibraryCardsPreferences().remove(libraryName);
+                    LittleWaterApplication.getMaterialLibraryCoverPreferences().remove(libraryName);
+                } else {
+                    int cardPosition = mCardItemList.indexOf(libraryItem);
+                    if (cardPosition == -1) {
+                        // In this case user has changed card name
+                        String oldLibraryName = data.getStringExtra("old_library_name");
+                        CardItem item = new CardItem();
+                        item.setName(oldLibraryName);
+                        cardPosition = mCardItemList.indexOf(item);
+                    }
+                    mCardItemList.set(cardPosition, libraryItem);
+                }
+                mContainer.refreshView();
                 break;
             default:
                 break;

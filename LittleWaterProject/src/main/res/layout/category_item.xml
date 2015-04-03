@@ -68,7 +68,7 @@
         android:layout_marginTop="0dp"
         android:clickable="true"
         android:onClick="onClick"
-        android:src="@mipmap/edit"
+        android:src="@mipmap/add"
         android:visibility="gone"
         tools:ignore="ContentDescription" />
 

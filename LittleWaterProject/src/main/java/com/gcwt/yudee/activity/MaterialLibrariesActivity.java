@@ -42,12 +42,8 @@ import java.util.Set;
  */
 public class MaterialLibrariesActivity extends BaseLittleWaterActivity {
     private boolean mSelectMode;
-    // 滑动控件的容器Container
-    private ScrollLayout mContainer;
     // Container的Adapter
     private ScrollAdapter mItemsAdapter;
-    // Container中滑动控件列表
-    private List<CardItem> mCardItemList = new ArrayList<CardItem>();
     private ActionWindow mNewResourceWindow;
 
     @Override
@@ -221,19 +217,6 @@ public class MaterialLibrariesActivity extends BaseLittleWaterActivity {
                 intent.putExtra("selected_card_list", selectedList);
                 setResult(Activity.RESULT_OK, intent);
                 finish();
-                break;
-            case LittleWaterConstant.ACTIVITY_REQUEST_CODE_EDIT_MATERIAL_LIBRARY:
-                boolean libraryDeleted = data.getBooleanExtra("library_deleted", false);
-                CardItem libraryItem = (CardItem) data.getSerializableExtra("result_material_library");
-                if (libraryDeleted) {
-                    mCardItemList.remove(libraryItem);
-                    String libraryName = libraryItem.getName();
-                    LittleWaterApplication.getMaterialLibraryCardsPreferences().remove(libraryName);
-                    LittleWaterApplication.getMaterialLibraryCoverPreferences().remove(libraryName);
-                } else {
-                    mCardItemList.set(mCardItemList.indexOf(libraryItem), libraryItem);
-                }
-                mContainer.refreshView();
                 break;
         }
     }

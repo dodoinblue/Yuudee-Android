@@ -129,11 +129,13 @@ public class EditMaterialLibraryActivity extends BaseLittleWaterActivity impleme
             LittleWaterApplication.getMaterialLibraryCoverPreferences().putString(libraryName, cover);
         }
 
+        String oldLibraryName = mCardItem.name;
         mCardItem.name = libraryName;
         mCardItem.cover = cover;
         mCardItem.editable = true;
         Intent data = new Intent();
         data.putExtra("result_material_library", mCardItem);
+        data.putExtra("old_library_name", oldLibraryName);
         setResult(Activity.RESULT_OK, data);
         finish();
     }

@@ -69,10 +69,10 @@ public class MaterialLibraryCardsActivity extends BaseLittleWaterActivity {
             mConfirmButton.setEnabled(false);
             mConfirmButton.setAlpha(.6f);
         }
-        if (mMaterialLibraryItem.getEditable()) {
-            mCardItemList = LittleWaterUtility.getMaterialLibraryCardsList(mMaterialLibraryItem.name);
-        } else {
+        mCardItemList = LittleWaterUtility.getMaterialLibraryCardsList(mMaterialLibraryItem.name);
+        if (!mMaterialLibraryItem.getEditable() && mCardItemList.size() == 0) {
             mCardItemList = LittleWaterUtility.getCategoryCardsList(mMaterialLibraryItem.name);
+            LittleWaterUtility.sortCardList(mCardItemList);
         }
 
         //动态设置Container每页的列数为2行
@@ -161,5 +161,11 @@ public class MaterialLibraryCardsActivity extends BaseLittleWaterActivity {
                 mContainer.refreshView();
                 break;
         }
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        LittleWaterUtility.setMaterialLibraryCardsList(mMaterialLibraryItem.getName(), mContainer.getAllMoveItems());
     }
 }

@@ -327,12 +327,12 @@ public class LittleWaterActivity extends BaseLittleWaterActivity implements OnAd
     protected void displayCards() {
         addEmptyCardItems();
         validateCardsEffectiveness();
+        LittleWaterUtility.sortCardList(mCardItemList);
         //动态设置Container每页的列数为2行
         mContainer.setColCount(mCurrentCategoryCardLayoutSetting);
         //动态设置Container每页的行数为2行
         mContainer.setRowCount(mCurrentCategoryCardLayoutSetting);
         //初始化Container的Adapter
-        Collections.sort(mCardItemList, new CardItemComparator());
         mItemsAdapter = new ScrollAdapter(mContainer, mCardItemList);
         //设置Adapter
         mContainer.setSaAdapter(mItemsAdapter);
@@ -374,8 +374,7 @@ public class LittleWaterActivity extends BaseLittleWaterActivity implements OnAd
 		} else {
             if (mFirstPressBackTime + 2000 > System.currentTimeMillis()) {
                 //退出APP前，保存当前的Items，记得所有item的位置
-                List<CardItem> list = mContainer.getAllMoveItems();
-                LittleWaterApplication.getCategoryCardsPreferences().putString(mCurrentCategory, new Gson().toJson(list));
+                LittleWaterUtility.setCategoryCardsList(mCurrentCategory, mContainer.getAllMoveItems());
                 super.onBackPressed();
                 android.os.Process.killProcess(android.os.Process.myPid());
             } else {
@@ -730,7 +729,7 @@ public class LittleWaterActivity extends BaseLittleWaterActivity implements OnAd
         }
     }
 
-    private static class CardItemComparator implements Comparator<CardItem> {
+    public static class CardItemComparator implements Comparator<CardItem> {
         @Override
         public int compare(CardItem obj1, CardItem obj2) {
             if (obj1.getName() == null) {

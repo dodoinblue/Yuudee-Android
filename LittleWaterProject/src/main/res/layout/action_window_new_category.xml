@@ -12,7 +12,7 @@
 
     <LinearLayout
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="310dp"
         android:orientation="vertical"
         android:background="@mipmap/parent_coursewarecreate_bg">
 
@@ -40,7 +40,9 @@
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_margin="45dp"
+            android:layout_marginLeft="45dp"
+            android:layout_marginRight="45dp"
+            android:layout_marginTop="30dp"
             android:orientation="horizontal">
 
             <Button

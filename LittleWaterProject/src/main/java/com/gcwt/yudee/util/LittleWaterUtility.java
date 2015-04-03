@@ -21,6 +21,7 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -105,5 +106,21 @@ public class LittleWaterUtility {
 
     public static Drawable getRoundCornerDrawableFromSdCard(String imageFilePath) {
         return new BitmapDrawable(BitmapUtil.getRoundedCornerBitmap(getBitmapFromSdCard(imageFilePath), ROUND_PX));
+    }
+
+    /**
+     * If haven't sorted before, sort the list and rename the card name by deleting No. example '01-'
+     * @param cardItemList
+     */
+    public static void sortCardList(List<CardItem> cardItemList) {
+        if (cardItemList.size() > 0 && cardItemList.get(0).getName() != null
+                && cardItemList.get(0).getName().contains("-")) {
+            Collections.sort(cardItemList, new LittleWaterActivity.CardItemComparator());
+            for (CardItem item : cardItemList) {
+                if (!item.getIsEmpty()) {
+                    item.setName(LittleWaterUtility.getCardDisplayName(item.getName()));
+                }
+            }
+        }
     }
 }

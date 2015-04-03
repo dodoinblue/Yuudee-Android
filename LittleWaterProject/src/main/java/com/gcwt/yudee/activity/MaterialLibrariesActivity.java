@@ -140,7 +140,7 @@ public class MaterialLibrariesActivity extends BaseLittleWaterActivity {
                         }
                     });
 
-                    final ImageView editView = (ImageView) view.findViewById(R.id.edit_icon);
+                    final ImageView editView = (ImageView) view.findViewById(R.id.card_edit);
                     if (mSelectMode) {
                         editView.setVisibility(View.VISIBLE);
                         editView.setOnClickListener(new View.OnClickListener() {

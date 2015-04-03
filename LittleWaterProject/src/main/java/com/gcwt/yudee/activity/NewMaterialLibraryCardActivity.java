@@ -17,6 +17,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.IBinder;
 import android.pattern.adapter.BaseListAdapter;
+import android.pattern.util.BitmapUtil;
 import android.pattern.util.PhotoUtil;
 import android.pattern.util.PhotoUtils;
 import android.pattern.widget.ActionWindow;
@@ -153,6 +154,7 @@ public class NewMaterialLibraryCardActivity extends BaseLittleWaterActivity impl
         mNextContainer = (ViewGroup) findViewById(R.id.next_container);
         mChooseCategoryBtn = (Button) findViewById(R.id.choose_category);
         mCardCoverView = (ImageView) findViewById(R.id.card_cover);
+        updateToRoundImageDrawable(mCardCoverView);
 
         mRecordButton = (Button)findViewById(R.id.record_sound);
         mPlayButton = (Button)findViewById(R.id.play_sound);

@@ -10,49 +10,60 @@
     android:longClickable="true"
     android:orientation="vertical">
 
-    <LinearLayout
-        android:id="@+id/card_bg"
+    <FrameLayout
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:background="@mipmap/card_bg"
-        android:orientation="vertical"
-        android:gravity="center">
+        android:layout_height="wrap_content" >
 
         <FrameLayout
             android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_marginLeft="38dp"
-            android:layout_marginRight="38dp"
-            android:layout_marginTop="0dp"
-            android:layout_weight="1">
+            android:layout_height="match_parent"
+            android:background="@android:color/transparent"
+            android:layout_gravity="center_horizontal|top"
+            android:layout_marginTop="12dp"
+            android:layout_marginLeft="25dp"
+            android:layout_marginRight="25dp"
+            android:layout_marginBottom="50dp">
 
             <ImageView
                 android:id="@+id/content_iv"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:scaleType="fitCenter"/>
+                android:layout_marginTop="0dp"
+                android:layout_gravity="top|center_horizontal"
+                android:scaleType="fitXY"/>
 
             <ViewFlipper
                 android:id="@+id/content_show"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:layout_marginTop="0dp"
+                android:layout_gravity="top|center_horizontal"
                 android:visibility="gone"
                 android:flipInterval="500" />
         </FrameLayout>
 
-        <TextView
-            android:id="@+id/card_name"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="2dp"
-            android:layout_marginBottom="55dp"
-            android:textSize="18dp"
-            android:gravity="center"
-            android:textColor="@color/card_name_color" />
-    </LinearLayout>
+        <LinearLayout
+            android:id="@+id/card_bg"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@mipmap/card_bg"
+            android:orientation="vertical"
+            android:gravity="center_horizontal|bottom">
+
+            <TextView
+                android:id="@+id/card_name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="2dp"
+                android:layout_marginBottom="55dp"
+                android:textSize="18dp"
+                android:gravity="center"
+                android:textColor="@color/card_name_color" />
+        </LinearLayout>
+    </FrameLayout>
 
     <ImageView
-        android:id="@+id/delete_iv"
+        android:id="@+id/card_edit"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
@@ -60,6 +71,7 @@
         android:layout_marginRight="0dp"
         android:layout_marginTop="0dp"
         android:clickable="true"
+        android:onClick="onClick"
         android:src="@mipmap/edit"
         android:visibility="gone"
         tools:ignore="ContentDescription" />

@@ -51,6 +51,7 @@ public class NewMaterialLibraryActivity extends BaseLittleWaterActivity implemen
         setTitle("");
 
         mCardCoverView = (ImageView) findViewById(R.id.content_iv);
+        updateToRoundImageDrawable(mCardCoverView);
         mRootView = (ViewGroup) findViewById(R.id.root_view);
         mNameEditView = (EditText) findViewById(R.id.edit_name);
         mLibraryName = (TextView) findViewById(R.id.library_name);

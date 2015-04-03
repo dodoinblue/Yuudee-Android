@@ -120,7 +120,7 @@ public class ScrollAdapter implements SAdapter {
                     } else {
                         switch (moveItem.getCardSettings().getAnimationType()) {
                             case LittleWaterConstant.ANIMATION_NONE:
-                                playCardByAnimation(mContext, view, moveItem);
+                                playCardByFlippingAnimation(mContext, view, moveItem);
                                 break;
                             case LittleWaterConstant.ANIMATION_ZOOM_IN:
                             case LittleWaterConstant.ANIMATION_ZOOM_IN_AND_ROTATE:
@@ -155,7 +155,7 @@ public class ScrollAdapter implements SAdapter {
         }
 	}
 
-    public static void playCardByAnimation(final Context context, View view, CardItem moveItem) {
+    public static void playCardByFlippingAnimation(final Context context, View view, CardItem moveItem) {
         final ImageView iv = (ImageView) view.findViewById(R.id.content_iv);
         final ViewFlipper flipper = (ViewFlipper) view.findViewById(R.id.content_show);
         flipper.setVisibility(View.VISIBLE);

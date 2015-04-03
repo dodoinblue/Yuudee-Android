@@ -12,20 +12,14 @@ import android.os.Handler;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
-import android.view.animation.RotateAnimation;
-import android.view.animation.Transformation;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.gcwt.yudee.BaseLittleWaterActivity;
 import com.gcwt.yudee.R;
 import com.gcwt.yudee.adapter.ScrollAdapter;
 import com.gcwt.yudee.model.CardItem;
 import com.gcwt.yudee.util.LittleWaterConstant;
 import com.gcwt.yudee.util.LittleWaterUtility;
-
-import java.util.Timer;
-import java.util.TimerTask;
 
 /**
  * Created by peter on 3/10/15.
@@ -59,19 +53,19 @@ public class ShowCardActivity extends Activity {
                 new Handler().postDelayed(new Runnable() {
                     @Override
                     public void run() {
-                        ScrollAdapter.playCardByAnimation(ShowCardActivity.this, findViewById(R.id.card_root_view), mCardItem);
+                        ScrollAdapter.playCardByFlippingAnimation(ShowCardActivity.this, findViewById(R.id.card_root_view), mCardItem);
                     }
                 }, 800);
                 break;
             case LittleWaterConstant.ANIMATION_ZOOM_IN_AND_ROTATE:
-                final View view = findViewById(R.id.card_bg);
+                final View view = findViewById(R.id.card_root_view);
                 Animation shake = AnimationUtils.loadAnimation(ShowCardActivity.this, R.anim.rotate);
                 shake.setFillAfter(false);
                 view.startAnimation(shake);
                 new Handler().postDelayed(new Runnable() {
                     @Override
                     public void run() {
-                        ScrollAdapter.playCardByAnimation(ShowCardActivity.this, findViewById(R.id.card_root_view), mCardItem);
+                        ScrollAdapter.playCardByFlippingAnimation(ShowCardActivity.this, findViewById(R.id.card_root_view), mCardItem);
                     }
                 }, 1600);
                 break;

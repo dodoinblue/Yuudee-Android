@@ -31,7 +31,7 @@
                 android:id="@+id/content_iv"
                 android:layout_width="98dp"
                 android:layout_height="70dp"
-                android:layout_marginTop="8dp"
+                android:layout_marginTop="7dp"
                 android:scaleType="fitXY"
                 android:src="@mipmap/default_image" />
 
@@ -40,7 +40,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center"
-                android:textColor="@android:color/black"
+                android:textColor="@color/card_name_color"
                 android:textSize="14dp"/>
         </LinearLayout>
 
@@ -57,7 +57,7 @@
                 android:layout_height="wrap_content"
                 android:text="选择一张卡片做为分类封面:"
                 android:singleLine="true"
-                android:textColor="@android:color/holo_orange_dark"
+                android:textColor="@color/card_name_color"
                 android:textSize="13dp" />
 
             <ImageView

@@ -14,6 +14,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.pattern.BaseActivity;
+import android.pattern.util.BitmapUtil;
 import android.pattern.util.DialogManager;
 import android.pattern.util.PhotoUtil;
 import android.pattern.util.PhotoUtils;
@@ -29,6 +30,8 @@ import android.widget.ImageView;
 import android.widget.PopupWindow;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+
+import com.gcwt.yudee.util.LittleWaterUtility;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -216,7 +219,7 @@ abstract public class BaseLittleWaterActivity extends BaseActivity {
                     bitmap = PhotoUtil.rotaingImageView(degree, bitmap);
                 }
 
-                final Bitmap bm = bitmap;
+                final Bitmap bm = BitmapUtil.getRoundedCornerBitmap(bitmap, LittleWaterUtility.ROUND_PX);
                 mHandler.postDelayed(new Runnable() {
 
                     @Override
@@ -232,6 +235,14 @@ abstract public class BaseLittleWaterActivity extends BaseActivity {
                     bitmap.recycle();
                 }
             }
+        }
+    }
+
+    protected void updateToRoundImageDrawable(ImageView cardCoverView) {
+        BitmapDrawable drawable = (BitmapDrawable) cardCoverView.getDrawable();
+        if (drawable != null && drawable.getBitmap() != null) {
+            Bitmap bitmap = BitmapUtil.getRoundedCornerBitmap(drawable.getBitmap(), LittleWaterUtility.ROUND_PX);
+            cardCoverView.setImageBitmap(bitmap);
         }
     }
 }

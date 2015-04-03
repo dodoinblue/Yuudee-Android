@@ -28,7 +28,7 @@ import java.util.List;
  * Created by peter on 3/19/15.
  */
 public class LittleWaterUtility {
-    private static final int ROUND_PX = 5;
+    public static final int ROUND_PX = 8;
 
     public static ArrayList<CardItem> getCategoryCardsList(String catetgory) {
         String curCategoryCardsJson = LittleWaterApplication.getCategoryCardsPreferences().getString(catetgory);
@@ -105,6 +105,7 @@ public class LittleWaterUtility {
     }
 
     public static Drawable getRoundCornerDrawableFromSdCard(String imageFilePath) {
+//        return new BitmapDrawable(getBitmapFromSdCard(imageFilePath));
         return new BitmapDrawable(BitmapUtil.getRoundedCornerBitmap(getBitmapFromSdCard(imageFilePath), ROUND_PX));
     }
 

@@ -52,8 +52,8 @@ import java.util.Set;
  * Created by peter on 3/10/15.
  */
 public class NewMaterialLibraryCardActivity extends BaseLittleWaterActivity implements TextWatcher, MediaPlayer.OnCompletionListener {
-    private EditText mNameEditView;
-    private TextView mCardName;
+    protected EditText mNameEditView;
+    protected TextView mCardName;
     private ViewGroup mCoverContainer;
     private ViewGroup mSoundContainer;
     private TextView mRecordDescription;
@@ -70,7 +70,7 @@ public class NewMaterialLibraryCardActivity extends BaseLittleWaterActivity impl
     private boolean mIsPlaying;
     private MediaPlayer mPlayer;
     private String mAudioFile;
-    private CardItem mLibraryCard = new CardItem();
+    protected CardItem mLibraryCard = new CardItem();
     private String mMaterialLibraryPath;
     private String mMaterialLibraryName;
 
@@ -186,11 +186,17 @@ public class NewMaterialLibraryCardActivity extends BaseLittleWaterActivity impl
                     return;
                 }
 
-                File cardFile = new File(mMaterialLibraryPath + cardName);
-                if (cardFile.exists()) {
-                    showCustomToast("卡片名称已存在, 请换个名称.");
-                    return;
+                String newCardName = mNameEditView.getText().toString();
+                if (!TextUtils.equals(newCardName, mLibraryCard.getName())) {
+                    ArrayList<CardItem> libraryCardList = LittleWaterUtility.getMaterialLibraryCardsList(mMaterialLibraryName);
+                    for (CardItem item : libraryCardList) {
+                        if (TextUtils.equals(item.getName(), newCardName)) {
+                            showCustomToast("卡片名称已存在, 请换个名称.");
+                            return;
+                        }
+                    }
                 }
+
                 mCoverContainer.setVisibility(View.GONE);
                 mSoundContainer.setVisibility(View.VISIBLE);
                 mRecordDescription.setVisibility(View.VISIBLE);
@@ -282,13 +288,20 @@ public class NewMaterialLibraryCardActivity extends BaseLittleWaterActivity impl
                 }
                 break;
             case R.id.delete_sound:
-
+                File file = new File(mAudioFile);
+                file.delete();
+                mAudioFile = null;
                 break;
         }
     }
 
     private void saveNewLibraryCard() {
+        Intent data = new Intent();
+
         // Create card folder in SD card.
+        if (!TextUtils.isEmpty(mLibraryCard.name) && !TextUtils.equals(mLibraryCard.name, mCardName.getText().toString())) {
+            data.putExtra("old_library_name", mLibraryCard.name);
+        }
         mLibraryCard.name = mCardName.getText().toString();
         mLibraryCard.editable = true;
         File cardFile = new File(mMaterialLibraryPath + mLibraryCard.name);
@@ -306,26 +319,28 @@ public class NewMaterialLibraryCardActivity extends BaseLittleWaterActivity impl
             Bitmap bitmap = drawable.getBitmap();
             String imageName = "1.png";
             PhotoUtil.saveBitmap(imagesFolder, imageName, bitmap, true);
+            mLibraryCard.images.clear();
             mLibraryCard.images.add(imagesFolder + "/" + imageName);
         }
 
         // Save audio
-        FileService fileService = new FileService(this);
-        try {
-            String newAudioName = audiosFolder + "/1.mp3";
-            File oldAudioFile = new File(mAudioFile);
-            oldAudioFile.renameTo(new File(newAudioName));
-//            fileService.save(newAudioName, fileService.read(mAudioFile));
-            mLibraryCard.audios.add(newAudioName);
-        } catch (Exception e) {
-            e.printStackTrace();
+        if (mAudioFile != null) {
+            try {
+                String newAudioName = audiosFolder + "/1.mp3";
+                File oldAudioFile = new File(mAudioFile);
+                oldAudioFile.renameTo(new File(newAudioName));
+                mLibraryCard.audios.clear();
+                mLibraryCard.audios.add(newAudioName);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         }
 
         // Save new card into cache
         List<CardItem> cardItemList =  LittleWaterUtility.getMaterialLibraryCardsList(mMaterialLibraryName);
         cardItemList.add(mLibraryCard);
         LittleWaterUtility.setMaterialLibraryCardsList(mMaterialLibraryName, cardItemList);
-        Intent data = new Intent();
+
         data.putExtra("library_card", mLibraryCard);
         setResult(Activity.RESULT_OK, data);
         finish();

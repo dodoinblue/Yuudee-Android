@@ -14,7 +14,6 @@ import android.os.Bundle;
 import android.pattern.util.PhotoUtil;
 import android.pattern.widget.ActionWindow;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -33,7 +32,6 @@ import java.io.File;
 import java.lang.ref.SoftReference;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -57,6 +55,7 @@ public class MaterialLibrariesActivity extends BaseLittleWaterActivity {
     @Override
     protected void initViews() {
         mContainer = (ScrollLayout) findViewById(R.id.container);
+        mContainer.draggable = false;
         mContainer.getLayoutParams().height = mScreenWidth;
         mContainer.requestLayout();
         //设置Container添加删除Item的回调
@@ -68,12 +67,16 @@ public class MaterialLibrariesActivity extends BaseLittleWaterActivity {
 
         initResourcesInSDcard();
 
-        HashMap<String, String> libraryCoverMap = (HashMap<String, String>) LittleWaterApplication.getCategoryCoverPreferences().getAll();
-        getMeterialLibrary(libraryCoverMap, false);
+        HashMap<String, String> coverMap = (HashMap<String, String>) LittleWaterApplication.getCategoryCoverPreferences().getAll();
+        ArrayList<CardItem> categoryCardList = getCardItems(coverMap);
 
-        libraryCoverMap = (HashMap<String, String>) LittleWaterApplication.getMaterialLibraryCoverPreferences().getAll();
-        Log.d("zheng", "libarymap:" + libraryCoverMap.toString());
-        getMeterialLibrary(libraryCoverMap, true);
+        coverMap = (HashMap<String, String>) LittleWaterApplication.getMaterialLibraryCoverPreferences().getAll();
+        mCardItemList = getCardItems(coverMap);
+        for (CardItem libraryCard : mCardItemList) {
+            if (!categoryCardList.contains(libraryCard) && !TextUtils.equals(libraryCard.getName(), "未分类")) {
+                libraryCard.setEditable(true);
+            }
+        }
 
         //动态设置Container每页的列数为2行
         mContainer.setColCount(LittleWaterActivity.LAYOUT_TYPE_2_X_2);
@@ -81,15 +84,16 @@ public class MaterialLibrariesActivity extends BaseLittleWaterActivity {
         mContainer.setRowCount(LittleWaterActivity.LAYOUT_TYPE_2_X_2);
     }
 
-    private void getMeterialLibrary(HashMap<String, String> libraryCoverMap, boolean editable) {
+    private ArrayList<CardItem> getCardItems(HashMap<String, String> libraryCoverMap) {
+        ArrayList<CardItem> cardItems = new ArrayList<CardItem>();
         Set<Map.Entry<String, String>> categoryCoverSet = libraryCoverMap.entrySet();
         for (Map.Entry<String, String> categoryCover : categoryCoverSet) {
             CardItem item = new CardItem();
             item.name = categoryCover.getKey();
             item.cover = categoryCover.getValue();
-            item.editable = editable;
-            mCardItemList.add(item);
+            cardItems.add(item);
         }
+        return cardItems;
     }
 
     @Override

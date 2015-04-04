@@ -20,31 +20,46 @@
         android:paddingRight="35dp"
         android:orientation="horizontal">
 
-        <LinearLayout
-            android:id="@+id/card_bg"
-            android:layout_width="140dp"
-            android:layout_height="130dp"
-            android:background="@mipmap/card_bg"
-            android:orientation="vertical"
-            android:gravity="top|center_horizontal">
+        <FrameLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+            <LinearLayout
+                android:id="@+id/card_bg"
+                android:layout_width="140dp"
+                android:layout_height="130dp"
+                android:background="@mipmap/card_bg"
+                android:orientation="vertical"
+                android:gravity="top|center_horizontal">
+
+                <ImageView
+                    android:id="@+id/card_cover"
+                    android:layout_width="105dp"
+                    android:layout_height="80dp"
+                    android:scaleType="fitXY"
+                    android:layout_marginTop="8dp"
+                    android:src="@mipmap/default_image" />
+
+                <TextView
+                    android:id="@+id/card_name"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="6dp"
+                    android:gravity="center"
+                    android:textColor="@color/card_name_color"
+                    android:textSize="14dp" />
+            </LinearLayout>
 
             <ImageView
-                android:id="@+id/card_cover"
-                android:layout_width="105dp"
-                android:layout_height="80dp"
-                android:scaleType="fitXY"
-                android:layout_marginTop="8dp"
-                android:src="@mipmap/default_image" />
-
-            <TextView
-                android:id="@+id/card_name"
-                android:layout_width="match_parent"
+                android:id="@+id/trash"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="6dp"
-                android:gravity="center"
-                android:textColor="@color/card_name_color"
-                android:textSize="14dp" />
-        </LinearLayout>
+                android:clickable="true"
+                android:onClick="onClick"
+                android:visibility="gone"
+                android:layout_gravity="left|top"
+                android:src="@mipmap/trash"/>
+        </FrameLayout>
 
         <LinearLayout
             android:id="@+id/cover_container"

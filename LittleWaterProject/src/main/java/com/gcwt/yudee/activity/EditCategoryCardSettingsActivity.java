@@ -10,6 +10,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Switch;
+import android.widget.TextView;
 
 import com.gcwt.yudee.BaseLittleWaterActivity;
 import com.gcwt.yudee.R;
@@ -44,6 +45,10 @@ public class EditCategoryCardSettingsActivity extends BaseLittleWaterActivity {
 
     protected void initEvents() {
         mCardItem = (CardItem) getIntent().getSerializableExtra("card_item");
+        if (mCardItem.editable) {
+            TextView editCardView = (TextView) findViewById(R.id.edit_card);
+            editCardView.setText("进入素材库编辑该卡片 >>");
+        }
         switch (mCardItem.cardSettings.animationType) {
             case LittleWaterConstant.ANIMATION_NONE:
                 setNoNanimationChecked();
@@ -78,6 +83,14 @@ public class EditCategoryCardSettingsActivity extends BaseLittleWaterActivity {
                 break;
             case R.id.animation_zoomin_and_rotate_container:
                 setZoomInAndRotateAnimationChecked();
+                break;
+            case R.id.edit_card:
+                if (!mCardItem.editable) {
+                    return;
+                }
+                Intent intent = new Intent(EditCategoryCardSettingsActivity.this, EditMaterialLibraryActivity.class);
+                intent.putExtra("library", mCardItem);
+                startActivityForResult(intent, LittleWaterConstant.ACTIVITY_REQUEST_CODE_EDIT_MATERIAL_LIBRARY);
                 break;
         }
     }

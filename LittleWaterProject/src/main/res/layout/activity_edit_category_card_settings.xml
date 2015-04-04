@@ -15,7 +15,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="48dp"
+        android:layout_marginTop="44dp"
         android:padding="40dp"
         android:orientation="vertical">
 
@@ -23,8 +23,10 @@
             android:id="@+id/edit_card"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textColor="@android:color/holo_orange_dark"
+            android:textColor="@color/card_name_color"
             android:drawablePadding="10dp"
+            android:onClick="onClick"
+            android:clickable="true"
             android:text="(不能编辑系统自带卡片)"
             android:textSize="14dp"
             android:drawableLeft="@mipmap/parent_editpop_editicon" />

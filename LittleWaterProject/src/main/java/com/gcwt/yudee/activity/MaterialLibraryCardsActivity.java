@@ -8,13 +8,14 @@ package com.gcwt.yudee.activity;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 
 import com.gcwt.yudee.BaseLittleWaterActivity;
+import com.gcwt.yudee.LittleWaterApplication;
 import com.gcwt.yudee.R;
 import com.gcwt.yudee.adapter.ScrollAdapter;
 import com.gcwt.yudee.model.CardItem;
@@ -51,6 +52,7 @@ public class MaterialLibraryCardsActivity extends BaseLittleWaterActivity {
     @Override
     protected void initViews() {
         mContainer = (ScrollLayout) findViewById(R.id.container);
+        mContainer.draggable = false;
         mContainer.getLayoutParams().height = mScreenWidth;
         mContainer.requestLayout();
         //设置Container添加删除Item的回调
@@ -70,10 +72,12 @@ public class MaterialLibraryCardsActivity extends BaseLittleWaterActivity {
             mConfirmButton.setAlpha(.6f);
         }
         mCardItemList = LittleWaterUtility.getMaterialLibraryCardsList(mMaterialLibraryItem.name);
-        if (!mMaterialLibraryItem.getEditable() && mCardItemList.size() == 0) {
-            mCardItemList = LittleWaterUtility.getCategoryCardsList(mMaterialLibraryItem.name);
-            LittleWaterUtility.sortCardList(mCardItemList);
-        }
+        Log.d("zheng", "mCardItemList size:" + mCardItemList.size());
+        LittleWaterUtility.sortCardList(mCardItemList);
+//        if (!mMaterialLibraryItem.getEditable() && mCardItemList.size() == 0) {
+//            mCardItemList = LittleWaterUtility.getCategoryCardsList(mMaterialLibraryItem.name);
+//            LittleWaterUtility.sortCardList(mCardItemList);
+//        }
 
         //动态设置Container每页的列数为2行
         mContainer.setColCount(2);
@@ -110,6 +114,18 @@ public class MaterialLibraryCardsActivity extends BaseLittleWaterActivity {
                                 mConfirmButton.setAlpha(1f);
                                 mConfirmButton.setEnabled(true);
                             }
+                        }
+                    });
+                } else if (moveItem.getEditable()) {
+                    final ImageView editView = (ImageView) view.findViewById(R.id.card_edit);
+                    editView.setImageResource(R.mipmap.edit);
+                    editView.setVisibility(View.VISIBLE);
+                    editView.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            Intent intent = new Intent(MaterialLibraryCardsActivity.this, EditMaterialLibraryCardActivity.class);
+                            intent.putExtra("library_card", moveItem);
+                            startActivityForResult(intent, LittleWaterConstant.ACTIVITY_REQUEST_CODE_EDIT_MATERIAL_LIBRARY_CARD);
                         }
                     });
                 }
@@ -153,10 +169,29 @@ public class MaterialLibraryCardsActivity extends BaseLittleWaterActivity {
             return;
         }
 
+        CardItem cardItem;
         switch (requestCode) {
             case LittleWaterConstant.ACTIVITY_REQUEST_CODE_NEW_MATERIAL_LIBRARY_CARD:
-                CardItem cardItem = (CardItem) data.getSerializableExtra("library_card");
+                cardItem = (CardItem) data.getSerializableExtra("library_card");
                 mCardItemList.add(cardItem);
+                mContainer.refreshView();
+                break;
+            case LittleWaterConstant.ACTIVITY_REQUEST_CODE_EDIT_MATERIAL_LIBRARY_CARD:
+                boolean libraryDeleted = data.getBooleanExtra("library_deleted", false);
+                cardItem = (CardItem) data.getSerializableExtra("library_card");
+                if (libraryDeleted) {
+                    mCardItemList.remove(cardItem);
+                } else {
+                    int cardPosition = mCardItemList.indexOf(cardItem);
+                    if (cardPosition == -1) {
+                        // In this case user has changed card name
+                        String oldLibraryName = data.getStringExtra("old_library_name");
+                        CardItem item = new CardItem();
+                        item.setName(oldLibraryName);
+                        cardPosition = mCardItemList.indexOf(item);
+                    }
+                    mCardItemList.set(cardPosition, cardItem);
+                }
                 mContainer.refreshView();
                 break;
         }

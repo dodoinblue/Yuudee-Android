@@ -23,7 +23,7 @@ public class LittleWaterConstant {
     public static final String SETTINGS_GUIDE_REMIND = "guide_remind";
 
     // About activity request code
-//    public static final int ACTIVITY_REQUEST_CODE_NEW_CATEGORY = 1000;
+    public static final int ACTIVITY_REQUEST_CODE_EDIT_MATERIAL_LIBRARY_CARD = 1000;
     public static final int ACTIVITY_REQUEST_CODE_NEW_CATEGORY_CARD = 1001;
     public static final int ACTIVITY_REQUEST_CODE_NEW_MATERIAL_LIBRARY = 1002;
     public static final int ACTIVITY_REQUEST_CODE_NEW_MATERIAL_LIBRARY_CARD = 1003;

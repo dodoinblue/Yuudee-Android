@@ -17,6 +17,7 @@ import android.os.Handler;
 import android.pattern.util.BitmapUtil;
 import android.pattern.util.PhotoUtil;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.animation.Animation;
@@ -33,9 +34,11 @@ import com.gcwt.yudee.model.CardSettings;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -56,11 +59,7 @@ public class LittleWaterUtility {
 
     public static ArrayList<CardItem> getMaterialLibraryCardsList(String library) {
         String curLibraryCardsJson = LittleWaterApplication.getMaterialLibraryCardsPreferences().getString(library);
-        ArrayList<CardItem> libraryCardList = getCardsList(curLibraryCardsJson);
-
-        curLibraryCardsJson = LittleWaterApplication.getCategoryCardsPreferences().getString(library);
-        libraryCardList.addAll(getCardsList(curLibraryCardsJson));
-        return libraryCardList;
+        return getCardsList(curLibraryCardsJson);
     }
 
     public static void setMaterialLibraryCardsList(String library, List<CardItem> cardItemList) {
@@ -204,5 +203,39 @@ public class LittleWaterUtility {
                 LittleWaterUtility.playCardByFlippingAnimation(context, view, cardItem);
             }
         }, 1600);
+    }
+
+    public static void parseCardCategory(File categoryFolder, ArrayList<CardItem> cardList, HashMap<String, String> mCategoryCoverMap, String category) {
+        File[] cardItemFolders = categoryFolder.listFiles();
+        for (File cardItemFolder : cardItemFolders) {
+            if (cardItemFolder.isDirectory()) {
+                CardItem item = new CardItem();
+                cardList.add(item);
+//                    item.setName(cardItemFolder.getName().split("-")[1].split("\\.")[0]);
+                item.setName(cardItemFolder.getName().split("\\.")[0]);
+                File[] mediaFolders = cardItemFolder.listFiles();
+                for (File mediaFolder : mediaFolders) {
+                    if (mediaFolder.getPath().contains("audio")) {
+                        File[] audioFiles = mediaFolder.listFiles();
+                        List<String> audios = new ArrayList<String>();
+                        for (File audioFile : audioFiles) {
+                            Log.d("zheng", "audio:" + audioFile.getAbsolutePath());
+                            audios.add(audioFile.getAbsolutePath());
+                        }
+                        item.setAudios(audios);
+                    } else if (mediaFolder.getPath().contains("image")) {
+                        File[] imageFiles = mediaFolder.listFiles();
+                        List<String> images = new ArrayList<String>();
+                        for (File imageFile : imageFiles) {
+                            Log.d("zheng", "image:" + imageFile.getAbsolutePath());
+                            images.add(imageFile.getAbsolutePath());
+                        }
+                        item.setImages(images);
+                    }
+                }
+            } else {
+                mCategoryCoverMap.put(category, cardItemFolder.getAbsolutePath());
+            }
+        }
     }
 }

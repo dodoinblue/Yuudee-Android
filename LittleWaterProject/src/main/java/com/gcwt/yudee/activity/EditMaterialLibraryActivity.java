@@ -31,6 +31,8 @@ import com.gcwt.yudee.util.LittleWaterConstant;
 import com.gcwt.yudee.util.LittleWaterUtility;
 
 import java.io.File;
+import java.util.ArrayList;
+import java.util.Set;
 
 /**
  * Created by peter on 3/31/15.
@@ -108,29 +110,35 @@ public class EditMaterialLibraryActivity extends BaseLittleWaterActivity impleme
             showCustomToast("请输入分类名称");
             return;
         }
-        String libraryName = mLibraryNameView.getText().toString();
-        File libFile = new File(LittleWaterConstant.MATERIAL_LIBRARIES_DIRECTORY + libraryName);
-        if (libFile.exists()) {
-            showCustomToast("分类名称已存在, 请换个名称.");
-            return;
+        String newLibraryName = mLibraryNameView.getText().toString();
+        if (!TextUtils.equals(newLibraryName, mCardItem.getName())) {
+            Set<String> librarySet = LittleWaterApplication.getMaterialLibraryCoverPreferences().getAll().keySet();
+            for (String libraryName : librarySet) {
+                if (TextUtils.equals(libraryName, newLibraryName)) {
+                    showCustomToast("分类名称已存在, 请换个名称.");
+                    return;
+                }
+            }
+            ArrayList<CardItem> libraryCardList = LittleWaterUtility.getMaterialLibraryCardsList(mCardItem.getName());
+            LittleWaterApplication.getMaterialLibraryCardsPreferences().remove(mCardItem.getName());
+            LittleWaterUtility.setMaterialLibraryCardsList(newLibraryName, libraryCardList);
         }
-        libFile.mkdirs();
 
-        LittleWaterApplication.getMaterialLibraryCardsPreferences().putString(libraryName, "");
+        LittleWaterApplication.getMaterialLibraryCardsPreferences().putString(newLibraryName, "");
 
         BitmapDrawable drawable = (BitmapDrawable) mCardCoverView.getDrawable();
         String cover = null;
         if (drawable != null && drawable.getBitmap() != null) {
             Bitmap bitmap = drawable.getBitmap();
-            String coverFolder = LittleWaterConstant.MATERIAL_LIBRARIES_DIRECTORY + libraryName;
+            String coverFolder = LittleWaterConstant.MATERIAL_LIBRARIES_DIRECTORY + newLibraryName;
             String coverName = "cover.png";
             PhotoUtil.saveBitmap(coverFolder, coverName, bitmap, true);
             cover = coverFolder + "/" + coverName;
-            LittleWaterApplication.getMaterialLibraryCoverPreferences().putString(libraryName, cover);
+            LittleWaterApplication.getMaterialLibraryCoverPreferences().putString(newLibraryName, cover);
         }
 
         String oldLibraryName = mCardItem.name;
-        mCardItem.name = libraryName;
+        mCardItem.name = newLibraryName;
         mCardItem.cover = cover;
         mCardItem.editable = true;
         Intent data = new Intent();

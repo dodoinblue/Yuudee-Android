@@ -97,7 +97,8 @@ public class ScrollLayout extends LinearLayout implements OnDataChangeListener {
 	private float mLastMotionX;
 	//上次位移滑动到的Y坐标位置
 	private float mLastMotionY;
-	
+
+    public boolean draggable = true;
 	//拖动点的X坐标（加上当前屏数 * screenWidth）
 	private int dragPointX;
 	//拖动点的Y坐标
@@ -504,7 +505,7 @@ public class ScrollLayout extends LinearLayout implements OnDataChangeListener {
 		View view = null;
 		if (mAdapter != null) {
 			view = mAdapter.getView(position, null, this);
-            if (view != null) {
+            if (view != null && draggable) {
                 view.setOnLongClickListener(new OnLongClickListener() {
                     @Override
                     public boolean onLongClick(View v) {

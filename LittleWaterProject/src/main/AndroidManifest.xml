@@ -86,6 +86,9 @@
         <activity android:name=".activity.EditCategoryCardSettingsActivity"
             android:theme="@style/Theme.Light.FullScreenDialogAct"/>
 
+        <activity android:name=".activity.EditMaterialLibraryCardActivity"
+            android:theme="@style/Theme.Light.FullScreenDialogAct"/>
+
         <activity android:name=".activity.NewCategoryCardActivity"
             android:theme="@style/Theme.Light.FullScreenDialogAct"/>
 

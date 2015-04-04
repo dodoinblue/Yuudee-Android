@@ -9,9 +9,9 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -54,7 +54,6 @@ import com.gcwt.yudee.widget.ScrollLayout;
 import com.gcwt.yudee.widget.ScrollLayout.OnAddOrDeletePage;
 import com.gcwt.yudee.widget.ScrollLayout.OnEditModeListener;
 import com.gcwt.yudee.widget.ScrollLayout.OnPageChangedListener;
-import com.google.gson.Gson;
 import com.umeng.fb.FeedbackAgent;
 
 /**
@@ -75,8 +74,8 @@ public class LittleWaterActivity extends BaseLittleWaterActivity implements OnAd
     // Container的Adapter
 	private ScrollAdapter mItemsAdapter;
 
-    private HashMap<String, ArrayList<CardItem>> mCategoryCardsMap = new HashMap<String, ArrayList<CardItem>>();
-    private HashMap<String, String> mCategoryCoverMap = new HashMap<String, String>();
+    private HashMap<String, ArrayList<CardItem>> mCategoryCardsMap = new LinkedHashMap<String, ArrayList<CardItem>>();
+    private HashMap<String, String> mCategoryCoverMap = new LinkedHashMap<String, String>();
     public static boolean mIsInParentMode;
     private ListView mCategoryListView;
     private List<String> mCategoryList;
@@ -90,7 +89,7 @@ public class LittleWaterActivity extends BaseLittleWaterActivity implements OnAd
     private TextView mParentCategoryContent;
     private ViewGroup mParentSettingsLayout;
     private ViewGroup mNewCategoryLayout;
-    private HashMap<Integer, Boolean> mEnterParentCheckMap = new HashMap<Integer, Boolean>();
+    private HashMap<Integer, Boolean> mEnterParentCheckMap = new LinkedHashMap<Integer, Boolean>();
     private View.OnTouchListener mViewFlipperOnTouchListener = new View.OnTouchListener() {
         @Override
         public boolean onTouch(View v, MotionEvent event) {
@@ -152,16 +151,18 @@ public class LittleWaterActivity extends BaseLittleWaterActivity implements OnAd
                 break;
             case LittleWaterConstant.ACTIVITY_REQUEST_CODE_NEW_CATEGORY_CARD:
                 ArrayList<CardItem> selectedList = (ArrayList<CardItem>) data.getSerializableExtra("selected_card_list");
-                for (CardItem item : selectedList) {
-                    if (!mCardItemList.contains(item)) {
-                        mCardItemList.addAll(selectedList);
-                    }
-                }
+                int position = mCardItemList.indexOf(mNewCardItem);
+                mCardItemList.remove(position);
+                mCardItemList.addAll(position, selectedList);
+//                for (CardItem item : selectedList) {
+//                    if (!mCardItemList.contains(item)) {
+//                        mCardItemList.addAll(selectedList);
+//                    }
+//                }
 
-                LittleWaterUtility.setCategoryCardsList(mCurrentCategory, mCardItemList);
-//                displayCards();
                 mContainer.refreshView();
                 mContainer.showEdit(mIsInParentMode);
+                LittleWaterUtility.setCategoryCardsList(mCurrentCategory, mContainer.getAllMoveItems());
                 break;
         }
     }
@@ -268,37 +269,7 @@ public class LittleWaterActivity extends BaseLittleWaterActivity implements OnAd
                 mCurrentCategory = category;
                 LittleWaterApplication.getAppSettingsPreferences().putString(LittleWaterConstant.SETTINGS_CURRENT_CATEGORY, mCurrentCategory);
             }
-            File[] cardItemFolders = categoryFolder.listFiles();
-            for (File cardItemFolder : cardItemFolders) {
-                if (cardItemFolder.isDirectory()) {
-                    CardItem item = new CardItem();
-                    cardList.add(item);
-//                    item.setName(cardItemFolder.getName().split("-")[1].split("\\.")[0]);
-                    item.setName(cardItemFolder.getName().split("\\.")[0]);
-                    File[] mediaFolders = cardItemFolder.listFiles();
-                    for (File mediaFolder : mediaFolders) {
-                        if (mediaFolder.getPath().contains("audio")) {
-                            File[] audioFiles = mediaFolder.listFiles();
-                            List<String> audios = new ArrayList<String>();
-                            for (File audioFile : audioFiles) {
-                                Log.d("zheng", "audio:" + audioFile.getAbsolutePath());
-                                audios.add(audioFile.getAbsolutePath());
-                            }
-                            item.setAudios(audios);
-                        } else if (mediaFolder.getPath().contains("image")) {
-                            File[] imageFiles = mediaFolder.listFiles();
-                            List<String> images = new ArrayList<String>();
-                            for (File imageFile : imageFiles) {
-                                Log.d("zheng", "image:" + imageFile.getAbsolutePath());
-                                images.add(imageFile.getAbsolutePath());
-                            }
-                            item.setImages(images);
-                        }
-                    }
-                } else {
-                    mCategoryCoverMap.put(category, cardItemFolder.getAbsolutePath());
-                }
-            }
+            LittleWaterUtility.parseCardCategory(categoryFolder, cardList, mCategoryCoverMap, category);
         }
 
         saveAllCardsIntoCache();
@@ -314,12 +285,14 @@ public class LittleWaterActivity extends BaseLittleWaterActivity implements OnAd
     private void saveAllCardsIntoCache() {
         Set<Map.Entry<String, ArrayList<CardItem>>> categoryCardsSet = mCategoryCardsMap.entrySet();
         for (Map.Entry<String, ArrayList<CardItem>> entry : categoryCardsSet) {
-            LittleWaterApplication.getCategoryCardsPreferences().putString(entry.getKey(), new Gson().toJson(entry.getValue()));
+            LittleWaterUtility.setCategoryCardsList(entry.getKey(), entry.getValue());
+            LittleWaterUtility.setMaterialLibraryCardsList(entry.getKey(), entry.getValue());
         }
 
         Set<Map.Entry<String, String>> categoryCoverSet = mCategoryCoverMap.entrySet();
         for (Map.Entry<String, String> entry : categoryCoverSet) {
             LittleWaterApplication.getCategoryCoverPreferences().putString(entry.getKey(), entry.getValue());
+            LittleWaterApplication.getMaterialLibraryCoverPreferences().putString(entry.getKey(), entry.getValue());
         }
     }
 
@@ -505,12 +478,14 @@ public class LittleWaterActivity extends BaseLittleWaterActivity implements OnAd
                 }
                 break;
             case R.id.add_new_card:
+                mNewCardItem = (CardItem) view.getTag();
                 Intent newCardIntent = new Intent(this, NewCategoryCardActivity.class);
                 newCardIntent.putExtra("current_category", mCurrentCategory);
                 startActivityForResult(newCardIntent, LittleWaterConstant.ACTIVITY_REQUEST_CODE_NEW_CATEGORY_CARD);
                 break;
         }
     }
+    private CardItem mNewCardItem;
 
     private void showUnloackParentUIRemind() {
         if (mNeedGuideRemind) {

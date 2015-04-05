@@ -10,5 +10,5 @@
     android:layout_height="30dp"
     android:gravity="left|center_vertical"
     android:textSize="14dp"
-    android:textColor="@color/gray"
+    android:textColor="@android:color/secondary_text_dark_nodisable"
     />

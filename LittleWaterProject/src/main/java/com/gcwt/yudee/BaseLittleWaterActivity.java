@@ -20,6 +20,7 @@ import android.pattern.util.PhotoUtil;
 import android.pattern.util.PhotoUtils;
 import android.pattern.util.Utility;
 import android.provider.MediaStore;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.MotionEvent;
@@ -39,17 +40,15 @@ import com.gcwt.yudee.widget.ScrollLayout;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
 
 /**
  * Created by peter on 3/3/15.
  */
 abstract public class BaseLittleWaterActivity extends BaseActivity {
+    protected static final String ACTION_MATERIAL_LIBRARY_CHANGED = "com.gcwt.yudee.ACTION_MATERIAL_LIBRARY_CHANGED";
     // Container中滑动控件列表
-    protected List<CardItem> mCardItemList = new ArrayList<CardItem>();;
+    protected ArrayList<CardItem> mCardItemList = new ArrayList<CardItem>();
     // 滑动控件的容器Container
     protected ScrollLayout mContainer;
 
@@ -70,7 +69,9 @@ abstract public class BaseLittleWaterActivity extends BaseActivity {
     public String filePath = "";
     boolean isFromCamera = false;// 区分拍照旋转
     int degree = 0;
+
     protected ImageView mCardCoverView;
+    protected boolean mGotACardCover;
 
     protected void showAvatarPop() {
         View view = mInflater.inflate(R.layout.pop_layout_avatar, null);
@@ -161,7 +162,7 @@ abstract public class BaseLittleWaterActivity extends BaseActivity {
                     }
                     filePath = PhotoUtils.savePhotoToSDCard(PhotoUtils
                             .CompressionPhoto(mScreenWidth, filePath, 2));
-                    PhotoUtils.cropPhoto(this, this, filePath);
+                    PhotoUtils.cropPhoto(this, this, filePath, true);
                 }
                 break;
             case PhotoUtils.REQUESTCODE_UPLOADAVATAR_LOCATION:// 本地修改头像
@@ -181,7 +182,7 @@ abstract public class BaseLittleWaterActivity extends BaseActivity {
                     }
                     isFromCamera = false;
                     uri = data.getData();
-                    PhotoUtils.cropPhoto(this, this, /*data.getExtras().getString("path")*/Utility.getFilePathFromUri(this, uri));
+                    PhotoUtils.cropPhoto(this, this, /*data.getExtras().getString("path")*/Utility.getFilePathFromUri(this, uri), false);
                 } else {
                     DialogManager.showTipMessage(this, "照片获取失败");
                 }
@@ -200,30 +201,69 @@ abstract public class BaseLittleWaterActivity extends BaseActivity {
                 // 初始化文件路径
                 filePath = "";
                 break;
+
             case LittleWaterConstant.ACTIVITY_REQUEST_CODE_EDIT_MATERIAL_LIBRARY:
-                boolean libraryDeleted = data.getBooleanExtra("library_deleted", false);
-                CardItem libraryItem = (CardItem) data.getSerializableExtra("result_material_library");
-                if (libraryDeleted) {
-                    mCardItemList.remove(libraryItem);
-                    String libraryName = libraryItem.getName();
-                    LittleWaterApplication.getMaterialLibraryCardsPreferences().remove(libraryName);
-                    LittleWaterApplication.getMaterialLibraryCoverPreferences().remove(libraryName);
-                } else {
-                    int cardPosition = mCardItemList.indexOf(libraryItem);
-                    if (cardPosition == -1) {
-                        // In this case user has changed card name
-                        String oldLibraryName = data.getStringExtra("old_library_name");
-                        CardItem item = new CardItem();
-                        item.setName(oldLibraryName);
-                        cardPosition = mCardItemList.indexOf(item);
-                    }
-                    mCardItemList.set(cardPosition, libraryItem);
+            case LittleWaterConstant.ACTIVITY_REQUEST_CODE_EDIT_CATEGORY_FOLDER:
+            case LittleWaterConstant.ACTIVITY_REQUEST_CODE_EDIT_MATERIAL_LIBRARY_CARD:
+            case LittleWaterConstant.ACTIVITY_REQUEST_CODE_EDIT_CATEGORY_CARD_SETTINGS:
+                handleCardEditRequest(data, requestCode, false);
+                if (requestCode == LittleWaterConstant.ACTIVITY_REQUEST_CODE_EDIT_MATERIAL_LIBRARY
+                        || requestCode == LittleWaterConstant.ACTIVITY_REQUEST_CODE_EDIT_MATERIAL_LIBRARY_CARD) {
+                    data.setAction(ACTION_MATERIAL_LIBRARY_CHANGED);
+                    data.putExtra("request_code", requestCode);
+                    sendBroadcast(data);
                 }
-                mContainer.refreshView();
                 break;
+
             default:
                 break;
         }
+    }
+
+    protected void handleCardEditRequest(Intent data, int requestCode, boolean byBroadcast) {
+        boolean libraryDeleted = data.getBooleanExtra("library_deleted", false);
+        CardItem libraryItem = (CardItem) data.getSerializableExtra("library_card");
+        String libraryName = libraryItem.getName();
+        String oldLibraryName = data.getStringExtra("old_library_name");
+        boolean libraryNameChanged = !TextUtils.isEmpty(oldLibraryName);
+        if (libraryDeleted) {
+            CardItem emptyItem = new CardItem();
+            emptyItem.isEmpty = true;
+            mCardItemList.set(mCardItemList.indexOf(libraryItem), emptyItem);
+            if (needUpdatePreference(requestCode, byBroadcast)) {
+                LittleWaterApplication.getMaterialLibraryCardsPreferences().remove(libraryName);
+                LittleWaterApplication.getMaterialLibraryCoverPreferences().remove(libraryName);
+            }
+        } else {
+            int cardPosition = mCardItemList.indexOf(libraryItem);
+            if (libraryNameChanged) {
+                // In this case user has changed card name
+                CardItem item = new CardItem();
+                item.setName(oldLibraryName);
+                item.isLibrary = libraryItem.isLibrary;
+                cardPosition = mCardItemList.indexOf(item);
+
+                if (needUpdatePreference(requestCode, byBroadcast)) {
+                    ArrayList<CardItem> libraryCardList = LittleWaterUtility.getMaterialLibraryCardsList(oldLibraryName);
+                    LittleWaterApplication.getMaterialLibraryCardsPreferences().remove(oldLibraryName);
+                    LittleWaterUtility.setMaterialLibraryCardsList(libraryName, libraryCardList);
+
+                    String libraryCover = LittleWaterApplication.getMaterialLibraryCoverPreferences().getString(oldLibraryName);
+                    LittleWaterApplication.getMaterialLibraryCoverPreferences().remove(oldLibraryName);
+                    LittleWaterApplication.getMaterialLibraryCoverPreferences().putString(libraryName, libraryCover);
+                }
+            }
+            if (cardPosition != -1) {
+                mCardItemList.set(cardPosition, libraryItem);
+            }
+        }
+        mContainer.refreshView();
+        mContainer.showEdit(true);
+    }
+
+    private boolean needUpdatePreference(int requestCode, boolean byBroadcast) {
+        return !byBroadcast && (requestCode == LittleWaterConstant.ACTIVITY_REQUEST_CODE_EDIT_MATERIAL_LIBRARY
+                                || requestCode == LittleWaterConstant.ACTIVITY_REQUEST_CODE_EDIT_CATEGORY_FOLDER);
     }
 
     /**
@@ -257,6 +297,7 @@ abstract public class BaseLittleWaterActivity extends BaseActivity {
                     @Override
                     public void run() {
                         mCardCoverView.setImageBitmap(bm);
+                        mGotACardCover = true;
                     }
                 }, 300);
                 mCardCoverView.invalidate();

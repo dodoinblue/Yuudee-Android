@@ -336,7 +336,7 @@
 	<color name="seek_progress">#FFFFFF</color>
 <!-- 	<color name="drak_gray">#CAC9CF</color> -->
 
-    <color name="parent_about_content_text_color">@android:color/holo_orange_dark</color>
     <color name="card_name_color">#5d3610</color>
+    <color name="parent_about_content_text_color">@color/card_name_color</color>
 
 </resources>

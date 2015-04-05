@@ -91,6 +91,7 @@ public class MaterialLibrariesActivity extends BaseLittleWaterActivity {
             CardItem item = new CardItem();
             item.name = categoryCover.getKey();
             item.cover = categoryCover.getValue();
+            item.isLibrary = true;
             cardItems.add(item);
         }
         return cardItems;
@@ -150,7 +151,6 @@ public class MaterialLibrariesActivity extends BaseLittleWaterActivity {
 //                                Log.d("zheng", "selectedList:" + selectedList.size() + " library name:" + LittleWaterUtility.getCardDisplayName(moveItem.getName()));
                                 Intent intent = new Intent();
                                 ArrayList<CardItem> selectedList = new ArrayList<CardItem>();
-                                moveItem.isLibraryFolder = true;
                                 selectedList.add(moveItem);
                                 intent.putExtra("selected_card_list", selectedList);
                                 setResult(Activity.RESULT_OK, intent);
@@ -211,7 +211,7 @@ public class MaterialLibrariesActivity extends BaseLittleWaterActivity {
         }
         switch (requestCode) {
             case LittleWaterConstant.ACTIVITY_REQUEST_CODE_NEW_MATERIAL_LIBRARY:
-                CardItem cardItem = (CardItem) data.getSerializableExtra("result_new_material_library");
+                CardItem cardItem = (CardItem) data.getSerializableExtra("library_card");
                 mCardItemList.add(cardItem);
                 mContainer.refreshView();
                 break;

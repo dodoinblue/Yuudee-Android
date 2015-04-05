@@ -23,141 +23,33 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.gcwt.yudee.BaseLittleWaterActivity;
 import com.gcwt.yudee.LittleWaterApplication;
 import com.gcwt.yudee.R;
 import com.gcwt.yudee.model.CardItem;
 import com.gcwt.yudee.util.LittleWaterConstant;
 import com.gcwt.yudee.util.LittleWaterUtility;
 
-import java.io.File;
 import java.util.ArrayList;
 import java.util.Set;
 
 /**
  * Created by peter on 3/31/15.
  */
-public class EditMaterialLibraryActivity extends BaseLittleWaterActivity implements TextWatcher {
-    private EditText mNameEditView;
-    private TextView mLibraryNameView;
-    private CardItem mCardItem = new CardItem();
+public class EditMaterialLibraryActivity extends NewMaterialLibraryActivity {
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_edit_material_library);
-        initViews();
-        initEvents();
-    }
-
-    @Override
-    public void initViews() {
-        setTitle("");
-
-        mCardCoverView = (ImageView) findViewById(R.id.content_iv);
-        mRootView = (ViewGroup) findViewById(R.id.root_view);
-        mNameEditView = (EditText) findViewById(R.id.edit_name);
-        mLibraryNameView = (TextView) findViewById(R.id.library_name);
+    protected void initViews() {
+        super.initViews();
+        findViewById(R.id.trash).setVisibility(View.VISIBLE);
     }
 
     @Override
     protected void initEvents() {
+        super.initEvents();
         mCardItem = (CardItem) getIntent().getSerializableExtra("library");
-        mNameEditView.addTextChangedListener(this);
-
         String libraryName = LittleWaterUtility.getCardDisplayName(mCardItem.getName());
         mNameEditView.setText(libraryName);
         mLibraryNameView.setText(libraryName);
-
         mCardCoverView.setImageDrawable(LittleWaterUtility.getRoundCornerDrawableFromSdCard(mCardItem.getCover()));
-    }
-
-    public void onClick(View view) {
-        switch (view.getId()) {
-            case R.id.change_cover:
-                showAvatarPop();
-                break;
-            case R.id.cancel:
-                finish();
-                break;
-            case R.id.confirm:
-                saveEditedLibrary();
-                break;
-            case R.id.trash:
-                deleteLibrary();
-                break;
-        }
-    }
-
-    private void deleteLibrary() {
-        DialogManager.showConfirmDialog(this, null, "确认删除整个分类?", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialogInterface, int i) {
-                FileUtils.delFolder(LittleWaterConstant.MATERIAL_LIBRARIES_DIRECTORY + mCardItem.getName());
-                dialogInterface.dismiss();
-
-                Intent data = new Intent();
-                data.putExtra("result_material_library", mCardItem);
-                data.putExtra("library_deleted", true);
-                setResult(Activity.RESULT_OK, data);
-                finish();
-            }
-        }, null);
-    }
-
-    private void saveEditedLibrary() {
-        if (TextUtils.isEmpty(mLibraryNameView.getText().toString())) {
-            showCustomToast("请输入分类名称");
-            return;
-        }
-        String newLibraryName = mLibraryNameView.getText().toString();
-        if (!TextUtils.equals(newLibraryName, mCardItem.getName())) {
-            Set<String> librarySet = LittleWaterApplication.getMaterialLibraryCoverPreferences().getAll().keySet();
-            for (String libraryName : librarySet) {
-                if (TextUtils.equals(libraryName, newLibraryName)) {
-                    showCustomToast("分类名称已存在, 请换个名称.");
-                    return;
-                }
-            }
-            ArrayList<CardItem> libraryCardList = LittleWaterUtility.getMaterialLibraryCardsList(mCardItem.getName());
-            LittleWaterApplication.getMaterialLibraryCardsPreferences().remove(mCardItem.getName());
-            LittleWaterUtility.setMaterialLibraryCardsList(newLibraryName, libraryCardList);
-        }
-
-        LittleWaterApplication.getMaterialLibraryCardsPreferences().putString(newLibraryName, "");
-
-        BitmapDrawable drawable = (BitmapDrawable) mCardCoverView.getDrawable();
-        String cover = null;
-        if (drawable != null && drawable.getBitmap() != null) {
-            Bitmap bitmap = drawable.getBitmap();
-            String coverFolder = LittleWaterConstant.MATERIAL_LIBRARIES_DIRECTORY + newLibraryName;
-            String coverName = "cover.png";
-            PhotoUtil.saveBitmap(coverFolder, coverName, bitmap, true);
-            cover = coverFolder + "/" + coverName;
-            LittleWaterApplication.getMaterialLibraryCoverPreferences().putString(newLibraryName, cover);
-        }
-
-        String oldLibraryName = mCardItem.name;
-        mCardItem.name = newLibraryName;
-        mCardItem.cover = cover;
-        mCardItem.editable = true;
-        Intent data = new Intent();
-        data.putExtra("result_material_library", mCardItem);
-        data.putExtra("old_library_name", oldLibraryName);
-        setResult(Activity.RESULT_OK, data);
-        finish();
-    }
-
-    @Override
-    public void onTextChanged(CharSequence s, int start, int before, int count) {
-    }
-
-    @Override
-    public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-    }
-
-    @Override
-    public void afterTextChanged(Editable s) {
-        mLibraryNameView.setText(mNameEditView.getText().toString());
     }
 }

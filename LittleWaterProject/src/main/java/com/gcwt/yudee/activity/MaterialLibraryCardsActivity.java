@@ -32,12 +32,9 @@ import java.util.List;
 public class MaterialLibraryCardsActivity extends BaseLittleWaterActivity {
     private boolean mSelectMode;
     private CardItem mMaterialLibraryItem;
-    // 滑动控件的容器Container
-    private ScrollLayout mContainer;
     // Container的Adapter
     private ScrollAdapter mItemsAdapter;
     // Container中滑动控件列表
-    private List<CardItem> mCardItemList;
     private ArrayList<CardItem> mSelectedCardItemList;
     private Button mConfirmButton;
 
@@ -125,6 +122,7 @@ public class MaterialLibraryCardsActivity extends BaseLittleWaterActivity {
                         public void onClick(View view) {
                             Intent intent = new Intent(MaterialLibraryCardsActivity.this, EditMaterialLibraryCardActivity.class);
                             intent.putExtra("library_card", moveItem);
+                            intent.putExtra("library", mMaterialLibraryItem);
                             startActivityForResult(intent, LittleWaterConstant.ACTIVITY_REQUEST_CODE_EDIT_MATERIAL_LIBRARY_CARD);
                         }
                     });
@@ -174,24 +172,6 @@ public class MaterialLibraryCardsActivity extends BaseLittleWaterActivity {
             case LittleWaterConstant.ACTIVITY_REQUEST_CODE_NEW_MATERIAL_LIBRARY_CARD:
                 cardItem = (CardItem) data.getSerializableExtra("library_card");
                 mCardItemList.add(cardItem);
-                mContainer.refreshView();
-                break;
-            case LittleWaterConstant.ACTIVITY_REQUEST_CODE_EDIT_MATERIAL_LIBRARY_CARD:
-                boolean libraryDeleted = data.getBooleanExtra("library_deleted", false);
-                cardItem = (CardItem) data.getSerializableExtra("library_card");
-                if (libraryDeleted) {
-                    mCardItemList.remove(cardItem);
-                } else {
-                    int cardPosition = mCardItemList.indexOf(cardItem);
-                    if (cardPosition == -1) {
-                        // In this case user has changed card name
-                        String oldLibraryName = data.getStringExtra("old_library_name");
-                        CardItem item = new CardItem();
-                        item.setName(oldLibraryName);
-                        cardPosition = mCardItemList.indexOf(item);
-                    }
-                    mCardItemList.set(cardPosition, cardItem);
-                }
                 mContainer.refreshView();
                 break;
         }

@@ -11,7 +11,8 @@
     android:paddingRight="35dp"
     android:paddingTop="80dp"
     android:paddingBottom="50dp"
-    android:gravity="top|center_horizontal"
+    android:gravity="center"
+    android:layout_gravity="center"
     android:orientation="vertical"
     android:background="@mipmap/parent_add_card_bg">
 
@@ -27,7 +28,7 @@
         android:paddingLeft="20dp"
         android:clickable="true"
         android:onClick="onClick"
-        android:textColor="#A52A2A"
+        android:textColor="@color/card_name_color"
         android:gravity="left|center_vertical"
         android:background="@mipmap/parent_add_card_paper"/>
 
@@ -44,7 +45,7 @@
         android:textSize="18dp"
         android:paddingLeft="20dp"
         android:paddingBottom="6dp"
-        android:textColor="#A52A2A"
+        android:textColor="@color/card_name_color"
         android:gravity="left|center_vertical"
         android:background="@mipmap/parent_add_card_paper"/>
 

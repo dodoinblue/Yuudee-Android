@@ -71,7 +71,7 @@ public class EditCategoryCardSettingsActivity extends BaseLittleWaterActivity {
             case R.id.confirm:
                 Intent data = new Intent();
                 mCardItem.getCardSettings().setMute(mMuteSwitch.isChecked());
-                data.putExtra("card_item", mCardItem);
+                data.putExtra("library_card", mCardItem);
                 setResult(Activity.RESULT_OK, data);
                 finish();
                 break;
@@ -88,9 +88,36 @@ public class EditCategoryCardSettingsActivity extends BaseLittleWaterActivity {
                 if (!mCardItem.editable) {
                     return;
                 }
-                Intent intent = new Intent(EditCategoryCardSettingsActivity.this, EditMaterialLibraryActivity.class);
-                intent.putExtra("library", mCardItem);
-                startActivityForResult(intent, LittleWaterConstant.ACTIVITY_REQUEST_CODE_EDIT_MATERIAL_LIBRARY);
+
+                Intent intent = new Intent(EditCategoryCardSettingsActivity.this, EditMaterialLibraryCardActivity.class);
+                intent.putExtra("library_card", mCardItem);
+                startActivityForResult(intent, LittleWaterConstant.ACTIVITY_REQUEST_CODE_EDIT_MATERIAL_LIBRARY_CARD);
+                findViewById(R.id.root_view).setVisibility(View.GONE);
+                break;
+            case R.id.delete_card:
+                data = new Intent();
+                data.putExtra("library_card", mCardItem);
+                data.putExtra("library_deleted", true);
+                setResult(Activity.RESULT_OK, data);
+                finish();
+
+                break;
+        }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (resultCode == Activity.RESULT_CANCELED && requestCode == LittleWaterConstant.ACTIVITY_REQUEST_CODE_EDIT_MATERIAL_LIBRARY_CARD) {
+            finish();
+            return;
+        }
+        if (resultCode != Activity.RESULT_OK) {
+            return;
+        }
+        switch (requestCode) {
+            case LittleWaterConstant.ACTIVITY_REQUEST_CODE_EDIT_MATERIAL_LIBRARY_CARD:
+                setResult(Activity.RESULT_OK, data);
+                finish();
                 break;
         }
     }

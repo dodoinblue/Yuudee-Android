@@ -5,20 +5,16 @@
 
 package com.gcwt.yudee.adapter;
 
-import android.app.Activity;
 import android.app.ActivityOptions;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
-import android.media.AudioManager;
-import android.media.MediaPlayer;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.ViewFlipper;
 
 import com.gcwt.yudee.OnDataChangeListener;
 import com.gcwt.yudee.R;
@@ -33,7 +29,6 @@ import com.gcwt.yudee.util.LittleWaterUtility;
 import com.gcwt.yudee.widget.ScrollLayout;
 import com.gcwt.yudee.widget.ScrollLayout.SAdapter;
 
-import java.io.IOException;
 import java.lang.ref.SoftReference;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -83,7 +78,7 @@ public class ScrollAdapter implements SAdapter {
 
 			final ImageView iv = (ImageView) view.findViewById(R.id.content_iv);
             String coverUrl;
-            if (moveItem.isLibraryFolder) {
+            if (moveItem.isLibrary) {
                 coverUrl = moveItem.getCover();
                 LinearLayout.LayoutParams params = (LinearLayout.LayoutParams)nameView.getLayoutParams();
                 params.setMargins(0, 0, 0, categoryBottomMargin);
@@ -92,15 +87,15 @@ public class ScrollAdapter implements SAdapter {
             }
 
             Drawable cardCover = null;
-            SoftReference<Drawable> cover = mCache.get(coverUrl);
-            if (cover != null) {
-                cardCover = cover.get();
-            }
-			
-            if (cardCover == null) {
+//            SoftReference<Drawable> cover = mCache.get(coverUrl);
+//            if (cover != null) {
+//                cardCover = cover.get();
+//            }
+//
+//            if (cardCover == null) {
                 cardCover = LittleWaterUtility.getRoundCornerDrawableFromSdCard(coverUrl);
-                mCache.put(coverUrl, new SoftReference<Drawable>(cardCover));
-            }
+//                mCache.put(coverUrl, new SoftReference<Drawable>(cardCover));
+//            }
 
             iv.setImageDrawable(cardCover);
 			view.setTag(moveItem);
@@ -108,7 +103,7 @@ public class ScrollAdapter implements SAdapter {
                 return view;
             }
 
-            if (moveItem.isLibraryFolder) {
+            if (moveItem.isLibrary) {
                 View cardBgView = view.findViewById(R.id.card_bg);
                 cardBgView.setBackgroundResource(R.mipmap.cat_bg);
             }
@@ -117,11 +112,11 @@ public class ScrollAdapter implements SAdapter {
                 @Override
                 public void onClick(View v) {
                     if (LittleWaterActivity.mIsInParentMode) {
-                        if (!moveItem.isLibraryFolder) {
+                        if (!moveItem.isLibrary) {
                             return;
                         }
                     }
-                    if (moveItem.isLibraryFolder) {
+                    if (moveItem.isLibrary) {
                         Intent intent = new Intent(mContext, SubFolderLittleWaterActivity.class);
                         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                         intent.putExtra("library", moveItem.getName());

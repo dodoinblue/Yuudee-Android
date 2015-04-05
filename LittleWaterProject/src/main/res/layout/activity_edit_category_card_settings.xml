@@ -10,7 +10,8 @@
     android:layout_height="wrap_content"
     android:background="@mipmap/parent_editpop_bg"
     android:orientation="vertical"
-    android:gravity="top|center_horizontal">
+    android:layout_gravity="center"
+    android:gravity="center">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -182,10 +183,13 @@
             android:gravity="center"
             android:orientation="horizontal">
             <TextView
+                android:id="@+id/delete_card"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textColor="@android:color/holo_red_dark"
                 android:text="删除该卡片"
+                android:clickable="true"
+                android:onClick="onClick"
                 android:layout_marginTop="20dp"
                 android:layout_marginBottom="20dp"
                 android:textSize="14dp" />

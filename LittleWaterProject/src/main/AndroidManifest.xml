@@ -78,28 +78,31 @@
             android:theme="@android:style/Theme.Translucent.NoTitleBar"/>
 
         <activity android:name=".activity.NewMaterialLibraryActivity"
-            android:theme="@style/Theme.Light.FullScreenDialogAct"/>
+            android:theme="@android:style/Theme.Translucent.NoTitleBar"/>
 
         <activity android:name=".activity.NewMaterialLibraryCardActivity"
-            android:theme="@style/Theme.Light.FullScreenDialogAct"/>
+            android:theme="@android:style/Theme.Translucent.NoTitleBar"/>
 
         <activity android:name=".activity.EditCategoryCardSettingsActivity"
-            android:theme="@style/Theme.Light.FullScreenDialogAct"/>
+            android:theme="@android:style/Theme.Translucent.NoTitleBar"/>
 
         <activity android:name=".activity.EditMaterialLibraryCardActivity"
-            android:theme="@style/Theme.Light.FullScreenDialogAct"/>
+            android:theme="@android:style/Theme.Translucent.NoTitleBar"/>
 
         <activity android:name=".activity.NewCategoryCardActivity"
-            android:theme="@style/Theme.Light.FullScreenDialogAct"/>
+            android:theme="@android:style/Theme.Translucent.NoTitleBar"/>
 
         <activity android:name=".activity.EditMaterialLibraryActivity"
-            android:theme="@style/Theme.Light.FullScreenDialogAct"/>
+            android:theme="@android:style/Theme.Translucent.NoTitleBar"/>
 
         <activity android:name=".activity.SubFolderLittleWaterActivity"
             android:theme="@style/Theme.Light.FullScreenDialogAct"/>
 
+        <activity android:name=".activity.EditCategoryFolderActivity"
+            android:theme="@android:style/Theme.Translucent.NoTitleBar"/>
 
-        <activity android:name="android.pattern.imagefactory.ImageFactoryActivity"/>
+        <activity android:name="android.pattern.imagefactory.ImageFactoryActivity"
+            android:theme="@android:style/Theme.DeviceDefault.NoActionBar"/>
 
         <service android:name=".soundrecorder.RecordService" />
     </application>

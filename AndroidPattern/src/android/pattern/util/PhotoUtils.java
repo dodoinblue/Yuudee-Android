@@ -127,8 +127,9 @@ public class PhotoUtils {
 	 * @param path
 	 *            需要裁剪的图片路径
 	 */
-	public static void cropPhoto(Context context, Activity activity, String path) {
+	public static void cropPhoto(Context context, Activity activity, String path, boolean rotate) {
 		Intent intent = new Intent(context, ImageFactoryActivity.class);
+        intent.putExtra("rotate", rotate);
 		if (path != null) {
 			intent.putExtra("path", path);
 			intent.putExtra(ImageFactoryActivity.TYPE,

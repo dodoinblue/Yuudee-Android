@@ -46,6 +46,9 @@ public class SubFolderLittleWaterActivity extends LittleWaterActivity {
             case R.id.back_to_main_ui:
                 finish();
                 break;
+            default:
+                super.onClick(view);
+                break;
         }
     }
 }

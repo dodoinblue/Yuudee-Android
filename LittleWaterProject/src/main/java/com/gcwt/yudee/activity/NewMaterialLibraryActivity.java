@@ -6,12 +6,14 @@
 package com.gcwt.yudee.activity;
 
 import android.app.Activity;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
+import android.pattern.util.DialogManager;
+import android.pattern.util.FileUtils;
 import android.pattern.util.PhotoUtil;
-import android.pattern.util.PhotoUtils;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
@@ -28,21 +30,20 @@ import com.gcwt.yudee.model.CardItem;
 import com.gcwt.yudee.util.LittleWaterConstant;
 
 import java.io.File;
-import java.text.SimpleDateFormat;
-import java.util.Date;
+import java.util.Set;
 
 /**
  * Created by peter on 3/10/15.
  */
 public class NewMaterialLibraryActivity extends BaseLittleWaterActivity implements TextWatcher {
-    private EditText mNameEditView;
-    private TextView mLibraryName;
-    private CardItem mCardItem = new CardItem();
+    protected EditText mNameEditView;
+    protected TextView mLibraryNameView;
+    protected CardItem mCardItem = new CardItem();
 
     @Override
-    protected void onCreate(Bundle arg0) {
-        super.onCreate(arg0);
-        setContentView(R.layout.activity_new_material_library);
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_edit_material_library);
         initViews();
         initEvents();
     }
@@ -54,7 +55,7 @@ public class NewMaterialLibraryActivity extends BaseLittleWaterActivity implemen
         updateToRoundImageDrawable(mCardCoverView);
         mRootView = (ViewGroup) findViewById(R.id.root_view);
         mNameEditView = (EditText) findViewById(R.id.edit_name);
-        mLibraryName = (TextView) findViewById(R.id.library_name);
+        mLibraryNameView = (TextView) findViewById(R.id.library_name);
     }
 
     protected void initEvents() {
@@ -70,44 +71,95 @@ public class NewMaterialLibraryActivity extends BaseLittleWaterActivity implemen
                 finish();
                 break;
             case R.id.confirm:
-                saveNewLibrary();
+                saveMaterialLibrary();
+                break;
+            case R.id.trash:
+                deleteLibrary();
                 break;
         }
     }
 
-    private void saveNewLibrary() {
-        if (TextUtils.isEmpty(mLibraryName.getText().toString())) {
+    private void deleteLibrary() {
+        DialogManager.showConfirmDialog(this, null, "确认删除整个分类?", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                FileUtils.delFolder(LittleWaterConstant.MATERIAL_LIBRARIES_DIRECTORY + mCardItem.getName());
+                dialogInterface.dismiss();
+
+                Intent data = new Intent();
+                data.putExtra("library_card", mCardItem);
+                data.putExtra("library_deleted", true);
+                setResult(Activity.RESULT_OK, data);
+                finish();
+            }
+        }, null);
+    }
+
+    private void saveMaterialLibrary() {
+        if (TextUtils.isEmpty(mLibraryNameView.getText().toString())) {
             showCustomToast("请输入分类名称");
             return;
         }
-        String libraryName = mLibraryName.getText().toString();
-        File libFile = new File(LittleWaterConstant.MATERIAL_LIBRARIES_DIRECTORY + libraryName);
-        if (libFile.exists()) {
-            showCustomToast("分类名称已存在, 请换个名称.");
-            return;
+        String newLibraryName = mLibraryNameView.getText().toString();
+        String oldLibraryName = mCardItem.name;
+        if (this instanceof EditMaterialLibraryActivity) {
+            if (isMaterialLibraryNameChanged(oldLibraryName, newLibraryName)) {
+                Set<String> librarySet = LittleWaterApplication.getMaterialLibraryCoverPreferences().getAll().keySet();
+                for (String libraryName : librarySet) {
+                    if (TextUtils.equals(libraryName, newLibraryName)) {
+                        showCustomToast("分类名称已存在, 请换个名称.");
+                        return;
+                    }
+                }
+
+//                File oldLibFile = new File(LittleWaterConstant.MATERIAL_LIBRARIES_DIRECTORY + oldLibraryName);
+//                File newLibFile = new File(LittleWaterConstant.MATERIAL_LIBRARIES_DIRECTORY + newLibraryName);
+//                oldLibFile.renameTo(newLibFile);
+//            ArrayList<CardItem> libraryCardList = LittleWaterUtility.getMaterialLibraryCardsList(mCardItem.getName());
+//            LittleWaterApplication.getMaterialLibraryCardsPreferences().remove(mCardItem.getName());
+//            LittleWaterUtility.setMaterialLibraryCardsList(newLibraryName, libraryCardList);
+            }
+        } else {
+            File libFile = new File(LittleWaterConstant.MATERIAL_LIBRARIES_DIRECTORY + newLibraryName);
+            if (libFile.exists()) {
+                showCustomToast("分类名称已存在, 请换个名称.");
+                return;
+            }
+            libFile.mkdirs();
+            LittleWaterApplication.getMaterialLibraryCardsPreferences().putString(newLibraryName, "");
         }
-        libFile.mkdirs();
 
-        LittleWaterApplication.getMaterialLibraryCardsPreferences().putString(libraryName, "");
-
-        BitmapDrawable drawable = (BitmapDrawable) mCardCoverView.getDrawable();
-        String cover = null;
-        if (drawable != null && drawable.getBitmap() != null) {
-            Bitmap bitmap = drawable.getBitmap();
-            String coverFolder = LittleWaterConstant.MATERIAL_LIBRARIES_DIRECTORY + libraryName;
-            String coverName = "cover.png";
-            PhotoUtil.saveBitmap(coverFolder, coverName, bitmap, true);
-            cover = coverFolder + "/" + coverName;
-            LittleWaterApplication.getMaterialLibraryCoverPreferences().putString(libraryName, cover);
+        if (mGotACardCover || mCardItem.cover == null) {
+            BitmapDrawable drawable = (BitmapDrawable) mCardCoverView.getDrawable();
+            String finalLibraryName = newLibraryName;
+            if (isMaterialLibraryNameChanged(oldLibraryName, newLibraryName)) {
+                finalLibraryName = oldLibraryName;
+            }
+            if (drawable != null && drawable.getBitmap() != null) {
+                Bitmap bitmap = drawable.getBitmap();
+                String coverFolder = LittleWaterConstant.MATERIAL_LIBRARIES_DIRECTORY + finalLibraryName;
+                String coverName = "cover.png";
+                PhotoUtil.saveBitmap(coverFolder, coverName, bitmap, true);
+                String cover = coverFolder + "/" + coverName;
+                LittleWaterApplication.getMaterialLibraryCoverPreferences().putString(finalLibraryName, cover);
+                mCardItem.cover = cover;
+            }
         }
 
-        mCardItem.name = libraryName;
-        mCardItem.cover = cover;
+        mCardItem.name = newLibraryName;
         mCardItem.editable = true;
+        mCardItem.isLibrary = true;
         Intent data = new Intent();
-        data.putExtra("result_new_material_library", mCardItem);
+        data.putExtra("library_card", mCardItem);
+        if (isMaterialLibraryNameChanged(oldLibraryName, newLibraryName)) {
+            data.putExtra("old_library_name", oldLibraryName);
+        }
         setResult(Activity.RESULT_OK, data);
         finish();
+    }
+
+    private boolean isMaterialLibraryNameChanged(String oldLibraryName, String newLibraryName) {
+        return !TextUtils.isEmpty(oldLibraryName) && !TextUtils.equals(oldLibraryName, newLibraryName);
     }
 
     @Override
@@ -120,7 +172,7 @@ public class NewMaterialLibraryActivity extends BaseLittleWaterActivity implemen
 
     @Override
     public void afterTextChanged(Editable s) {
-        mLibraryName.setText(mNameEditView.getText().toString());
+        mLibraryNameView.setText(mNameEditView.getText().toString());
     }
 
 }

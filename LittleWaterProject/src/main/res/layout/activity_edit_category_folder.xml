@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?><!--
+  ~ Copyright (C) 2015 G-Wearable Inc.
+  ~ All rights reserved.
+  -->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/settings_root_container"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_gravity="center"
+    android:gravity="center">
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:background="@mipmap/parent_editcat_bg">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="36dp"
+            android:paddingLeft="54dp"
+            android:paddingRight="54dp"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/edit_card"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="@color/card_name_color"
+                android:drawablePadding="10dp"
+                android:gravity="left|center_vertical"
+                android:onClick="onClick"
+                android:clickable="true"
+                android:singleLine="true"
+                android:text="(不能编辑系统自带分类)"
+                android:textSize="12dp"
+                android:drawableLeft="@mipmap/parent_editpop_editicon" />
+
+            <TextView
+                android:id="@+id/parent_settings_delete_category"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:onClick="onClick"
+                android:clickable="true"
+                android:text="删除该分类"
+                android:textSize="12dp"
+                android:gravity="left|center_vertical"
+                android:textColor="@android:color/holo_red_dark" />
+
+        </LinearLayout>
+
+
+        <Button
+            android:id="@+id/parent_edit_category_folder_cancel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="32dp"
+            android:onClick="onClick"
+            android:background="@drawable/parent_editpop_cancel" />
+
+    </LinearLayout>
+</LinearLayout>

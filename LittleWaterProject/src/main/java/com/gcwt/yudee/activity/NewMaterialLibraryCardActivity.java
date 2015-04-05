@@ -17,7 +17,6 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.IBinder;
 import android.pattern.adapter.BaseListAdapter;
-import android.pattern.util.BitmapUtil;
 import android.pattern.util.PhotoUtil;
 import android.pattern.util.PhotoUtils;
 import android.pattern.widget.ActionWindow;
@@ -38,12 +37,10 @@ import com.gcwt.yudee.LittleWaterApplication;
 import com.gcwt.yudee.R;
 import com.gcwt.yudee.model.CardItem;
 import com.gcwt.yudee.soundrecorder.RecordService;
-import com.gcwt.yudee.util.FileService;
 import com.gcwt.yudee.util.LittleWaterConstant;
 import com.gcwt.yudee.util.LittleWaterUtility;
 
 import java.io.File;
-import java.io.FileInputStream;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
@@ -53,14 +50,14 @@ import java.util.Set;
  */
 public class NewMaterialLibraryCardActivity extends BaseLittleWaterActivity implements TextWatcher, MediaPlayer.OnCompletionListener {
     protected EditText mNameEditView;
-    protected TextView mCardName;
+    protected TextView mCardNameView;
     private ViewGroup mCoverContainer;
     private ViewGroup mSoundContainer;
     private TextView mRecordDescription;
     private ViewGroup mPreviousContainer;
     private ViewGroup mNextContainer;
     private ActionWindow mNewResourceWindow;
-    private Button mChooseCategoryBtn;
+    protected Button mChooseCategoryBtn;
 
     private Button mRecordButton;
     private TextView mRecordNoticeView;
@@ -69,10 +66,10 @@ public class NewMaterialLibraryCardActivity extends BaseLittleWaterActivity impl
     private Button mPlayButton;
     private boolean mIsPlaying;
     private MediaPlayer mPlayer;
-    private String mAudioFile;
+    protected String mAudioFile;
     protected CardItem mLibraryCard = new CardItem();
     private String mMaterialLibraryPath;
-    private String mMaterialLibraryName;
+    private String mOriginLibraryName;
 
     @Override
     protected void onCreate(Bundle arg0) {
@@ -146,7 +143,7 @@ public class NewMaterialLibraryCardActivity extends BaseLittleWaterActivity impl
         setTitle("");
         mRootView = (ViewGroup) findViewById(R.id.root_view);
         mNameEditView = (EditText) findViewById(R.id.edit_name);
-        mCardName = (TextView) findViewById(R.id.card_name);
+        mCardNameView = (TextView) findViewById(R.id.card_name);
         mCoverContainer = (ViewGroup) findViewById(R.id.cover_container);
         mSoundContainer = (ViewGroup) findViewById(R.id.sound_container);
         mRecordDescription = (TextView) findViewById(R.id.record_description);
@@ -163,12 +160,13 @@ public class NewMaterialLibraryCardActivity extends BaseLittleWaterActivity impl
     }
 
     protected void initEvents() {
-        mMaterialLibraryName = getIntent().getStringExtra("material_library");
-        if (TextUtils.isEmpty(mMaterialLibraryName)) {
-            mMaterialLibraryName = "未分类";
+        mOriginLibraryName = getIntent().getStringExtra("material_library");
+        String libraryName = mOriginLibraryName;
+        if (TextUtils.isEmpty(libraryName)) {
+            libraryName = "未分类";
         }
-        mMaterialLibraryPath = LittleWaterConstant.MATERIAL_LIBRARIES_DIRECTORY + mMaterialLibraryName + "/";
-        mChooseCategoryBtn.setText(mMaterialLibraryName);
+        mMaterialLibraryPath = LittleWaterConstant.MATERIAL_LIBRARIES_DIRECTORY + libraryName + "/";
+        mChooseCategoryBtn.setText(libraryName);
         mNameEditView.addTextChangedListener(this);
         Intent service = new Intent(this, RecordService.class);
         startService(service);
@@ -180,20 +178,20 @@ public class NewMaterialLibraryCardActivity extends BaseLittleWaterActivity impl
                 finish();
                 break;
             case R.id.next:
-                String cardName = mNameEditView.getEditableText().toString();
-                if (TextUtils.isEmpty(cardName)) {
+                String newCardName = mNameEditView.getEditableText().toString();
+                String newLibraryName = mChooseCategoryBtn.getText().toString();
+                if (TextUtils.isEmpty(newCardName)) {
                     showCustomToast("请输入卡片名称");
                     return;
                 }
 
-                String newCardName = mNameEditView.getText().toString();
-                if (!TextUtils.equals(newCardName, mLibraryCard.getName())) {
-                    ArrayList<CardItem> libraryCardList = LittleWaterUtility.getMaterialLibraryCardsList(mMaterialLibraryName);
-                    for (CardItem item : libraryCardList) {
-                        if (TextUtils.equals(item.getName(), newCardName)) {
-                            showCustomToast("卡片名称已存在, 请换个名称.");
-                            return;
-                        }
+                if (cardNameChanged(mLibraryCard.name, newCardName) || libraryNameChanged(mOriginLibraryName, newLibraryName)) {
+                    ArrayList<CardItem> libraryCardList = LittleWaterUtility.getMaterialLibraryCardsList(newLibraryName);
+                    CardItem item = new CardItem();
+                    item.name = newCardName;
+                    if (libraryCardList.contains(item)) {
+                        showCustomToast("卡片名称已存在, 请换个名称.");
+                        return;
                     }
                 }
 
@@ -240,9 +238,9 @@ public class NewMaterialLibraryCardActivity extends BaseLittleWaterActivity impl
                             convertView = mInflater.inflate(R.layout.layout_new_card_category_list_item, parent, false);
                         }
                         TextView categoryView = (TextView) convertView;
-                        mMaterialLibraryName = getItem(position);
-                        mMaterialLibraryPath = LittleWaterConstant.MATERIAL_LIBRARIES_DIRECTORY + mMaterialLibraryName + "/";
-                        categoryView.setText(mMaterialLibraryName);
+                        String libraryName = getItem(position);
+                        mMaterialLibraryPath = LittleWaterConstant.MATERIAL_LIBRARIES_DIRECTORY + libraryName + "/";
+                        categoryView.setText(libraryName);
                         return convertView;
                     }
                 };
@@ -270,6 +268,10 @@ public class NewMaterialLibraryCardActivity extends BaseLittleWaterActivity impl
                 }
                 break;
             case R.id.play_sound:
+                if (mAudioFile == null) {
+                    showCustomToast("请先点击录音按钮录一段语音.");
+                    return;
+                }
                 if (!mIsPlaying) {
                     File file = new File(mAudioFile);
                     Uri fileuri = Uri.fromFile(file);
@@ -288,44 +290,58 @@ public class NewMaterialLibraryCardActivity extends BaseLittleWaterActivity impl
                 }
                 break;
             case R.id.delete_sound:
+                if (mAudioFile == null) {
+                    return;
+                }
                 File file = new File(mAudioFile);
                 file.delete();
+                showCustomToast("录音已删除.");
                 mAudioFile = null;
                 break;
         }
     }
 
-    private void saveNewLibraryCard() {
-        Intent data = new Intent();
+    private boolean cardNameChanged(String oldCardName, String newCardName) {
+        return !TextUtils.isEmpty(oldCardName) && !TextUtils.equals(oldCardName, newCardName);
+    }
 
-        // Create card folder in SD card.
-        if (!TextUtils.isEmpty(mLibraryCard.name) && !TextUtils.equals(mLibraryCard.name, mCardName.getText().toString())) {
-            data.putExtra("old_library_name", mLibraryCard.name);
+    private boolean libraryNameChanged(String oldLibraryName, String newLibraryName) {
+        return !TextUtils.isEmpty(oldLibraryName) && !TextUtils.equals(newLibraryName, oldLibraryName);
+    }
+
+    private void saveNewLibraryCard() {
+        String newLibraryName = mChooseCategoryBtn.getText().toString();
+        if (libraryNameChanged(mOriginLibraryName, newLibraryName)) {
+            List<CardItem> cardItemList =  LittleWaterUtility.getMaterialLibraryCardsList(mOriginLibraryName);
+            cardItemList.remove(mLibraryCard);
+            LittleWaterUtility.setMaterialLibraryCardsList(mOriginLibraryName, cardItemList);
         }
-        mLibraryCard.name = mCardName.getText().toString();
-        mLibraryCard.editable = true;
-        File cardFile = new File(mMaterialLibraryPath + mLibraryCard.name);
-        cardFile.mkdirs();
-        String audiosFolder = mMaterialLibraryPath + mLibraryCard.name + "/audios";
-        File audiosFile = new File(audiosFolder);
-        audiosFile.mkdirs();
-        String imagesFolder = mMaterialLibraryPath + mLibraryCard.name + "/images";
-        File imagesFile = new File(imagesFolder);
-        imagesFile.mkdirs();
+        String oldCardName = mLibraryCard.name;
+        String newCardName = mCardNameView.getText().toString();
 
         // Save image
-        BitmapDrawable drawable = (BitmapDrawable) mCardCoverView.getDrawable();
-        if (drawable != null && drawable.getBitmap() != null) {
-            Bitmap bitmap = drawable.getBitmap();
-            String imageName = "1.png";
-            PhotoUtil.saveBitmap(imagesFolder, imageName, bitmap, true);
-            mLibraryCard.images.clear();
-            mLibraryCard.images.add(imagesFolder + "/" + imageName);
+        if (mGotACardCover || mLibraryCard.images.size() == 0) {
+            BitmapDrawable drawable = (BitmapDrawable) mCardCoverView.getDrawable();
+            if (drawable != null && drawable.getBitmap() != null) {
+                String imagesFolder = mMaterialLibraryPath + newCardName + "/images";
+                File imagesFile = new File(imagesFolder);
+                imagesFile.mkdirs();
+
+                Bitmap bitmap = drawable.getBitmap();
+                String imageName = "1.png";
+                PhotoUtil.saveBitmap(imagesFolder, imageName, bitmap, true);
+                mLibraryCard.images.clear();
+                mLibraryCard.images.add(imagesFolder + "/" + imageName);
+            }
         }
 
         // Save audio
         if (mAudioFile != null) {
             try {
+                String audiosFolder = mMaterialLibraryPath + newCardName + "/audios";
+                File audiosFile = new File(audiosFolder);
+                audiosFile.mkdirs();
+
                 String newAudioName = audiosFolder + "/1.mp3";
                 File oldAudioFile = new File(mAudioFile);
                 oldAudioFile.renameTo(new File(newAudioName));
@@ -337,10 +353,21 @@ public class NewMaterialLibraryCardActivity extends BaseLittleWaterActivity impl
         }
 
         // Save new card into cache
-        List<CardItem> cardItemList =  LittleWaterUtility.getMaterialLibraryCardsList(mMaterialLibraryName);
-        cardItemList.add(mLibraryCard);
-        LittleWaterUtility.setMaterialLibraryCardsList(mMaterialLibraryName, cardItemList);
+        mLibraryCard.libraryName = newLibraryName;
+        mLibraryCard.name = newCardName;
+        mLibraryCard.editable = true;
+        List<CardItem> cardItemList =  LittleWaterUtility.getMaterialLibraryCardsList(newLibraryName);
+        if (cardItemList.contains(mLibraryCard)) {
+            cardItemList.set(cardItemList.indexOf(mLibraryCard), mLibraryCard);
+        } else {
+            cardItemList.add(mLibraryCard);
+        }
+        LittleWaterUtility.setMaterialLibraryCardsList(newLibraryName, cardItemList);
 
+        Intent data = new Intent();
+        if (cardNameChanged(oldCardName, newCardName)) {
+            data.putExtra("old_library_name", oldCardName);
+        }
         data.putExtra("library_card", mLibraryCard);
         setResult(Activity.RESULT_OK, data);
         finish();
@@ -356,7 +383,7 @@ public class NewMaterialLibraryCardActivity extends BaseLittleWaterActivity impl
 
     @Override
     public void afterTextChanged(Editable s) {
-        mCardName.setText(mNameEditView.getText().toString());
+        mCardNameView.setText(mNameEditView.getText().toString());
     }
 
 }

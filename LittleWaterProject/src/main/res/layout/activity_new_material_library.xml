@@ -10,7 +10,8 @@
     android:layout_height="wrap_content"
     android:background="@mipmap/addnew_category_bg"
     android:orientation="vertical"
-    android:gravity="top|center_horizontal">
+    android:gravity="center"
+    android:layout_gravity="center">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -58,7 +59,7 @@
                 android:text="选择一张卡片做为分类封面:"
                 android:singleLine="true"
                 android:textColor="@color/card_name_color"
-                android:textSize="13dp" />
+                android:textSize="12dp" />
 
             <ImageView
                 android:id="@+id/change_cover"

@@ -62,14 +62,6 @@ public class ImageFactoryActivity extends BaseActivity {
         setTitle("剪切头像");
 	}
 
-    @Override
-    protected void onResume() {
-        super.onResume();
-        if (mImageFactoryCrop != null) {
-            mImageFactoryCrop.Rotate();
-        }
-    }
-
     protected void initEvents() {
 		mBtnLeft.setOnClickListener(new OnClickListener() {
 
@@ -135,8 +127,17 @@ public class ImageFactoryActivity extends BaseActivity {
 		if (mImageFactoryCrop == null) {
 			mImageFactoryCrop = new ImageFactoryCrop(this, mVfFlipper.getChildAt(0));
         }
-		mImageFactoryCrop.init(mPath, mScreenWidth, mScreenHeight);
-		mBtnLeft.setText("取    消");
+        mImageFactoryCrop.init(mPath, mScreenWidth, mScreenHeight);
+        boolean rotate = getIntent().getBooleanExtra("rotate", false);
+        if (rotate) {
+            mHandler.postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    mImageFactoryCrop.Rotate();
+                }
+            }, 100);
+        }
+        mBtnLeft.setText("取    消");
 		mBtnRight.setText("确    认");
 	}
 }

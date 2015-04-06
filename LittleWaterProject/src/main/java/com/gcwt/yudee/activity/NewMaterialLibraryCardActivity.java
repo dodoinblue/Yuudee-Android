@@ -185,7 +185,8 @@ public class NewMaterialLibraryCardActivity extends BaseLittleWaterActivity impl
                     return;
                 }
 
-                if (cardNameChanged(mLibraryCard.name, newCardName) || libraryNameChanged(mOriginLibraryName, newLibraryName)) {
+                if (cardNameChanged(mLibraryCard.name, newCardName) || libraryNameChanged(mOriginLibraryName, newLibraryName)
+                        || !(this instanceof EditMaterialLibraryCardActivity)) {
                     ArrayList<CardItem> libraryCardList = LittleWaterUtility.getMaterialLibraryCardsList(newLibraryName);
                     CardItem item = new CardItem();
                     item.name = newCardName;
@@ -325,7 +326,9 @@ public class NewMaterialLibraryCardActivity extends BaseLittleWaterActivity impl
             if (drawable != null && drawable.getBitmap() != null) {
                 String imagesFolder = mMaterialLibraryPath + newCardName + "/images";
                 File imagesFile = new File(imagesFolder);
-                imagesFile.mkdirs();
+                if (!imagesFile.exists()) {
+                    imagesFile.mkdirs();
+                }
 
                 Bitmap bitmap = drawable.getBitmap();
                 String imageName = "1.png";
@@ -340,9 +343,15 @@ public class NewMaterialLibraryCardActivity extends BaseLittleWaterActivity impl
             try {
                 String audiosFolder = mMaterialLibraryPath + newCardName + "/audios";
                 File audiosFile = new File(audiosFolder);
-                audiosFile.mkdirs();
+                if (!audiosFile.exists()) {
+                    audiosFile.mkdirs();
+                }
 
                 String newAudioName = audiosFolder + "/1.mp3";
+                File newAudioFile = new File(newAudioName);
+                if (newAudioFile.exists()) {
+                    newAudioFile.delete();
+                }
                 File oldAudioFile = new File(mAudioFile);
                 oldAudioFile.renameTo(new File(newAudioName));
                 mLibraryCard.audios.clear();

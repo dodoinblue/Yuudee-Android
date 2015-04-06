@@ -148,7 +148,7 @@ public class MaterialLibraryCardsActivity extends BaseLittleWaterActivity {
                 break;
             case R.id.material_library_new:
                 Intent intent = new Intent(this, NewMaterialLibraryCardActivity.class);
-                intent.putExtra("material_library", mMaterialLibraryItem.name);
+                intent.putExtra("material_library", getMaterialLibraryName());
                 startActivityForResult(intent, LittleWaterConstant.ACTIVITY_REQUEST_CODE_NEW_MATERIAL_LIBRARY_CARD);
                 break;
             case R.id.confirm:
@@ -158,6 +158,11 @@ public class MaterialLibraryCardsActivity extends BaseLittleWaterActivity {
                 finish();
                 break;
         }
+    }
+
+    @Override
+    protected String getMaterialLibraryName() {
+        return mMaterialLibraryItem.name;
     }
 
     @Override

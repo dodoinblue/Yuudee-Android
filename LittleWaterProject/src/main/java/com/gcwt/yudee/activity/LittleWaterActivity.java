@@ -107,7 +107,8 @@ public class LittleWaterActivity extends BaseLittleWaterActivity implements OnAd
                                 break;
                             }
                         }
-                        if (tripleDown && !mIsInParentMode) {
+                        View guideView = findViewById(R.id.unlock_guide);
+                        if (tripleDown && !mIsInParentMode && (guideView.getVisibility() == View.GONE)) {
                             enterParentMode();
                         }
                     }

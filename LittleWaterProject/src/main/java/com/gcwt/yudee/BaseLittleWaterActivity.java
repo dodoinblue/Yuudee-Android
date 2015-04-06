@@ -32,6 +32,9 @@ import android.widget.PopupWindow;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.gcwt.yudee.activity.LittleWaterActivity;
+import com.gcwt.yudee.activity.MaterialLibraryCardsActivity;
+import com.gcwt.yudee.activity.SubFolderLittleWaterActivity;
 import com.gcwt.yudee.model.CardItem;
 import com.gcwt.yudee.util.LittleWaterConstant;
 import com.gcwt.yudee.util.LittleWaterUtility;
@@ -226,16 +229,22 @@ abstract public class BaseLittleWaterActivity extends BaseActivity {
         String libraryName = libraryItem.getName();
         String oldLibraryName = data.getStringExtra("old_library_name");
         boolean libraryNameChanged = !TextUtils.isEmpty(oldLibraryName);
+        int cardPosition = mCardItemList.indexOf(libraryItem);
         if (libraryDeleted) {
-            CardItem emptyItem = new CardItem();
-            emptyItem.isEmpty = true;
-            mCardItemList.set(mCardItemList.indexOf(libraryItem), emptyItem);
+            if (this instanceof LittleWaterActivity || this instanceof SubFolderLittleWaterActivity) {
+                if (cardPosition != -1) {
+                    CardItem emptyItem = new CardItem();
+                    emptyItem.isEmpty = true;
+                    mCardItemList.set(cardPosition, emptyItem);
+                }
+            } else {
+                mCardItemList.remove(libraryItem);
+            }
             if (needUpdatePreference(requestCode, byBroadcast)) {
                 LittleWaterApplication.getMaterialLibraryCardsPreferences().remove(libraryName);
                 LittleWaterApplication.getMaterialLibraryCoverPreferences().remove(libraryName);
             }
         } else {
-            int cardPosition = mCardItemList.indexOf(libraryItem);
             if (libraryNameChanged) {
                 // In this case user has changed card name
                 CardItem item = new CardItem();
@@ -256,9 +265,17 @@ abstract public class BaseLittleWaterActivity extends BaseActivity {
             if (cardPosition != -1) {
                 mCardItemList.set(cardPosition, libraryItem);
             }
+
+            if (this instanceof MaterialLibraryCardsActivity) {
+                mCardItemList = LittleWaterUtility.getMaterialLibraryCardsList(getMaterialLibraryName());
+            }
         }
         mContainer.refreshView();
         mContainer.showEdit(true);
+    }
+
+    protected String getMaterialLibraryName() {
+        return "";
     }
 
     private boolean needUpdatePreference(int requestCode, boolean byBroadcast) {

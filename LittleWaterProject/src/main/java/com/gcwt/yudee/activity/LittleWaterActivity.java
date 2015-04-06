@@ -609,7 +609,9 @@ public class LittleWaterActivity extends BaseLittleWaterActivity implements OnAd
         LittleWaterApplication.getAppSettingsPreferences().putString(LittleWaterConstant.SETTINGS_CURRENT_CATEGORY, mCurrentCategory);
 
         displayCards();
-        mDropDownCategoryListWindow.dismiss();
+        findViewById(R.id.dropdown_category_list).setVisibility(View.INVISIBLE);
+        final ImageView spinnerTitleView = (ImageView) findViewById(R.id.spinner_title);
+        spinnerTitleView.setBackgroundResource(R.mipmap.parent_main_titleunfoldbtn);
     }
 
     private void showAddNewCategoryWindow() {

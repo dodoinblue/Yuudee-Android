@@ -59,6 +59,7 @@
         android:clickable="true"
         android:onClick="onClick"
         android:text="导出素材库"
+        android:visibility="invisible"
         android:gravity="center"
         android:textSize="14dp"
         android:textColor="@color/white" />
@@ -70,6 +71,7 @@
         android:layout_weight="1"
         android:clickable="true"
         android:onClick="onClick"
+        android:visibility="invisible"
         android:text="重置卡片"
         android:gravity="center"
         android:textSize="14dp"

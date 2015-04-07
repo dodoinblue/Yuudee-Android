@@ -129,14 +129,14 @@ public class ImageFactoryActivity extends BaseActivity {
         }
         mImageFactoryCrop.init(mPath, mScreenWidth, mScreenHeight);
         boolean rotate = getIntent().getBooleanExtra("rotate", false);
-        if (rotate) {
-            mHandler.postDelayed(new Runnable() {
-                @Override
-                public void run() {
-                    mImageFactoryCrop.Rotate();
-                }
-            }, 800);
-        }
+//        if (rotate) {
+//            mHandler.postDelayed(new Runnable() {
+//                @Override
+//                public void run() {
+//                    mImageFactoryCrop.Rotate();
+//                }
+//            }, 800);
+//        }
         mBtnLeft.setText("取    消");
 		mBtnRight.setText("确    认");
 	}

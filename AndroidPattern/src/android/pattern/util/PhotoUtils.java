@@ -292,19 +292,24 @@ public class PhotoUtils {
 	public static Bitmap CompressionPhoto(float screenWidth, String filePath,
 			int ratio) {
 		Bitmap bitmap = PhotoUtils.getBitmapFromFile(filePath);
-		Bitmap compressionBitmap = null;
-		float scaleWidth = screenWidth / (bitmap.getWidth() * ratio);
-		float scaleHeight = screenWidth / (bitmap.getHeight() * ratio);
-		Matrix matrix = new Matrix();
-		matrix.postScale(scaleWidth, scaleHeight);
-		try {
-			compressionBitmap = Bitmap.createBitmap(bitmap, 0, 0,
-					bitmap.getWidth(), bitmap.getHeight(), matrix, true);
-		} catch (Exception e) {
-			return bitmap;
-		}
-		return compressionBitmap;
+		return CompressionPhoto(screenWidth, bitmap, ratio);
 	}
+
+    public static Bitmap CompressionPhoto(float screenWidth, Bitmap bitmap,
+                                          int ratio) {
+        Bitmap compressionBitmap = null;
+        float scaleWidth = screenWidth / (bitmap.getWidth() * ratio);
+        float scaleHeight = screenWidth / (bitmap.getHeight() * ratio);
+        Matrix matrix = new Matrix();
+        matrix.postScale(scaleWidth, scaleHeight);
+        try {
+            compressionBitmap = Bitmap.createBitmap(bitmap, 0, 0,
+                    bitmap.getWidth(), bitmap.getHeight(), matrix, true);
+        } catch (Exception e) {
+            return bitmap;
+        }
+        return compressionBitmap;
+    }
 
 	/**
 	 * 保存图片到SD卡

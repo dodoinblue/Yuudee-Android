@@ -164,8 +164,9 @@ abstract public class BaseLittleWaterActivity extends BaseActivity {
                         showCustomToast("SD不可用");
                         return;
                     }
-                    filePath = PhotoUtils.savePhotoToSDCard(PhotoUtils
-                            .CompressionPhoto(mScreenWidth, filePath, 2));
+                    Bitmap bitmap = PhotoUtils.getBitmapFromFile(filePath);
+                    bitmap = PhotoUtil.rotaingImageView(90, bitmap);
+                    filePath = PhotoUtils.savePhotoToSDCard(PhotoUtils.CompressionPhoto(mScreenWidth, bitmap, 2));
                     PhotoUtils.cropPhoto(this, this, filePath, true);
                 }
                 break;
@@ -305,10 +306,6 @@ abstract public class BaseLittleWaterActivity extends BaseActivity {
             Log.i("life", "avatar - bitmap = " + bitmap);
             if (bitmap != null) {
                 bitmap = PhotoUtil.toRoundCorner(bitmap, 10);
-                if (isFromCamera && degree != 0) {
-                    bitmap = PhotoUtil.rotaingImageView(degree, bitmap);
-                }
-
                 final Bitmap bm = BitmapUtil.getRoundedCornerBitmap(bitmap, LittleWaterUtility.ROUND_PX);
                 mHandler.postDelayed(new Runnable() {
 

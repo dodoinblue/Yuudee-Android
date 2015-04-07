@@ -445,7 +445,7 @@ public class LittleWaterActivity extends BaseLittleWaterActivity implements OnAd
                 mNeedGuideRemind = false;
                 break;
             case R.id.parent_end_edit:
-                final ImageView spinnerTitleView = (ImageView) findViewById(R.id.spinner_title);
+                ImageView spinnerTitleView = (ImageView) findViewById(R.id.spinner_title);
                 View dropDownView = findViewById(R.id.dropdown_category_list);
                 dropDownView.setVisibility(View.INVISIBLE);
                 spinnerTitleView.setBackgroundResource(R.mipmap.parent_main_titleunfoldbtn);
@@ -459,6 +459,11 @@ public class LittleWaterActivity extends BaseLittleWaterActivity implements OnAd
                 showAboutLittleWalterWindow();
                 break;
             case R.id.parent_settings:
+                spinnerTitleView = (ImageView) findViewById(R.id.spinner_title);
+                dropDownView = findViewById(R.id.dropdown_category_list);
+                dropDownView.setVisibility(View.INVISIBLE);
+                spinnerTitleView.setBackgroundResource(R.mipmap.parent_main_titleunfoldbtn);
+                mParentCategoryContent.setText(mCurrentCategory);
                 popUpSettings();
                 break;
             case R.id.parent_settings_cancel:

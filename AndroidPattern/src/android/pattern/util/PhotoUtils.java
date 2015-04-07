@@ -301,7 +301,7 @@ public class PhotoUtils {
         float scaleWidth = screenWidth / (bitmap.getWidth() * ratio);
         float scaleHeight = screenWidth / (bitmap.getHeight() * ratio);
         Matrix matrix = new Matrix();
-        matrix.postScale(scaleWidth, scaleHeight);
+//        matrix.postScale(scaleWidth, scaleHeight);
         try {
             compressionBitmap = Bitmap.createBitmap(bitmap, 0, 0,
                     bitmap.getWidth(), bitmap.getHeight(), matrix, true);

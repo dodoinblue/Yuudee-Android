@@ -70,32 +70,31 @@
         <activity android:name=".activity.MaterialLibraryCardsActivity"/>
 
         <activity android:name=".activity.ShowCardActivity"
-            android:theme="@android:style/Theme.Translucent.NoTitleBar"/>
+            android:theme="@android:style/Theme.Translucent.NoTitleBar.Fullscreen"/>
 
         <activity android:name=".activity.NewMaterialLibraryActivity"
-            android:theme="@android:style/Theme.Translucent.NoTitleBar"/>
+            android:theme="@android:style/Theme.Translucent.NoTitleBar.Fullscreen"/>
 
         <activity android:name=".activity.NewMaterialLibraryCardActivity"
-            android:theme="@android:style/Theme.Translucent.NoTitleBar"/>
+            android:theme="@android:style/Theme.Translucent.NoTitleBar.Fullscreen"/>
 
         <activity android:name=".activity.EditCategoryCardSettingsActivity"
-            android:theme="@android:style/Theme.Translucent.NoTitleBar"/>
+            android:theme="@android:style/Theme.Translucent.NoTitleBar.Fullscreen"/>
 
         <activity android:name=".activity.EditMaterialLibraryCardActivity"
-            android:theme="@android:style/Theme.Translucent.NoTitleBar"/>
+            android:theme="@android:style/Theme.Translucent.NoTitleBar.Fullscreen"/>
 
         <activity android:name=".activity.NewCategoryCardActivity"
-            android:theme="@android:style/Theme.Translucent.NoTitleBar"/>
+            android:theme="@android:style/Theme.Translucent.NoTitleBar.Fullscreen"/>
 
         <activity android:name=".activity.EditMaterialLibraryActivity"
-            android:theme="@android:style/Theme.Translucent.NoTitleBar"/>
+            android:theme="@android:style/Theme.Translucent.NoTitleBar.Fullscreen"/>
 
         <activity android:name=".activity.SubFolderLittleWaterActivity"
-            android:launchMode="singleInstance"
             android:theme="@style/Theme.Light.FullScreenDialogAct"/>
 
         <activity android:name=".activity.EditCategoryFolderActivity"
-            android:theme="@android:style/Theme.Translucent.NoTitleBar"/>
+            android:theme="@android:style/Theme.Translucent.NoTitleBar.Fullscreen"/>
 
         <activity android:name="android.pattern.imagefactory.ImageFactoryActivity"
             android:theme="@android:style/Theme.DeviceDefault.Light.DarkActionBar"/>

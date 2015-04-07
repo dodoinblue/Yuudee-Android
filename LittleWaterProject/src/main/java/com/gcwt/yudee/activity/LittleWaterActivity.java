@@ -28,6 +28,7 @@ import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.pattern.adapter.BaseListAdapter;
 import android.pattern.util.FileUtils;
+import android.pattern.util.PhotoUtil;
 import android.pattern.widget.ActionWindow;
 import android.text.TextUtils;
 import android.util.Log;
@@ -276,7 +277,8 @@ public class LittleWaterActivity extends BaseLittleWaterActivity implements OnAd
                 //在新线程中以同名覆盖方式解压
                 try {
                     UnzipAssets.unZip(LittleWaterActivity.this, "cards.zip", LittleWaterConstant.LITTLE_WALTER_DIRECTORY, true);
-                    initCardsFromSDcard();
+                    initCategoryCardsFromSDcard();
+                    initDefaultMaterialLibraryFromSDcard();
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
@@ -285,7 +287,7 @@ public class LittleWaterActivity extends BaseLittleWaterActivity implements OnAd
         }.start();
     }
 
-    private void initCardsFromSDcard() {
+    private void initCategoryCardsFromSDcard() {
         File cardResourceFolder = new File(LittleWaterConstant.CATEGORIES_DIRECTORY);
         File[] categoryFolders = cardResourceFolder.listFiles();
         for (File categoryFolder : categoryFolders) {
@@ -756,10 +758,21 @@ public class LittleWaterActivity extends BaseLittleWaterActivity implements OnAd
         mContainer.showEdit(false);
     }
 
-    private static class CardNameComparator implements Comparator<String> {
-        @Override
-        public int compare(String obj1, String obj2) {
-            return obj1.compareTo(obj2);
+    private void initDefaultMaterialLibraryFromSDcard() {
+        File file = new File(LittleWaterConstant.MATERIAL_LIBRARIES_DIRECTORY + "未分类");
+        //如果目标目录不存在，则创建
+        if (!file.exists()) {
+            file.mkdirs();
+
+            String libraryName = "未分类";
+            Bitmap bitmap = ((BitmapDrawable) getResources().getDrawable(R.mipmap.default_image)).getBitmap();
+            String coverFolder = LittleWaterConstant.MATERIAL_LIBRARIES_DIRECTORY + libraryName;
+            String coverName = "cover.png";
+            PhotoUtil.saveBitmap(coverFolder, coverName, bitmap, true);
+            String cover = coverFolder + "/" + coverName;
+            LittleWaterApplication.getMaterialLibraryCoverPreferences().putString(libraryName, cover);
+
+            LittleWaterApplication.getMaterialLibraryCardsPreferences().putString(libraryName, "");
         }
     }
 

@@ -65,8 +65,6 @@ public class MaterialLibrariesActivity extends BaseLittleWaterActivity {
         //设置Container编辑模式的回调，长按进入修改模式
 //        mContainer.setOnEditModeListener(this);
 
-        initResourcesInSDcard();
-
         HashMap<String, String> coverMap = (HashMap<String, String>) LittleWaterApplication.getCategoryCoverPreferences().getAll();
         ArrayList<CardItem> categoryCardList = getCardItems(coverMap);
 
@@ -222,26 +220,6 @@ public class MaterialLibrariesActivity extends BaseLittleWaterActivity {
                 setResult(Activity.RESULT_OK, intent);
                 finish();
                 break;
-        }
-    }
-
-    private void initResourcesInSDcard() {
-        File file = new File(LittleWaterConstant.MATERIAL_LIBRARIES_DIRECTORY);
-        //如果目标目录不存在，则创建
-        if (!file.exists()) {
-            file.mkdirs();
-            file = new File(LittleWaterConstant.MATERIAL_LIBRARIES_DIRECTORY + "未分类");
-            file.mkdir();
-
-            String libraryName = "未分类";
-            Bitmap bitmap = ((BitmapDrawable) getResources().getDrawable(R.mipmap.default_image)).getBitmap();
-            String coverFolder = LittleWaterConstant.MATERIAL_LIBRARIES_DIRECTORY + libraryName;
-            String coverName = "cover.png";
-            PhotoUtil.saveBitmap(coverFolder, coverName, bitmap, true);
-            String cover = coverFolder + "/" + coverName;
-            LittleWaterApplication.getMaterialLibraryCoverPreferences().putString(libraryName, cover);
-
-            LittleWaterApplication.getMaterialLibraryCardsPreferences().putString("未分类", "");
         }
     }
 }

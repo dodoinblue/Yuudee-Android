@@ -21,12 +21,14 @@ import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.BroadcastReceiver;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.pattern.adapter.BaseListAdapter;
+import android.pattern.util.DialogManager;
 import android.pattern.util.FileUtils;
 import android.pattern.util.PhotoUtil;
 import android.pattern.widget.ActionWindow;
@@ -573,6 +575,10 @@ public class LittleWaterActivity extends BaseLittleWaterActivity implements OnAd
     }
 
     private void settingsDeleteCategory() {
+        if (mCategoryList.size() == 1) {
+            showCustomToast("已是最后一个课件, 不能再删除.");
+            return;
+        }
         LittleWaterApplication.getCategoryCardsPreferences().remove(mCurrentCategory);
         mCategoryList.remove(mCurrentCategory);
         mCurrentCategory = mCategoryList.get(0);

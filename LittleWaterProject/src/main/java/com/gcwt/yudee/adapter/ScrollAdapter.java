@@ -118,9 +118,8 @@ public class ScrollAdapter implements SAdapter {
                     }
                     if (moveItem.isLibrary) {
                         Intent intent = new Intent(mContext, SubFolderLittleWaterActivity.class);
-                        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                         intent.putExtra("library", moveItem.getName());
-                        mContext.startActivity(intent);
+                        mScrollLayout.mActivity.startActivity(intent);
                     } else if (mScrollLayout.getColCount() == LittleWaterActivity.LAYOUT_TYPE_1_X_1) {
                         switch (moveItem.getCardSettings().getAnimationType()) {
                             case LittleWaterConstant.ANIMATION_NONE:
@@ -141,10 +140,9 @@ public class ScrollAdapter implements SAdapter {
                                 view.setVisibility(View.INVISIBLE);
                                 Intent intent = new Intent(mContext, ShowCardActivity.class);
                                 intent.putExtra("card_item", moveItem);
-                                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                                 ActivityOptions opts = ActivityOptions.makeScaleUpAnimation(view, 0, 0, view.getWidth(), view.getHeight());
                                 //ActivityOptions opts = ActivityOptions.makeCustomAnimation(mContext, R.anim.zoom_enter, R.anim.dialog_exit);
-                                mContext.startActivity(intent, opts.toBundle());
+                                mScrollLayout.mActivity.startActivity(intent, opts.toBundle());
                                 view.postDelayed(new Runnable() {
                                     @Override
                                     public void run() {

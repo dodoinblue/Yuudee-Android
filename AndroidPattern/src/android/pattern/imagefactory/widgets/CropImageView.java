@@ -268,7 +268,7 @@ public class CropImageView extends ImageViewTouchBase {
 		int height = mBitmapDisplayed.getHeight();
 		Rect imageRect = new Rect(0, 0, width, height);
 		int cropWidth = Math.min(width, height) * 4 / 5;
-		int cropHeight = cropWidth;
+		int cropHeight = cropWidth * 3 / 4;
 		int x = (width - cropWidth) / 2;
 		int y = (height - cropHeight) / 2;
 		RectF cropRect = new RectF(x, y, x + cropWidth, y + cropHeight);

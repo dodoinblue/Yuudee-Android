@@ -49,7 +49,7 @@ public class ScrollLayout extends LinearLayout implements OnDataChangeListener {
     public static final String ACTION_CARD_ITEM_MOVE = "com.gcwt.yudee.action.CARD_ITEM_MOVE";
 	//容器的Adapter
 	private ScrollAdapter mAdapter;
-	private BaseLittleWaterActivity mActivity;
+	public BaseLittleWaterActivity mActivity;
 	//左边距
 	private int leftPadding = 0;
 	//右边距

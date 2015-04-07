@@ -255,7 +255,7 @@ public class CropImage {
 			// CR: sentences!
 			// make the default size about 4/5 of the width or height
 			int cropWidth = Math.min(width, height) * 4 / 5;
-			int cropHeight = cropWidth * 7 / 10;
+			int cropHeight = (int)(cropWidth * 7.5f / 10);
 
 			int x = (width - cropWidth) / 2;
 			int y = (height - cropHeight) / 2;

@@ -44,6 +44,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by peter on 3/3/15.
@@ -51,7 +52,7 @@ import java.util.ArrayList;
 abstract public class BaseLittleWaterActivity extends BaseActivity {
     protected static final String ACTION_MATERIAL_LIBRARY_CHANGED = "com.gcwt.yudee.ACTION_MATERIAL_LIBRARY_CHANGED";
     // Container中滑动控件列表
-    protected ArrayList<CardItem> mCardItemList = new ArrayList<CardItem>();
+    protected List<CardItem> mCardItemList = new ArrayList<CardItem>();
     // 滑动控件的容器Container
     protected ScrollLayout mContainer;
 

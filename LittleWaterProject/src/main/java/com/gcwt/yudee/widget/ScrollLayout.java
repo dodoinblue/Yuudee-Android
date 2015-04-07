@@ -228,7 +228,11 @@ public class ScrollLayout extends LinearLayout implements OnDataChangeListener {
 	public void refreshView() {
 		removeAllViews();
         if (mActivity instanceof LittleWaterActivity) {
-            ((LittleWaterActivity) mActivity).addEmptyCardItems();
+            if (LittleWaterActivity.mIsInParentMode) {
+                ((LittleWaterActivity) mActivity).addEmptyCardItems();
+            } else {
+                ((LittleWaterActivity) mActivity).removeEmptyCardItems();
+            }
         }
         mCurScreen = 0;
 		for (int i = 0; i < mAdapter.getCount(); i++) {

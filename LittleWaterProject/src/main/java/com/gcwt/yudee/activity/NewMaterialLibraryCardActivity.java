@@ -257,16 +257,9 @@ public class NewMaterialLibraryCardActivity extends BaseLittleWaterActivity impl
                 break;
             case R.id.record_sound:
                 if (!mIsRecording) {
-                    mRecordService.startRecord();
-                    mRecordButton.setBackgroundResource(R.mipmap.record_down);
-                    mRecordNoticeView.setText(R.string.startrecorder);
-                    mIsRecording = true;
+                    startSoundRecord();
                 } else {
-                    mRecordService.stopRecord();
-                    mRecordButton.setBackgroundResource(R.mipmap.record);
-                    mAudioFile = mRecordService.getAudioFilePath();
-                    mRecordNoticeView.setText(R.string.stoprecorder);
-                    mIsRecording = false;
+                    stopSoundRecord();
                 }
                 break;
             case R.id.play_sound:
@@ -303,6 +296,21 @@ public class NewMaterialLibraryCardActivity extends BaseLittleWaterActivity impl
         }
     }
 
+    private void startSoundRecord() {
+        mRecordService.startRecord();
+        mRecordButton.setBackgroundResource(R.mipmap.record_down);
+        mRecordNoticeView.setText(R.string.startrecorder);
+        mIsRecording = true;
+    }
+
+    private void stopSoundRecord() {
+        mRecordService.stopRecord();
+        mRecordButton.setBackgroundResource(R.mipmap.record);
+        mAudioFile = mRecordService.getAudioFilePath();
+        mRecordNoticeView.setText(R.string.stoprecorder);
+        mIsRecording = false;
+    }
+
     private boolean cardNameChanged(String oldCardName, String newCardName) {
         return !TextUtils.isEmpty(oldCardName) && !TextUtils.equals(oldCardName, newCardName);
     }
@@ -312,6 +320,10 @@ public class NewMaterialLibraryCardActivity extends BaseLittleWaterActivity impl
     }
 
     private void saveNewLibraryCard() {
+        if (mIsRecording) {
+            stopSoundRecord();
+        }
+
         String newLibraryName = mChooseCategoryBtn.getText().toString();
         String oldLibraryName = mLibraryCard.libraryName;
         if (libraryNameChanged(oldLibraryName, newLibraryName)) {

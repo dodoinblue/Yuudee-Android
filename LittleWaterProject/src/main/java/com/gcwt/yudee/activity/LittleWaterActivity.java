@@ -326,7 +326,7 @@ public class LittleWaterActivity extends BaseLittleWaterActivity implements OnAd
 
     protected void displayCards() {
         validateCardsEffectiveness();
-        addEmptyCardItems();
+//        addEmptyCardItems();
         LittleWaterUtility.sortCardList(mCardItemList);
         //动态设置Container每页的列数为2行
         mContainer.setColCount(mCurrentCategoryCardLayoutSetting);
@@ -791,11 +791,23 @@ public class LittleWaterActivity extends BaseLittleWaterActivity implements OnAd
         }
     }
 
+    public void removeEmptyCardItems() {
+        int lastNotEmptyPosition = getLastNotEmptyCardPosition();
+        for(int i = mCardItemList.size() -1; i > lastNotEmptyPosition; i--) {
+            mCardItemList.remove(i);
+        }
+//        mCardItemList = mCardItemList.subList(0,  + 1);
+    }
+
     /**
      * 返回从第一张卡片至最后一张不为空的卡片的个数
      * @return
      */
     private int getActualCardCount() {
+        return getLastNotEmptyCardPosition() + 1;
+    }
+
+    private int getLastNotEmptyCardPosition() {
         CardItem lastNotEmptyItem = null;
         for (CardItem item : mCardItemList) {
             if (!item.getIsEmpty()) {
@@ -803,8 +815,8 @@ public class LittleWaterActivity extends BaseLittleWaterActivity implements OnAd
             }
         }
         if (lastNotEmptyItem != null) {
-            return mCardItemList.indexOf(lastNotEmptyItem) + 1;
+            return mCardItemList.indexOf(lastNotEmptyItem);
         }
-        return 0;
+        return -1;
     }
 }

@@ -44,7 +44,7 @@ public class ImageFactoryActivity extends BaseActivity {
 			getActionBar().setDisplayShowHomeEnabled(false); // don't show the Logo.
 		}
 
-		addContentView(R.layout.activity_imagefactory);
+		setContentView(R.layout.activity_imagefactory);
 		DisplayMetrics metric = new DisplayMetrics();
 		getWindowManager().getDefaultDisplay().getMetrics(metric);
 		mScreenWidth = metric.widthPixels;
@@ -58,7 +58,9 @@ public class ImageFactoryActivity extends BaseActivity {
 		mVfFlipper = (ViewFlipper) findViewById(R.id.imagefactory_vf_viewflipper);
 		mBtnLeft = (Button) findViewById(R.id.imagefactory_btn_left);
 		mBtnRight = (Button) findViewById(R.id.imagefactory_btn_right);
-		mTopView.setRightBackground(R.drawable.ic_topbar_rotation);
+		if (mTopView != null) {
+			mTopView.setRightBackground(R.drawable.ic_topbar_rotation);
+		}
         setTitle("剪切照片");
 	}
 

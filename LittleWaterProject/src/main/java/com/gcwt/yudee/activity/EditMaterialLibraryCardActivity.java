@@ -6,11 +6,15 @@
 package com.gcwt.yudee.activity;
 
 import android.app.Activity;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.pattern.util.DialogManager;
+import android.pattern.util.FileUtils;
 import android.view.View;
 
 import com.gcwt.yudee.R;
 import com.gcwt.yudee.model.CardItem;
+import com.gcwt.yudee.util.LittleWaterConstant;
 import com.gcwt.yudee.util.LittleWaterUtility;
 
 /**
@@ -38,14 +42,25 @@ public class EditMaterialLibraryCardActivity extends NewMaterialLibraryCardActiv
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.trash:
+                deleteLibraryCard();
+                break;
+            default:
+                super.onClick(view);
+        }
+    }
+
+    private void deleteLibraryCard() {
+        DialogManager.showConfirmDialog(this, null, "确认删除卡片?", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                dialogInterface.dismiss();
+
                 Intent data = new Intent();
                 data.putExtra("library_card", mLibraryCard);
                 data.putExtra("library_deleted", true);
                 setResult(Activity.RESULT_OK, data);
                 finish();
-                break;
-            default:
-                super.onClick(view);
-        }
+            }
+        }, null);
     }
 }

@@ -24,6 +24,12 @@
         <item name="android:actionMenuTextAppearance">@style/MenuTextStyle</item>
     </style>
 
+    <style name="AppThemeNoActionBarFullScreen" parent="@android:style/Theme.DeviceDefault.Light.NoActionBar.Fullscreen">
+        <item name="android:screenOrientation">portrait</item>
+        <item name="@android:windowAnimationStyle">@style/ActivityAnimation</item>
+        <item name="android:actionMenuTextAppearance">@style/MenuTextStyle</item>
+    </style>
+
     <style name="AppThemeNoActionBarDimBackground" parent="AppThemeNoActionBar">
         <item name="android:backgroundDimEnabled">true</item>
     </style>

@@ -183,7 +183,7 @@ public class NewMaterialLibraryCardActivity extends BaseLittleWaterActivity impl
             case R.id.next:
                 String newCardName = mNameEditView.getEditableText().toString();
                 String newLibraryName = mChooseCategoryBtn.getText().toString();
-                if (TextUtils.isEmpty(newCardName)) {
+                if (TextUtils.isEmpty(newCardName) || TextUtils.isEmpty(newCardName.trim())) {
                     showCustomToast("请输入卡片名称");
                     return;
                 }

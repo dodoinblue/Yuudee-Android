@@ -130,6 +130,7 @@ public class LittleWaterActivity extends BaseLittleWaterActivity implements OnAd
             } else if (ScrollLayout.ACTION_CARD_ITEM_MOVE.equals(data.getAction())) {
                 addEmptyCardItems();
                 mContainer.refreshView();
+                mContainer.showEdit(mIsInParentMode);
             }
         }
     };
@@ -268,23 +269,33 @@ public class LittleWaterActivity extends BaseLittleWaterActivity implements OnAd
         LittleWaterApplication.getAppSettingsPreferences().putBoolean(LittleWaterConstant.FIRST_TIME_ENTER_APP, false);
         FileUtils.delFolder(LittleWaterConstant.LITTLE_WALTER_DIRECTORY);
 
-        final ProgressDialog dialog = new ProgressDialog(LittleWaterActivity.this);
-        dialog.setTitle("提示");
-        dialog.setMessage("正在解压文件，请稍后！");
-        dialog.show();//显示对话框
-        new Thread(){
-            public void run() {
-                //在新线程中以同名覆盖方式解压
-                try {
-                    UnzipAssets.unZip(LittleWaterActivity.this, "cards.zip", LittleWaterConstant.LITTLE_WALTER_DIRECTORY, true);
-                    initCategoryCardsFromSDcard();
-                    initDefaultMaterialLibraryFromSDcard();
-                } catch (IOException e) {
-                    e.printStackTrace();
+        try {
+            final ProgressDialog dialog = new ProgressDialog(LittleWaterActivity.this);
+            dialog.setTitle("提示");
+            dialog.setMessage("正在解压文件，请稍后！");
+            dialog.show();//显示对话框
+            new Thread(){
+                public void run() {
+                    //在新线程中以同名覆盖方式解压
+                    try {
+                        UnzipAssets.unZip(LittleWaterActivity.this, "cards.zip", LittleWaterConstant.LITTLE_WALTER_DIRECTORY, true);
+                        initCategoryCardsFromSDcard();
+                        initDefaultMaterialLibraryFromSDcard();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            dialog.cancel();//解压完成后关闭对话框
+                        }
+                    });
                 }
-                dialog.cancel();//解压完成后关闭对话框
-            }
-        }.start();
+            }.start();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     private void initCategoryCardsFromSDcard() {
@@ -293,6 +304,7 @@ public class LittleWaterActivity extends BaseLittleWaterActivity implements OnAd
         for (File categoryFolder : categoryFolders) {
             ArrayList<CardItem> cardList = new ArrayList<CardItem>();
             String category = categoryFolder.getName();
+            Log.d("zheng", "category:" + category);
             category = category.split("-")[1];
             mCategoryCardsMap.put(category, cardList);
             if (mCurrentCategory == null) {
@@ -431,6 +443,14 @@ public class LittleWaterActivity extends BaseLittleWaterActivity implements OnAd
                 mNeedGuideRemind = false;
                 break;
             case R.id.parent_end_edit:
+                final ImageView spinnerTitleView = (ImageView) findViewById(R.id.spinner_title);
+                View dropDownView = findViewById(R.id.dropdown_category_list);
+                dropDownView.setVisibility(View.INVISIBLE);
+                spinnerTitleView.setBackgroundResource(R.mipmap.parent_main_titleunfoldbtn);
+                mParentCategoryContent.setText(mCurrentCategory);
+
+                View menuContainer = findViewById(R.id.about_menu_container);
+                menuContainer.setVisibility(View.INVISIBLE);
                 enterChildMode();
                 break;
             case R.id.parent_about_open:

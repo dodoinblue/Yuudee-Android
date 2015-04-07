@@ -59,7 +59,7 @@ public class ImageFactoryActivity extends BaseActivity {
 		mBtnLeft = (Button) findViewById(R.id.imagefactory_btn_left);
 		mBtnRight = (Button) findViewById(R.id.imagefactory_btn_right);
 		mTopView.setRightBackground(R.drawable.ic_topbar_rotation);
-        setTitle("剪切头像");
+        setTitle("剪切照片");
 	}
 
     protected void initEvents() {
@@ -135,7 +135,7 @@ public class ImageFactoryActivity extends BaseActivity {
                 public void run() {
                     mImageFactoryCrop.Rotate();
                 }
-            }, 100);
+            }, 800);
         }
         mBtnLeft.setText("取    消");
 		mBtnRight.setText("确    认");

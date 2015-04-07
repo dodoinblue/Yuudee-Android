@@ -75,7 +75,6 @@ public class LittleWaterActivity extends BaseLittleWaterActivity implements OnAd
     private int[] flipperResIds = { R.id.flipper1, R.id.flipper2, R.id.flipper3 };
     // Container的Adapter
 	private ScrollAdapter mItemsAdapter;
-
     private HashMap<String, ArrayList<CardItem>> mCategoryCardsMap = new LinkedHashMap<String, ArrayList<CardItem>>();
     private HashMap<String, String> mCategoryCoverMap = new LinkedHashMap<String, String>();
     public static boolean mIsInParentMode;
@@ -127,6 +126,9 @@ public class LittleWaterActivity extends BaseLittleWaterActivity implements OnAd
             if (ACTION_MATERIAL_LIBRARY_CHANGED.equals(data.getAction())) {
                 int requestCode = data.getIntExtra("request_code", LittleWaterConstant.ACTIVITY_REQUEST_CODE_EDIT_MATERIAL_LIBRARY_CARD);
                 handleCardEditRequest(data, requestCode, true);
+            } else if (ScrollLayout.ACTION_CARD_ITEM_MOVE.equals(data.getAction())) {
+                addEmptyCardItems();
+                mContainer.refreshView();
             }
         }
     };
@@ -182,7 +184,10 @@ public class LittleWaterActivity extends BaseLittleWaterActivity implements OnAd
 
     @Override
 	public void initViews() {
-        registerReceiver(mMaterialLibraryChangeReceiver, new IntentFilter(ACTION_MATERIAL_LIBRARY_CHANGED));
+        IntentFilter filter = new IntentFilter();
+        filter.addAction(ACTION_MATERIAL_LIBRARY_CHANGED);
+        filter.addAction(ScrollLayout.ACTION_CARD_ITEM_MOVE);
+        registerReceiver(mMaterialLibraryChangeReceiver, filter);
 		mContainer = (ScrollLayout) findViewById(R.id.container);
         mContainer.getLayoutParams().height = mScreenWidth;
         mContainer.requestLayout();
@@ -320,8 +325,8 @@ public class LittleWaterActivity extends BaseLittleWaterActivity implements OnAd
     }
 
     protected void displayCards() {
-        addEmptyCardItems();
         validateCardsEffectiveness();
+        addEmptyCardItems();
         LittleWaterUtility.sortCardList(mCardItemList);
         //动态设置Container每页的列数为2行
         mContainer.setColCount(mCurrentCategoryCardLayoutSetting);
@@ -330,7 +335,7 @@ public class LittleWaterActivity extends BaseLittleWaterActivity implements OnAd
         //初始化Container的Adapter
         mItemsAdapter = new ScrollAdapter(mContainer, mCardItemList);
         //设置Adapter
-        mContainer.setSaAdapter(mItemsAdapter);
+        mContainer.setSaAdapter(mItemsAdapter, this);
         //调用refreView绘制所有的Item
         mContainer.refreshView();
         mContainer.showEdit(mIsInParentMode);
@@ -774,7 +779,7 @@ public class LittleWaterActivity extends BaseLittleWaterActivity implements OnAd
     /**
      * 判断是否需要为当前的卡片列表增加空的卡片页, 如果需要就增加之, 在不确定是否要增加空卡片时可以调用此方法
      */
-    private void addEmptyCardItems() {
+    public void addEmptyCardItems() {
         int displayCount = mContainer.getDisplayCount(getActualCardCount());
         int extraEmptyCardCount = displayCount - mCardItemList.size();
         if (extraEmptyCardCount != 0) {

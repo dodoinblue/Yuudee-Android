@@ -48,7 +48,7 @@
         android:label="@string/app_name"
         android:icon="@mipmap/ic_launcher"
         android:theme="@style/AppThemeNoActionBar">
-        <activity android:name=".activity.LittleWaterActivity">
+        <activity android:name=".activity.LittleWaterActivity" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -96,6 +96,7 @@
             android:theme="@android:style/Theme.Translucent.NoTitleBar"/>
 
         <activity android:name=".activity.SubFolderLittleWaterActivity"
+            android:launchMode="singleInstance"
             android:theme="@style/Theme.Light.FullScreenDialogAct"/>
 
         <activity android:name=".activity.EditCategoryFolderActivity"

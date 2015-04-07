@@ -28,6 +28,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Scroller;
 
+import com.gcwt.yudee.BaseLittleWaterActivity;
 import com.gcwt.yudee.OnDataChangeListener;
 import com.gcwt.yudee.R;
 import com.gcwt.yudee.activity.LittleWaterActivity;
@@ -45,9 +46,10 @@ import java.util.List;
  */
 public class ScrollLayout extends LinearLayout implements OnDataChangeListener {
 
+    public static final String ACTION_CARD_ITEM_MOVE = "com.gcwt.yudee.action.CARD_ITEM_MOVE";
 	//容器的Adapter
 	private ScrollAdapter mAdapter;
-	
+	private BaseLittleWaterActivity mActivity;
 	//左边距
 	private int leftPadding = 0;
 	//右边距
@@ -225,6 +227,9 @@ public class ScrollLayout extends LinearLayout implements OnDataChangeListener {
 	//绘制Container所有item
 	public void refreshView() {
 		removeAllViews();
+        if (mActivity instanceof LittleWaterActivity) {
+            ((LittleWaterActivity) mActivity).addEmptyCardItems();
+        }
         mCurScreen = 0;
 		for (int i = 0; i < mAdapter.getCount(); i++) {
             View view = getView(i);
@@ -370,7 +375,7 @@ public class ScrollLayout extends LinearLayout implements OnDataChangeListener {
             }
 			Mode = Mode_Free;
 			Log.e("test", "scroll menu move");
-			mContext.sendBroadcast(new Intent("com.stg.menu_move"));
+			mContext.sendBroadcast(new Intent(ACTION_CARD_ITEM_MOVE));
 		}
 	}
 
@@ -551,8 +556,8 @@ public class ScrollLayout extends LinearLayout implements OnDataChangeListener {
 	}
 
 	//获取当前Container状态下，所有的item
-	public List<CardItem> getAllMoveItems() {
-		List<CardItem> items = new ArrayList<CardItem>();
+	public ArrayList<CardItem> getAllMoveItems() {
+        ArrayList<CardItem> items = new ArrayList<CardItem>();
 		int count = getChildCount();
 		CardItem item = null;
 		for (int i = 0; i < count; i++) {
@@ -851,9 +856,10 @@ public class ScrollLayout extends LinearLayout implements OnDataChangeListener {
 		this.rowSpace = rowSpace;
 	}
 
-	public void setSaAdapter(ScrollAdapter saAdapter) {
+	public void setSaAdapter(ScrollAdapter saAdapter, BaseLittleWaterActivity activity) {
 		this.mAdapter = saAdapter;
 		this.mAdapter.setOnDataChangeListener(this);
+        this.mActivity = activity;
 	}
 
 	public void setTopPadding(int topPadding) {

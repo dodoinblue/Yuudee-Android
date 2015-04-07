@@ -69,7 +69,6 @@ public class NewMaterialLibraryCardActivity extends BaseLittleWaterActivity impl
     protected String mAudioFile;
     protected CardItem mLibraryCard = new CardItem();
     private String mMaterialLibraryPath;
-    private String mOriginLibraryName;
 
     @Override
     protected void onCreate(Bundle arg0) {
@@ -160,8 +159,12 @@ public class NewMaterialLibraryCardActivity extends BaseLittleWaterActivity impl
     }
 
     protected void initEvents() {
-        mOriginLibraryName = getIntent().getStringExtra("material_library");
-        String libraryName = mOriginLibraryName;
+        String libraryName;
+        if (this instanceof EditMaterialLibraryCardActivity) {
+            libraryName = mLibraryCard.libraryName;
+        } else {
+            libraryName = getIntent().getStringExtra("material_library");
+        }
         if (TextUtils.isEmpty(libraryName)) {
             libraryName = "未分类";
         }
@@ -185,7 +188,7 @@ public class NewMaterialLibraryCardActivity extends BaseLittleWaterActivity impl
                     return;
                 }
 
-                if (cardNameChanged(mLibraryCard.name, newCardName) || libraryNameChanged(mOriginLibraryName, newLibraryName)
+                if (cardNameChanged(mLibraryCard.name, newCardName) || libraryNameChanged(mLibraryCard.libraryName, newLibraryName)
                         || !(this instanceof EditMaterialLibraryCardActivity)) {
                     ArrayList<CardItem> libraryCardList = LittleWaterUtility.getMaterialLibraryCardsList(newLibraryName);
                     CardItem item = new CardItem();
@@ -227,10 +230,8 @@ public class NewMaterialLibraryCardActivity extends BaseLittleWaterActivity impl
                 mNewResourceWindow = new ActionWindow(this, findViewById(R.id.choose_category), layoutCategoryList);
                 mNewResourceWindow.dropDown();
 
-                Set<String> categorySet = LittleWaterApplication.getCategoryCoverPreferences().getAll().keySet();
-                ArrayList<String> libraryList = new ArrayList<String>(categorySet);
                 Set<String> librarySet = LittleWaterApplication.getMaterialLibraryCoverPreferences().getAll().keySet();
-                libraryList.addAll(librarySet);
+                ArrayList<String> libraryList = new ArrayList<String>(librarySet);
                 ListView listView = (ListView) layoutCategoryList.findViewById(R.id.list_view);
                 BaseListAdapter adapter = new BaseListAdapter<String>(this, libraryList) {
                     @Override
@@ -312,10 +313,11 @@ public class NewMaterialLibraryCardActivity extends BaseLittleWaterActivity impl
 
     private void saveNewLibraryCard() {
         String newLibraryName = mChooseCategoryBtn.getText().toString();
-        if (libraryNameChanged(mOriginLibraryName, newLibraryName)) {
-            List<CardItem> cardItemList =  LittleWaterUtility.getMaterialLibraryCardsList(mOriginLibraryName);
+        String oldLibraryName = mLibraryCard.libraryName;
+        if (libraryNameChanged(oldLibraryName, newLibraryName)) {
+            List<CardItem> cardItemList =  LittleWaterUtility.getMaterialLibraryCardsList(oldLibraryName);
             cardItemList.remove(mLibraryCard);
-            LittleWaterUtility.setMaterialLibraryCardsList(mOriginLibraryName, cardItemList);
+            LittleWaterUtility.setMaterialLibraryCardsList(oldLibraryName, cardItemList);
         }
         String oldCardName = mLibraryCard.name;
         String newCardName = mCardNameView.getText().toString();

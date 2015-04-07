@@ -240,7 +240,7 @@ abstract public class BaseLittleWaterActivity extends BaseActivity {
             } else {
                 mCardItemList.remove(libraryItem);
             }
-            if (needUpdatePreference(requestCode, byBroadcast)) {
+            if (needUpdatePreference(requestCode, byBroadcast, libraryDeleted)) {
                 LittleWaterApplication.getMaterialLibraryCardsPreferences().remove(libraryName);
                 LittleWaterApplication.getMaterialLibraryCoverPreferences().remove(libraryName);
             }
@@ -252,7 +252,7 @@ abstract public class BaseLittleWaterActivity extends BaseActivity {
                 item.isLibrary = libraryItem.isLibrary;
                 cardPosition = mCardItemList.indexOf(item);
 
-                if (needUpdatePreference(requestCode, byBroadcast)) {
+                if (needUpdatePreference(requestCode, byBroadcast, libraryDeleted)) {
                     ArrayList<CardItem> libraryCardList = LittleWaterUtility.getMaterialLibraryCardsList(oldLibraryName);
                     LittleWaterApplication.getMaterialLibraryCardsPreferences().remove(oldLibraryName);
                     LittleWaterUtility.setMaterialLibraryCardsList(libraryName, libraryCardList);
@@ -278,9 +278,9 @@ abstract public class BaseLittleWaterActivity extends BaseActivity {
         return "";
     }
 
-    private boolean needUpdatePreference(int requestCode, boolean byBroadcast) {
+    private boolean needUpdatePreference(int requestCode, boolean byBroadcast, boolean libraryDeleted) {
         return !byBroadcast && (requestCode == LittleWaterConstant.ACTIVITY_REQUEST_CODE_EDIT_MATERIAL_LIBRARY
-                                || requestCode == LittleWaterConstant.ACTIVITY_REQUEST_CODE_EDIT_CATEGORY_FOLDER);
+                                || (requestCode == LittleWaterConstant.ACTIVITY_REQUEST_CODE_EDIT_CATEGORY_FOLDER && !libraryDeleted));
     }
 
     /**

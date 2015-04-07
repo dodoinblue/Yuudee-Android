@@ -176,7 +176,7 @@ public class MaterialLibrariesActivity extends BaseLittleWaterActivity {
             }
         };
         //设置Adapter
-        mContainer.setSaAdapter(mItemsAdapter);
+        mContainer.setSaAdapter(mItemsAdapter, this);
         //调用refreView绘制所有的Item
         mContainer.refreshView();
     }

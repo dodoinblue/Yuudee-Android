@@ -76,6 +76,7 @@
                 android:id="@+id/choose_category"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:paddingRight="28dp"
                 android:textColor="@color/card_name_color"
                 android:onClick="onClick"
                 android:textSize="13dp"

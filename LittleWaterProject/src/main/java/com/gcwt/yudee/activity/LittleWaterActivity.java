@@ -173,11 +173,6 @@ public class LittleWaterActivity extends BaseLittleWaterActivity implements OnAd
                 int position = mCardItemList.indexOf(mNewCardItem);
                 mCardItemList.remove(position);
                 mCardItemList.addAll(position, selectedList);
-//                for (CardItem item : selectedList) {
-//                    if (!mCardItemList.contains(item)) {
-//                        mCardItemList.addAll(selectedList);
-//                    }
-//                }
 
                 mContainer.refreshView();
                 mContainer.showEdit(mIsInParentMode);
@@ -381,9 +376,13 @@ public class LittleWaterActivity extends BaseLittleWaterActivity implements OnAd
         }
     }
 
+    protected void backupSubFolderList() {
+    }
+
 	@Override
 	public void onBackPressed() {
         if (this instanceof SubFolderLittleWaterActivity) {
+            backupSubFolderList();
             super.onBackPressed();
             return;
         }

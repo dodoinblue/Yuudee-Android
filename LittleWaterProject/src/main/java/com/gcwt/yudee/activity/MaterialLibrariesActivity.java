@@ -149,6 +149,7 @@ public class MaterialLibrariesActivity extends BaseLittleWaterActivity {
 //                                Log.d("zheng", "selectedList:" + selectedList.size() + " library name:" + LittleWaterUtility.getCardDisplayName(moveItem.getName()));
                                 Intent intent = new Intent();
                                 ArrayList<CardItem> selectedList = new ArrayList<CardItem>();
+                                moveItem.childCardList = LittleWaterUtility.getMaterialLibraryCardsList(moveItem.getName());
                                 selectedList.add(moveItem);
                                 intent.putExtra("selected_card_list", selectedList);
                                 setResult(Activity.RESULT_OK, intent);

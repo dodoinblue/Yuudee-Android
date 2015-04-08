@@ -24,6 +24,7 @@ import android.provider.MediaStore;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -330,8 +331,10 @@ public class NewMaterialLibraryCardActivity extends BaseLittleWaterActivity impl
         String newLibraryName = mChooseCategoryBtn.getText().toString();
         String oldLibraryName = mLibraryCard.libraryName;
         if (libraryNameChanged(oldLibraryName, newLibraryName)) {
+            Log.d("zheng", "libraryNameChanged oldLibraryName:" + oldLibraryName + " newLibraryName:" + newLibraryName);
             List<CardItem> cardItemList =  LittleWaterUtility.getMaterialLibraryCardsList(oldLibraryName);
-            cardItemList.remove(mLibraryCard);
+            boolean moved = cardItemList.remove(mLibraryCard);
+            Log.d("zheng", "moved:" + moved);
             LittleWaterUtility.setMaterialLibraryCardsList(oldLibraryName, cardItemList);
         }
         String oldCardName = mLibraryCard.name;

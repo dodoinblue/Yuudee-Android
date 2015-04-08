@@ -33,6 +33,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.gcwt.yudee.activity.LittleWaterActivity;
+import com.gcwt.yudee.activity.MaterialLibrariesActivity;
 import com.gcwt.yudee.activity.MaterialLibraryCardsActivity;
 import com.gcwt.yudee.activity.SubFolderLittleWaterActivity;
 import com.gcwt.yudee.model.CardItem;
@@ -270,6 +271,7 @@ abstract public class BaseLittleWaterActivity extends BaseActivity {
 
             if (this instanceof MaterialLibraryCardsActivity) {
                 mCardItemList = LittleWaterUtility.getMaterialLibraryCardsList(getMaterialLibraryName());
+                Log.d("zheng", "MaterialLibraryCardsActivity update mCardItemList size:" + mCardItemList.size());
             }
         }
         mContainer.refreshView();

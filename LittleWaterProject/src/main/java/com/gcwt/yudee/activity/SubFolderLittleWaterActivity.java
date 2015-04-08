@@ -10,13 +10,17 @@ import android.view.View;
 
 import com.gcwt.yudee.LittleWaterApplication;
 import com.gcwt.yudee.R;
+import com.gcwt.yudee.model.CardItem;
 import com.gcwt.yudee.util.LittleWaterConstant;
 import com.gcwt.yudee.util.LittleWaterUtility;
+
+import java.util.ArrayList;
 
 /**
  * Created by peter on 15/3/31.
  */
 public class SubFolderLittleWaterActivity extends LittleWaterActivity {
+    private CardItem mSubFolderItem;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,18 +41,32 @@ public class SubFolderLittleWaterActivity extends LittleWaterActivity {
     protected void initEvents() {
         mCurrentCategory = LittleWaterApplication.getAppSettingsPreferences().getString(LittleWaterConstant.SETTINGS_CURRENT_CATEGORY);
         mCurrentCategoryCardLayoutSetting = LittleWaterApplication.getCategorySettingsPreferences().getInt(mCurrentCategory, LAYOUT_TYPE_2_X_2);
-        mCardItemList = LittleWaterUtility.getMaterialLibraryCardsList(getIntent().getStringExtra("library"));
+        ArrayList<CardItem> itemList = LittleWaterUtility.getCategoryCardsList(mCurrentCategory);
+        CardItem item = new CardItem();
+        item.isLibrary = true;
+        item.name = getIntent().getStringExtra("library");
+        mSubFolderItem = itemList.get(itemList.indexOf(item));
+        mCardItemList = mSubFolderItem.childCardList;
         displayCards();
     }
 
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.back_to_main_ui:
+                backupSubFolderList();
                 finish();
                 break;
             default:
                 super.onClick(view);
                 break;
         }
+    }
+
+    @Override
+    protected void backupSubFolderList() {
+        mSubFolderItem.childCardList = mContainer.getAllMoveItems();
+        ArrayList<CardItem> itemList = LittleWaterUtility.getCategoryCardsList(mCurrentCategory);
+        itemList.set(itemList.indexOf(mSubFolderItem), mSubFolderItem);
+        LittleWaterUtility.setCategoryCardsList(mCurrentCategory, itemList);
     }
 }

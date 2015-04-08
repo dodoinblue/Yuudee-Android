@@ -181,10 +181,4 @@ public class MaterialLibraryCardsActivity extends BaseLittleWaterActivity {
                 break;
         }
     }
-
-    @Override
-    protected void onPause() {
-        super.onPause();
-        LittleWaterUtility.setMaterialLibraryCardsList(mMaterialLibraryItem.getName(), mContainer.getAllMoveItems());
-    }
 }

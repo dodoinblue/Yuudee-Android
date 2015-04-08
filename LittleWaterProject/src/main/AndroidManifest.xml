@@ -95,6 +95,7 @@
             android:windowSoftInputMode="stateAlwaysHidden|adjustResize"/>
 
         <activity android:name=".activity.SubFolderLittleWaterActivity"
+            android:launchMode="singleTop"
             android:theme="@style/Theme.Light.FullScreenDialogAct"/>
 
         <activity android:name=".activity.EditCategoryFolderActivity"

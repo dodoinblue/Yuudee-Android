@@ -150,7 +150,7 @@ public class LittleWaterUtility {
         iv.setVisibility(View.GONE);
         if (moveItem.getAudios().size() > 0 && !moveItem.getCardSettings().getMute()) {
             // will add back later for develop silently
-//            playAudio(moveItem.getAudios().get(0));
+            playAudio(moveItem.getAudios().get(0));
         }
         List<String> images = moveItem.getImages();
         flipper.removeAllViews();
@@ -184,8 +184,9 @@ public class LittleWaterUtility {
     private static void playAudio(String audioPath) {
         if (mediaPlayer.isPlaying()) {
             mediaPlayer.stop();
-            mediaPlayer.release();
         }
+        mediaPlayer.release();
+        mediaPlayer = new MediaPlayer();
         mediaPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
         try {
             mediaPlayer.setDataSource(audioPath);

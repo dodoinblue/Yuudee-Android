@@ -275,6 +275,7 @@ public class LittleWaterActivity extends BaseLittleWaterActivity implements OnAd
             final ProgressDialog dialog = new ProgressDialog(LittleWaterActivity.this);
             dialog.setTitle("提示");
             dialog.setMessage("正在解压文件，请稍后！");
+            dialog.setCanceledOnTouchOutside(false);
             dialog.show();//显示对话框
             new Thread(){
                 public void run() {
@@ -359,6 +360,7 @@ public class LittleWaterActivity extends BaseLittleWaterActivity implements OnAd
     }
 
     private void validateCardsEffectiveness() {
+        List<CardItem> removeItemList = new ArrayList<CardItem>();
         for (CardItem item : mCardItemList) {
             if (item.getIsEmpty()) {
                 continue;
@@ -370,9 +372,10 @@ public class LittleWaterActivity extends BaseLittleWaterActivity implements OnAd
                 file = new File(item.getImages().get(0));
             }
             if (!file.exists()) {
-                mCardItemList.remove(item);
+                removeItemList.add(item);
             }
         }
+        mCardItemList.removeAll(removeItemList);
         if (!(this instanceof SubFolderLittleWaterActivity)) {
             LittleWaterUtility.setCategoryCardsList(mCurrentCategory, mCardItemList);
         }

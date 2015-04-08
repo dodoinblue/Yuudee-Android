@@ -74,6 +74,12 @@ public class NewMaterialLibraryCardActivity extends BaseLittleWaterActivity impl
     protected void onCreate(Bundle arg0) {
         super.onCreate(arg0);
         setContentView(R.layout.activity_new_material_library_card);
+
+        if (mRecordService == null) {
+            Intent serviceIntent = new Intent(this, RecordService.class);
+            bindService(serviceIntent, mRecordServiceConn, Context.BIND_AUTO_CREATE);
+        }
+
         initViews();
         initEvents();
     }
@@ -81,14 +87,15 @@ public class NewMaterialLibraryCardActivity extends BaseLittleWaterActivity impl
     @Override
     protected void onResume() {
         super.onResume();
-        if (mRecordService == null) {
-            Intent serviceIntent = new Intent(this, RecordService.class);
-            bindService(serviceIntent, mRecordServiceConn, Context.BIND_AUTO_CREATE);
-        }
     }
 
     @Override
     protected void onPause() {
+        super.onPause();
+    }
+
+    @Override
+    protected void onDestroy() {
         try {
             if (mRecordService != null) {
                 unbindService(mRecordServiceConn);
@@ -96,11 +103,7 @@ public class NewMaterialLibraryCardActivity extends BaseLittleWaterActivity impl
         } catch (Exception e) {
             e.printStackTrace();
         }
-        super.onPause();
-    }
 
-    @Override
-    protected void onDestroy() {
         if (mIsPlaying) {
             mPlayer.stop();
             mPlayer.release();

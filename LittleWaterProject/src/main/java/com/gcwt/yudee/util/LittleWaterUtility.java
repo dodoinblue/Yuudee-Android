@@ -46,6 +46,7 @@ import java.util.List;
  */
 public class LittleWaterUtility {
     public static final int ROUND_PX = 8;
+    private static MediaPlayer mediaPlayer = new MediaPlayer();
 
     public static ArrayList<CardItem> getCategoryCardsList(String catetgory) {
         String curCategoryCardsJson = LittleWaterApplication.getCategoryCardsPreferences().getString(catetgory);
@@ -119,6 +120,7 @@ public class LittleWaterUtility {
 
     public static Drawable getRoundCornerDrawableFromSdCard(String imageFilePath) {
 //        return new BitmapDrawable(getBitmapFromSdCard(imageFilePath));
+        Log.d("zheng", "getRoundCornerDrawableFromSdCard imageFilePath:" + imageFilePath);
         return new BitmapDrawable(BitmapUtil.getRoundedCornerBitmap(getBitmapFromSdCard(imageFilePath), ROUND_PX));
     }
 
@@ -148,7 +150,7 @@ public class LittleWaterUtility {
         iv.setVisibility(View.GONE);
         if (moveItem.getAudios().size() > 0 && !moveItem.getCardSettings().getMute()) {
             // will add back later for develop silently
-            playAudio(moveItem.getAudios().get(0));
+//            playAudio(moveItem.getAudios().get(0));
         }
         List<String> images = moveItem.getImages();
         flipper.removeAllViews();
@@ -180,7 +182,10 @@ public class LittleWaterUtility {
     }
 
     private static void playAudio(String audioPath) {
-        MediaPlayer mediaPlayer = new MediaPlayer();
+        if (mediaPlayer.isPlaying()) {
+            mediaPlayer.stop();
+            mediaPlayer.release();
+        }
         mediaPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
         try {
             mediaPlayer.setDataSource(audioPath);
@@ -189,8 +194,6 @@ public class LittleWaterUtility {
             e.printStackTrace();
         }
         mediaPlayer.start();
-//        mediaPlayer.stop();
-//        mediaPlayer.release();
     }
 
     public static void playCardByRotateAndFlippingAnimation(final Context context, final View view, final CardItem cardItem) {

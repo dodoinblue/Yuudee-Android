@@ -86,6 +86,10 @@ public class NewMaterialLibraryActivity extends BaseLittleWaterActivity implemen
                 FileUtils.delFolder(LittleWaterConstant.MATERIAL_LIBRARIES_DIRECTORY + mCardItem.getName());
                 dialogInterface.dismiss();
 
+                // Delete these here in case they mixed with EditCategoryFolderActivity's category delete.
+                LittleWaterApplication.getMaterialLibraryCardsPreferences().remove(mCardItem.getName());
+                LittleWaterApplication.getMaterialLibraryCoverPreferences().remove(mCardItem.getName());
+
                 Intent data = new Intent();
                 data.putExtra("library_card", mCardItem);
                 data.putExtra("library_deleted", true);

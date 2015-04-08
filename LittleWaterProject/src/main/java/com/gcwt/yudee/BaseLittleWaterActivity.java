@@ -157,7 +157,7 @@ abstract public class BaseLittleWaterActivity extends BaseActivity {
         }
         switch (requestCode) {
             case PhotoUtils.REQUESTCODE_UPLOADAVATAR_CAMERA:// 拍照修改头像
-                System.out.println("拍照修改头像");
+                Log.d("zheng", "拍照修改头像");
                 if (resultCode == Activity.RESULT_OK) {
                     if (!Environment.getExternalStorageState().equals(
                             Environment.MEDIA_MOUNTED)) {
@@ -171,7 +171,7 @@ abstract public class BaseLittleWaterActivity extends BaseActivity {
                 }
                 break;
             case PhotoUtils.REQUESTCODE_UPLOADAVATAR_LOCATION:// 本地修改头像
-                System.out.println("本地修改头像");
+                Log.d("zheng", "本地修改头像");
                 if (avatorPop != null) {
                     avatorPop.dismiss();
                 }

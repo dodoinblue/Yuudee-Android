@@ -72,28 +72,34 @@
             android:theme="@android:style/Theme.Translucent.NoTitleBar.Fullscreen"/>
 
         <activity android:name=".activity.NewMaterialLibraryActivity"
-            android:theme="@android:style/Theme.Translucent.NoTitleBar.Fullscreen"/>
+            android:theme="@android:style/Theme.Translucent.NoTitleBar.Fullscreen"
+            android:windowSoftInputMode="stateAlwaysHidden|adjustResize"/>
 
         <activity android:name=".activity.NewMaterialLibraryCardActivity"
-            android:theme="@android:style/Theme.Translucent.NoTitleBar.Fullscreen"/>
+            android:theme="@android:style/Theme.Translucent.NoTitleBar.Fullscreen"
+            android:windowSoftInputMode="stateAlwaysHidden|adjustResize"/>
 
         <activity android:name=".activity.EditCategoryCardSettingsActivity"
             android:theme="@android:style/Theme.Translucent.NoTitleBar.Fullscreen"/>
 
         <activity android:name=".activity.EditMaterialLibraryCardActivity"
-            android:theme="@android:style/Theme.Translucent.NoTitleBar.Fullscreen"/>
+            android:theme="@android:style/Theme.Translucent.NoTitleBar.Fullscreen"
+            android:windowSoftInputMode="stateAlwaysHidden|adjustResize"/>
 
         <activity android:name=".activity.NewCategoryCardActivity"
-            android:theme="@android:style/Theme.Translucent.NoTitleBar.Fullscreen"/>
+            android:theme="@android:style/Theme.Translucent.NoTitleBar.Fullscreen"
+            android:windowSoftInputMode="stateAlwaysHidden|adjustResize"/>
 
         <activity android:name=".activity.EditMaterialLibraryActivity"
-            android:theme="@android:style/Theme.Translucent.NoTitleBar.Fullscreen"/>
+            android:theme="@android:style/Theme.Translucent.NoTitleBar.Fullscreen"
+            android:windowSoftInputMode="stateAlwaysHidden|adjustResize"/>
 
         <activity android:name=".activity.SubFolderLittleWaterActivity"
             android:theme="@style/Theme.Light.FullScreenDialogAct"/>
 
         <activity android:name=".activity.EditCategoryFolderActivity"
-            android:theme="@android:style/Theme.Translucent.NoTitleBar.Fullscreen"/>
+            android:theme="@android:style/Theme.Translucent.NoTitleBar.Fullscreen"
+            android:windowSoftInputMode="stateAlwaysHidden|adjustResize"/>
 
         <activity android:name="android.pattern.imagefactory.ImageFactoryActivity"
             android:theme="@android:style/Theme.DeviceDefault.Light.DarkActionBar"/>

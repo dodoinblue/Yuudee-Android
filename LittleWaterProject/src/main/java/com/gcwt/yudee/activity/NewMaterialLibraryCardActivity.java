@@ -159,7 +159,7 @@ public class NewMaterialLibraryCardActivity extends BaseLittleWaterActivity impl
         mRecordButton = (Button)findViewById(R.id.record_sound);
         mPlayButton = (Button)findViewById(R.id.play_sound);
         mRecordNoticeView = (TextView) findViewById(R.id.record_notice);
-        mRecordNoticeView.setText("准备");
+        mRecordNoticeView.setText(R.string.prepare);
     }
 
     protected void initEvents() {
@@ -170,7 +170,7 @@ public class NewMaterialLibraryCardActivity extends BaseLittleWaterActivity impl
             libraryName = getIntent().getStringExtra("material_library");
         }
         if (TextUtils.isEmpty(libraryName)) {
-            libraryName = "未分类";
+            libraryName = getString(R.string.uncategory);
         }
         mMaterialLibraryPath = LittleWaterConstant.MATERIAL_LIBRARIES_DIRECTORY + libraryName + "/";
         mChooseCategoryBtn.setText(libraryName);
@@ -188,7 +188,7 @@ public class NewMaterialLibraryCardActivity extends BaseLittleWaterActivity impl
                 String newCardName = mNameEditView.getEditableText().toString();
                 String newLibraryName = mChooseCategoryBtn.getText().toString();
                 if (TextUtils.isEmpty(newCardName) || TextUtils.isEmpty(newCardName.trim())) {
-                    showCustomToast("请输入卡片名称");
+                    showCustomToast(R.string.enter_card_name);
                     return;
                 }
 
@@ -198,7 +198,7 @@ public class NewMaterialLibraryCardActivity extends BaseLittleWaterActivity impl
                     CardItem item = new CardItem();
                     item.name = newCardName;
                     if (libraryCardList.contains(item)) {
-                        showCustomToast("卡片名称已存在, 请换个名称.");
+                        showCustomToast(R.string.card_name_already_exists);
                         return;
                     }
                 }
@@ -268,7 +268,7 @@ public class NewMaterialLibraryCardActivity extends BaseLittleWaterActivity impl
                 break;
             case R.id.play_sound:
                 if (mAudioFile == null) {
-                    showCustomToast("请先点击录音按钮录一段语音.");
+                    showCustomToast(R.string.enter_button_to_record);
                     return;
                 }
                 if (!mIsPlaying) {
@@ -294,7 +294,7 @@ public class NewMaterialLibraryCardActivity extends BaseLittleWaterActivity impl
                 }
                 File file = new File(mAudioFile);
                 file.delete();
-                showCustomToast("录音已删除.");
+                showCustomToast(R.string.record_already_deleted);
                 mAudioFile = null;
                 break;
         }

@@ -80,7 +80,7 @@ public class NewMaterialLibraryActivity extends BaseLittleWaterActivity implemen
     }
 
     private void deleteLibrary() {
-        DialogManager.showConfirmDialog(this, null, "确认删除整个分类?", new DialogInterface.OnClickListener() {
+        DialogManager.showConfirmDialog(this, null, getString(R.string.confirm_to_delete_category), new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
                 FileUtils.delFolder(LittleWaterConstant.MATERIAL_LIBRARIES_DIRECTORY + mCardItem.getName());
@@ -101,7 +101,7 @@ public class NewMaterialLibraryActivity extends BaseLittleWaterActivity implemen
 
     private void saveMaterialLibrary() {
         if (TextUtils.isEmpty(mLibraryNameView.getText().toString())) {
-            showCustomToast("请输入分类名称");
+            showCustomToast(R.string.enter_category_name);
             return;
         }
         String newLibraryName = mLibraryNameView.getText().toString();
@@ -111,7 +111,7 @@ public class NewMaterialLibraryActivity extends BaseLittleWaterActivity implemen
                 Set<String> librarySet = LittleWaterApplication.getMaterialLibraryCoverPreferences().getAll().keySet();
                 for (String libraryName : librarySet) {
                     if (TextUtils.equals(libraryName, newLibraryName)) {
-                        showCustomToast("分类名称已存在, 请换个名称.");
+                        showCustomToast(R.string.category_name_already_exists);
                         return;
                     }
                 }
@@ -126,7 +126,7 @@ public class NewMaterialLibraryActivity extends BaseLittleWaterActivity implemen
         } else {
             File libFile = new File(LittleWaterConstant.MATERIAL_LIBRARIES_DIRECTORY + newLibraryName);
             if (libFile.exists()) {
-                showCustomToast("分类名称已存在, 请换个名称.");
+                showCustomToast(R.string.category_name_already_exists);
                 return;
             }
             libFile.mkdirs();

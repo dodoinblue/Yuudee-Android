@@ -71,7 +71,7 @@ public class MaterialLibrariesActivity extends BaseLittleWaterActivity {
         coverMap = (HashMap<String, String>) LittleWaterApplication.getMaterialLibraryCoverPreferences().getAll();
         mCardItemList = getCardItems(coverMap);
         for (CardItem libraryCard : mCardItemList) {
-            if (!categoryCardList.contains(libraryCard) && !TextUtils.equals(libraryCard.getName(), "未分类")) {
+            if (!categoryCardList.contains(libraryCard) && !TextUtils.equals(libraryCard.getName(), getString(R.string.uncategory))) {
                 libraryCard.setEditable(true);
             }
         }

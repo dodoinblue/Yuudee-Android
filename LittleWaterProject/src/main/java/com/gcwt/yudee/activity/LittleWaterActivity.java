@@ -21,16 +21,16 @@ import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.BroadcastReceiver;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.pattern.adapter.BaseListAdapter;
-import android.pattern.util.DialogManager;
+import android.pattern.util.BlurUtility;
 import android.pattern.util.FileUtils;
 import android.pattern.util.PhotoUtil;
+import android.pattern.util.UnzipAssets;
 import android.pattern.widget.ActionWindow;
 import android.text.TextUtils;
 import android.util.Log;
@@ -51,10 +51,8 @@ import com.gcwt.yudee.LittleWaterApplication;
 import com.gcwt.yudee.R;
 import com.gcwt.yudee.adapter.ScrollAdapter;
 import com.gcwt.yudee.model.CardItem;
-import com.gcwt.yudee.util.BlurUtility;
 import com.gcwt.yudee.util.LittleWaterConstant;
 import com.gcwt.yudee.util.LittleWaterUtility;
-import com.gcwt.yudee.util.UnzipAssets;
 import com.gcwt.yudee.widget.ScrollLayout;
 import com.gcwt.yudee.widget.ScrollLayout.OnAddOrDeletePage;
 import com.gcwt.yudee.widget.ScrollLayout.OnEditModeListener;
@@ -414,7 +412,7 @@ public class LittleWaterActivity extends BaseLittleWaterActivity implements OnAd
                 super.onBackPressed();
                 android.os.Process.killProcess(android.os.Process.myPid());
             } else {
-                showCustomToast("再按一次退出程序");
+                showCustomToast(R.string.click_again_to_quit_app);
             }
             mFirstPressBackTime = System.currentTimeMillis();
 		}
@@ -590,7 +588,7 @@ public class LittleWaterActivity extends BaseLittleWaterActivity implements OnAd
 
     private void settingsDeleteCategory() {
         if (mCategoryList.size() == 1) {
-            showCustomToast("已是最后一个课件, 不能再删除.");
+            showCustomToast(R.string.already_last_one_can_not_delete);
             return;
         }
         LittleWaterApplication.getCategoryCardsPreferences().remove(mCurrentCategory);
@@ -646,7 +644,7 @@ public class LittleWaterActivity extends BaseLittleWaterActivity implements OnAd
     private void saveNewCategory() {
         EditText categoryNameEditView = (EditText) mNewCategoryLayout.findViewById(R.id.edit_new_category_name);
         if (TextUtils.isEmpty(categoryNameEditView.getText().toString())) {
-            showCustomToast("请输入新课件名称");
+            showCustomToast(R.string.enter_new_course_name);
             return;
         }
         mCurrentCategory = categoryNameEditView.getText().toString();
@@ -800,12 +798,12 @@ public class LittleWaterActivity extends BaseLittleWaterActivity implements OnAd
     }
 
     private void initDefaultMaterialLibraryFromSDcard() {
-        File file = new File(LittleWaterConstant.MATERIAL_LIBRARIES_DIRECTORY + "未分类");
+        File file = new File(LittleWaterConstant.MATERIAL_LIBRARIES_DIRECTORY + getString(R.string.uncategory));
         //如果目标目录不存在，则创建
         if (!file.exists()) {
             file.mkdirs();
 
-            String libraryName = "未分类";
+            String libraryName = getString(R.string.uncategory);
             Bitmap bitmap = ((BitmapDrawable) getResources().getDrawable(R.mipmap.default_image)).getBitmap();
             String coverFolder = LittleWaterConstant.MATERIAL_LIBRARIES_DIRECTORY + libraryName;
             String coverName = "cover.png";

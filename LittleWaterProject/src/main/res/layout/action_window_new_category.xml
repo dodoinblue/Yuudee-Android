@@ -28,7 +28,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:textSize="14dp"
-                android:hint="输入新课件名称"
+                android:hint="@string/enter_new_course_name"
                 android:singleLine="true"
                 android:maxLength="8"
                 android:textColor="@android:color/black"

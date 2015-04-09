@@ -28,7 +28,7 @@
             android:gravity="center"
             android:onClick="onClick"
             android:background="@drawable/list_item_bg"
-            android:text="创建分类"
+            android:text="@string/create_category"
             android:textSize="16dp" />
 
         <TextView
@@ -40,7 +40,7 @@
             android:gravity="center"
             android:onClick="onClick"
             android:background="@drawable/list_item_bg"
-            android:text="创建卡片"
+            android:text="@string/create_card"
             android:textSize="16dp" />
 
     </LinearLayout>

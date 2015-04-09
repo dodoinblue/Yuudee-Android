@@ -28,7 +28,7 @@
             android:drawablePadding="10dp"
             android:onClick="onClick"
             android:clickable="true"
-            android:text="(不能编辑系统自带卡片)"
+            android:text="@string/can_not_edit_system_card"
             android:textSize="14dp"
             android:drawableLeft="@mipmap/parent_editpop_editicon" />
 
@@ -36,7 +36,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textColor="@android:color/black"
-            android:text="动画"
+            android:text="@string/animation"
             android:layout_marginTop="20dp"
             android:layout_marginBottom="5dp"
             android:textStyle="bold"
@@ -82,7 +82,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="8dp"
                     android:gravity="center"
-                    android:text="无动画"
+                    android:text="@string/no_animation"
                     android:textColor="@android:color/black"
                     android:textSize="14dp" />
             </LinearLayout>
@@ -125,7 +125,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="8dp"
                     android:gravity="center"
-                    android:text="放大"
+                    android:text="@string/zoom_in"
                     android:textColor="@android:color/black"
                     android:textSize="14dp" />
             </LinearLayout>
@@ -169,7 +169,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="8dp"
                     android:gravity="center"
-                    android:text="放大并旋转"
+                    android:text="@string/zoom_in_and_rotate"
                     android:textColor="@android:color/black"
                     android:textSize="14dp" />
             </LinearLayout>
@@ -187,7 +187,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textColor="@android:color/holo_red_dark"
-                android:text="删除该卡片"
+                android:text="@string/delete_this_card"
                 android:clickable="true"
                 android:onClick="onClick"
                 android:layout_marginTop="20dp"
@@ -203,7 +203,7 @@
                 android:id="@+id/mute_switch"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="静音"
+                android:text="@string/mute"
                 android:gravity="center"
                 android:textSize="13dp"
                 android:textColor="@android:color/holo_blue_dark"/>

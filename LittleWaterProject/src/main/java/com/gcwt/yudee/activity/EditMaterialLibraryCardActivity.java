@@ -50,7 +50,7 @@ public class EditMaterialLibraryCardActivity extends NewMaterialLibraryCardActiv
     }
 
     private void deleteLibraryCard() {
-        DialogManager.showConfirmDialog(this, null, "确认删除卡片?", new DialogInterface.OnClickListener() {
+        DialogManager.showConfirmDialog(this, null, getString(R.string.confirm_to_delete_card), new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
                 dialogInterface.dismiss();

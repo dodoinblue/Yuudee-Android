@@ -118,7 +118,7 @@
                 android:singleLine="true"
                 android:maxLength="8"
                 android:textSize="14dp"
-                android:hint="输入卡片名称"
+                android:hint="@string/enter_card_name"
                 android:textColor="@android:color/black"
                 android:background="@mipmap/name_edit_field" />
         </LinearLayout>
@@ -131,7 +131,7 @@
             android:layout_weight="1"
             android:visibility="gone"
             android:layout_gravity="left|center_vertical"
-            android:text="给卡片录一段语音吧,\n\n比如“我要吃苹果”。\n\n让孩子随时听到你的声音。"
+            android:text="@string/record_sound_for_card"
             android:textColor="@color/card_name_color"
             android:textSize="12dp" />
     </LinearLayout>

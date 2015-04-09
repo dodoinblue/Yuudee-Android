@@ -3,7 +3,10 @@
  * All rights reserved.
  */
 
-package com.gcwt.yudee.util;
+package android.pattern.util;
+
+import android.content.Context;
+import android.util.Log;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -11,9 +14,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
-
-import android.content.Context;
-import android.util.Log;
 
 /**
  * Created by 28850420 on 3/3/15.
@@ -28,7 +28,7 @@ public class UnzipAssets {
      * @param assetName压缩文件名
      * @param outputDirectory输出目录
      * @param isReWrite是否覆盖
-     * @throws IOException
+     * @throws java.io.IOException
      */
     public static void unZip(Context context, String assetName,
                              String outputDirectory, boolean isReWrite) throws IOException {

@@ -32,7 +32,7 @@
             android:layout_height="40dp"
             android:clickable="true"
             android:onClick="onClick"
-            android:text="添加新课件"
+            android:text="@string/add_new_course"
             android:layout_marginBottom="10dp"
             android:gravity="center"
             android:drawableLeft="@mipmap/parent_courseselect_addicon"

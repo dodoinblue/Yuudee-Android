@@ -3,7 +3,7 @@
  * All rights reserved.
  */
 
-package com.gcwt.yudee.util;
+package android.pattern.util;
 
 import android.annotation.SuppressLint;
 import android.content.Context;

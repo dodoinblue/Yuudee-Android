@@ -36,7 +36,7 @@ public class EditCategoryFolderActivity extends BaseLittleWaterActivity {
         mCardItem = (CardItem) getIntent().getSerializableExtra("library");
         if (mCardItem.editable) {
             TextView editView = (TextView) findViewById(R.id.edit_card);
-            editView.setText("进入素材库编辑该分类 >>");
+            editView.setText(R.string.enter_material_libray_to_edit_category);
         }
     }
 

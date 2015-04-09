@@ -22,7 +22,7 @@
         android:layout_weight="1"
         android:clickable="true"
         android:onClick="onClick"
-        android:text="产品介绍"
+        android:text="@string/product_introduction"
         android:gravity="center"
         android:textSize="14dp"
         android:textColor="@color/white" />
@@ -34,7 +34,7 @@
         android:layout_weight="1"
         android:clickable="true"
         android:onClick="onClick"
-        android:text="训练简介"
+        android:text="@string/training_introduction"
         android:gravity="center"
         android:textSize="14dp"
         android:textColor="@color/white" />
@@ -46,7 +46,7 @@
         android:layout_weight="1"
         android:clickable="true"
         android:onClick="onClick"
-        android:text="反馈意见"
+        android:text="@string/feedback"
         android:gravity="center"
         android:textSize="14dp"
         android:textColor="@color/white" />
@@ -58,7 +58,7 @@
         android:layout_weight="1"
         android:clickable="true"
         android:onClick="onClick"
-        android:text="更新版本"
+        android:text="@string/update_version"
         android:gravity="center"
         android:textSize="14dp"
         android:textColor="@color/white" />

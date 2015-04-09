@@ -47,7 +47,7 @@ public class EditCategoryCardSettingsActivity extends BaseLittleWaterActivity {
         mCardItem = (CardItem) getIntent().getSerializableExtra("card_item");
         if (mCardItem.editable) {
             TextView editCardView = (TextView) findViewById(R.id.edit_card);
-            editCardView.setText("进入素材库编辑该卡片 >>");
+            editCardView.setText(R.string.enter_material_libray_to_edit_card);
         }
         switch (mCardItem.cardSettings.animationType) {
             case LittleWaterConstant.ANIMATION_NONE:

@@ -60,6 +60,7 @@ import com.gcwt.yudee.widget.ScrollLayout.OnAddOrDeletePage;
 import com.gcwt.yudee.widget.ScrollLayout.OnEditModeListener;
 import com.gcwt.yudee.widget.ScrollLayout.OnPageChangedListener;
 import com.umeng.fb.FeedbackAgent;
+import com.umeng.update.UmengUpdateAgent;
 
 /**
  * Created by peter on 3/3/15.
@@ -453,8 +454,7 @@ public class LittleWaterActivity extends BaseLittleWaterActivity implements OnAd
                 spinnerTitleView.setBackgroundResource(R.mipmap.parent_main_titleunfoldbtn);
                 mParentCategoryContent.setText(mCurrentCategory);
 
-                View menuContainer = findViewById(R.id.about_menu_container);
-                menuContainer.setVisibility(View.INVISIBLE);
+                findViewById(R.id.about_menu_container).setVisibility(View.INVISIBLE);
                 enterChildMode();
                 break;
             case R.id.parent_about_open:
@@ -516,16 +516,23 @@ public class LittleWaterActivity extends BaseLittleWaterActivity implements OnAd
                 break;
             case R.id.about_product_introduction:
                 showProductIntroductionWindow();
+                findViewById(R.id.about_menu_container).setVisibility(View.INVISIBLE);
 //                mAboutMenuwindow.dismiss();
                 break;
             case R.id.about_train_introduction:
                 showTrainingIntroductionWindow();
+                findViewById(R.id.about_menu_container).setVisibility(View.INVISIBLE);
 //                mAboutMenuwindow.dismiss();
                 break;
             case R.id.about_feedback_advice:
                 FeedbackAgent agent = new FeedbackAgent(this);
                 agent.startFeedbackActivity();
+                findViewById(R.id.about_menu_container).setVisibility(View.INVISIBLE);
 //                mAboutMenuwindow.dismiss();
+                break;
+            case R.id.update_app:
+                UmengUpdateAgent.forceUpdate(this);
+                findViewById(R.id.about_menu_container).setVisibility(View.INVISIBLE);
                 break;
             case R.id.about_export_resource_library:
 //                mAboutMenuwindow.dismiss();
@@ -761,6 +768,7 @@ public class LittleWaterActivity extends BaseLittleWaterActivity implements OnAd
 
     private void enterParentMode() {
         mIsInParentMode = true;
+        UmengUpdateAgent.update(this);
         if (this instanceof SubFolderLittleWaterActivity) {
             findViewById(R.id.parent_top).setVisibility(View.GONE);
             findViewById(R.id.parent_bottom).setVisibility(View.GONE);

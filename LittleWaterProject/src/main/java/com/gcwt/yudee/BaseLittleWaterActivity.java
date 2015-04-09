@@ -33,7 +33,6 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.gcwt.yudee.activity.LittleWaterActivity;
-import com.gcwt.yudee.activity.MaterialLibrariesActivity;
 import com.gcwt.yudee.activity.MaterialLibraryCardsActivity;
 import com.gcwt.yudee.activity.SubFolderLittleWaterActivity;
 import com.gcwt.yudee.model.CardItem;
@@ -50,7 +49,7 @@ import java.util.List;
 /**
  * Created by peter on 3/3/15.
  */
-abstract public class BaseLittleWaterActivity extends BaseActivity {
+public abstract class BaseLittleWaterActivity extends BaseActivity {
     protected static final String ACTION_MATERIAL_LIBRARY_CHANGED = "com.gcwt.yudee.ACTION_MATERIAL_LIBRARY_CHANGED";
     // Container中滑动控件列表
     protected List<CardItem> mCardItemList = new ArrayList<CardItem>();
@@ -62,19 +61,13 @@ abstract public class BaseLittleWaterActivity extends BaseActivity {
         super.onCreate(arg0);
     }
 
-    protected void AddNewCardItem() {
-
-    }
-
     // Below are all related about taking picture from album and camera
     protected ViewGroup mRootView;
     TextView layout_choose;
     TextView layout_photo;
     PopupWindow avatorPop;
-    public String filePath = "";
-    boolean isFromCamera = false;// 区分拍照旋转
-    int degree = 0;
-
+    protected String filePath = "";
+    private static final int DEGREE_90 = 90;
     protected ImageView mCardCoverView;
     protected boolean mGotACardCover;
 
@@ -96,7 +89,6 @@ abstract public class BaseLittleWaterActivity extends BaseActivity {
 
             @Override
             public void onClick(View arg0) {
-                Log.d("zheng", "点击拍照");
                 filePath = PhotoUtils.takePicture(BaseLittleWaterActivity.this);
             }
         });
@@ -104,16 +96,14 @@ abstract public class BaseLittleWaterActivity extends BaseActivity {
 
             @Override
             public void onClick(View arg0) {
-                Log.d("zheng", "点击相册");
-
                 Intent intent = new Intent(Intent.ACTION_PICK, null);
                 intent.setDataAndType(
                         MediaStore.Images.Media.EXTERNAL_CONTENT_URI, "image/*");
                 startActivityForResult(intent,
                         PhotoUtils.REQUESTCODE_UPLOADAVATAR_LOCATION);
 
-//				Intent intent = new Intent(this, PhotoPickerActivity.class);
-//				startActivityForResult(intent, PhotoUtils.REQUESTCODE_UPLOADAVATAR_LOCATION);
+                //Intent intent = new Intent(this, PhotoPickerActivity.class);
+                //startActivityForResult(intent, PhotoUtils.REQUESTCODE_UPLOADAVATAR_LOCATION);
             }
         });
 
@@ -126,7 +116,7 @@ abstract public class BaseLittleWaterActivity extends BaseActivity {
                     }
                 });
 
-        avatorPop = new PopupWindow(view, mScreenWidth, 600);
+        avatorPop = new PopupWindow(view, mScreenWidth, mScreenHeight);
         avatorPop.setTouchInterceptor(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
@@ -166,7 +156,7 @@ abstract public class BaseLittleWaterActivity extends BaseActivity {
                         return;
                     }
                     Bitmap bitmap = PhotoUtils.getBitmapFromFile(filePath);
-                    bitmap = PhotoUtil.rotaingImageView(90, bitmap);
+                    bitmap = PhotoUtil.rotaingImageView(DEGREE_90, bitmap);
                     filePath = PhotoUtils.savePhotoToSDCard(PhotoUtils.CompressionPhoto(mScreenWidth, bitmap, 2));
                     PhotoUtils.cropPhoto(this, this, filePath, true);
                 }
@@ -186,7 +176,6 @@ abstract public class BaseLittleWaterActivity extends BaseActivity {
                         DialogManager.showTipMessage(BaseLittleWaterActivity.this, "SD不可用");
                         return;
                     }
-                    isFromCamera = false;
                     uri = data.getData();
                     PhotoUtils.cropPhoto(this, this, /*data.getExtras().getString("path")*/Utility.getFilePathFromUri(this, uri), false);
                 } else {
@@ -271,7 +260,7 @@ abstract public class BaseLittleWaterActivity extends BaseActivity {
 
             if (this instanceof MaterialLibraryCardsActivity) {
                 mCardItemList = LittleWaterUtility.getMaterialLibraryCardsList(getMaterialLibraryName());
-                Log.d("zheng", "MaterialLibraryCardsActivity update mCardItemList size:" + mCardItemList.size());
+                Log.d("zhengzj", "MaterialLibraryCardsActivity update mCardItemList size:" + mCardItemList.size());
             }
         }
         mContainer.refreshView();
@@ -307,17 +296,10 @@ abstract public class BaseLittleWaterActivity extends BaseActivity {
             }
             Log.i("life", "avatar - bitmap = " + bitmap);
             if (bitmap != null) {
-                bitmap = PhotoUtil.toRoundCorner(bitmap, 10);
-                final Bitmap bm = BitmapUtil.getRoundedCornerBitmap(bitmap, LittleWaterUtility.ROUND_PX);
-                mHandler.postDelayed(new Runnable() {
-
-                    @Override
-                    public void run() {
-                        mCardCoverView.setImageBitmap(bm);
-                        mGotACardCover = true;
-                    }
-                }, 300);
-                mCardCoverView.invalidate();
+//                bitmap = PhotoUtil.toRoundCorner(bitmap, LittleWaterUtility.ROUND_PX);
+                bitmap = BitmapUtil.getRoundedCornerBitmap(bitmap, LittleWaterUtility.ROUND_PX);
+                mCardCoverView.setImageBitmap(bitmap);
+                mGotACardCover = true;
                 // 保存图片
 //                PhotoUtil.saveBitmap(getPictureSavePath(), getPictureSaveName(), bitmap,
 //                        true);

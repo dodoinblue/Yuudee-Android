@@ -96,13 +96,13 @@ public class LittleWaterUtility {
 //        LittleWaterApplication.getCardSettingsPreferences().putString(cardName, new Gson().toJson(cardSettings));
 //    }
 
-    public static int getCardPosition(String cardName) {
-        String[] cardInfoArray = cardName.split("-");
-        if (cardInfoArray.length >= 2) {
-            return Integer.valueOf(cardInfoArray[0]);
-        }
-        return 0;
-    }
+//    public static int getCardPosition(String cardName) {
+//        String[] cardInfoArray = cardName.split("-");
+//        if (cardInfoArray.length >= 2) {
+//            return Integer.valueOf(cardInfoArray[0]);
+//        }
+//        return 0;
+//    }
 
     public static String getCardDisplayName(String cardName) {
         String[] cardInfoArray = cardName.split("-");

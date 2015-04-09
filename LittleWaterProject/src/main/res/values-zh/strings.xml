@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">小雨滴</string>
+    <string name="startrecorder">录音中...</string>
+    <string name="stoprecorder">录音结束</string>
+    <string name="startplay">播放中...</string>
+    <string name="stopplay">播放结束</string>
+    <string name="prepare">准备</string>
+
+</resources>

@@ -5,6 +5,7 @@
 
 package com.gcwt.yudee.util;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
@@ -32,6 +33,7 @@ public class BlurUtility {
         view.setBackground(new BitmapDrawable(bitmap));
     }
 
+    @SuppressLint("NewApi")
     public static Bitmap blur(Context context, Bitmap bitmap) {
         if (Build.VERSION.SDK_INT > 16) {
             bitmap = bitmap.copy(bitmap.getConfig(), true);

@@ -308,10 +308,10 @@ public class ScrollLayout extends LinearLayout implements OnDataChangeListener {
                 break;
             case MotionEvent.ACTION_UP:
                 float distance = ev.getRawX() - startX;
-                if (distance > screenWidth / 6 && mCurScreen > 0
+                if (distance > screenWidth / (float) 6 && mCurScreen > 0
                         && Mode != Mode_Drag) {
                     snapToScreen(mCurScreen - 1);
-                } else if (distance < -screenWidth / 6
+                } else if (distance < -screenWidth / (float) 6
                         && mCurScreen < totalPage - 1 && Mode != Mode_Drag) {
                     snapToScreen(mCurScreen + 1);
                 } else if (Mode != Mode_Drag) {
@@ -978,8 +978,8 @@ public class ScrollLayout extends LinearLayout implements OnDataChangeListener {
 				movePostionAnimation(deletePostion, getChildCount() - 1);
 				removeView((ViewGroup) (v.getParent()));
 				mAdapter.delete(deletePostion);
-				CardItem item = (CardItem) v.getTag();
-				DbUtils utils = DbUtils.create(mContext);
+//				CardItem item = (CardItem) v.getTag();
+//				DbUtils utils = DbUtils.create(mContext);
 
                 //Peter:delete for build error
 //				try {

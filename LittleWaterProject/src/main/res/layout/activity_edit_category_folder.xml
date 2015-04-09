@@ -35,7 +35,7 @@
                 android:onClick="onClick"
                 android:clickable="true"
                 android:singleLine="true"
-                android:text="(不能编辑系统自带分类)"
+                android:text="@string/can_not_edit_system_category"
                 android:textSize="12dp"
                 android:drawableLeft="@mipmap/parent_editpop_editicon" />
 
@@ -46,7 +46,7 @@
                 android:layout_marginTop="16dp"
                 android:onClick="onClick"
                 android:clickable="true"
-                android:text="删除该分类"
+                android:text="@string/delete_category"
                 android:textSize="12dp"
                 android:gravity="left|center_vertical"
                 android:textColor="@android:color/holo_red_dark" />

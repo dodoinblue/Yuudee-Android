@@ -35,7 +35,7 @@
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="1. 进入编辑状态\n按住屏幕左上、左下、右上、右下四个角中的任意三个便可以进入编辑界面。"
+                    android:text="@string/product_introduction_1"
                     android:textSize="@dimen/parent_about_content_text_size"
                     android:textColor="@color/parent_about_content_text_color" />
 
@@ -43,7 +43,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="8dp"
-                    android:text="2. 编辑图片\n进入编辑状态后点击图片右上角的图标便可以对每张图片进行编辑。对于不再需要的图片可以点击&quot;删除该卡片&quot;, 将图片从课件中去除。还可以对图片被点击后的动画效果进行设置。图片的动画效果分为&quot;无动画&quot;、&quot;放大&quot;、&quot;放大并旋转&quot;三种。后两种动画效果可以给孩子很好的视觉提示。"
+                    android:text="@string/product_introduction_2"
                     android:textSize="@dimen/parent_about_content_text_size"
                     android:textColor="@color/parent_about_content_text_color" />
 
@@ -51,7 +51,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="8dp"
-                    android:text="3. 改变布局\n进入编辑状态后点击屏幕右下角的设置便可以对页面布局进行设置。页面布局分为三种：一个版面一张图片、一个版面四张图片、一个版面九张图片。对于刚开始学习使用该APP和手部精细动作差的孩子，应该先将页面布局设置成一个版面一张图片。"
+                    android:text="@string/product_introduction_3"
                     android:textSize="@dimen/parent_about_content_text_size"
                     android:textColor="@color/parent_about_content_text_color" />
 
@@ -59,7 +59,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="8dp"
-                    android:text="4. 添加新卡片\n添加新卡片的流程为：点击&quot;空位置&quot;下的加号点击&quot;自制一张卡片&quot;, 点击&quot;拍照&quot;拍摄照片或者点击&quot;相册&quot;选取之前拍好的照片如果拍摄的照片清晰可用，点击&quot;使用照片&quot;, 点击&quot;完成&quot;, 输入照片的名字，点击&quot;下一步&quot;, 点击&quot;录音&quot;, 录音完成后，点击&quot;停止&quot;。试听，不满意可以重录点击&quot;完成&quot;"
+                    android:text="@string/product_introduction_4"
                     android:textSize="@dimen/parent_about_content_text_size"
                     android:textColor="@color/parent_about_content_text_color" />
 
@@ -67,7 +67,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="8dp"
-                    android:text="5. 编辑课件\n进入编辑状态，点击结束编辑和素材库之间的栏框会出现下拉菜单。菜单中会显示出已有的课件，并且菜单的底部有&quot;添加新课件&quot;一栏。因此既可以对已有的课件进行再次编辑来产生符合要求的课件，也可以从头编辑产生新课件。(1)对已有课件进行再次编辑。点击已有课件。进入该课件后便可以对已有的图片进行删除或动画效果设置，也可以点击&quot;空位置&quot;添加图片。点击&quot;从素材库里添加&quot;，就可以从素材库中选择相应的图片。点击&quot;自制一张卡片&quot;，则是按照自己的需求制定新的图片。(2)从头产生新课件。点击&quot;添加新课件&quot;，输入新课件的名称，然后添加图片。"
+                    android:text="@string/product_introduction_5"
                     android:textSize="@dimen/parent_about_content_text_size"
                     android:textColor="@color/parent_about_content_text_color" />
 
@@ -75,7 +75,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="8dp"
-                    android:text="6. 制作有多个类别图片的课件\n当孩子能从一类图片中正确点击图片后，就需要制作有多个类别图片的课件。和前面从头制作课件一样，添加新课件，并对新课件命名。进入添加图片的界面。这时添加的不再是单张图片，而是一类图片。具体流程为：点击&quot;空位置&quot;, 点击&quot;从素材库里添加&quot;, 点击类别右上角的加号即添加成功如需删除某类别，点击右上角的符号，点击&quot;删除该类别&quot;。在编辑状态下，进入某类别后就可以对该类别下的图片进行添加、删除等操作。"
+                    android:text="@string/product_introduction_6"
                     android:textSize="@dimen/parent_about_content_text_size"
                     android:textColor="@color/parent_about_content_text_color" />
             </LinearLayout>

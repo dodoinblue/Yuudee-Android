@@ -53,7 +53,7 @@
                 android:layout_height="wrap_content"
                 android:textSize="14dp"
                 android:textColor="@color/white"
-                android:text="好的"
+                android:text="@string/ok"
                 android:onClick="onClick"
                 android:background="@mipmap/unlock_guide_blue_button" />
 
@@ -68,7 +68,7 @@
                 android:layout_height="wrap_content"
                 android:textColor="@color/white"
                 android:textSize="14dp"
-                android:text="不再提醒"
+                android:text="@string/never_remind_again"
                 android:onClick="onClick"
                 android:background="@mipmap/unlock_guide_black_button" />
 

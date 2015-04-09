@@ -29,6 +29,7 @@ import android.os.Bundle;
 import android.pattern.adapter.BaseListAdapter;
 import android.pattern.util.BlurUtility;
 import android.pattern.util.FileUtils;
+import android.pattern.util.Logger;
 import android.pattern.util.PhotoUtil;
 import android.pattern.util.UnzipAssets;
 import android.pattern.widget.ActionWindow;
@@ -113,12 +114,13 @@ public class LittleWaterActivity extends BaseLittleWaterActivity implements OnAd
                             enterParentMode();
                         }
                     }
-                    break;
+                    return true;
                 case MotionEvent.ACTION_UP:
                     mEnterParentCheckMap.put(v.getId(), false);
-                    break;
+                    return true;
+                default:
+                    return false;
             }
-            return true;
         }
     };
 
@@ -148,25 +150,10 @@ public class LittleWaterActivity extends BaseLittleWaterActivity implements OnAd
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
         if (resultCode != Activity.RESULT_OK) {
             return;
         }
         switch (requestCode) {
-//            case LittleWaterConstant.ACTIVITY_REQUEST_CODE_EDIT_CATEGORY_CARD_SETTINGS:
-//                CardItem cardItem = (CardItem) data.getSerializableExtra("library_card");
-//                int pos = 0;
-//                for (CardItem item : mCardItemList) {
-//                    if (TextUtils.equals(item.getName(), cardItem.getName())) {
-//                        mCardItemList.set(pos, cardItem);
-//                        LittleWaterUtility.setCategoryCardsList(mCurrentCategory, mCardItemList);
-//                        break;
-//                    }
-//                    pos++;
-//                }
-//                mContainer.refreshView();
-//                mContainer.showEdit(true);
-//                break;
             case LittleWaterConstant.ACTIVITY_REQUEST_CODE_NEW_CATEGORY_CARD:
                 ArrayList<CardItem> selectedList = (ArrayList<CardItem>) data.getSerializableExtra("selected_card_list");
                 int position = mCardItemList.indexOf(mNewCardItem);
@@ -176,6 +163,9 @@ public class LittleWaterActivity extends BaseLittleWaterActivity implements OnAd
                 mContainer.refreshView();
                 mContainer.showEdit(mIsInParentMode);
                 LittleWaterUtility.setCategoryCardsList(mCurrentCategory, mContainer.getAllMoveItems());
+                break;
+            default:
+                super.onActivityResult(requestCode, resultCode, data);
                 break;
         }
     }
@@ -267,8 +257,8 @@ public class LittleWaterActivity extends BaseLittleWaterActivity implements OnAd
 
         try {
             final ProgressDialog dialog = new ProgressDialog(LittleWaterActivity.this);
-            dialog.setTitle("提示");
-            dialog.setMessage("正在解压文件，请稍后！");
+            dialog.setTitle(R.string.notice);
+            dialog.setMessage(getString(R.string.unzip_in_progress));
             dialog.setCanceledOnTouchOutside(false);
             dialog.show();//显示对话框
             new Thread(){
@@ -801,7 +791,10 @@ public class LittleWaterActivity extends BaseLittleWaterActivity implements OnAd
         File file = new File(LittleWaterConstant.MATERIAL_LIBRARIES_DIRECTORY + getString(R.string.uncategory));
         //如果目标目录不存在，则创建
         if (!file.exists()) {
-            file.mkdirs();
+            boolean created = file.mkdirs();
+            if (!created) {
+                Log.d("zheng", "initDefaultMaterialLibraryFromSDcard file:" + file.getName() + " create failed");
+            }
 
             String libraryName = getString(R.string.uncategory);
             Bitmap bitmap = ((BitmapDrawable) getResources().getDrawable(R.mipmap.default_image)).getBitmap();

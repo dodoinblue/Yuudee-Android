@@ -142,7 +142,6 @@ public abstract class BaseLittleWaterActivity extends BaseActivity {
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
         if (resultCode != Activity.RESULT_OK) {
             return;
         }
@@ -211,6 +210,7 @@ public abstract class BaseLittleWaterActivity extends BaseActivity {
                 break;
 
             default:
+                super.onActivityResult(requestCode, resultCode, data);
                 break;
         }
     }

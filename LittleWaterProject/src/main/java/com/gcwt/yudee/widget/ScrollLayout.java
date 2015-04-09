@@ -35,7 +35,6 @@ import com.gcwt.yudee.activity.LittleWaterActivity;
 import com.gcwt.yudee.adapter.ScrollAdapter;
 import com.gcwt.yudee.model.CardItem;
 import com.gcwt.yudee.util.DensityUtil;
-import com.lidroid.xutils.DbUtils;
 
 import java.util.ArrayList;
 import java.util.HashMap;

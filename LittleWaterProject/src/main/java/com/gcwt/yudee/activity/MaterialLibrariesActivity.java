@@ -204,7 +204,6 @@ public class MaterialLibrariesActivity extends BaseLittleWaterActivity {
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
         if (resultCode != Activity.RESULT_OK) {
             return;
         }
@@ -220,6 +219,9 @@ public class MaterialLibrariesActivity extends BaseLittleWaterActivity {
                 intent.putExtra("selected_card_list", selectedList);
                 setResult(Activity.RESULT_OK, intent);
                 finish();
+                break;
+            default:
+                super.onActivityResult(requestCode, resultCode, data);
                 break;
         }
     }

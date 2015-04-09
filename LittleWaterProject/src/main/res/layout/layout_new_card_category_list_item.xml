@@ -12,5 +12,5 @@
     android:gravity="center"
     android:onClick="onClick"
     android:background="@drawable/list_item_bg"
-    android:text="创建分类"
+    android:text="@string/create_category"
     android:textSize="16dp" />

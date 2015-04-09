@@ -72,7 +72,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="选择一张卡片做为分类封面:"
+                android:text="@string/select_a_picture_as_cover"
                 android:singleLine="true"
                 android:textColor="@color/card_name_color"
                 android:textSize="12dp" />
@@ -96,7 +96,7 @@
                 android:gravity="center"
                 android:singleLine="true"
                 android:maxLength="8"
-                android:hint="输入分类名称"
+                android:hint="@string/enter_category_name"
                 android:textColor="@android:color/black"
                 android:background="@mipmap/name_edit_field" />
         </LinearLayout>

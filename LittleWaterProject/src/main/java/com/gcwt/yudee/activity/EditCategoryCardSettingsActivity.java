@@ -53,11 +53,12 @@ public class EditCategoryCardSettingsActivity extends BaseLittleWaterActivity {
             case LittleWaterConstant.ANIMATION_NONE:
                 setNoNanimationChecked();
                 break;
-            case LittleWaterConstant.ANIMATION_ZOOM_IN:
-                setZoomInAnimationChecked();
-                break;
             case LittleWaterConstant.ANIMATION_ZOOM_IN_AND_ROTATE:
                 setZoomInAndRotateAnimationChecked();
+                break;
+            case LittleWaterConstant.ANIMATION_ZOOM_IN:
+            default:
+                setZoomInAnimationChecked();
                 break;
         }
         mMuteSwitch.setChecked(mCardItem.getCardSettings().getMute());
@@ -100,7 +101,8 @@ public class EditCategoryCardSettingsActivity extends BaseLittleWaterActivity {
                 data.putExtra("library_deleted", true);
                 setResult(Activity.RESULT_OK, data);
                 finish();
-
+                break;
+            default:
                 break;
         }
     }
@@ -118,6 +120,9 @@ public class EditCategoryCardSettingsActivity extends BaseLittleWaterActivity {
             case LittleWaterConstant.ACTIVITY_REQUEST_CODE_EDIT_MATERIAL_LIBRARY_CARD:
                 setResult(Activity.RESULT_OK, data);
                 finish();
+                break;
+            default:
+                super.onActivityResult(requestCode, resultCode, data);
                 break;
         }
     }

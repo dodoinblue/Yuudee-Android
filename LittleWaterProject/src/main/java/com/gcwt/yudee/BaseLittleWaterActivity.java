@@ -259,7 +259,8 @@ public abstract class BaseLittleWaterActivity extends BaseActivity {
             }
 
             if (this instanceof MaterialLibraryCardsActivity) {
-                mCardItemList = LittleWaterUtility.getMaterialLibraryCardsList(getMaterialLibraryName());
+                mCardItemList.clear();
+                mCardItemList.addAll(LittleWaterUtility.getMaterialLibraryCardsList(getMaterialLibraryName()));
                 Log.d("zhengzj", "MaterialLibraryCardsActivity update mCardItemList size:" + mCardItemList.size());
             }
         }

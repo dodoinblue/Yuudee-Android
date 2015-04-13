@@ -121,7 +121,14 @@ public class LittleWaterUtility {
     public static Drawable getRoundCornerDrawableFromSdCard(String imageFilePath) {
 //        return new BitmapDrawable(getBitmapFromSdCard(imageFilePath));
         Log.d("zheng", "getRoundCornerDrawableFromSdCard imageFilePath:" + imageFilePath);
-        return new BitmapDrawable(BitmapUtil.getRoundedCornerBitmap(getBitmapFromSdCard(imageFilePath), ROUND_PX));
+        if (TextUtils.isEmpty(imageFilePath)) {
+            return null;
+        }
+        Bitmap bitmap = getBitmapFromSdCard(imageFilePath);
+        if (bitmap == null) {
+            return null;
+        }
+        return new BitmapDrawable(BitmapUtil.getRoundedCornerBitmap(bitmap, ROUND_PX));
     }
 
     /**

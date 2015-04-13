@@ -157,8 +157,12 @@ public class LittleWaterActivity extends BaseLittleWaterActivity implements OnAd
             case LittleWaterConstant.ACTIVITY_REQUEST_CODE_NEW_CATEGORY_CARD:
                 ArrayList<CardItem> selectedList = (ArrayList<CardItem>) data.getSerializableExtra("selected_card_list");
                 int position = mCardItemList.indexOf(mNewCardItem);
-                mCardItemList.remove(position);
-                mCardItemList.addAll(position, selectedList);
+                if (position != -1) {
+                    mCardItemList.remove(position);
+                    mCardItemList.addAll(position, selectedList);
+                } else {
+                    mCardItemList.addAll(selectedList);
+                }
 
                 mContainer.refreshView();
                 mContainer.showEdit(mIsInParentMode);

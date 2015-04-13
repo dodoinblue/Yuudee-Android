@@ -155,6 +155,10 @@ public abstract class BaseLittleWaterActivity extends BaseActivity {
                         return;
                     }
                     Bitmap bitmap = PhotoUtils.getBitmapFromFile(filePath);
+                    if (TextUtils.isEmpty(filePath) || bitmap == null) {
+                        showCustomToast("获取拍照图片失败");
+                        return;
+                    }
                     bitmap = PhotoUtil.rotaingImageView(DEGREE_90, bitmap);
                     filePath = PhotoUtils.savePhotoToSDCard(PhotoUtils.CompressionPhoto(mScreenWidth, bitmap, 2));
                     PhotoUtils.cropPhoto(this, this, filePath, true);

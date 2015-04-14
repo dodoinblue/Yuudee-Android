@@ -58,6 +58,7 @@ import com.gcwt.yudee.widget.ScrollLayout;
 import com.gcwt.yudee.widget.ScrollLayout.OnAddOrDeletePage;
 import com.gcwt.yudee.widget.ScrollLayout.OnEditModeListener;
 import com.gcwt.yudee.widget.ScrollLayout.OnPageChangedListener;
+import com.umeng.analytics.MobclickAgent;
 import com.umeng.fb.FeedbackAgent;
 import com.umeng.update.UmengUpdateAgent;
 
@@ -278,6 +279,7 @@ public class LittleWaterActivity extends BaseLittleWaterActivity implements OnAd
                         initDefaultMaterialLibraryFromSDcard();
                     } catch (IOException e) {
                         e.printStackTrace();
+                        MobclickAgent.reportError(LittleWaterActivity.this, e);
                     }
 
                     runOnUiThread(new Runnable() {

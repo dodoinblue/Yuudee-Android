@@ -86,16 +86,6 @@ public class NewMaterialLibraryCardActivity extends BaseLittleWaterActivity impl
     }
 
     @Override
-    protected void onResume() {
-        super.onResume();
-    }
-
-    @Override
-    protected void onPause() {
-        super.onPause();
-    }
-
-    @Override
     protected void onDestroy() {
         try {
             if (mRecordService != null) {
@@ -267,7 +257,7 @@ public class NewMaterialLibraryCardActivity extends BaseLittleWaterActivity impl
                 }
                 break;
             case R.id.play_sound:
-                if (mAudioFile == null) {
+                if (TextUtils.isEmpty(mAudioFile)) {
                     showCustomToast(R.string.enter_button_to_record);
                     return;
                 }
@@ -289,7 +279,7 @@ public class NewMaterialLibraryCardActivity extends BaseLittleWaterActivity impl
                 }
                 break;
             case R.id.delete_sound:
-                if (mAudioFile == null) {
+                if (TextUtils.isEmpty(mAudioFile)) {
                     return;
                 }
                 File file = new File(mAudioFile);

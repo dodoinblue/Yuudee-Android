@@ -31,6 +31,7 @@ public class LittleWaterConstant {
     public static final int ACTIVITY_REQUEST_CODE_EDIT_CATEGORY_CARD_SETTINGS = 1005;
     public static final int ACTIVITY_REQUEST_CODE_EDIT_MATERIAL_LIBRARY = 1006;
     public static final int ACTIVITY_REQUEST_CODE_EDIT_CATEGORY_FOLDER = 1007;
+    public static final int ACTIVITY_REQUEST_CODE_SHOW_CARD = 1008;
 
     // Animation types
     public static final int ANIMATION_NONE = 0;

@@ -44,6 +44,7 @@ public class ScrollAdapter implements SAdapter {
 	private LayoutInflater mInflater;
 	protected List<CardItem> mList;
     protected HashMap<String,SoftReference<Drawable>> mCache;
+    private View mHiddenCard;
 
 //    public static final int DISPLAY_MODE_NORMAL = 0;
 //    public static final int DISPLAY_MODE_EDIT = 1;
@@ -137,18 +138,16 @@ public class ScrollAdapter implements SAdapter {
                                 break;
                             case LittleWaterConstant.ANIMATION_ZOOM_IN:
                             case LittleWaterConstant.ANIMATION_ZOOM_IN_AND_ROTATE:
+                                if (mHiddenCard != null) {
+                                    mHiddenCard.setVisibility(View.VISIBLE);
+                                }
+                                mHiddenCard = view;
                                 view.setVisibility(View.INVISIBLE);
                                 Intent intent = new Intent(mContext, ShowCardActivity.class);
                                 intent.putExtra("card_item", moveItem);
                                 ActivityOptions opts = ActivityOptions.makeScaleUpAnimation(view, 0, 0, view.getWidth(), view.getHeight());
                                 //ActivityOptions opts = ActivityOptions.makeCustomAnimation(mContext, R.anim.zoom_enter, R.anim.dialog_exit);
-                                mScrollLayout.mActivity.startActivity(intent, opts.toBundle());
-                                view.postDelayed(new Runnable() {
-                                    @Override
-                                    public void run() {
-                                        view.setVisibility(View.VISIBLE);
-                                    }
-                                }, 800 * (moveItem.getImages().size() + 2));
+                                mScrollLayout.mActivity.startActivityForResult(intent, LittleWaterConstant.ACTIVITY_REQUEST_CODE_SHOW_CARD, opts.toBundle());
                                 break;
                         }
                     }
@@ -166,6 +165,18 @@ public class ScrollAdapter implements SAdapter {
             return view;
         }
 	}
+
+    public void displayBackAfterShowCard() {
+        if (mHiddenCard != null) {
+            mHiddenCard.postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    mHiddenCard.setVisibility(View.VISIBLE);
+                    mHiddenCard = null;
+                }
+            }, 250);
+        }
+    }
 
 	@Override
 	public int getCount() {

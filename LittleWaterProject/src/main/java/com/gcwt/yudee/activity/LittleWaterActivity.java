@@ -150,6 +150,10 @@ public class LittleWaterActivity extends BaseLittleWaterActivity implements OnAd
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == LittleWaterConstant.ACTIVITY_REQUEST_CODE_SHOW_CARD) {
+            mItemsAdapter.displayBackAfterShowCard();
+            return;
+        }
         if (resultCode != Activity.RESULT_OK) {
             return;
         }

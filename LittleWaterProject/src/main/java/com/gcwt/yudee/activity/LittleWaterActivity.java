@@ -269,6 +269,7 @@ public class LittleWaterActivity extends BaseLittleWaterActivity implements OnAd
             dialog.setTitle(R.string.notice);
             dialog.setMessage(getString(R.string.unzip_in_progress));
             dialog.setCanceledOnTouchOutside(false);
+            dialog.setCancelable(false);
             dialog.show();//显示对话框
             new Thread(){
                 public void run() {
@@ -507,7 +508,6 @@ public class LittleWaterActivity extends BaseLittleWaterActivity implements OnAd
                 break;
             case R.id.parent_add_new_category_confirm:
                 saveNewCategory();
-                mNewCategorywindow.dismiss();
                 break;
             case R.id.parent_add_new_category_cancel:
                 mNewCategorywindow.dismiss();
@@ -657,6 +657,7 @@ public class LittleWaterActivity extends BaseLittleWaterActivity implements OnAd
         findViewById(R.id.dropdown_category_list).setVisibility(View.INVISIBLE);
         final ImageView spinnerTitleView = (ImageView) findViewById(R.id.spinner_title);
         spinnerTitleView.setBackgroundResource(R.mipmap.parent_main_titleunfoldbtn);
+        mNewCategorywindow.dismiss();
     }
 
     private void showAddNewCategoryWindow() {

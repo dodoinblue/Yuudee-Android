@@ -41,7 +41,8 @@
         android:largeHeap="true"
         android:icon="@mipmap/ic_launcher"
         android:theme="@style/AppThemeNoActionBarFullScreen">
-        <activity android:name=".activity.LittleWaterActivity" >
+        <activity android:name=".activity.LittleWaterActivity"
+            android:excludeFromRecents="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

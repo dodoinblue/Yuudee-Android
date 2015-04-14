@@ -46,12 +46,11 @@
             android:orientation="horizontal">
 
             <Button
-                android:id="@+id/parent_add_new_category_confirm"
+                android:id="@+id/parent_add_new_category_cancel"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:onClick="onClick"
-                android:background="@drawable/parent_editpop_confirm" />
-
+                android:background="@drawable/parent_editpop_cancel" />
 
             <View
                 android:layout_width="0dp"
@@ -59,11 +58,11 @@
                 android:layout_weight="1" />
 
             <Button
-                android:id="@+id/parent_add_new_category_cancel"
+                android:id="@+id/parent_add_new_category_confirm"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:onClick="onClick"
-                android:background="@drawable/parent_editpop_cancel" />
+                android:background="@drawable/parent_editpop_confirm" />
 
         </LinearLayout>
     </LinearLayout>

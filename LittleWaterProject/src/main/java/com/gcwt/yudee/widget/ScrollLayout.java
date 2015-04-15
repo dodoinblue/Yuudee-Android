@@ -233,7 +233,7 @@ public class ScrollLayout extends LinearLayout implements OnDataChangeListener {
                 ((LittleWaterActivity) mActivity).removeEmptyCardItems();
             }
         }
-        mCurScreen = 0;
+//        mCurScreen = 0;
 		for (int i = 0; i < mAdapter.getCount(); i++) {
             View view = getView(i);
             if (view != null) {
@@ -242,6 +242,7 @@ public class ScrollLayout extends LinearLayout implements OnDataChangeListener {
 		}
 		totalPage = (int) Math.ceil(getChildCount() * 1.0 / itemPerPage);
 		requestLayout();
+        snapToScreen(mCurScreen);
 	}
 
 	@Override

@@ -321,10 +321,9 @@ public class NewMaterialLibraryCardActivity extends BaseLittleWaterActivity impl
         String newLibraryName = mChooseCategoryBtn.getText().toString();
         String oldLibraryName = mLibraryCard.libraryName;
         if (libraryNameChanged(oldLibraryName, newLibraryName)) {
-            Log.d("zheng", "libraryNameChanged oldLibraryName:" + oldLibraryName + " newLibraryName:" + newLibraryName);
             List<CardItem> cardItemList =  LittleWaterUtility.getMaterialLibraryCardsList(oldLibraryName);
             boolean moved = cardItemList.remove(mLibraryCard);
-            Log.d("zheng", "moved:" + moved);
+            Log.d("zheng", "libraryNameChanged oldLibraryName:" + oldLibraryName + " newLibraryName:" + newLibraryName + " moved:" + moved);
             LittleWaterUtility.setMaterialLibraryCardsList(oldLibraryName, cardItemList);
         }
         String oldCardName = mLibraryCard.name;
@@ -373,15 +372,35 @@ public class NewMaterialLibraryCardActivity extends BaseLittleWaterActivity impl
 
         // Save new card into cache
         mLibraryCard.libraryName = newLibraryName;
-        mLibraryCard.name = newCardName;
         mLibraryCard.editable = true;
+        mLibraryCard.isLibrary = false;
+        if (TextUtils.isEmpty(mLibraryCard.name)) {
+            mLibraryCard.name = newCardName;
+        }
         List<CardItem> cardItemList =  LittleWaterUtility.getMaterialLibraryCardsList(newLibraryName);
         if (cardItemList.contains(mLibraryCard)) {
             cardItemList.set(cardItemList.indexOf(mLibraryCard), mLibraryCard);
         } else {
             cardItemList.add(mLibraryCard);
         }
+        mLibraryCard.name = newCardName;
         LittleWaterUtility.setMaterialLibraryCardsList(newLibraryName, cardItemList);
+
+        if (this instanceof NewMaterialLibraryCardActivity) {
+            Set<String> categorySet = LittleWaterApplication.getCategoryCardsPreferences().getAll().keySet();
+            for (String category : categorySet) {
+                ArrayList<CardItem> itemList = LittleWaterUtility.getCategoryCardsList(category);
+                CardItem item = new CardItem();
+                item.isLibrary = true;
+                item.name = mLibraryCard.libraryName;
+                int position = itemList.indexOf(item);
+                Log.d("zheng", "position:" + position + " libraryName:" + mLibraryCard.libraryName + " category:" + category);
+                if (position != -1) {
+                    itemList.get(position).childCardList.add(mLibraryCard);
+                    LittleWaterUtility.setCategoryCardsList(category, itemList);
+                }
+            }
+        }
 
         Intent data = new Intent();
         if (cardNameChanged(oldCardName, newCardName)) {

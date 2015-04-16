@@ -261,12 +261,11 @@ public abstract class BaseLittleWaterActivity extends BaseActivity {
             if (cardPosition != -1) {
                 mCardItemList.set(cardPosition, libraryItem);
             }
-
-            if (this instanceof MaterialLibraryCardsActivity) {
-                mCardItemList.clear();
-                mCardItemList.addAll(LittleWaterUtility.getMaterialLibraryCardsList(getMaterialLibraryName()));
-                Log.d("zhengzj", "MaterialLibraryCardsActivity update mCardItemList size:" + mCardItemList.size());
-            }
+        }
+        if (this instanceof MaterialLibraryCardsActivity) {
+            mCardItemList.clear();
+            mCardItemList.addAll(LittleWaterUtility.getMaterialLibraryCardsList(getMaterialLibraryName()));
+            Log.d("zhengzj", "MaterialLibraryCardsActivity update mCardItemList size:" + mCardItemList.size());
         }
         mContainer.refreshView();
         mContainer.showEdit(true);

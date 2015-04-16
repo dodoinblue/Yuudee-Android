@@ -10,12 +10,15 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.pattern.util.DialogManager;
 import android.pattern.util.FileUtils;
+import android.util.Log;
 import android.view.View;
 
 import com.gcwt.yudee.R;
 import com.gcwt.yudee.model.CardItem;
 import com.gcwt.yudee.util.LittleWaterConstant;
 import com.gcwt.yudee.util.LittleWaterUtility;
+
+import java.util.List;
 
 /**
  * Created by peter on 3/31/15.
@@ -54,6 +57,10 @@ public class EditMaterialLibraryCardActivity extends NewMaterialLibraryCardActiv
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
                 dialogInterface.dismiss();
+
+                List<CardItem> cardItemList =  LittleWaterUtility.getMaterialLibraryCardsList(mLibraryCard.libraryName);
+                cardItemList.remove(mLibraryCard);
+                LittleWaterUtility.setMaterialLibraryCardsList(mLibraryCard.libraryName, cardItemList);
 
                 Intent data = new Intent();
                 data.putExtra("library_card", mLibraryCard);

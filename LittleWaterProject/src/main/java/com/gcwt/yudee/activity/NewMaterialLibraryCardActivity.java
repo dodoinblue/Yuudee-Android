@@ -12,6 +12,7 @@ import android.content.Intent;
 import android.content.ServiceConnection;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
+import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.Bundle;
@@ -42,6 +43,7 @@ import com.gcwt.yudee.util.LittleWaterConstant;
 import com.gcwt.yudee.util.LittleWaterUtility;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
@@ -262,11 +264,16 @@ public class NewMaterialLibraryCardActivity extends BaseLittleWaterActivity impl
                     return;
                 }
                 if (!mIsPlaying) {
-                    File file = new File(mAudioFile);
-                    Uri fileuri = Uri.fromFile(file);
-                    mPlayer = MediaPlayer.create(this, fileuri);
-                    mPlayer.setOnCompletionListener(this);
-                    mPlayer.start();
+                    MediaPlayer mPlayer = new MediaPlayer();
+                    mPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
+                    try {
+                        mPlayer.setDataSource(mAudioFile);
+                        mPlayer.prepare();
+                        mPlayer.setOnCompletionListener(this);
+                        mPlayer.start();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
 
                     mRecordNoticeView.setText(R.string.startplay);
                     mIsPlaying = true;

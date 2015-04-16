@@ -198,10 +198,10 @@ public class LittleWaterUtility {
         try {
             mediaPlayer.setDataSource(audioPath);
             mediaPlayer.prepare();
+            mediaPlayer.start();
         } catch (IOException e) {
             e.printStackTrace();
         }
-        mediaPlayer.start();
     }
 
     public static void playCardByRotateAndFlippingAnimation(final Context context, final View view, final CardItem cardItem) {

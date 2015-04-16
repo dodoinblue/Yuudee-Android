@@ -20,8 +20,10 @@ import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.WindowManager;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.ImageView;
 import android.widget.ViewFlipper;
 
@@ -189,6 +191,10 @@ public class LittleWaterUtility {
     }
 
     private static void playAudio(String audioPath) {
+        playAudio(audioPath, null);
+    }
+
+    public static void playAudio(String audioPath, MediaPlayer.OnCompletionListener listener) {
         if (mediaPlayer.isPlaying()) {
             mediaPlayer.stop();
         }
@@ -198,6 +204,9 @@ public class LittleWaterUtility {
         try {
             mediaPlayer.setDataSource(audioPath);
             mediaPlayer.prepare();
+            if (listener != null) {
+                mediaPlayer.setOnCompletionListener(listener);
+            }
             mediaPlayer.start();
         } catch (IOException e) {
             e.printStackTrace();
@@ -213,7 +222,7 @@ public class LittleWaterUtility {
             public void run() {
                 LittleWaterUtility.playCardByFlippingAnimation(context, view, cardItem);
             }
-        }, 1600);
+        }, 400);
     }
 
     public static void parseCardCategory(File categoryFolder, ArrayList<CardItem> cardList, HashMap<String, String> mCategoryCoverMap, String category) {
@@ -246,6 +255,17 @@ public class LittleWaterUtility {
                 }
             } else {
                 mCategoryCoverMap.put(category, cardItemFolder.getAbsolutePath());
+            }
+        }
+    }
+
+    public static void hideSoftInput(Activity activity) {
+        if (activity.getWindow().getAttributes().softInputMode != WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN) {
+            if (activity.getCurrentFocus() != null) {
+                InputMethodManager inputMethodManager = (InputMethodManager) activity
+                        .getSystemService(Context.INPUT_METHOD_SERVICE);
+                inputMethodManager.hideSoftInputFromWindow(activity.getCurrentFocus()
+                        .getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
             }
         }
     }

@@ -68,7 +68,6 @@ public class NewMaterialLibraryCardActivity extends BaseLittleWaterActivity impl
     private RecordService mRecordService;
     private Button mPlayButton;
     private boolean mIsPlaying;
-    private MediaPlayer mPlayer;
     protected String mAudioFile;
     protected CardItem mLibraryCard = new CardItem();
     private String mMaterialLibraryPath;
@@ -97,10 +96,6 @@ public class NewMaterialLibraryCardActivity extends BaseLittleWaterActivity impl
             e.printStackTrace();
         }
 
-        if (mIsPlaying) {
-            mPlayer.stop();
-            mPlayer.release();
-        }
         super.onDestroy();
     }
 
@@ -125,11 +120,6 @@ public class NewMaterialLibraryCardActivity extends BaseLittleWaterActivity impl
 
     @Override
     public void onCompletion(MediaPlayer mp) {
-        if (mp.isPlaying()) {
-            mp.stop();
-        }
-        mp.release();
-
         mRecordNoticeView.setText(R.string.stopplay);
         mIsPlaying = false;
     }
@@ -264,23 +254,11 @@ public class NewMaterialLibraryCardActivity extends BaseLittleWaterActivity impl
                     return;
                 }
                 if (!mIsPlaying) {
-                    MediaPlayer mPlayer = new MediaPlayer();
-                    mPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
-                    try {
-                        mPlayer.setDataSource(mAudioFile);
-                        mPlayer.prepare();
-                        mPlayer.setOnCompletionListener(this);
-                        mPlayer.start();
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
+                    LittleWaterUtility.playAudio(mAudioFile, this);
 
                     mRecordNoticeView.setText(R.string.startplay);
                     mIsPlaying = true;
                 } else {
-                    mPlayer.stop();
-                    mPlayer.release();
-
                     mRecordNoticeView.setText(R.string.stopplay);
                     mIsPlaying = false;
                 }

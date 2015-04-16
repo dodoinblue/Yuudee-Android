@@ -72,6 +72,7 @@ public abstract class BaseLittleWaterActivity extends BaseActivity {
     protected boolean mGotACardCover;
 
     protected void showAvatarPop() {
+        LittleWaterUtility.hideSoftInput(this);
         View view = mInflater.inflate(R.layout.pop_layout_avatar, null);
         RelativeLayout parent = (RelativeLayout) view
                 .findViewById(R.id.partent);

@@ -55,7 +55,7 @@ public class ShowCardActivity extends Activity {
                     public void run() {
                         LittleWaterUtility.playCardByFlippingAnimation(ShowCardActivity.this, findViewById(R.id.card_root_view), mCardItem);
                     }
-                }, 800);
+                }, 200);
                 break;
             case LittleWaterConstant.ANIMATION_ZOOM_IN_AND_ROTATE:
                 LittleWaterUtility.playCardByRotateAndFlippingAnimation(this, findViewById(R.id.card_root_view), mCardItem);

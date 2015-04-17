@@ -265,12 +265,12 @@ public class NewMaterialLibraryCardActivity extends BaseLittleWaterActivity impl
                 }
                 break;
             case R.id.delete_sound:
+                showCustomToast(R.string.record_already_deleted);
                 if (TextUtils.isEmpty(mAudioFile)) {
                     return;
                 }
                 File file = new File(mAudioFile);
                 file.delete();
-                showCustomToast(R.string.record_already_deleted);
                 mAudioFile = null;
                 break;
         }

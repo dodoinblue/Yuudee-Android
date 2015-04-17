@@ -167,15 +167,15 @@ public class ScrollAdapter implements SAdapter {
 	}
 
     public void displayBackAfterShowCard() {
-        if (mHiddenCard != null) {
-            mHiddenCard.postDelayed(new Runnable() {
-                @Override
-                public void run() {
+        mScrollLayout.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                if (mHiddenCard != null) {
                     mHiddenCard.setVisibility(View.VISIBLE);
                     mHiddenCard = null;
                 }
-            }, 250);
-        }
+            }
+        }, 250);
     }
 
 	@Override

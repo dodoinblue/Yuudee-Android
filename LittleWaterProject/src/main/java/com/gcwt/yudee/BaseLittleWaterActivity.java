@@ -55,6 +55,7 @@ public abstract class BaseLittleWaterActivity extends BaseActivity {
     protected List<CardItem> mCardItemList = new ArrayList<CardItem>();
     // 滑动控件的容器Container
     protected ScrollLayout mContainer;
+    protected String mCurrentCategory;
 
     @Override
     protected void onCreate(Bundle arg0) {
@@ -259,6 +260,9 @@ public abstract class BaseLittleWaterActivity extends BaseActivity {
                     LittleWaterApplication.getMaterialLibraryCoverPreferences().putString(libraryName, libraryCover);
                 }
             }
+            if (byBroadcast) {
+                Log.d("zhengzj", "cardPosition:" + cardPosition);
+            }
             if (cardPosition != -1) {
                 mCardItemList.set(cardPosition, libraryItem);
             }
@@ -267,6 +271,9 @@ public abstract class BaseLittleWaterActivity extends BaseActivity {
             mCardItemList.clear();
             mCardItemList.addAll(LittleWaterUtility.getMaterialLibraryCardsList(getMaterialLibraryName()));
             Log.d("zhengzj", "MaterialLibraryCardsActivity update mCardItemList size:" + mCardItemList.size());
+        }
+        if (byBroadcast) {
+            LittleWaterUtility.setCategoryCardsList(mCurrentCategory, mCardItemList);
         }
         mContainer.refreshView();
         mContainer.showEdit(true);

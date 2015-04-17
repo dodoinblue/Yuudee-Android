@@ -6,6 +6,7 @@
 package com.gcwt.yudee.activity;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 
 import com.gcwt.yudee.LittleWaterApplication;
@@ -45,6 +46,7 @@ public class SubFolderLittleWaterActivity extends LittleWaterActivity {
         CardItem item = new CardItem();
         item.isLibrary = true;
         item.name = getIntent().getStringExtra("library");
+        Log.d("zheng", "subfolder name:" + item.name);
         mSubFolderItem = itemList.get(itemList.indexOf(item));
         mCardItemList = mSubFolderItem.childCardList;
         displayCards();

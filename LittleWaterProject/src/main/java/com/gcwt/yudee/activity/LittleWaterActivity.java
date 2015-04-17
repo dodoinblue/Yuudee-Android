@@ -71,7 +71,6 @@ public class LittleWaterActivity extends BaseLittleWaterActivity implements OnAd
 		OnPageChangedListener, OnEditModeListener {
     private EditText mCategoryNameEdit;
     private long mFirstPressBackTime;
-    protected String mCurrentCategory;
     public static final int LAYOUT_TYPE_1_X_1 = 1;
     public static final int LAYOUT_TYPE_2_X_2 = 2;
     protected int mCurrentCategoryCardLayoutSetting = LAYOUT_TYPE_2_X_2;
@@ -179,12 +178,18 @@ public class LittleWaterActivity extends BaseLittleWaterActivity implements OnAd
         }
     }
 
+    private boolean isMainUI() {
+        return !(this instanceof SubFolderLittleWaterActivity);
+    }
+
     @Override
 	public void initViews() {
         IntentFilter filter = new IntentFilter();
         filter.addAction(ACTION_MATERIAL_LIBRARY_CHANGED);
         filter.addAction(ScrollLayout.ACTION_CARD_ITEM_MOVE);
-        registerReceiver(mMaterialLibraryChangeReceiver, filter);
+        if (isMainUI()) {
+            registerReceiver(mMaterialLibraryChangeReceiver, filter);
+        }
 		mContainer = (ScrollLayout) findViewById(R.id.container);
         mContainer.getLayoutParams().height = mScreenWidth;
         mContainer.requestLayout();
@@ -235,8 +240,29 @@ public class LittleWaterActivity extends BaseLittleWaterActivity implements OnAd
 	}
 
     @Override
+    protected void onPause() {
+        super.onPause();
+        if (isMainUI()) {
+            LittleWaterUtility.setCategoryCardsList(mCurrentCategory, mContainer.getAllMoveItems());
+        }
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if (isMainUI()) {
+            mCardItemList.clear();
+            mCardItemList.addAll(LittleWaterUtility.getCategoryCardsList(mCurrentCategory));
+            mContainer.refreshView();
+            mContainer.showEdit(mIsInParentMode);
+        }
+    }
+
+    @Override
     protected void onDestroy() {
-        unregisterReceiver(mMaterialLibraryChangeReceiver);
+        if (isMainUI()) {
+            unregisterReceiver(mMaterialLibraryChangeReceiver);
+        }
         super.onDestroy();
     }
 
@@ -531,6 +557,7 @@ public class LittleWaterActivity extends BaseLittleWaterActivity implements OnAd
             case R.id.update_app:
                 UmengUpdateAgent.forceUpdate(this);
                 findViewById(R.id.about_menu_container).setVisibility(View.INVISIBLE);
+                showCustomToast(R.string.check_update_in_progress);
                 break;
             case R.id.about_export_resource_library:
 //                mAboutMenuwindow.dismiss();

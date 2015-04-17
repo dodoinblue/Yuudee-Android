@@ -65,5 +65,6 @@
     <string name="never_remind_again">不再提醒</string>
     <string name="notice">提示</string>
     <string name="unzip_in_progress">正在解压文件，请稍候！</string>
+    <string name="check_update_in_progress">检查更新中, 请稍候！</string>
 
 </resources>

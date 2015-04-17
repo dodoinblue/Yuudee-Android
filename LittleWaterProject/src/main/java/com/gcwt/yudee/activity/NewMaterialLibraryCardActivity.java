@@ -213,6 +213,7 @@ public class NewMaterialLibraryCardActivity extends BaseLittleWaterActivity impl
                         PhotoUtils.REQUESTCODE_UPLOADAVATAR_LOCATION);
                 break;
             case R.id.choose_category:
+                LittleWaterUtility.hideSoftInput(this);
                 View layoutCategoryList = mInflater.inflate(R.layout.drop_down_menu_new_card_category_list, null);
                 mNewResourceWindow = new ActionWindow(this, findViewById(R.id.choose_category), layoutCategoryList);
                 mNewResourceWindow.dropDown();

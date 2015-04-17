@@ -32,7 +32,6 @@ import com.gcwt.yudee.R;
 import com.gcwt.yudee.activity.LittleWaterActivity;
 import com.gcwt.yudee.activity.ShowCardActivity;
 import com.gcwt.yudee.model.CardItem;
-import com.gcwt.yudee.model.CardSettings;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
@@ -48,7 +47,7 @@ import java.util.List;
  */
 public class LittleWaterUtility {
     public static final int ROUND_PX = 8;
-    private static MediaPlayer mediaPlayer = new MediaPlayer();
+    private static MediaPlayer sMediaPlayer;
 
     public static ArrayList<CardItem> getCategoryCardsList(String catetgory) {
         String curCategoryCardsJson = LittleWaterApplication.getCategoryCardsPreferences().getString(catetgory);
@@ -194,22 +193,31 @@ public class LittleWaterUtility {
         playAudio(audioPath, null);
     }
 
-    public static void playAudio(String audioPath, MediaPlayer.OnCompletionListener listener) {
-        if (mediaPlayer.isPlaying()) {
-            mediaPlayer.stop();
-        }
-        mediaPlayer.release();
-        mediaPlayer = new MediaPlayer();
-        mediaPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
+    public static synchronized void playAudio(String audioPath, MediaPlayer.OnCompletionListener listener) {
+        stopAudio();
         try {
-            mediaPlayer.setDataSource(audioPath);
-            mediaPlayer.prepare();
+            sMediaPlayer = new MediaPlayer();
+            sMediaPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
+            sMediaPlayer.setDataSource(audioPath);
+            sMediaPlayer.prepare();
             if (listener != null) {
-                mediaPlayer.setOnCompletionListener(listener);
+                sMediaPlayer.setOnCompletionListener(listener);
             }
-            mediaPlayer.start();
+            sMediaPlayer.start();
         } catch (IOException e) {
             e.printStackTrace();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static synchronized void stopAudio() {
+        if (sMediaPlayer != null) {
+            if (sMediaPlayer.isPlaying()) {
+                sMediaPlayer.stop();
+            }
+            sMediaPlayer.release();
+            sMediaPlayer = null;
         }
     }
 

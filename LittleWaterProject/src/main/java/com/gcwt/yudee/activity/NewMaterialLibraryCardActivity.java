@@ -120,6 +120,7 @@ public class NewMaterialLibraryCardActivity extends BaseLittleWaterActivity impl
 
     @Override
     public void onCompletion(MediaPlayer mp) {
+        LittleWaterUtility.stopAudio();
         mRecordNoticeView.setText(R.string.stopplay);
         mIsPlaying = false;
     }
@@ -255,10 +256,10 @@ public class NewMaterialLibraryCardActivity extends BaseLittleWaterActivity impl
                 }
                 if (!mIsPlaying) {
                     LittleWaterUtility.playAudio(mAudioFile, this);
-
                     mRecordNoticeView.setText(R.string.startplay);
                     mIsPlaying = true;
                 } else {
+                    LittleWaterUtility.stopAudio();
                     mRecordNoticeView.setText(R.string.stopplay);
                     mIsPlaying = false;
                 }

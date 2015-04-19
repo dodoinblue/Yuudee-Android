@@ -65,22 +65,36 @@ public class MaterialLibrariesActivity extends BaseLittleWaterActivity {
         //设置Container编辑模式的回调，长按进入修改模式
 //        mContainer.setOnEditModeListener(this);
 
-        HashMap<String, String> coverMap = (HashMap<String, String>) LittleWaterApplication.getCategoryCoverPreferences().getAll();
-        ArrayList<CardItem> categoryCardList = getCardItems(coverMap);
-
-        coverMap = (HashMap<String, String>) LittleWaterApplication.getMaterialLibraryCoverPreferences().getAll();
-        mCardItemList.clear();
-        mCardItemList.addAll(getCardItems(coverMap));
-        for (CardItem libraryCard : mCardItemList) {
-            if (!categoryCardList.contains(libraryCard) && !TextUtils.equals(libraryCard.getName(), getString(R.string.uncategory))) {
-                libraryCard.setEditable(true);
-            }
-        }
-
         //动态设置Container每页的列数为2行
         mContainer.setColCount(LittleWaterActivity.LAYOUT_TYPE_2_X_2);
         //动态设置Container每页的行数为2行
         mContainer.setRowCount(LittleWaterActivity.LAYOUT_TYPE_2_X_2);
+    }
+
+    private void initCardList() {
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                HashMap<String, String> coverMap = (HashMap<String, String>) LittleWaterApplication.getCategoryCoverPreferences().getAll();
+                ArrayList<CardItem> categoryCardList = getCardItems(coverMap);
+
+                coverMap = (HashMap<String, String>) LittleWaterApplication.getMaterialLibraryCoverPreferences().getAll();
+                mCardItemList.clear();
+                mCardItemList.addAll(getCardItems(coverMap));
+                for (CardItem libraryCard : mCardItemList) {
+                    if (!categoryCardList.contains(libraryCard) && !TextUtils.equals(libraryCard.getName(), getString(R.string.uncategory))) {
+                        libraryCard.setEditable(true);
+                    }
+                }
+
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        mContainer.refreshView();
+                    }
+                });
+            }
+        }).start();
     }
 
     private ArrayList<CardItem> getCardItems(HashMap<String, String> libraryCoverMap) {
@@ -225,5 +239,16 @@ public class MaterialLibrariesActivity extends BaseLittleWaterActivity {
                 super.onActivityResult(requestCode, resultCode, data);
                 break;
         }
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        initCardList();
     }
 }

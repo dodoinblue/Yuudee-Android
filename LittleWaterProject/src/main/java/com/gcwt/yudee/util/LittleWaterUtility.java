@@ -41,6 +41,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Set;
 
 /**
  * Created by peter on 3/19/15.
@@ -74,6 +75,21 @@ public class LittleWaterUtility {
             return new ArrayList<CardItem>();
         }
         return new Gson().fromJson(cardsJsonStr, new TypeToken<List<CardItem>>() { }.getType());
+    }
+
+    public static synchronized void removeCardFromCategory(CardItem item) {
+        ArrayList<CardItem> itemList = getCategoryCardsList(item.category);
+        itemList.remove(item);
+        LittleWaterUtility.setCategoryCardsList(item.category, itemList);
+    }
+
+    public static synchronized void updateCardToCategory(CardItem item) {
+        ArrayList<CardItem> itemList = getCategoryCardsList(item.category);
+        int position = itemList.indexOf(item);
+        if (position != -1) {
+            itemList.set(position, item);
+            LittleWaterUtility.setCategoryCardsList(item.category, itemList);
+        }
     }
 
     public static void saveDrawable(String imageFolder, String imageName, BitmapDrawable drawable) {
@@ -241,6 +257,7 @@ public class LittleWaterUtility {
                 cardList.add(item);
 //                    item.setName(cardItemFolder.getName().split("-")[1].split("\\.")[0]);
                 item.setName(cardItemFolder.getName().split("\\.")[0]);
+                item.category = category;
                 File[] mediaFolders = cardItemFolder.listFiles();
                 for (File mediaFolder : mediaFolders) {
                     if (mediaFolder.getPath().contains("audio")) {
@@ -274,6 +291,20 @@ public class LittleWaterUtility {
                         .getSystemService(Context.INPUT_METHOD_SERVICE);
                 inputMethodManager.hideSoftInputFromWindow(activity.getCurrentFocus()
                         .getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
+            }
+        }
+    }
+
+    public static synchronized void deleteLibraryInCategory(CardItem cardItem) {
+        Set<String> categorySet = LittleWaterApplication.getCategoryCardsPreferences().getAll().keySet();
+        for (String category : categorySet) {
+            ArrayList<CardItem> itemList = LittleWaterUtility.getCategoryCardsList(category);
+            int position = itemList.indexOf(cardItem);
+            if (position != -1) {
+                CardItem emptyItem = new CardItem();
+                emptyItem.isEmpty = true;
+                itemList.set(position, emptyItem);
+                LittleWaterUtility.setCategoryCardsList(category, itemList);
             }
         }
     }

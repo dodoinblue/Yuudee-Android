@@ -5,20 +5,19 @@
 
 package com.gcwt.yudee.activity;
 
-import android.app.Activity;
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.pattern.util.DialogManager;
-import android.pattern.util.FileUtils;
-import android.util.Log;
+import android.text.TextUtils;
 import android.view.View;
 
+import com.gcwt.yudee.LittleWaterApplication;
 import com.gcwt.yudee.R;
 import com.gcwt.yudee.model.CardItem;
-import com.gcwt.yudee.util.LittleWaterConstant;
 import com.gcwt.yudee.util.LittleWaterUtility;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 /**
  * Created by peter on 3/31/15.
@@ -62,12 +61,27 @@ public class EditMaterialLibraryCardActivity extends NewMaterialLibraryCardActiv
                 cardItemList.remove(mLibraryCard);
                 LittleWaterUtility.setMaterialLibraryCardsList(mLibraryCard.libraryName, cardItemList);
 
-                Intent data = new Intent();
-                data.putExtra("library_card", mLibraryCard);
-                data.putExtra("library_deleted", true);
-                setResult(Activity.RESULT_OK, data);
+                Set<String> categorySet = LittleWaterApplication.getCategoryCardsPreferences().getAll().keySet();
+                for (String category : categorySet) {
+                    ArrayList<CardItem> itemList = LittleWaterUtility.getCategoryCardsList(category);
+                    removeLibraryCardInCategory(itemList);
+                    LittleWaterUtility.setCategoryCardsList(category, itemList);
+                }
+//                Intent data = new Intent();
+//                data.putExtra("library_card", mLibraryCard);
+//                data.putExtra("library_deleted", true);
+//                setResult(Activity.RESULT_OK, data);
                 finish();
             }
         }, null);
+    }
+
+    private void removeLibraryCardInCategory(ArrayList<CardItem> itemList) {
+        itemList.remove(mLibraryCard);
+        for (CardItem eachItem : itemList) {
+            if (eachItem.isLibrary) {
+                removeLibraryCardInCategory(eachItem.childCardList);
+            }
+        }
     }
 }

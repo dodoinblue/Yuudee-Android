@@ -206,13 +206,13 @@ public abstract class BaseLittleWaterActivity extends BaseActivity {
             case LittleWaterConstant.ACTIVITY_REQUEST_CODE_EDIT_CATEGORY_FOLDER:
             case LittleWaterConstant.ACTIVITY_REQUEST_CODE_EDIT_MATERIAL_LIBRARY_CARD:
             case LittleWaterConstant.ACTIVITY_REQUEST_CODE_EDIT_CATEGORY_CARD_SETTINGS:
-                handleCardEditRequest(data, requestCode, false);
-                if (requestCode == LittleWaterConstant.ACTIVITY_REQUEST_CODE_EDIT_MATERIAL_LIBRARY
-                        || requestCode == LittleWaterConstant.ACTIVITY_REQUEST_CODE_EDIT_MATERIAL_LIBRARY_CARD) {
-                    data.setAction(ACTION_MATERIAL_LIBRARY_CHANGED);
-                    data.putExtra("request_code", requestCode);
-                    sendBroadcast(data);
-                }
+//                handleCardEditRequest(data, requestCode, false);
+//                if (requestCode == LittleWaterConstant.ACTIVITY_REQUEST_CODE_EDIT_MATERIAL_LIBRARY
+//                        || requestCode == LittleWaterConstant.ACTIVITY_REQUEST_CODE_EDIT_MATERIAL_LIBRARY_CARD) {
+//                    data.setAction(ACTION_MATERIAL_LIBRARY_CHANGED);
+//                    data.putExtra("request_code", requestCode);
+//                    sendBroadcast(data);
+//                }
                 break;
 
             default:

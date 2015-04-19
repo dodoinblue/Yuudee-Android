@@ -15,6 +15,7 @@ import com.gcwt.yudee.BaseLittleWaterActivity;
 import com.gcwt.yudee.R;
 import com.gcwt.yudee.model.CardItem;
 import com.gcwt.yudee.util.LittleWaterConstant;
+import com.gcwt.yudee.util.LittleWaterUtility;
 
 /**
  * Created by peter on 15/4/5.
@@ -49,9 +50,10 @@ public class EditCategoryFolderActivity extends BaseLittleWaterActivity {
         Intent data = new Intent();
         switch (view.getId()) {
             case R.id.parent_settings_delete_category:
-                data.putExtra("library_card", mCardItem);
-                data.putExtra("library_deleted", true);
-                setResult(Activity.RESULT_OK, data);
+                LittleWaterUtility.deleteLibraryInCategory(mCardItem);
+//                data.putExtra("library_card", mCardItem);
+//                data.putExtra("library_deleted", true);
+//                setResult(Activity.RESULT_OK, data);
                 finish();
                 break;
             case R.id.edit_card:

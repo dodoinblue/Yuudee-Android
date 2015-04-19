@@ -17,6 +17,7 @@ import android.pattern.util.PhotoUtil;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
@@ -31,6 +32,7 @@ import com.gcwt.yudee.util.LittleWaterConstant;
 import com.gcwt.yudee.util.LittleWaterUtility;
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.Set;
 
 /**
@@ -91,10 +93,12 @@ public class NewMaterialLibraryActivity extends BaseLittleWaterActivity implemen
                 LittleWaterApplication.getMaterialLibraryCardsPreferences().remove(mCardItem.getName());
                 LittleWaterApplication.getMaterialLibraryCoverPreferences().remove(mCardItem.getName());
 
-                Intent data = new Intent();
-                data.putExtra("library_card", mCardItem);
-                data.putExtra("library_deleted", true);
-                setResult(Activity.RESULT_OK, data);
+                LittleWaterUtility.deleteLibraryInCategory(mCardItem);
+
+//                Intent data = new Intent();
+//                data.putExtra("library_card", mCardItem);
+//                data.putExtra("library_deleted", true);
+//                setResult(Activity.RESULT_OK, data);
                 finish();
             }
         }, null);
@@ -117,12 +121,13 @@ public class NewMaterialLibraryActivity extends BaseLittleWaterActivity implemen
                     }
                 }
 
-//                File oldLibFile = new File(LittleWaterConstant.MATERIAL_LIBRARIES_DIRECTORY + oldLibraryName);
-//                File newLibFile = new File(LittleWaterConstant.MATERIAL_LIBRARIES_DIRECTORY + newLibraryName);
-//                oldLibFile.renameTo(newLibFile);
-//            ArrayList<CardItem> libraryCardList = LittleWaterUtility.getMaterialLibraryCardsList(mCardItem.getName());
-//            LittleWaterApplication.getMaterialLibraryCardsPreferences().remove(mCardItem.getName());
-//            LittleWaterUtility.setMaterialLibraryCardsList(newLibraryName, libraryCardList);
+                ArrayList<CardItem> libraryCardList = LittleWaterUtility.getMaterialLibraryCardsList(oldLibraryName);
+                LittleWaterApplication.getMaterialLibraryCardsPreferences().remove(oldLibraryName);
+                LittleWaterUtility.setMaterialLibraryCardsList(newLibraryName, libraryCardList);
+
+                String libraryCover = LittleWaterApplication.getMaterialLibraryCoverPreferences().getString(oldLibraryName);
+                LittleWaterApplication.getMaterialLibraryCoverPreferences().remove(oldLibraryName);
+                LittleWaterApplication.getMaterialLibraryCoverPreferences().putString(newLibraryName, libraryCover);
             }
         } else {
             File libFile = new File(LittleWaterConstant.MATERIAL_LIBRARIES_DIRECTORY + newLibraryName);
@@ -154,12 +159,32 @@ public class NewMaterialLibraryActivity extends BaseLittleWaterActivity implemen
         mCardItem.name = newLibraryName;
         mCardItem.editable = true;
         mCardItem.isLibrary = true;
-        Intent data = new Intent();
-        data.putExtra("library_card", mCardItem);
-        if (isMaterialLibraryNameChanged(oldLibraryName, newLibraryName)) {
-            data.putExtra("old_library_name", oldLibraryName);
+
+        if (this instanceof EditMaterialLibraryActivity) {
+            Set<String> categorySet = LittleWaterApplication.getCategoryCardsPreferences().getAll().keySet();
+            for (String category : categorySet) {
+                ArrayList<CardItem> itemList = LittleWaterUtility.getCategoryCardsList(category);
+                int position;
+                if (isMaterialLibraryNameChanged(oldLibraryName, newLibraryName)) {
+                    mCardItem.name = oldLibraryName;
+                    position = itemList.indexOf(mCardItem);
+                    mCardItem.name = newLibraryName;
+                } else {
+                    position = itemList.indexOf(mCardItem);
+                }
+                if (position != -1) {
+                    itemList.set(position, mCardItem);
+                    LittleWaterUtility.setCategoryCardsList(category, itemList);
+                }
+            }
         }
-        setResult(Activity.RESULT_OK, data);
+
+//        Intent data = new Intent();
+//        data.putExtra("library_card", mCardItem);
+//        if (isMaterialLibraryNameChanged(oldLibraryName, newLibraryName)) {
+//            data.putExtra("old_library_name", oldLibraryName);
+//        }
+//        setResult(Activity.RESULT_OK, data);
         finish();
     }
 

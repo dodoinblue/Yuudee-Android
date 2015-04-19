@@ -8,6 +8,7 @@ package com.gcwt.yudee.activity;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.Switch;
 import android.widget.TextView;
@@ -16,6 +17,7 @@ import com.gcwt.yudee.BaseLittleWaterActivity;
 import com.gcwt.yudee.R;
 import com.gcwt.yudee.model.CardItem;
 import com.gcwt.yudee.util.LittleWaterConstant;
+import com.gcwt.yudee.util.LittleWaterUtility;
 
 /**
  * Created by peter on 3/10/15.
@@ -70,10 +72,8 @@ public class EditCategoryCardSettingsActivity extends BaseLittleWaterActivity {
                 finish();
                 break;
             case R.id.confirm:
-                Intent data = new Intent();
                 mCardItem.getCardSettings().setMute(mMuteSwitch.isChecked());
-                data.putExtra("library_card", mCardItem);
-                setResult(Activity.RESULT_OK, data);
+                LittleWaterUtility.updateCardToCategory(mCardItem);
                 finish();
                 break;
             case R.id.no_animation_container:
@@ -96,10 +96,11 @@ public class EditCategoryCardSettingsActivity extends BaseLittleWaterActivity {
                 findViewById(R.id.root_view).setVisibility(View.GONE);
                 break;
             case R.id.delete_card:
-                data = new Intent();
-                data.putExtra("library_card", mCardItem);
-                data.putExtra("library_deleted", true);
-                setResult(Activity.RESULT_OK, data);
+                if (TextUtils.isEmpty(mCardItem.libraryName)) {
+                    LittleWaterUtility.removeCardFromCategory(mCardItem);
+                } else {
+
+                }
                 finish();
                 break;
             default:

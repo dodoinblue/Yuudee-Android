@@ -5,16 +5,13 @@
 
 package com.gcwt.yudee.activity;
 
-import android.app.Activity;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.ServiceConnection;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
-import android.media.AudioManager;
 import android.media.MediaPlayer;
-import android.net.Uri;
 import android.os.Bundle;
 import android.os.IBinder;
 import android.pattern.adapter.BaseListAdapter;
@@ -43,7 +40,6 @@ import com.gcwt.yudee.util.LittleWaterConstant;
 import com.gcwt.yudee.util.LittleWaterUtility;
 
 import java.io.File;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
@@ -71,6 +67,7 @@ public class NewMaterialLibraryCardActivity extends BaseLittleWaterActivity impl
     protected String mAudioFile;
     protected CardItem mLibraryCard = new CardItem();
     private String mMaterialLibraryPath;
+    private CardItem mFindItem;
 
     @Override
     protected void onCreate(Bundle arg0) {
@@ -361,6 +358,11 @@ public class NewMaterialLibraryCardActivity extends BaseLittleWaterActivity impl
 
         // Save new card into cache
         mLibraryCard.libraryName = newLibraryName;
+        if (libraryNameChanged(oldLibraryName, newLibraryName)) {
+            mLibraryCard.oldLibraryName = oldLibraryName;
+        } else {
+            mLibraryCard.oldLibraryName = "";
+        }
         mLibraryCard.editable = true;
         mLibraryCard.isLibrary = false;
         if (TextUtils.isEmpty(mLibraryCard.name)) {
@@ -373,31 +375,76 @@ public class NewMaterialLibraryCardActivity extends BaseLittleWaterActivity impl
             cardItemList.add(mLibraryCard);
         }
         mLibraryCard.name = newCardName;
+        if (cardNameChanged(oldCardName, newCardName)) {
+            mLibraryCard.oldName = oldCardName;
+        } else {
+            mLibraryCard.oldName = "";
+        }
         LittleWaterUtility.setMaterialLibraryCardsList(newLibraryName, cardItemList);
 
-        if (this instanceof NewMaterialLibraryCardActivity) {
-            Set<String> categorySet = LittleWaterApplication.getCategoryCardsPreferences().getAll().keySet();
-            for (String category : categorySet) {
-                ArrayList<CardItem> itemList = LittleWaterUtility.getCategoryCardsList(category);
-                CardItem item = new CardItem();
-                item.isLibrary = true;
-                item.name = mLibraryCard.libraryName;
-                int position = itemList.indexOf(item);
-                Log.d("zheng", "position:" + position + " libraryName:" + mLibraryCard.libraryName + " category:" + category);
-                if (position != -1) {
-                    itemList.get(position).childCardList.add(mLibraryCard);
-                    LittleWaterUtility.setCategoryCardsList(category, itemList);
+        Set<String> categorySet = LittleWaterApplication.getCategoryCardsPreferences().getAll().keySet();
+        for (String category : categorySet) {
+            ArrayList<CardItem> itemList = LittleWaterUtility.getCategoryCardsList(category);
+            updateLibraryCardInCategory(itemList);
+            LittleWaterUtility.setCategoryCardsList(category, itemList);
+        }
+
+//        Intent data = new Intent();
+//        if (cardNameChanged(oldCardName, newCardName)) {
+//            data.putExtra("old_library_name", oldCardName);
+//        }
+//        data.putExtra("library_card", mLibraryCard);
+//        setResult(Activity.RESULT_OK, data);
+        finish();
+    }
+
+    private CardItem createFindItem() {
+        if (mFindItem != null) {
+            return mFindItem;
+        }
+        String findName = mLibraryCard.oldName;
+        if (TextUtils.isEmpty(mLibraryCard.oldName)) {
+            findName = mLibraryCard.name;
+        }
+
+        String findLibraryName = mLibraryCard.oldLibraryName;
+        if (TextUtils.isEmpty(mLibraryCard.oldLibraryName)) {
+            findLibraryName = mLibraryCard.libraryName;
+        }
+        mFindItem = new CardItem();
+        mFindItem.name = findName;
+        mFindItem.isLibrary = false;
+        mFindItem.libraryName = findLibraryName;
+        return mFindItem;
+    }
+
+    private void updateLibraryCardInCategory(ArrayList<CardItem> itemList) {
+        CardItem findItem = createFindItem();
+        if (this instanceof EditMaterialLibraryCardActivity) {
+            int position = itemList.indexOf(findItem);
+            if (position != -1) {
+                if (TextUtils.isEmpty(mLibraryCard.oldLibraryName)) {
+                    itemList.set(position, mLibraryCard);
+                } else {
+                    itemList.remove(position);
                 }
             }
         }
-
-        Intent data = new Intent();
-        if (cardNameChanged(oldCardName, newCardName)) {
-            data.putExtra("old_library_name", oldCardName);
+        for (CardItem eachItem : itemList) {
+            if (eachItem.isLibrary) {
+                if (TextUtils.equals(eachItem.name, mLibraryCard.libraryName)) {
+                    if (this instanceof EditMaterialLibraryCardActivity) {
+                        if (!TextUtils.isEmpty(mLibraryCard.oldLibraryName)) {
+                            eachItem.childCardList.add(mLibraryCard);
+                        }
+                    } else {
+                        Log.d("zhengzj", "library name:" + eachItem.name + " libraryCard:" + mLibraryCard.name);
+                        eachItem.childCardList.add(mLibraryCard);
+                    }
+                }
+                updateLibraryCardInCategory(eachItem.childCardList);
+            }
         }
-        data.putExtra("library_card", mLibraryCard);
-        setResult(Activity.RESULT_OK, data);
-        finish();
     }
 
     @Override

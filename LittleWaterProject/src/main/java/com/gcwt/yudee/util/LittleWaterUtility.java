@@ -49,22 +49,22 @@ public class LittleWaterUtility {
     public static final int ROUND_PX = 8;
     private static MediaPlayer sMediaPlayer;
 
-    public static ArrayList<CardItem> getCategoryCardsList(String catetgory) {
+    public static synchronized ArrayList<CardItem> getCategoryCardsList(String catetgory) {
         String curCategoryCardsJson = LittleWaterApplication.getCategoryCardsPreferences().getString(catetgory);
         return getCardsList(curCategoryCardsJson);
     }
 
-    public static void setCategoryCardsList(String catetgory, List<CardItem> cardItemList) {
+    public static synchronized void setCategoryCardsList(String catetgory, List<CardItem> cardItemList) {
         String curCategoryCardsJson = new Gson().toJson(cardItemList);
         LittleWaterApplication.getCategoryCardsPreferences().putString(catetgory, curCategoryCardsJson);
     }
 
-    public static ArrayList<CardItem> getMaterialLibraryCardsList(String library) {
+    public static synchronized  ArrayList<CardItem> getMaterialLibraryCardsList(String library) {
         String curLibraryCardsJson = LittleWaterApplication.getMaterialLibraryCardsPreferences().getString(library);
         return getCardsList(curLibraryCardsJson);
     }
 
-    public static void setMaterialLibraryCardsList(String library, List<CardItem> cardItemList) {
+    public static synchronized void setMaterialLibraryCardsList(String library, List<CardItem> cardItemList) {
         String cardsJson = new Gson().toJson(cardItemList);
         LittleWaterApplication.getMaterialLibraryCardsPreferences().putString(library, cardsJson);
     }

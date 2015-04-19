@@ -68,7 +68,8 @@ public class MaterialLibraryCardsActivity extends BaseLittleWaterActivity {
             mConfirmButton.setEnabled(false);
             mConfirmButton.setAlpha(.6f);
         }
-        mCardItemList = LittleWaterUtility.getMaterialLibraryCardsList(mMaterialLibraryItem.name);
+        mCardItemList.clear();
+        mCardItemList.addAll(LittleWaterUtility.getMaterialLibraryCardsList(mMaterialLibraryItem.name));
         Log.d("zheng", "mCardItemList size:" + mCardItemList.size());
         LittleWaterUtility.sortCardList(mCardItemList);
 //        if (!mMaterialLibraryItem.getEditable() && mCardItemList.size() == 0) {

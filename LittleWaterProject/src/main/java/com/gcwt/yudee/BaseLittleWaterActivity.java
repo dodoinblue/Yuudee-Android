@@ -52,7 +52,7 @@ import java.util.List;
 public abstract class BaseLittleWaterActivity extends BaseActivity {
     protected static final String ACTION_MATERIAL_LIBRARY_CHANGED = "com.gcwt.yudee.ACTION_MATERIAL_LIBRARY_CHANGED";
     // Container中滑动控件列表
-    protected List<CardItem> mCardItemList = new ArrayList<CardItem>();
+    final protected List<CardItem> mCardItemList = new ArrayList<CardItem>();
     // 滑动控件的容器Container
     protected ScrollLayout mContainer;
     protected String mCurrentCategory;

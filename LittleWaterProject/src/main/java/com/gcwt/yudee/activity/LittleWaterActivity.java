@@ -170,7 +170,9 @@ public class LittleWaterActivity extends BaseLittleWaterActivity implements OnAd
 
                 mContainer.refreshView();
                 mContainer.showEdit(mIsInParentMode);
-                LittleWaterUtility.setCategoryCardsList(mCurrentCategory, mContainer.getAllMoveItems());
+                if (isMainUI()) {
+                    LittleWaterUtility.setCategoryCardsList(mCurrentCategory, mContainer.getAllMoveItems());
+                }
                 break;
             default:
                 super.onActivityResult(requestCode, resultCode, data);
@@ -199,6 +201,11 @@ public class LittleWaterActivity extends BaseLittleWaterActivity implements OnAd
 		mContainer.setOnPageChangedListener(this);
 		//设置Container编辑模式的回调，长按进入修改模式
 		mContainer.setOnEditModeListener(this);
+        //初始化Container的Adapter
+        mItemsAdapter = new ScrollAdapter(mContainer, mCardItemList);
+        //设置Adapter
+        mContainer.setSaAdapter(mItemsAdapter, this);
+
         mCategoryListAdapter = new BaseListAdapter<String>(this, new ArrayList<String>()) {
             @Override
             public View bindView(int position, View convertView, ViewGroup parent) {
@@ -216,7 +223,8 @@ public class LittleWaterActivity extends BaseLittleWaterActivity implements OnAd
                 mCurrentCategory = (String)value;
                 LittleWaterApplication.getAppSettingsPreferences().putString(LittleWaterConstant.SETTINGS_CURRENT_CATEGORY, mCurrentCategory);
                 mCurrentCategoryCardLayoutSetting = LittleWaterApplication.getCategorySettingsPreferences().getInt(mCurrentCategory, LAYOUT_TYPE_2_X_2);
-                mCardItemList = LittleWaterUtility.getCategoryCardsList(mCurrentCategory);
+                mCardItemList.clear();
+                mCardItemList.addAll(LittleWaterUtility.getCategoryCardsList(mCurrentCategory));
                 displayCards();
 
                 final ImageView spinnerTitleView = (ImageView) findViewById(R.id.spinner_title);
@@ -276,7 +284,8 @@ public class LittleWaterActivity extends BaseLittleWaterActivity implements OnAd
         mCurrentCategory = LittleWaterApplication.getAppSettingsPreferences().getString(LittleWaterConstant.SETTINGS_CURRENT_CATEGORY);
         mCurrentCategoryCardLayoutSetting = LittleWaterApplication.getCategorySettingsPreferences().getInt(mCurrentCategory, LAYOUT_TYPE_2_X_2);
 
-        mCardItemList = LittleWaterUtility.getCategoryCardsList(mCurrentCategory);
+        mCardItemList.clear();
+        mCardItemList.addAll(LittleWaterUtility.getCategoryCardsList(mCurrentCategory));
         displayCards();
     }
 
@@ -339,7 +348,8 @@ public class LittleWaterActivity extends BaseLittleWaterActivity implements OnAd
         }
 
         saveAllCardsIntoCache();
-        mCardItemList = mCategoryCardsMap.get(mCurrentCategory);
+        mCardItemList.clear();
+        mCardItemList.addAll(mCategoryCardsMap.get(mCurrentCategory));
         runOnUiThread(new Runnable() {
             @Override
             public void run() {
@@ -370,10 +380,6 @@ public class LittleWaterActivity extends BaseLittleWaterActivity implements OnAd
         mContainer.setColCount(mCurrentCategoryCardLayoutSetting);
         //动态设置Container每页的行数为2行
         mContainer.setRowCount(mCurrentCategoryCardLayoutSetting);
-        //初始化Container的Adapter
-        mItemsAdapter = new ScrollAdapter(mContainer, mCardItemList);
-        //设置Adapter
-        mContainer.setSaAdapter(mItemsAdapter, this);
         //调用refreView绘制所有的Item
         mContainer.refreshView();
         mContainer.showEdit(mIsInParentMode);
@@ -622,7 +628,8 @@ public class LittleWaterActivity extends BaseLittleWaterActivity implements OnAd
         mCategoryList.remove(mCurrentCategory);
         mCurrentCategory = mCategoryList.get(0);
         LittleWaterApplication.getAppSettingsPreferences().putString(LittleWaterConstant.SETTINGS_CURRENT_CATEGORY, mCurrentCategory);
-        mCardItemList = LittleWaterUtility.getCategoryCardsList(mCurrentCategory);
+        mCardItemList.clear();
+        mCardItemList.addAll(LittleWaterUtility.getCategoryCardsList(mCurrentCategory));
         displayCards();
         mSettingsActionWindow.dismiss();
     }
@@ -676,7 +683,8 @@ public class LittleWaterActivity extends BaseLittleWaterActivity implements OnAd
         }
         mCurrentCategory = categoryNameEditView.getText().toString();
         LittleWaterApplication.getCategoryCardsPreferences().putString(mCurrentCategory, "");
-        mCardItemList = LittleWaterUtility.getCategoryCardsList(mCurrentCategory);
+        mCardItemList.clear();
+        mCardItemList.addAll(LittleWaterUtility.getCategoryCardsList(mCurrentCategory));
         LittleWaterUtility.setCategoryCardsList(mCurrentCategory, mCardItemList);
         LittleWaterApplication.getAppSettingsPreferences().putString(LittleWaterConstant.SETTINGS_CURRENT_CATEGORY, mCurrentCategory);
 

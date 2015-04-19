@@ -48,7 +48,8 @@ public class SubFolderLittleWaterActivity extends LittleWaterActivity {
         item.name = getIntent().getStringExtra("library");
         Log.d("zheng", "subfolder name:" + item.name);
         mSubFolderItem = itemList.get(itemList.indexOf(item));
-        mCardItemList = mSubFolderItem.childCardList;
+        mCardItemList.clear();
+        mCardItemList.addAll(mSubFolderItem.childCardList);
         displayCards();
     }
 

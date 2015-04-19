@@ -338,18 +338,20 @@ public class NewMaterialLibraryCardActivity extends BaseLittleWaterActivity impl
         if (mAudioFile != null) {
             try {
                 String audiosFolder = mMaterialLibraryPath + newCardName + "/audios";
-                File audiosFile = new File(audiosFolder);
-                if (!audiosFile.exists()) {
-                    audiosFile.mkdirs();
+                File audiosFileFolder = new File(audiosFolder);
+                if (!audiosFileFolder.exists()) {
+                    audiosFileFolder.mkdirs();
                 }
 
                 String newAudioName = audiosFolder + "/1.mp3";
-                File newAudioFile = new File(newAudioName);
-                if (newAudioFile.exists()) {
-                    newAudioFile.delete();
+                if (!TextUtils.equals(mAudioFile, newAudioName)) {
+                    File newAudioFile = new File(newAudioName);
+                    if (newAudioFile.exists()) {
+                        newAudioFile.delete();
+                    }
+                    File oldAudioFile = new File(mAudioFile);
+                    oldAudioFile.renameTo(new File(newAudioName));
                 }
-                File oldAudioFile = new File(mAudioFile);
-                oldAudioFile.renameTo(new File(newAudioName));
                 mLibraryCard.audios.clear();
                 mLibraryCard.audios.add(newAudioName);
             } catch (Exception e) {

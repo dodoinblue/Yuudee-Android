@@ -5,6 +5,7 @@
 
 package com.gcwt.yudee.activity;
 
+import android.app.Activity;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
@@ -389,12 +390,12 @@ public class NewMaterialLibraryCardActivity extends BaseLittleWaterActivity impl
             LittleWaterUtility.setCategoryCardsList(category, itemList);
         }
 
-//        Intent data = new Intent();
-//        if (cardNameChanged(oldCardName, newCardName)) {
-//            data.putExtra("old_library_name", oldCardName);
-//        }
-//        data.putExtra("library_card", mLibraryCard);
-//        setResult(Activity.RESULT_OK, data);
+        Intent data = new Intent();
+        if (cardNameChanged(oldCardName, newCardName)) {
+            data.putExtra("old_library_name", oldCardName);
+        }
+        data.putExtra("library_card", mLibraryCard);
+        setResult(Activity.RESULT_OK, data);
         finish();
     }
 

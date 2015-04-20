@@ -28,6 +28,7 @@ import com.gcwt.yudee.util.LittleWaterConstant;
 import com.gcwt.yudee.util.LittleWaterUtility;
 import com.gcwt.yudee.widget.ScrollLayout;
 import com.gcwt.yudee.widget.ScrollLayout.SAdapter;
+import com.umeng.analytics.MobclickAgent;
 
 import java.lang.ref.SoftReference;
 import java.util.HashMap;
@@ -117,6 +118,14 @@ public class ScrollAdapter implements SAdapter {
                             return;
                         }
                     }
+
+                    //友盟统计用户使用的官方卡片/自制卡片的使用情况
+                    if (moveItem.editable) {
+                        MobclickAgent.onEvent(mContext,"Personal-Card");
+                    } else {
+                        MobclickAgent.onEvent(mContext,"Official-Card");
+                    }
+
                     if (moveItem.isLibrary) {
                         Intent intent = new Intent(mContext, SubFolderLittleWaterActivity.class);
                         intent.putExtra("library", moveItem.getName());

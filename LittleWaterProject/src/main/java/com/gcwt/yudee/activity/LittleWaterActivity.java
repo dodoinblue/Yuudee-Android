@@ -370,7 +370,6 @@ public class LittleWaterActivity extends BaseLittleWaterActivity implements OnAd
             }
             LittleWaterUtility.parseCardCategory(categoryFolder, cardList, mCategoryCoverMap, category);
         }
-
         saveAllCardsIntoCache();
         mCardItemList.clear();
         mCardItemList.addAll(mCategoryCardsMap.get(mCurrentCategory));

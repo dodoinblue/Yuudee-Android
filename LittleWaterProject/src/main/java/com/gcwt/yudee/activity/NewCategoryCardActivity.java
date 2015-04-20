@@ -78,6 +78,7 @@ public class NewCategoryCardActivity extends BaseLittleWaterActivity {
                 mCardItem = (CardItem) data.getSerializableExtra("library_card");
                 selectedList = new ArrayList<CardItem>();
                 selectedList.add(mCardItem);
+                mCardItem.category = mCurrentCategory;
                 intent.putExtra("selected_card_list", selectedList);
                 setResult(Activity.RESULT_OK, intent);
                 finish();

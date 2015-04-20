@@ -69,6 +69,7 @@ import com.umeng.update.UmengUpdateAgent;
 @SuppressLint("HandlerLeak")
 public class LittleWaterActivity extends BaseLittleWaterActivity implements OnAddOrDeletePage,
 		OnPageChangedListener, OnEditModeListener {
+    protected CardItem mSubFolderItem;
     private EditText mCategoryNameEdit;
     private long mFirstPressBackTime;
     public static final int LAYOUT_TYPE_1_X_1 = 1;
@@ -148,6 +149,18 @@ public class LittleWaterActivity extends BaseLittleWaterActivity implements OnAd
         initEvents();
 	}
 
+    private void setCardCategory(ArrayList<CardItem> cardList) {
+        for (CardItem item : cardList) {
+            if (this instanceof SubFolderLittleWaterActivity) {
+                item.libraryName = mSubFolderItem.name;
+            }
+            item.category = mCurrentCategory;
+            if (item.isLibrary) {
+                setCardCategory(item.childCardList);
+            }
+        }
+    }
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == LittleWaterConstant.ACTIVITY_REQUEST_CODE_SHOW_CARD) {
@@ -161,11 +174,7 @@ public class LittleWaterActivity extends BaseLittleWaterActivity implements OnAd
             case LittleWaterConstant.ACTIVITY_REQUEST_CODE_NEW_CATEGORY_CARD:
                 ArrayList<CardItem> selectedList = (ArrayList<CardItem>) data.getSerializableExtra("selected_card_list");
                 int position = mCardItemList.indexOf(mNewCardItem);
-                if (isMainUI()) {
-                    for (CardItem item : selectedList) {
-                        item.category = mCurrentCategory;
-                    }
-                }
+                setCardCategory(selectedList);
                 if (position != -1) {
                     mCardItemList.remove(position);
                     mCardItemList.addAll(position, selectedList);
@@ -177,6 +186,8 @@ public class LittleWaterActivity extends BaseLittleWaterActivity implements OnAd
                 mContainer.showEdit(mIsInParentMode);
                 if (isMainUI()) {
                     LittleWaterUtility.setCategoryCardsList(mCurrentCategory, mContainer.getAllMoveItems());
+                } else {
+                    backupSubFolderList();
                 }
                 break;
             default:

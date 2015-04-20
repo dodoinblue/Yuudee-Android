@@ -79,17 +79,42 @@ public class LittleWaterUtility {
 
     public static synchronized void removeCardFromCategory(CardItem item) {
         ArrayList<CardItem> itemList = getCategoryCardsList(item.category);
-        itemList.remove(item);
+        Log.d("zheng", "removeCardFromCategory:" + item.category);
+        if (TextUtils.isEmpty(item.libraryName)) {
+            Log.d("zheng", "removeCardFromCategory: remove" + item.category);
+            itemList.remove(item);
+        } else {
+            CardItem libraryCard = new CardItem();
+            libraryCard.isLibrary = true;
+            libraryCard.name = item.libraryName;
+            int position = itemList.indexOf(libraryCard);
+            if (position != -1) {
+                itemList.get(position).childCardList.remove(item);
+                Log.d("zheng", "removeCardFromCategory: library remove" + item.category);
+            }
+        }
         LittleWaterUtility.setCategoryCardsList(item.category, itemList);
     }
 
     public static synchronized void updateCardToCategory(CardItem item) {
         ArrayList<CardItem> itemList = getCategoryCardsList(item.category);
-        int position = itemList.indexOf(item);
-        if (position != -1) {
-            itemList.set(position, item);
-            LittleWaterUtility.setCategoryCardsList(item.category, itemList);
+        if (TextUtils.isEmpty(item.libraryName)) {
+            int position = itemList.indexOf(item);
+            if (position != -1) {
+                itemList.set(position, item);
+            }
+        } else {
+            CardItem libraryCard = new CardItem();
+            libraryCard.isLibrary = true;
+            libraryCard.name = item.libraryName;
+            int position = itemList.indexOf(libraryCard);
+            if (position != -1) {
+                ArrayList<CardItem> childList = itemList.get(position).childCardList;
+                position = childList.indexOf(item);
+                childList.set(position, item);
+            }
         }
+        LittleWaterUtility.setCategoryCardsList(item.category, itemList);
     }
 
     public static void saveDrawable(String imageFolder, String imageName, BitmapDrawable drawable) {

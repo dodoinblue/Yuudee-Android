@@ -12,10 +12,14 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.gcwt.yudee.BaseLittleWaterActivity;
+import com.gcwt.yudee.LittleWaterApplication;
 import com.gcwt.yudee.R;
 import com.gcwt.yudee.model.CardItem;
 import com.gcwt.yudee.util.LittleWaterConstant;
 import com.gcwt.yudee.util.LittleWaterUtility;
+
+import java.util.ArrayList;
+import java.util.Set;
 
 /**
  * Created by peter on 15/4/5.
@@ -50,7 +54,8 @@ public class EditCategoryFolderActivity extends BaseLittleWaterActivity {
         Intent data = new Intent();
         switch (view.getId()) {
             case R.id.parent_settings_delete_category:
-                LittleWaterUtility.deleteLibraryInCategory(mCardItem);
+                LittleWaterUtility.removeCardFromCategory(mCardItem);
+
 //                data.putExtra("library_card", mCardItem);
 //                data.putExtra("library_deleted", true);
 //                setResult(Activity.RESULT_OK, data);

@@ -96,11 +96,7 @@ public class EditCategoryCardSettingsActivity extends BaseLittleWaterActivity {
                 findViewById(R.id.root_view).setVisibility(View.GONE);
                 break;
             case R.id.delete_card:
-                if (TextUtils.isEmpty(mCardItem.libraryName)) {
-                    LittleWaterUtility.removeCardFromCategory(mCardItem);
-                } else {
-
-                }
+                LittleWaterUtility.removeCardFromCategory(mCardItem);
                 finish();
                 break;
             default:

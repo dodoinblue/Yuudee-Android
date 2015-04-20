@@ -21,7 +21,6 @@ import java.util.ArrayList;
  * Created by peter on 15/3/31.
  */
 public class SubFolderLittleWaterActivity extends LittleWaterActivity {
-    private CardItem mSubFolderItem;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,14 +41,7 @@ public class SubFolderLittleWaterActivity extends LittleWaterActivity {
     protected void initEvents() {
         mCurrentCategory = LittleWaterApplication.getAppSettingsPreferences().getString(LittleWaterConstant.SETTINGS_CURRENT_CATEGORY);
         mCurrentCategoryCardLayoutSetting = LittleWaterApplication.getCategorySettingsPreferences().getInt(mCurrentCategory, LAYOUT_TYPE_2_X_2);
-        ArrayList<CardItem> itemList = LittleWaterUtility.getCategoryCardsList(mCurrentCategory);
-        CardItem item = new CardItem();
-        item.isLibrary = true;
-        item.name = getIntent().getStringExtra("library");
-        Log.d("zheng", "subfolder name:" + item.name);
-        mSubFolderItem = itemList.get(itemList.indexOf(item));
-        mCardItemList.clear();
-        mCardItemList.addAll(mSubFolderItem.childCardList);
+        restoreSubFolderList();
         displayCards();
     }
 
@@ -71,5 +63,30 @@ public class SubFolderLittleWaterActivity extends LittleWaterActivity {
         ArrayList<CardItem> itemList = LittleWaterUtility.getCategoryCardsList(mCurrentCategory);
         itemList.set(itemList.indexOf(mSubFolderItem), mSubFolderItem);
         LittleWaterUtility.setCategoryCardsList(mCurrentCategory, itemList);
+    }
+
+    private void restoreSubFolderList() {
+        ArrayList<CardItem> itemList = LittleWaterUtility.getCategoryCardsList(mCurrentCategory);
+        CardItem item = new CardItem();
+        item.isLibrary = true;
+        item.name = getIntent().getStringExtra("library");
+        Log.d("zheng", "subfolder name:" + item.name);
+        mSubFolderItem = itemList.get(itemList.indexOf(item));
+        mCardItemList.clear();
+        mCardItemList.addAll(mSubFolderItem.childCardList);
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        backupSubFolderList();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        restoreSubFolderList();
+        mContainer.refreshView();
+        mContainer.showEdit(mIsInParentMode);
     }
 }

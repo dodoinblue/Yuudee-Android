@@ -111,7 +111,9 @@ public class LittleWaterUtility {
             if (position != -1) {
                 ArrayList<CardItem> childList = itemList.get(position).childCardList;
                 position = childList.indexOf(item);
-                childList.set(position, item);
+                if (position != -1) {
+                    childList.set(position, item);
+                }
             }
         }
         LittleWaterUtility.setCategoryCardsList(item.category, itemList);

@@ -151,12 +151,19 @@ public class LittleWaterActivity extends BaseLittleWaterActivity implements OnAd
 
     private void setCardCategory(ArrayList<CardItem> cardList) {
         for (CardItem item : cardList) {
-            if (this instanceof SubFolderLittleWaterActivity) {
-                item.libraryName = mSubFolderItem.name;
-            }
             item.category = mCurrentCategory;
             if (item.isLibrary) {
                 setCardCategory(item.childCardList);
+            }
+        }
+    }
+
+    private void setCardLibrary(ArrayList<CardItem> cardList) {
+        for (CardItem item : cardList) {
+            if (this instanceof SubFolderLittleWaterActivity) {
+                item.libraryName = mSubFolderItem.name;
+            } else {
+                item.libraryName = "";
             }
         }
     }
@@ -175,6 +182,7 @@ public class LittleWaterActivity extends BaseLittleWaterActivity implements OnAd
                 ArrayList<CardItem> selectedList = (ArrayList<CardItem>) data.getSerializableExtra("selected_card_list");
                 int position = mCardItemList.indexOf(mNewCardItem);
                 setCardCategory(selectedList);
+                setCardLibrary(selectedList);
                 if (position != -1) {
                     mCardItemList.remove(position);
                     mCardItemList.addAll(position, selectedList);
@@ -922,7 +930,7 @@ public class LittleWaterActivity extends BaseLittleWaterActivity implements OnAd
             }
         }
         if (lastNotEmptyItem != null) {
-            return mCardItemList.indexOf(lastNotEmptyItem);
+            return mCardItemList.lastIndexOf(lastNotEmptyItem);
         }
         return -1;
     }

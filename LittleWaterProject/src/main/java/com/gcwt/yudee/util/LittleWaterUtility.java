@@ -241,6 +241,7 @@ public class LittleWaterUtility {
         try {
             sMediaPlayer = new MediaPlayer();
             sMediaPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
+            Log.d("zheng", "audioPath:" + audioPath);
             sMediaPlayer.setDataSource(audioPath);
             sMediaPlayer.prepare();
             if (listener != null) {
@@ -282,8 +283,9 @@ public class LittleWaterUtility {
             if (cardItemFolder.isDirectory()) {
                 CardItem item = new CardItem();
                 cardList.add(item);
-//                    item.setName(cardItemFolder.getName().split("-")[1].split("\\.")[0]);
-                item.setName(cardItemFolder.getName().split("\\.")[0]);
+//                item.setName(cardItemFolder.getName().split("\\.")[0]);
+                String name = cardItemFolder.getName().substring(0, cardItemFolder.getName().indexOf("."));
+                item.setName(name);
                 item.category = category;
                 File[] mediaFolders = cardItemFolder.listFiles();
                 for (File mediaFolder : mediaFolders) {

@@ -182,7 +182,7 @@ public class LittleWaterActivity extends BaseLittleWaterActivity implements OnAd
                 ArrayList<CardItem> selectedList = (ArrayList<CardItem>) data.getSerializableExtra("selected_card_list");
                 int position = mCardItemList.indexOf(mNewCardItem);
                 setCardCategory(selectedList);
-                setCardLibrary(selectedList);
+//                setCardLibrary(selectedList);
                 if (position != -1) {
                     mCardItemList.remove(position);
                     mCardItemList.addAll(position, selectedList);

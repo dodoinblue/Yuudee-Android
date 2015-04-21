@@ -80,17 +80,13 @@ public class LittleWaterUtility {
     public static synchronized void removeCardFromCategory(CardItem item) {
         ArrayList<CardItem> itemList = getCategoryCardsList(item.category);
         Log.d("zheng", "removeCardFromCategory:" + item.category);
-        if (TextUtils.isEmpty(item.libraryName)) {
+        if (itemList.remove(item)) {
             Log.d("zheng", "removeCardFromCategory: remove" + item.category);
-            itemList.remove(item);
         } else {
-            CardItem libraryCard = new CardItem();
-            libraryCard.isLibrary = true;
-            libraryCard.name = item.libraryName;
-            int position = itemList.indexOf(libraryCard);
-            if (position != -1) {
-                itemList.get(position).childCardList.remove(item);
-                Log.d("zheng", "removeCardFromCategory: library remove" + item.category);
+            for (CardItem eachItem : itemList) {
+                if (eachItem.isLibrary) {
+                    eachItem.childCardList.remove(item);
+                }
             }
         }
         LittleWaterUtility.setCategoryCardsList(item.category, itemList);
@@ -98,24 +94,19 @@ public class LittleWaterUtility {
 
     public static synchronized void updateCardToCategory(CardItem item) {
         ArrayList<CardItem> itemList = getCategoryCardsList(item.category);
-        if (TextUtils.isEmpty(item.libraryName)) {
             int position = itemList.indexOf(item);
             if (position != -1) {
                 itemList.set(position, item);
-            }
-        } else {
-            CardItem libraryCard = new CardItem();
-            libraryCard.isLibrary = true;
-            libraryCard.name = item.libraryName;
-            int position = itemList.indexOf(libraryCard);
-            if (position != -1) {
-                ArrayList<CardItem> childList = itemList.get(position).childCardList;
-                position = childList.indexOf(item);
-                if (position != -1) {
-                    childList.set(position, item);
+            } else {
+                for (CardItem eachItem : itemList) {
+                    if (eachItem.isLibrary) {
+                        position = eachItem.childCardList.indexOf(item);
+                        if (position != -1) {
+                            eachItem.childCardList.set(position, item);
+                        }
+                    }
                 }
             }
-        }
         LittleWaterUtility.setCategoryCardsList(item.category, itemList);
     }
 

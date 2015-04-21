@@ -692,7 +692,7 @@ public class ScrollLayout extends LinearLayout implements OnDataChangeListener {
 	}
 
 	public boolean onItemLongClick(View v) {
-		if (mScroller.isFinished()) {
+		if (mScroller.isFinished() && LittleWaterActivity.mIsInParentMode) {
 			v.destroyDrawingCache();
 			v.setDrawingCacheEnabled(true);
 			if (onEditModeListener != null)

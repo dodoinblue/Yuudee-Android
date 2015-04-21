@@ -362,7 +362,8 @@ public class LittleWaterActivity extends BaseLittleWaterActivity implements OnAd
             ArrayList<CardItem> cardList = new ArrayList<CardItem>();
             String category = categoryFolder.getName();
             Log.d("zheng", "category:" + category);
-            category = category.split("-")[1];
+//            category = category.split("-")[1];
+            category = category.substring(category.indexOf("-") + 1);
             mCategoryCardsMap.put(category, cardList);
             if (mCurrentCategory == null) {
                 mCurrentCategory = category;

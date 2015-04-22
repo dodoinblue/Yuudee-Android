@@ -701,10 +701,18 @@ public class LittleWaterActivity extends BaseLittleWaterActivity implements OnAd
 
     private void saveNewCategory() {
         EditText categoryNameEditView = (EditText) mNewCategoryLayout.findViewById(R.id.edit_new_category_name);
-        if (TextUtils.isEmpty(categoryNameEditView.getText().toString())) {
+        String category = categoryNameEditView.getText().toString();
+        if (TextUtils.isEmpty(category)) {
             showCustomToast(R.string.enter_new_course_name);
             return;
         }
+        if (mCategoryList.contains(category)) {
+            showCustomToast(R.string.course_name_already_exist);
+            return;
+        }
+        mCategoryList.add(category);
+        mCategoryListAdapter.notifyDataSetChanged();
+
         mCurrentCategory = categoryNameEditView.getText().toString();
         LittleWaterApplication.getCategoryCardsPreferences().putString(mCurrentCategory, "");
         mCardItemList.clear();

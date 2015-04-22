@@ -242,6 +242,9 @@ public class ScrollLayout extends LinearLayout implements OnDataChangeListener {
 		}
 		totalPage = (int) Math.ceil(getChildCount() * 1.0 / itemPerPage);
 		requestLayout();
+	    if (mCurScreen > totalPage - 1) {
+			mCurScreen = totalPage - 1;
+		}
         snapToScreen(mCurScreen);
 	}
 

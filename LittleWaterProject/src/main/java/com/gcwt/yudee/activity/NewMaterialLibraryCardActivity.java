@@ -178,6 +178,7 @@ public class NewMaterialLibraryCardActivity extends BaseLittleWaterActivity impl
                     ArrayList<CardItem> libraryCardList = LittleWaterUtility.getMaterialLibraryCardsList(newLibraryName);
                     CardItem item = new CardItem();
                     item.name = newCardName;
+                    item.libraryName = newLibraryName;
                     if (libraryCardList.contains(item)) {
                         showCustomToast(R.string.card_name_already_exists);
                         return;

@@ -111,16 +111,13 @@ public class NewMaterialLibraryActivity extends BaseLittleWaterActivity implemen
         }
         String newLibraryName = mLibraryNameView.getText().toString();
         String oldLibraryName = mCardItem.name;
+        Set<String> librarySet = LittleWaterApplication.getMaterialLibraryCoverPreferences().getAll().keySet();
+        if (librarySet.contains(newLibraryName)) {
+            showCustomToast(R.string.category_name_already_exists);
+            return;
+        }
         if (this instanceof EditMaterialLibraryActivity) {
             if (isMaterialLibraryNameChanged(oldLibraryName, newLibraryName)) {
-                Set<String> librarySet = LittleWaterApplication.getMaterialLibraryCoverPreferences().getAll().keySet();
-                for (String libraryName : librarySet) {
-                    if (TextUtils.equals(libraryName, newLibraryName)) {
-                        showCustomToast(R.string.category_name_already_exists);
-                        return;
-                    }
-                }
-
                 ArrayList<CardItem> libraryCardList = LittleWaterUtility.getMaterialLibraryCardsList(oldLibraryName);
                 LittleWaterApplication.getMaterialLibraryCardsPreferences().remove(oldLibraryName);
                 LittleWaterUtility.setMaterialLibraryCardsList(newLibraryName, libraryCardList);
@@ -131,50 +128,35 @@ public class NewMaterialLibraryActivity extends BaseLittleWaterActivity implemen
             }
         } else {
             File libFile = new File(LittleWaterConstant.MATERIAL_LIBRARIES_DIRECTORY + newLibraryName);
-            if (libFile.exists()) {
-                showCustomToast(R.string.category_name_already_exists);
-                return;
-            }
             libFile.mkdirs();
             LittleWaterApplication.getMaterialLibraryCardsPreferences().putString(newLibraryName, "");
         }
 
         if (mGotACardCover || mCardItem.cover == null) {
             BitmapDrawable drawable = (BitmapDrawable) mCardCoverView.getDrawable();
-            String finalLibraryName = newLibraryName;
-            if (isMaterialLibraryNameChanged(oldLibraryName, newLibraryName)) {
-                finalLibraryName = oldLibraryName;
-            }
             if (drawable != null && drawable.getBitmap() != null) {
                 Bitmap bitmap = drawable.getBitmap();
+                String finalLibraryName = newLibraryName;
+                if (isMaterialLibraryNameChanged(oldLibraryName, newLibraryName)) {
+                    finalLibraryName = oldLibraryName;
+                }
                 String coverFolder = LittleWaterConstant.MATERIAL_LIBRARIES_DIRECTORY + finalLibraryName;
                 String coverName = "cover.png";
                 PhotoUtil.saveBitmap(coverFolder, coverName, bitmap, true);
                 String cover = coverFolder + "/" + coverName;
-                LittleWaterApplication.getMaterialLibraryCoverPreferences().putString(finalLibraryName, cover);
+                LittleWaterApplication.getMaterialLibraryCoverPreferences().putString(newLibraryName, cover);
                 mCardItem.cover = cover;
             }
         }
-
-        mCardItem.name = newLibraryName;
-        mCardItem.editable = true;
-        mCardItem.isLibrary = true;
 
         if (this instanceof EditMaterialLibraryActivity) {
             Set<String> categorySet = LittleWaterApplication.getCategoryCardsPreferences().getAll().keySet();
             for (String category : categorySet) {
                 ArrayList<CardItem> itemList = LittleWaterUtility.getCategoryCardsList(category);
-                int position;
-                if (isMaterialLibraryNameChanged(oldLibraryName, newLibraryName)) {
-                    mCardItem.name = oldLibraryName;
-                    position = itemList.indexOf(mCardItem);
-                    mCardItem.name = newLibraryName;
-                } else {
-                    position = itemList.indexOf(mCardItem);
-                }
-                if (position != -1) {
-                    itemList.set(position, mCardItem);
+                boolean updated = updateLibraryInCategory(itemList, newLibraryName, oldLibraryName);
+                if (updated) {
                     LittleWaterUtility.setCategoryCardsList(category, itemList);
+                    Log.d("zheng", " itemList size:" + itemList.size());
                 }
             }
         }
@@ -186,6 +168,30 @@ public class NewMaterialLibraryActivity extends BaseLittleWaterActivity implemen
 //        }
 //        setResult(Activity.RESULT_OK, data);
         finish();
+    }
+
+    private boolean updateLibraryInCategory(ArrayList<CardItem> itemList, String newLibraryName, String oldLibraryName) {
+        int position = itemList.indexOf(mCardItem);
+        boolean updated = false;
+        while(position != -1) {
+            updated = true;
+            CardItem updateItem = new CardItem();
+            updateItem.childCardList = itemList.get(position).childCardList;
+            updateItem.name = newLibraryName;
+            updateItem.cover = mCardItem.cover;
+            updateItem.isLibrary = true;
+            updateItem.editable = true;
+            itemList.set(position, updateItem);
+            position = itemList.indexOf(mCardItem);
+            Log.d("zhengzj", "position:" + position + " oldLibraryName:" + oldLibraryName + " newLibraryName:" + newLibraryName);
+        }
+        for (CardItem item : itemList) {
+            if (item.isLibrary) {
+                boolean updatedInChildList = updateLibraryInCategory(item.childCardList, newLibraryName, oldLibraryName);
+                updated = updated || updatedInChildList;
+            }
+        }
+        return updated;
     }
 
     private boolean isMaterialLibraryNameChanged(String oldLibraryName, String newLibraryName) {

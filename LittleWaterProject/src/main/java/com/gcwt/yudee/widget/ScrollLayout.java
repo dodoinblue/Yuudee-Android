@@ -279,6 +279,7 @@ public class ScrollLayout extends LinearLayout implements OnDataChangeListener {
 		int thresholdX = DensityUtil.dip2px(mContext, 2);
 		switch (action) {
             case MotionEvent.ACTION_DOWN:
+                Log.d("zhengzj", "ACTION_DOWN");
                 Log.d("zheng", "ACTION_DOWN x:" + x + " y:" + y);
                 startX = (int) x;
                 if (mScroller.isFinished()) {
@@ -295,6 +296,7 @@ public class ScrollLayout extends LinearLayout implements OnDataChangeListener {
                 }
                 break;
             case MotionEvent.ACTION_MOVE:
+                Log.d("zhengzj", "ACTION_MOVE");
                 int deltaX = (int) (mLastMotionX - x);
 
                 if (IsCanMove(deltaX) && Math.abs(deltaX) > thresholdX && Mode != Mode_Drag) {
@@ -310,6 +312,7 @@ public class ScrollLayout extends LinearLayout implements OnDataChangeListener {
                 }
                 break;
             case MotionEvent.ACTION_UP:
+                Log.d("zhengzj", "ACTION_UP");
                 float distance = ev.getRawX() - startX;
                 if (distance > screenWidth / (float) 6 && mCurScreen > 0
                         && Mode != Mode_Drag) {
@@ -333,6 +336,7 @@ public class ScrollLayout extends LinearLayout implements OnDataChangeListener {
                 }
                 break;
             case MotionEvent.ACTION_CANCEL:
+                Log.d("zhengzj", "ACTION_CANCEL");
 //                showEdit(false);
                 break;
             default:
@@ -343,6 +347,7 @@ public class ScrollLayout extends LinearLayout implements OnDataChangeListener {
 	
 	//开始拖动
 	private void startDrag(Bitmap bm, int x, int y, View itemView) {
+        Log.d("zhengzj", "startDrag");
 		dragPointX = x - itemView.getLeft() + mCurScreen * screenWidth;
 		dragPointY = y - itemView.getTop();
 		windowParams = new WindowManager.LayoutParams();
@@ -376,6 +381,7 @@ public class ScrollLayout extends LinearLayout implements OnDataChangeListener {
 
 	//停止拖动
 	private void stopDrag() {
+        Log.d("zhengzj", "stopDrag");
 		if (Mode == Mode_Drag) {
 			if (getChildAt(dragPosition) != null && getChildAt(dragPosition).getVisibility() != View.VISIBLE) {
                 getChildAt(dragPosition).setVisibility(View.VISIBLE);
@@ -657,6 +663,7 @@ public class ScrollLayout extends LinearLayout implements OnDataChangeListener {
 
 	//根据手势绘制不断变化位置的dragView
 	private void onDrag(int x, int y) {
+        Log.d("zhengzj", "onDrag");
 		if (dragImageView != null) {
 			windowParams.alpha = 0.8f;
 			windowParams.x = x - dragPointX + dragOffsetX;

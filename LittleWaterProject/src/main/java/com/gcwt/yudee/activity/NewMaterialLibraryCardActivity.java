@@ -86,6 +86,9 @@ public class NewMaterialLibraryCardActivity extends BaseLittleWaterActivity impl
 
     @Override
     protected void onDestroy() {
+        if (mIsRecording) {
+            stopSoundRecord();
+        }
         try {
             if (mRecordService != null) {
                 unbindService(mRecordServiceConn);

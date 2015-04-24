@@ -112,7 +112,7 @@ public class NewMaterialLibraryActivity extends BaseLittleWaterActivity implemen
         String newLibraryName = mLibraryNameView.getText().toString();
         String oldLibraryName = mCardItem.name;
         Set<String> librarySet = LittleWaterApplication.getMaterialLibraryCoverPreferences().getAll().keySet();
-        if (librarySet.contains(newLibraryName)) {
+        if (!(this instanceof EditMaterialLibraryActivity) && librarySet.contains(newLibraryName)) {
             showCustomToast(R.string.category_name_already_exists);
             return;
         }

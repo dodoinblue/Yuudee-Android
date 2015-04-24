@@ -159,6 +159,8 @@ public class ScrollLayout extends LinearLayout implements OnDataChangeListener {
 	//Container编辑模式的监听
 	private OnEditModeListener onEditModeListener;
 
+	private int mMoveAction;
+
 	public ScrollLayout(Context context) {
 		super(context);
 		init(context);
@@ -270,7 +272,6 @@ public class ScrollLayout extends LinearLayout implements OnDataChangeListener {
 		}
 	}
 	
-	int mMoveAction;
 	@Override
 	public boolean dispatchTouchEvent(MotionEvent ev) {
 		final int action = ev.getAction();

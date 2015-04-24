@@ -915,7 +915,7 @@ public class LittleWaterActivity extends BaseLittleWaterActivity implements OnAd
     }
 
     public void removeEmptyCardItems() {
-        int lastNotEmptyPosition = getLastNotEmptyCardPosition();
+        int lastNotEmptyPosition = LittleWaterUtility.getLastNotEmptyCardPosition(mCardItemList);
         for(int i = mCardItemList.size() -1; i > lastNotEmptyPosition; i--) {
             mCardItemList.remove(i);
         }
@@ -927,19 +927,6 @@ public class LittleWaterActivity extends BaseLittleWaterActivity implements OnAd
      * @return
      */
     private int getActualCardCount() {
-        return getLastNotEmptyCardPosition() + 1;
-    }
-
-    private int getLastNotEmptyCardPosition() {
-        CardItem lastNotEmptyItem = null;
-        for (CardItem item : mCardItemList) {
-            if (!item.getIsEmpty()) {
-                lastNotEmptyItem = item;
-            }
-        }
-        if (lastNotEmptyItem != null) {
-            return mCardItemList.lastIndexOf(lastNotEmptyItem);
-        }
-        return -1;
+        return LittleWaterUtility.getLastNotEmptyCardPosition(mCardItemList) + 1;
     }
 }

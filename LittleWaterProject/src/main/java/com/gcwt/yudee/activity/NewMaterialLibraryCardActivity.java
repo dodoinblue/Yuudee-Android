@@ -435,13 +435,13 @@ public class NewMaterialLibraryCardActivity extends BaseLittleWaterActivity impl
         for (CardItem eachItem : itemList) {
             if (eachItem.isLibrary) {
                 if (TextUtils.equals(eachItem.name, mLibraryCard.libraryName)) {
+                    int lastNotEmptyPosition = LittleWaterUtility.getLastNotEmptyCardPosition(eachItem.childCardList);
                     if (this instanceof EditMaterialLibraryCardActivity) {
                         if (!TextUtils.isEmpty(mLibraryCard.oldLibraryName)) {
-                            eachItem.childCardList.add(mLibraryCard);
+                            eachItem.childCardList.add(lastNotEmptyPosition + 1, mLibraryCard);
                         }
                     } else {
-                        Log.d("zhengzj", "library name:" + eachItem.name + " libraryCard:" + mLibraryCard.name);
-                        eachItem.childCardList.add(mLibraryCard);
+                        eachItem.childCardList.add(lastNotEmptyPosition + 1, mLibraryCard);
                     }
                 }
                 updateLibraryCardInCategory(eachItem.childCardList);

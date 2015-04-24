@@ -328,4 +328,17 @@ public class LittleWaterUtility {
             }
         }
     }
+
+    public static int getLastNotEmptyCardPosition(List<CardItem> cardItemList) {
+        CardItem lastNotEmptyItem = null;
+        for (CardItem item : cardItemList) {
+            if (!item.getIsEmpty()) {
+                lastNotEmptyItem = item;
+            }
+        }
+        if (lastNotEmptyItem != null) {
+            return cardItemList.lastIndexOf(lastNotEmptyItem);
+        }
+        return -1;
+    }
 }

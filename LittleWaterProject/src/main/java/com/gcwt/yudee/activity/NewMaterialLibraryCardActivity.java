@@ -86,6 +86,9 @@ public class NewMaterialLibraryCardActivity extends BaseLittleWaterActivity impl
 
     @Override
     protected void onDestroy() {
+        if (mIsRecording) {
+            stopSoundRecord();
+        }
         try {
             if (mRecordService != null) {
                 unbindService(mRecordServiceConn);
@@ -178,6 +181,7 @@ public class NewMaterialLibraryCardActivity extends BaseLittleWaterActivity impl
                     ArrayList<CardItem> libraryCardList = LittleWaterUtility.getMaterialLibraryCardsList(newLibraryName);
                     CardItem item = new CardItem();
                     item.name = newCardName;
+                    item.libraryName = newLibraryName;
                     if (libraryCardList.contains(item)) {
                         showCustomToast(R.string.card_name_already_exists);
                         return;
@@ -434,13 +438,13 @@ public class NewMaterialLibraryCardActivity extends BaseLittleWaterActivity impl
         for (CardItem eachItem : itemList) {
             if (eachItem.isLibrary) {
                 if (TextUtils.equals(eachItem.name, mLibraryCard.libraryName)) {
+                    int lastNotEmptyPosition = LittleWaterUtility.getLastNotEmptyCardPosition(eachItem.childCardList);
                     if (this instanceof EditMaterialLibraryCardActivity) {
                         if (!TextUtils.isEmpty(mLibraryCard.oldLibraryName)) {
-                            eachItem.childCardList.add(mLibraryCard);
+                            eachItem.childCardList.add(lastNotEmptyPosition + 1, mLibraryCard);
                         }
                     } else {
-                        Log.d("zhengzj", "library name:" + eachItem.name + " libraryCard:" + mLibraryCard.name);
-                        eachItem.childCardList.add(mLibraryCard);
+                        eachItem.childCardList.add(lastNotEmptyPosition + 1, mLibraryCard);
                     }
                 }
                 updateLibraryCardInCategory(eachItem.childCardList);

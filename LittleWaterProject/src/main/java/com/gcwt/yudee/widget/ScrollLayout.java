@@ -159,6 +159,8 @@ public class ScrollLayout extends LinearLayout implements OnDataChangeListener {
 	//Container编辑模式的监听
 	private OnEditModeListener onEditModeListener;
 
+	private int mMoveAction;
+
 	public ScrollLayout(Context context) {
 		super(context);
 		init(context);
@@ -242,6 +244,9 @@ public class ScrollLayout extends LinearLayout implements OnDataChangeListener {
 		}
 		totalPage = (int) Math.ceil(getChildCount() * 1.0 / itemPerPage);
 		requestLayout();
+	    if (mCurScreen > totalPage - 1) {
+			mCurScreen = totalPage - 1;
+		}
         snapToScreen(mCurScreen);
 	}
 
@@ -267,13 +272,13 @@ public class ScrollLayout extends LinearLayout implements OnDataChangeListener {
 		}
 	}
 	
-
 	@Override
 	public boolean dispatchTouchEvent(MotionEvent ev) {
 		final int action = ev.getAction();
 		final float x = ev.getX();
 		final float y = ev.getY();
 		int thresholdX = DensityUtil.dip2px(mContext, 2);
+		mMoveAction = action;
 		switch (action) {
             case MotionEvent.ACTION_DOWN:
                 Log.d("zheng", "ACTION_DOWN x:" + x + " y:" + y);
@@ -692,7 +697,7 @@ public class ScrollLayout extends LinearLayout implements OnDataChangeListener {
 	}
 
 	public boolean onItemLongClick(View v) {
-		if (mScroller.isFinished()) {
+		if (mScroller.isFinished() && LittleWaterActivity.mIsInParentMode && mMoveAction != MotionEvent.ACTION_UP) {
 			v.destroyDrawingCache();
 			v.setDrawingCacheEnabled(true);
 			if (onEditModeListener != null)

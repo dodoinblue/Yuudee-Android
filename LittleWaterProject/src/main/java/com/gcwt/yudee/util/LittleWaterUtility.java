@@ -80,17 +80,13 @@ public class LittleWaterUtility {
     public static synchronized void removeCardFromCategory(CardItem item) {
         ArrayList<CardItem> itemList = getCategoryCardsList(item.category);
         Log.d("zheng", "removeCardFromCategory:" + item.category);
-        if (TextUtils.isEmpty(item.libraryName)) {
+        if (itemList.remove(item)) {
             Log.d("zheng", "removeCardFromCategory: remove" + item.category);
-            itemList.remove(item);
         } else {
-            CardItem libraryCard = new CardItem();
-            libraryCard.isLibrary = true;
-            libraryCard.name = item.libraryName;
-            int position = itemList.indexOf(libraryCard);
-            if (position != -1) {
-                itemList.get(position).childCardList.remove(item);
-                Log.d("zheng", "removeCardFromCategory: library remove" + item.category);
+            for (CardItem eachItem : itemList) {
+                if (eachItem.isLibrary) {
+                    eachItem.childCardList.remove(item);
+                }
             }
         }
         LittleWaterUtility.setCategoryCardsList(item.category, itemList);
@@ -98,24 +94,19 @@ public class LittleWaterUtility {
 
     public static synchronized void updateCardToCategory(CardItem item) {
         ArrayList<CardItem> itemList = getCategoryCardsList(item.category);
-        if (TextUtils.isEmpty(item.libraryName)) {
             int position = itemList.indexOf(item);
             if (position != -1) {
                 itemList.set(position, item);
-            }
-        } else {
-            CardItem libraryCard = new CardItem();
-            libraryCard.isLibrary = true;
-            libraryCard.name = item.libraryName;
-            int position = itemList.indexOf(libraryCard);
-            if (position != -1) {
-                ArrayList<CardItem> childList = itemList.get(position).childCardList;
-                position = childList.indexOf(item);
-                if (position != -1) {
-                    childList.set(position, item);
+            } else {
+                for (CardItem eachItem : itemList) {
+                    if (eachItem.isLibrary) {
+                        position = eachItem.childCardList.indexOf(item);
+                        if (position != -1) {
+                            eachItem.childCardList.set(position, item);
+                        }
+                    }
                 }
             }
-        }
         LittleWaterUtility.setCategoryCardsList(item.category, itemList);
     }
 
@@ -241,7 +232,6 @@ public class LittleWaterUtility {
         try {
             sMediaPlayer = new MediaPlayer();
             sMediaPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
-            Log.d("zheng", "audioPath:" + audioPath);
             sMediaPlayer.setDataSource(audioPath);
             sMediaPlayer.prepare();
             if (listener != null) {
@@ -283,6 +273,7 @@ public class LittleWaterUtility {
             if (cardItemFolder.isDirectory()) {
                 CardItem item = new CardItem();
                 cardList.add(item);
+//                    item.setName(cardItemFolder.getName().split("-")[1].split("\\.")[0]);
 //                item.setName(cardItemFolder.getName().split("\\.")[0]);
                 String name = cardItemFolder.getName().substring(0, cardItemFolder.getName().indexOf("."));
                 item.setName(name);
@@ -336,5 +327,18 @@ public class LittleWaterUtility {
                 LittleWaterUtility.setCategoryCardsList(category, itemList);
             }
         }
+    }
+
+    public static int getLastNotEmptyCardPosition(List<CardItem> cardItemList) {
+        CardItem lastNotEmptyItem = null;
+        for (CardItem item : cardItemList) {
+            if (!item.getIsEmpty()) {
+                lastNotEmptyItem = item;
+            }
+        }
+        if (lastNotEmptyItem != null) {
+            return cardItemList.lastIndexOf(lastNotEmptyItem);
+        }
+        return -1;
     }
 }

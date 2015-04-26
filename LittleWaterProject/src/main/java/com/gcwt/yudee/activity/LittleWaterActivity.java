@@ -182,7 +182,7 @@ public class LittleWaterActivity extends BaseLittleWaterActivity implements OnAd
                 ArrayList<CardItem> selectedList = (ArrayList<CardItem>) data.getSerializableExtra("selected_card_list");
                 int position = mCardItemList.indexOf(mNewCardItem);
                 setCardCategory(selectedList);
-                setCardLibrary(selectedList);
+//                setCardLibrary(selectedList);
                 if (position != -1) {
                     mCardItemList.remove(position);
                     mCardItemList.addAll(position, selectedList);
@@ -701,10 +701,18 @@ public class LittleWaterActivity extends BaseLittleWaterActivity implements OnAd
 
     private void saveNewCategory() {
         EditText categoryNameEditView = (EditText) mNewCategoryLayout.findViewById(R.id.edit_new_category_name);
-        if (TextUtils.isEmpty(categoryNameEditView.getText().toString())) {
+        String category = categoryNameEditView.getText().toString();
+        if (TextUtils.isEmpty(category)) {
             showCustomToast(R.string.enter_new_course_name);
             return;
         }
+        if (mCategoryList.contains(category)) {
+            showCustomToast(R.string.course_name_already_exist);
+            return;
+        }
+        mCategoryList.add(category);
+        mCategoryListAdapter.notifyDataSetChanged();
+
         mCurrentCategory = categoryNameEditView.getText().toString();
         LittleWaterApplication.getCategoryCardsPreferences().putString(mCurrentCategory, "");
         mCardItemList.clear();
@@ -907,7 +915,7 @@ public class LittleWaterActivity extends BaseLittleWaterActivity implements OnAd
     }
 
     public void removeEmptyCardItems() {
-        int lastNotEmptyPosition = getLastNotEmptyCardPosition();
+        int lastNotEmptyPosition = LittleWaterUtility.getLastNotEmptyCardPosition(mCardItemList);
         for(int i = mCardItemList.size() -1; i > lastNotEmptyPosition; i--) {
             mCardItemList.remove(i);
         }
@@ -919,19 +927,6 @@ public class LittleWaterActivity extends BaseLittleWaterActivity implements OnAd
      * @return
      */
     private int getActualCardCount() {
-        return getLastNotEmptyCardPosition() + 1;
-    }
-
-    private int getLastNotEmptyCardPosition() {
-        CardItem lastNotEmptyItem = null;
-        for (CardItem item : mCardItemList) {
-            if (!item.getIsEmpty()) {
-                lastNotEmptyItem = item;
-            }
-        }
-        if (lastNotEmptyItem != null) {
-            return mCardItemList.lastIndexOf(lastNotEmptyItem);
-        }
-        return -1;
+        return LittleWaterUtility.getLastNotEmptyCardPosition(mCardItemList) + 1;
     }
 }

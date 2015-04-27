@@ -18,9 +18,9 @@
             android:layout_height="match_parent"
             android:background="@android:color/transparent"
             android:layout_gravity="center_horizontal|top"
-            android:layout_marginTop="8dp"
-            android:layout_marginLeft="20dp"
-            android:layout_marginRight="20dp"
+            android:layout_marginTop="@dimen/cagegory_item_top_padding"
+            android:layout_marginLeft="@dimen/cagegory_item_horizontal_padding"
+            android:layout_marginRight="@dimen/cagegory_item_horizontal_padding"
             android:layout_marginBottom="50dp">
 
             <ImageView
@@ -51,7 +51,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:paddingTop="2dp"
-                android:layout_marginBottom="29dp"
+                android:layout_marginBottom="@dimen/cagegory_item_name_padding_bottom"
                 android:textSize="14dp"
                 android:gravity="center"
                 android:textColor="@color/card_name_color" />

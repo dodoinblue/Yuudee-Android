@@ -201,7 +201,7 @@
 
     <LinearLayout
         android:id="@+id/previous_container"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="40dp"
         android:orientation="horizontal">
@@ -213,15 +213,11 @@
             android:onClick="onClick"
             android:background="@drawable/parent_editpop_cancel" />
 
-        <View
-            android:layout_width="0dp"
-            android:layout_height="1dp"
-            android:layout_weight="1" />
-
         <Button
             android:id="@+id/next"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginLeft="120dp"
             android:onClick="onClick"
             android:background="@drawable/next_btn" />
 
@@ -229,7 +225,7 @@
 
     <LinearLayout
         android:id="@+id/next_container"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:visibility="gone"
         android:layout_margin="40dp"
@@ -242,16 +238,11 @@
             android:onClick="onClick"
             android:background="@drawable/previous_btn" />
 
-        <View
-            android:layout_width="0dp"
-            android:layout_height="1dp"
-            android:layout_weight="1" />
-
-
         <Button
             android:id="@+id/confirm"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginLeft="120dp"
             android:onClick="onClick"
             android:background="@drawable/parent_editpop_confirm" />
     </LinearLayout>

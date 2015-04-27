@@ -8,6 +8,8 @@
     android:layout_width="@dimen/fipper_range"
     android:layout_height="@dimen/fipper_range"
     android:layout_gravity="right|top"
+    android:layout_marginRight="@dimen/flip_margin"
+    android:layout_marginTop="@dimen/flip_margin"
     android:clickable="true"
     android:onClick="onClick"
     android:autoStart="false"

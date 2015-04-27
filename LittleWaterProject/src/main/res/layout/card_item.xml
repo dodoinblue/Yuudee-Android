@@ -18,9 +18,9 @@
             android:layout_height="match_parent"
             android:background="@android:color/transparent"
             android:layout_gravity="center_horizontal|top"
-            android:layout_marginTop="6dp"
-            android:layout_marginLeft="17dp"
-            android:layout_marginRight="17dp"
+            android:layout_marginTop="@dimen/card_item_top_padding"
+            android:layout_marginLeft="@dimen/card_item_horizontal_padding"
+            android:layout_marginRight="@dimen/card_item_horizontal_padding"
             android:layout_marginBottom="40dp">
 
             <ImageView
@@ -50,7 +50,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="2dp"
-                android:layout_marginBottom="23dp"
+                android:layout_marginBottom="@dimen/card_item_name_padding_bottom"
                 android:textSize="14dp"
                 android:gravity="center"
                 android:textColor="@color/card_name_color" />

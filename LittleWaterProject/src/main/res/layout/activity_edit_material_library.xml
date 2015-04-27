@@ -105,6 +105,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:gravity="center"
         android:layout_marginLeft="40dp"
         android:layout_marginRight="40dp"
         android:layout_marginTop="0dp"
@@ -117,15 +118,11 @@
             android:onClick="onClick"
             android:background="@drawable/parent_editpop_cancel" />
 
-        <View
-            android:layout_width="0dp"
-            android:layout_height="1dp"
-            android:layout_weight="1" />
-
         <Button
             android:id="@+id/confirm"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginLeft="120dp"
             android:onClick="onClick"
             android:background="@drawable/parent_editpop_confirm" />
     </LinearLayout>

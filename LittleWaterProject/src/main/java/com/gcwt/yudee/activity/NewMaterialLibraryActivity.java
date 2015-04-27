@@ -46,7 +46,11 @@ public class NewMaterialLibraryActivity extends BaseLittleWaterActivity implemen
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_edit_material_library);
+        if (this instanceof EditMaterialLibraryActivity) {
+            setContentView(R.layout.activity_edit_material_library);
+        } else {
+            setContentView(R.layout.activity_new_material_library);
+        }
         initViews();
         initEvents();
     }

@@ -4,6 +4,8 @@
     android:id="@+id/card_root_view"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
+    android:gravity="center"
+    android:layout_gravity="center"
     android:background="@color/translate"
     android:clickable="true"
     android:longClickable="true"
@@ -11,7 +13,8 @@
 
     <FrameLayout
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content" >
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true">
 
         <FrameLayout
             android:layout_width="match_parent"
@@ -21,7 +24,7 @@
             android:layout_marginTop="@dimen/card_item_top_padding"
             android:layout_marginLeft="@dimen/card_item_horizontal_padding"
             android:layout_marginRight="@dimen/card_item_horizontal_padding"
-            android:layout_marginBottom="40dp">
+            android:layout_marginBottom="@dimen/card_item_bottom_padding">
 
             <ImageView
                 android:id="@+id/content_iv"
@@ -55,20 +58,19 @@
                 android:gravity="center"
                 android:textColor="@color/card_name_color" />
         </LinearLayout>
-    </FrameLayout>
 
-    <ImageView
-        android:id="@+id/card_edit"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentTop="true"
-        android:layout_marginRight="0dp"
-        android:layout_marginTop="0dp"
-        android:clickable="true"
-        android:onClick="onClick"
-        android:src="@mipmap/edit"
-        android:visibility="gone"
-        tools:ignore="ContentDescription" />
+        <ImageView
+            android:id="@+id/card_edit"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="right|top"
+            android:layout_marginRight="@dimen/card_edit_margin_right"
+            android:layout_marginTop="@dimen/card_edit_margin_top"
+            android:clickable="true"
+            android:onClick="onClick"
+            android:src="@mipmap/edit"
+            android:visibility="gone"
+            tools:ignore="ContentDescription" />
+    </FrameLayout>
 
 </RelativeLayout>

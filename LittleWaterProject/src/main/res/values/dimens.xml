@@ -4,10 +4,14 @@
     <dimen name="parent_about_content_text_size">13dp</dimen>
     <dimen name="card_item_horizontal_padding">17dp</dimen>
     <dimen name="card_item_top_padding">6dp</dimen>
+    <dimen name="card_item_bottom_padding">40dp</dimen>
     <dimen name="card_item_name_padding_bottom">23dp</dimen>
 
     <dimen name="cagegory_item_horizontal_padding">20dp</dimen>
     <dimen name="cagegory_item_top_padding">8dp</dimen>
+    <dimen name="cagegory_item_bottom_padding">50dp</dimen>
     <dimen name="cagegory_item_name_padding_bottom">29dp</dimen>
     <dimen name="flip_margin">15dp</dimen>
+    <dimen name="card_edit_margin_right">0dp</dimen>
+    <dimen name="card_edit_margin_top">0dp</dimen>
 </resources>

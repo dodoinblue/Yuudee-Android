@@ -13,4 +13,5 @@
     <dimen name="flip_margin">50dp</dimen>
     <dimen name="card_edit_margin_right">0dp</dimen>
     <dimen name="card_edit_margin_top">-3dp</dimen>
+    <dimen name="card_name_size">17dp</dimen>
 </resources>

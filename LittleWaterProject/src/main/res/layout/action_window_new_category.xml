@@ -12,15 +12,16 @@
 
     <LinearLayout
         android:layout_width="wrap_content"
-        android:layout_height="310dp"
+        android:layout_height="wrap_content"
         android:orientation="vertical"
+        android:gravity="center_horizontal|top"
         android:background="@mipmap/parent_coursewarecreate_bg">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="42dp"
-            android:padding="60dp"
+            android:layout_marginTop="77dp"
+            android:padding="80dp"
             android:orientation="vertical">
 
             <EditText
@@ -40,9 +41,10 @@
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:gravity="center"
             android:layout_marginLeft="45dp"
             android:layout_marginRight="45dp"
-            android:layout_marginTop="30dp"
+            android:layout_marginTop="80dp"
             android:orientation="horizontal">
 
             <Button
@@ -52,15 +54,11 @@
                 android:onClick="onClick"
                 android:background="@drawable/parent_editpop_cancel" />
 
-            <View
-                android:layout_width="0dp"
-                android:layout_height="1dp"
-                android:layout_weight="1" />
-
             <Button
                 android:id="@+id/parent_add_new_category_confirm"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginLeft="120dp"
                 android:onClick="onClick"
                 android:background="@drawable/parent_editpop_confirm" />
 

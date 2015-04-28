@@ -46,7 +46,11 @@ public class NewMaterialLibraryActivity extends BaseLittleWaterActivity implemen
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_edit_material_library);
+        if (this instanceof EditMaterialLibraryActivity) {
+            setContentView(R.layout.activity_edit_material_library);
+        } else {
+            setContentView(R.layout.activity_new_material_library);
+        }
         initViews();
         initEvents();
     }
@@ -171,23 +175,16 @@ public class NewMaterialLibraryActivity extends BaseLittleWaterActivity implemen
     }
 
     private boolean updateLibraryInCategory(ArrayList<CardItem> itemList, String newLibraryName, String oldLibraryName) {
-        int position = itemList.indexOf(mCardItem);
         boolean updated = false;
-        while(position != -1) {
-            updated = true;
-            CardItem updateItem = new CardItem();
-            updateItem.childCardList = itemList.get(position).childCardList;
-            updateItem.name = newLibraryName;
-            updateItem.cover = mCardItem.cover;
-            updateItem.isLibrary = true;
-            updateItem.editable = true;
-            itemList.set(position, updateItem);
-            position = itemList.indexOf(mCardItem);
-            Log.d("zhengzj", "position:" + position + " oldLibraryName:" + oldLibraryName + " newLibraryName:" + newLibraryName);
-        }
-        for (CardItem item : itemList) {
-            if (item.isLibrary) {
-                boolean updatedInChildList = updateLibraryInCategory(item.childCardList, newLibraryName, oldLibraryName);
+        for (CardItem eachItem : itemList) {
+            if (eachItem.equals(mCardItem)) {
+                updated = true;
+                eachItem.name = newLibraryName;
+                eachItem.cover = mCardItem.cover;
+            }
+
+            if (eachItem.isLibrary) {
+                boolean updatedInChildList = updateLibraryInCategory(eachItem.childCardList, newLibraryName, oldLibraryName);
                 updated = updated || updatedInChildList;
             }
         }

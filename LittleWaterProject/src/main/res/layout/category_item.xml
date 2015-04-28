@@ -55,7 +55,7 @@
                 android:layout_height="wrap_content"
                 android:paddingTop="2dp"
                 android:layout_marginBottom="@dimen/cagegory_item_name_padding_bottom"
-                android:textSize="12dp"
+                android:textSize="@dimen/card_name_size"
                 android:gravity="center"
                 android:textColor="@color/card_name_color" />
         </LinearLayout>

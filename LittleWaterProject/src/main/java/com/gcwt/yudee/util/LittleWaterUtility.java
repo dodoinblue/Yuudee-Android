@@ -94,19 +94,19 @@ public class LittleWaterUtility {
 
     public static synchronized void updateCardToCategory(CardItem item) {
         ArrayList<CardItem> itemList = getCategoryCardsList(item.category);
-            int position = itemList.indexOf(item);
-            if (position != -1) {
-                itemList.set(position, item);
-            } else {
-                for (CardItem eachItem : itemList) {
-                    if (eachItem.isLibrary) {
-                        position = eachItem.childCardList.indexOf(item);
-                        if (position != -1) {
-                            eachItem.childCardList.set(position, item);
-                        }
+        int position = itemList.indexOf(item);
+        if (position != -1) {
+            itemList.set(position, item);
+        } else {
+            for (CardItem eachItem : itemList) {
+                if (eachItem.isLibrary) {
+                    position = eachItem.childCardList.indexOf(item);
+                    if (position != -1) {
+                        eachItem.childCardList.set(position, item);
                     }
                 }
             }
+        }
         LittleWaterUtility.setCategoryCardsList(item.category, itemList);
     }
 

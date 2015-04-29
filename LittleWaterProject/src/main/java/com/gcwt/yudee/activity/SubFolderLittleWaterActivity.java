@@ -41,8 +41,7 @@ public class SubFolderLittleWaterActivity extends LittleWaterActivity {
     protected void initEvents() {
         mCurrentCategory = LittleWaterApplication.getAppSettingsPreferences().getString(LittleWaterConstant.SETTINGS_CURRENT_CATEGORY);
         mCurrentCategoryCardLayoutSetting = LittleWaterApplication.getCategorySettingsPreferences().getInt(mCurrentCategory, LAYOUT_TYPE_2_X_2);
-        restoreSubFolderList();
-        displayCards();
+        mSubFolderItem = (CardItem) getIntent().getSerializableExtra("library");
     }
 
     public void onClick(View view) {
@@ -66,10 +65,16 @@ public class SubFolderLittleWaterActivity extends LittleWaterActivity {
     }
 
     private void restoreSubFolderList() {
-        mSubFolderItem = (CardItem) getIntent().getSerializableExtra("library");
+        ArrayList<CardItem> itemList = LittleWaterUtility.getCategoryCardsList(mSubFolderItem.category);
+        int position = itemList.indexOf(mSubFolderItem);
+        if (position != -1) {
+            mSubFolderItem = itemList.get(position);
+        }
+
         Log.d("zheng", "subfolder name:" + mSubFolderItem.name);
         mCardItemList.clear();
         mCardItemList.addAll(mSubFolderItem.childCardList);
+        displayCards();
     }
 
     @Override
@@ -82,7 +87,5 @@ public class SubFolderLittleWaterActivity extends LittleWaterActivity {
     protected void onResume() {
         super.onResume();
         restoreSubFolderList();
-        mContainer.refreshView();
-        mContainer.showEdit(mIsInParentMode);
     }
 }

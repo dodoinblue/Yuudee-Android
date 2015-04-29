@@ -9,7 +9,7 @@
     <dimen name="cagegory_item_horizontal_padding">28dp</dimen>
     <dimen name="cagegory_item_top_padding">13dp</dimen>
     <dimen name="cagegory_item_bottom_padding">70dp</dimen>
-    <dimen name="cagegory_item_name_padding_bottom">70dp</dimen>
+    <dimen name="cagegory_item_name_padding_bottom_2x2">70dp</dimen>
     <dimen name="card_edit_margin_right">0dp</dimen>
     <dimen name="card_edit_margin_top">-3dp</dimen>
     <dimen name="card_name_size">17dp</dimen>

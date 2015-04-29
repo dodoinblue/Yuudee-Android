@@ -8,6 +8,7 @@ package com.gcwt.yudee.adapter;
 import android.app.ActivityOptions;
 import android.content.Context;
 import android.content.Intent;
+import android.content.res.Resources;
 import android.graphics.drawable.Drawable;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -23,7 +24,6 @@ import com.gcwt.yudee.activity.MaterialLibraryCardsActivity;
 import com.gcwt.yudee.activity.ShowCardActivity;
 import com.gcwt.yudee.activity.SubFolderLittleWaterActivity;
 import com.gcwt.yudee.model.CardItem;
-import com.gcwt.yudee.util.DensityUtil;
 import com.gcwt.yudee.util.LittleWaterConstant;
 import com.gcwt.yudee.util.LittleWaterUtility;
 import com.gcwt.yudee.widget.ScrollLayout;
@@ -67,11 +67,12 @@ public class ScrollAdapter implements SAdapter {
         if (!moveItem.getIsEmpty()) {
             int layoutRes = 0;
             int categoryBottomMargin;
+            final Resources resources = mContext.getResources();
             if (mScrollLayout.getColCount() == LittleWaterActivity.LAYOUT_TYPE_2_X_2) {
-                categoryBottomMargin = DensityUtil.dip2px(mContext, 29);
+                categoryBottomMargin = resources.getDimensionPixelSize(R.dimen.cagegory_item_name_padding_bottom_2x2);
                 layoutRes = R.layout.card_item;
             } else {
-                categoryBottomMargin = DensityUtil.dip2px(mContext, 66);
+                categoryBottomMargin = resources.getDimensionPixelSize(R.dimen.cagegory_item_name_padding_bottom_1x1);
                 layoutRes = R.layout.big_card_item;
             }
 			final View view = mInflater.inflate(layoutRes, parent, false);

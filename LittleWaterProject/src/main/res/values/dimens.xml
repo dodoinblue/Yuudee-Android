@@ -10,7 +10,8 @@
     <dimen name="cagegory_item_horizontal_padding">20dp</dimen>
     <dimen name="cagegory_item_top_padding">8dp</dimen>
     <dimen name="cagegory_item_bottom_padding">50dp</dimen>
-    <dimen name="cagegory_item_name_padding_bottom">29dp</dimen>
+    <dimen name="cagegory_item_name_padding_bottom_2x2">31dp</dimen>
+    <dimen name="cagegory_item_name_padding_bottom_1x1">66dp</dimen>
     <dimen name="card_edit_margin_right">0dp</dimen>
     <dimen name="card_edit_margin_top">0dp</dimen>
     <dimen name="card_name_size">12dp</dimen>

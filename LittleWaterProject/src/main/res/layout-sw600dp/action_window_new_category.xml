@@ -14,15 +14,14 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:gravity="center"
+        android:gravity="center_horizontal|top"
         android:background="@mipmap/parent_coursewarecreate_bg">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="50dp"
-            android:layout_marginRight="50dp"
-            android:layout_marginTop="80dp"
+            android:layout_marginTop="77dp"
+            android:padding="80dp"
             android:orientation="vertical">
 
             <EditText
@@ -43,24 +42,25 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:gravity="center"
-            android:padding="40dp"
-            android:layout_marginTop="30dp"
+            android:layout_marginLeft="45dp"
+            android:layout_marginRight="45dp"
+            android:layout_marginTop="80dp"
             android:orientation="horizontal">
 
             <Button
                 android:id="@+id/parent_add_new_category_cancel"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:background="@drawable/parent_editpop_cancel"
-                android:onClick="onClick"/>
+                android:onClick="onClick"
+                android:background="@drawable/parent_editpop_cancel" />
 
             <Button
                 android:id="@+id/parent_add_new_category_confirm"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:background="@drawable/parent_editpop_confirm"
-                android:layout_marginLeft="90dp"
-                android:onClick="onClick"/>
+                android:layout_marginLeft="120dp"
+                android:onClick="onClick"
+                android:background="@drawable/parent_editpop_confirm" />
 
         </LinearLayout>
     </LinearLayout>

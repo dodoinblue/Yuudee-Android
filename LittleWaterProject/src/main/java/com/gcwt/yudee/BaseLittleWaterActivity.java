@@ -147,6 +147,7 @@ public abstract class BaseLittleWaterActivity extends BaseActivity {
         if (resultCode != Activity.RESULT_OK) {
             return;
         }
+        System.gc();
         switch (requestCode) {
             case PhotoUtils.REQUESTCODE_UPLOADAVATAR_CAMERA:// 拍照修改头像
                 Log.d("zheng", "拍照修改头像");
@@ -182,7 +183,10 @@ public abstract class BaseLittleWaterActivity extends BaseActivity {
                         return;
                     }
                     uri = data.getData();
-                    PhotoUtils.cropPhoto(this, this, /*data.getExtras().getString("path")*/Utility.getFilePathFromUri(this, uri), false);
+                    String path = Utility.getFilePathFromUri(this, uri);
+                    if (!TextUtils.isEmpty(path)) {
+                        PhotoUtils.cropPhoto(this, this, /*data.getExtras().getString("path")*/path, false);
+                    }
                 } else {
                     DialogManager.showTipMessage(this, "照片获取失败");
                 }
@@ -297,8 +301,12 @@ public abstract class BaseLittleWaterActivity extends BaseActivity {
 //            Bitmap bitmap = extras.getParcelable("data");
             BitmapFactory.Options opts = new BitmapFactory.Options();
             opts.inJustDecodeBounds = true;
-            Log.d("zheng", "path:" + extras.getString("path") + " path:" + data.getStringExtra("path"));
-            File file = new File(extras.getString("path"));
+            String path = extras.getString("path");
+            Log.d("zheng", "path:" + path);
+            if (TextUtils.isEmpty(path)) {
+                return;
+            }
+            File file = new File(path);
             Bitmap bitmap = null;
             try {
                 FileInputStream stream = new FileInputStream(file);

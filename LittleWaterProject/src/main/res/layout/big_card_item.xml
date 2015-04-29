@@ -20,10 +20,10 @@
             android:layout_height="match_parent"
             android:background="@android:color/transparent"
             android:layout_gravity="center_horizontal|top"
-            android:layout_marginTop="14dp"
-            android:layout_marginLeft="28dp"
-            android:layout_marginRight="28dp"
-            android:layout_marginBottom="80dp">
+            android:layout_marginTop="@dimen/big_card_item_top_padding"
+            android:layout_marginLeft="@dimen/big_card_item_horizontal_padding"
+            android:layout_marginRight="@dimen/big_card_item_horizontal_padding"
+            android:layout_marginBottom="@dimen/big_card_item_bottom_padding">
 
             <ImageView
                 android:id="@+id/content_iv"
@@ -56,7 +56,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="2dp"
-                android:layout_marginBottom="55dp"
+                android:layout_marginBottom="@dimen/big_card_item_name_padding_bottom"
                 android:textSize="18dp"
                 android:gravity="center"
                 android:textColor="@color/card_name_color" />
@@ -68,8 +68,8 @@
         android:layout_width="55dp"
         android:layout_height="55dp"
         android:layout_gravity="right|top"
-        android:layout_marginRight="20dp"
-        android:layout_marginTop="-3dp"
+        android:layout_marginRight="@dimen/big_card_edit_icon_margin_right"
+        android:layout_marginTop="@dimen/big_card_edit_icon_margin_top"
         android:clickable="true"
         android:onClick="onClick"
         android:src="@mipmap/edit"

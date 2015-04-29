@@ -126,15 +126,25 @@ public class RecordService extends Service {
     }
 
     public void stopRecord() {
-        if (mIsRecording) {
-            mRecorder.stop();
-            ContentValues values = new ContentValues();
-            values.put(MediaStore.Audio.Media.DATA, mFilePath);
-            getContentResolver().insert(MediaStore.Audio.Media.EXTERNAL_CONTENT_URI, values);
+        try {
+            if (mIsRecording) {
+                mRecorder.stop();
+                ContentValues values = new ContentValues();
+                values.put(MediaStore.Audio.Media.DATA, mFilePath);
+                getContentResolver().insert(MediaStore.Audio.Media.EXTERNAL_CONTENT_URI, values);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                if (mRecorder != null) {
+                    mRecorder.release();
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         }
-        if (mRecorder != null) {
-            mRecorder.release();
-        }
+
         mIsRecording = false;
     }
 

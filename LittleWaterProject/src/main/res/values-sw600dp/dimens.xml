@@ -1,17 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <dimen name="fipper_range">120dp</dimen>
-    <dimen name="card_item_horizontal_padding">25dp</dimen>
-    <dimen name="card_item_top_padding">10dp</dimen>
-    <dimen name="card_item_bottom_padding">50dp</dimen>
+    <dimen name="flip_margin">10dp</dimen>
+    <dimen name="fipper_range">190dp</dimen>
+    <dimen name="card_item_horizontal_padding">28dp</dimen>
+    <dimen name="card_item_top_padding">12dp</dimen>
+    <dimen name="card_item_bottom_padding">84dp</dimen>
     <dimen name="card_item_name_padding_bottom">48dp</dimen>
-
     <dimen name="cagegory_item_horizontal_padding">28dp</dimen>
     <dimen name="cagegory_item_top_padding">13dp</dimen>
     <dimen name="cagegory_item_bottom_padding">60dp</dimen>
-    <dimen name="cagegory_item_name_padding_bottom">60dp</dimen>
-    <dimen name="flip_margin">40dp</dimen>
+    <dimen name="cagegory_item_name_padding_bottom_2x2">60dp</dimen>
+    <dimen name="cagegory_item_name_padding_bottom_1x1">95dp</dimen>
+    <dimen name="big_card_item_horizontal_padding">39dp</dimen>
+    <dimen name="big_card_item_top_padding">19dp</dimen>
+    <dimen name="big_card_item_bottom_padding">114dp</dimen>
+    <dimen name="big_card_item_name_padding_bottom">77dp</dimen>
     <dimen name="card_edit_margin_right">0dp</dimen>
     <dimen name="card_edit_margin_top">0dp</dimen>
     <dimen name="card_name_size">15dp</dimen>
+    <dimen name="return_button_margin">16dp</dimen>
+    <dimen name="big_card_edit_icon_margin_top">55dp</dimen>
+    <dimen name="big_card_edit_icon_margin_right">94dp</dimen>
 </resources>

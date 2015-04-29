@@ -94,19 +94,19 @@ public class LittleWaterUtility {
 
     public static synchronized void updateCardToCategory(CardItem item) {
         ArrayList<CardItem> itemList = getCategoryCardsList(item.category);
-            int position = itemList.indexOf(item);
-            if (position != -1) {
-                itemList.set(position, item);
-            } else {
-                for (CardItem eachItem : itemList) {
-                    if (eachItem.isLibrary) {
-                        position = eachItem.childCardList.indexOf(item);
-                        if (position != -1) {
-                            eachItem.childCardList.set(position, item);
-                        }
+        int position = itemList.indexOf(item);
+        if (position != -1) {
+            itemList.set(position, item);
+        } else {
+            for (CardItem eachItem : itemList) {
+                if (eachItem.isLibrary) {
+                    position = eachItem.childCardList.indexOf(item);
+                    if (position != -1) {
+                        eachItem.childCardList.set(position, item);
                     }
                 }
             }
+        }
         LittleWaterUtility.setCategoryCardsList(item.category, itemList);
     }
 
@@ -283,17 +283,21 @@ public class LittleWaterUtility {
                     if (mediaFolder.getPath().contains("audio")) {
                         File[] audioFiles = mediaFolder.listFiles();
                         List<String> audios = new ArrayList<String>();
-                        for (File audioFile : audioFiles) {
-                            Log.d("zheng", "audio:" + audioFile.getAbsolutePath());
-                            audios.add(audioFile.getAbsolutePath());
+                        if (audioFiles != null && audioFiles.length > 0) {
+                            for (File audioFile : audioFiles) {
+                                Log.d("zheng", "audio:" + audioFile.getAbsolutePath());
+                                audios.add(audioFile.getAbsolutePath());
+                            }
                         }
                         item.setAudios(audios);
                     } else if (mediaFolder.getPath().contains("image")) {
                         File[] imageFiles = mediaFolder.listFiles();
                         List<String> images = new ArrayList<String>();
-                        for (File imageFile : imageFiles) {
-                            Log.d("zheng", "image:" + imageFile.getAbsolutePath());
-                            images.add(imageFile.getAbsolutePath());
+                        if (imageFiles != null && imageFiles.length > 0) {
+                            for (File imageFile : imageFiles) {
+                                Log.d("zheng", "image:" + imageFile.getAbsolutePath());
+                                images.add(imageFile.getAbsolutePath());
+                            }
                         }
                         item.setImages(images);
                     }

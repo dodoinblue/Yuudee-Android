@@ -183,7 +183,10 @@ public abstract class BaseLittleWaterActivity extends BaseActivity {
                         return;
                     }
                     uri = data.getData();
-                    PhotoUtils.cropPhoto(this, this, /*data.getExtras().getString("path")*/Utility.getFilePathFromUri(this, uri), false);
+                    String path = Utility.getFilePathFromUri(this, uri);
+                    if (!TextUtils.isEmpty(path)) {
+                        PhotoUtils.cropPhoto(this, this, /*data.getExtras().getString("path")*/path, false);
+                    }
                 } else {
                     DialogManager.showTipMessage(this, "照片获取失败");
                 }

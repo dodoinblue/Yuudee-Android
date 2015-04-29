@@ -666,7 +666,12 @@ public class LittleWaterActivity extends BaseLittleWaterActivity implements OnAd
         String newCategoryName = mCategoryNameEdit.getEditableText().toString();
         if (!TextUtils.equals(newCategoryName, mCurrentCategory)) {
             updateCategoryNameInPreferences(mCurrentCategory, newCategoryName);
-            mCategoryList.set(mCategoryList.indexOf(mCurrentCategory), newCategoryName);
+            int position = mCategoryList.indexOf(mCurrentCategory);
+            if (position != -1) {
+                mCategoryList.set(position, newCategoryName);
+            } else {
+                mCategoryList.add(newCategoryName);
+            }
             mCategoryListAdapter.notifyDataSetChanged();
             mCurrentCategory = newCategoryName;
             mParentCategoryContent.setText(mCurrentCategory);

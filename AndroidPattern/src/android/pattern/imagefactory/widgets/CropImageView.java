@@ -244,7 +244,11 @@ public class CropImageView extends ImageViewTouchBase {
 
 	@Override
 	protected void onDraw(Canvas canvas) {
-		super.onDraw(canvas);
+		try {
+			super.onDraw(canvas);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 		for (int i = 0; i < mHighlightViews.size(); i++) {
 			mHighlightViews.get(i).draw(canvas);
 		}

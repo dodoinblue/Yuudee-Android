@@ -100,7 +100,7 @@ public class CropImageView extends ImageViewTouchBase {
 	@Override
 	public boolean onTouchEvent(MotionEvent event) {
 		CropImage cropImage = mCropImage;
-		if (cropImage.mSaving) {
+		if (cropImage == null || cropImage.mSaving) {
 			return false;
 		}
 

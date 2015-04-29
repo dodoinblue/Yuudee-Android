@@ -78,8 +78,10 @@ public class ImageFactoryActivity extends BaseActivity {
 			@Override
 			public void onClick(View v) {
 				Bitmap bitmap = mImageFactoryCrop.cropAndSave();
-				mNewPath = PhotoUtils.savePhotoToSDCard(bitmap);
-                bitmap.recycle();
+                if (bitmap != null) {
+                    mNewPath = PhotoUtils.savePhotoToSDCard(bitmap);
+                    bitmap.recycle();
+                }
 				Intent intent = new Intent();
 				intent.putExtra("path", mNewPath);
 //				intent.putExtra("data", bitmap);

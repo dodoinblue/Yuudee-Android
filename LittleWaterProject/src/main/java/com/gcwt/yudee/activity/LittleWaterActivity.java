@@ -345,7 +345,11 @@ public class LittleWaterActivity extends BaseLittleWaterActivity implements OnAd
                     runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
-                            dialog.cancel();//解压完成后关闭对话框
+                            try {
+                                dialog.cancel();//解压完成后关闭对话框
+                            } catch (Exception e) {
+                                e.printStackTrace();
+                            }
                         }
                     });
                 }

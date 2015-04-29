@@ -66,12 +66,8 @@ public class SubFolderLittleWaterActivity extends LittleWaterActivity {
     }
 
     private void restoreSubFolderList() {
-        ArrayList<CardItem> itemList = LittleWaterUtility.getCategoryCardsList(mCurrentCategory);
-        CardItem item = new CardItem();
-        item.isLibrary = true;
-        item.name = getIntent().getStringExtra("library");
-        Log.d("zheng", "subfolder name:" + item.name);
-        mSubFolderItem = itemList.get(itemList.indexOf(item));
+        mSubFolderItem = (CardItem) getIntent().getSerializableExtra("library");
+        Log.d("zheng", "subfolder name:" + mSubFolderItem.name);
         mCardItemList.clear();
         mCardItemList.addAll(mSubFolderItem.childCardList);
     }

@@ -128,7 +128,7 @@ public class ScrollAdapter implements SAdapter {
 
                     if (moveItem.isLibrary) {
                         Intent intent = new Intent(mContext, SubFolderLittleWaterActivity.class);
-                        intent.putExtra("library", moveItem.getName());
+                        intent.putExtra("library", moveItem);
                         mScrollLayout.mActivity.startActivity(intent);
                     } else if (mScrollLayout.getColCount() == LittleWaterActivity.LAYOUT_TYPE_1_X_1) {
                         switch (moveItem.getCardSettings().getAnimationType()) {

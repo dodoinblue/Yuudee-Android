@@ -80,7 +80,10 @@ public class ImageFactoryCrop extends ImageFactory {
 	}
 
 	public Bitmap cropAndSave() {
-		return mCropImage.cropAndSave();
+        if (mCropImage != null) {
+            return mCropImage.cropAndSave();
+        }
+        return null;
 	}
 
 }

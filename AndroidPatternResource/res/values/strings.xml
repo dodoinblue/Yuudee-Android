@@ -50,6 +50,8 @@
     <string name="gotye_forbidden_send_tip">您已被禁言，如需恢复请与管理员联系！</string>
     <string name="voice_up_tips">手指上滑,取消发送</string>
     <string name="voice_cancel_tips">松开手指，取消发送</string>
+    <string name="take_picture">拍照</string>
+    <string name="select_from_album">从相册选择</string>
 
     <!--Option to start voice recorder -->
     <string name="conversations_strings_hold_to_talk_txt" xliff:restype="x-GENERIC/BUTTONNORMAL/MEDIUM/SMALL">按住讲话</string>

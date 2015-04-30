@@ -67,5 +67,9 @@
     <string name="unzip_in_progress">正在解压文件，请稍候！</string>
     <string name="check_update_in_progress">检查更新中, 请稍候！</string>
     <string name="course_name_already_exist">课件名称已存在.</string>
+    <string name="global_btn_cancel">取消</string>
+    <string name="global_btn_ok">确定</string>
+    <string name="take_picture">拍照</string>
+    <string name="select_from_album">从相册选择</string>
 
 </resources>

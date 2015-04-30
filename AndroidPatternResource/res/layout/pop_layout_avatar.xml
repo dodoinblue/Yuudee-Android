@@ -35,7 +35,7 @@
                     android:layout_height="46dp"
                     android:background="@drawable/popup_item_bg1"
                     android:gravity="center"
-                    android:text="拍照"
+                    android:text="@string/take_picture"
                     android:textColor="@android:color/holo_blue_light"
                     android:textSize="18dp" />
 
@@ -50,7 +50,7 @@
                     android:layout_height="46dp"
                     android:background="@drawable/popup_item_bg2"
                     android:gravity="center"
-                    android:text="从相册选择"
+                    android:text="@string/select_from_album"
                     android:textColor="@android:color/holo_blue_light"
                     android:textSize="18dp" />
             </LinearLayout>
@@ -64,7 +64,7 @@
                 android:layout_marginTop="10dp"
                 android:background="@drawable/popup_item_bg"
                 android:gravity="center"
-                android:text="取消"
+                android:text="@string/global_btn_cancel"
                 android:textColor="@android:color/holo_blue_light"
                 android:textSize="18dp" />
         </LinearLayout>

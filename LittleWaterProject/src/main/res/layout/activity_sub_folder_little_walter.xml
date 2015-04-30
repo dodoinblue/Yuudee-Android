@@ -59,7 +59,12 @@
                 android:layout_marginLeft="-20dp"
                 android:background="@mipmap/child_incat_woodbg" />
 
-            <include layout="@layout/activity_little_water" />
+            <com.gcwt.yudee.widget.ScrollLayout
+                android:id="@+id/container"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:gravity="center" />
         </FrameLayout>
     </LinearLayout>
 

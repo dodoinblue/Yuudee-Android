@@ -258,11 +258,12 @@ public class LittleWaterActivity extends BaseLittleWaterActivity implements OnAd
                 mParentCategoryContent.setText(mCurrentCategory);
             }
         });
-        mParentCategoryContent = (TextView) findViewById(R.id.parent_category_content);
-
-        findViewById(R.id.flipper1).setOnTouchListener(mViewFlipperOnTouchListener);
-        findViewById(R.id.flipper2).setOnTouchListener(mViewFlipperOnTouchListener);
-        findViewById(R.id.flipper3).setOnTouchListener(mViewFlipperOnTouchListener);
+        if (isMainUI()) {
+            mParentCategoryContent = (TextView) findViewById(R.id.parent_category_content);
+            findViewById(R.id.flipper1).setOnTouchListener(mViewFlipperOnTouchListener);
+            findViewById(R.id.flipper2).setOnTouchListener(mViewFlipperOnTouchListener);
+            findViewById(R.id.flipper3).setOnTouchListener(mViewFlipperOnTouchListener);
+        }
 
         if (mIsInParentMode) {
             enterParentMode();
@@ -411,7 +412,9 @@ public class LittleWaterActivity extends BaseLittleWaterActivity implements OnAd
         //调用refreView绘制所有的Item
         mContainer.refreshView();
         mContainer.showEdit(mIsInParentMode);
-        mParentCategoryContent.setText(mCurrentCategory);
+        if (isMainUI()) {
+            mParentCategoryContent.setText(mCurrentCategory);
+        }
     }
 
     private void validateCardsEffectiveness() {
@@ -843,15 +846,17 @@ public class LittleWaterActivity extends BaseLittleWaterActivity implements OnAd
 
     private void enterParentMode() {
         mIsInParentMode = true;
-        UmengUpdateAgent.update(this);
-        if (this instanceof SubFolderLittleWaterActivity) {
-            findViewById(R.id.parent_top).setVisibility(View.GONE);
-            findViewById(R.id.parent_bottom).setVisibility(View.GONE);
-        } else {
-            findViewById(R.id.parent_top).setVisibility(View.VISIBLE);
-            findViewById(R.id.parent_bottom).setVisibility(View.VISIBLE);
-            findViewById(R.id.unlock_parent_ui).setVisibility(View.GONE);
-            findViewById(R.id.root_container).setBackgroundResource(R.mipmap.background2);
+        if (isMainUI()) {
+            UmengUpdateAgent.update(this);
+            if (this instanceof SubFolderLittleWaterActivity) {
+                findViewById(R.id.parent_top).setVisibility(View.GONE);
+                findViewById(R.id.parent_bottom).setVisibility(View.GONE);
+            } else {
+                findViewById(R.id.parent_top).setVisibility(View.VISIBLE);
+                findViewById(R.id.parent_bottom).setVisibility(View.VISIBLE);
+                findViewById(R.id.unlock_parent_ui).setVisibility(View.GONE);
+                findViewById(R.id.root_container).setBackgroundResource(R.mipmap.background2);
+            }
         }
         Set<String> categorySet = LittleWaterApplication.getCategoryCardsPreferences().getAll().keySet();
         mCategoryList = new ArrayList<String>(categorySet);
@@ -864,10 +869,12 @@ public class LittleWaterActivity extends BaseLittleWaterActivity implements OnAd
 
     private void enterChildMode() {
         mIsInParentMode = false;
-        findViewById(R.id.parent_top).setVisibility(View.GONE);
-        findViewById(R.id.parent_bottom).setVisibility(View.GONE);
-        findViewById(R.id.unlock_parent_ui).setVisibility(View.VISIBLE);
-        findViewById(R.id.root_container).setBackgroundResource(R.mipmap.background);
+        if (isMainUI()) {
+            findViewById(R.id.parent_top).setVisibility(View.GONE);
+            findViewById(R.id.parent_bottom).setVisibility(View.GONE);
+            findViewById(R.id.unlock_parent_ui).setVisibility(View.VISIBLE);
+            findViewById(R.id.root_container).setBackgroundResource(R.mipmap.background);
+        }
         if (mItemsAdapter != null) {
             mContainer.refreshView();
         }

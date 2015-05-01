@@ -168,6 +168,16 @@ public class LittleWaterActivity extends BaseLittleWaterActivity implements OnAd
         }
     }
 
+    private void removeCardsAlreadyExist(ArrayList<CardItem> selectedList) {
+        ArrayList<CardItem> cardsNeedRemoved = new ArrayList<CardItem>();
+        for (CardItem item : selectedList) {
+            if (mCardItemList.contains(item)) {
+                cardsNeedRemoved.add(item);
+            }
+        }
+        selectedList.removeAll(cardsNeedRemoved);
+    }
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == LittleWaterConstant.ACTIVITY_REQUEST_CODE_SHOW_CARD) {
@@ -182,7 +192,11 @@ public class LittleWaterActivity extends BaseLittleWaterActivity implements OnAd
                 ArrayList<CardItem> selectedList = (ArrayList<CardItem>) data.getSerializableExtra("selected_card_list");
                 int position = mCardItemList.indexOf(mNewCardItem);
                 setCardCategory(selectedList);
-//                setCardLibrary(selectedList);
+                removeCardsAlreadyExist(selectedList);
+                if (selectedList.size() == 0) {
+                    showCustomToast(R.string.card_or_category_already_exist);
+                    return;
+                }
                 if (position != -1) {
                     mCardItemList.remove(position);
                     mCardItemList.addAll(position, selectedList);
@@ -286,6 +300,7 @@ public class LittleWaterActivity extends BaseLittleWaterActivity implements OnAd
         if (isMainUI()) {
             mCardItemList.clear();
             mCardItemList.addAll(LittleWaterUtility.getCategoryCardsList(mCurrentCategory));
+            validateCardsEffectiveness();
             mContainer.refreshView();
             mContainer.showEdit(mIsInParentMode);
         }

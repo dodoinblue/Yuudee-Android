@@ -247,7 +247,7 @@ public class ScrollLayout extends LinearLayout implements OnDataChangeListener {
 	    if (mCurScreen > 0 && mCurScreen > totalPage - 1) {
 			mCurScreen = totalPage - 1;
 		}
-        snapToScreen(mCurScreen);
+        snapToScreen(mCurScreen, false);
 	}
 
 	@Override
@@ -594,6 +594,10 @@ public class ScrollLayout extends LinearLayout implements OnDataChangeListener {
 
 	public int getCurrentPage() {
 		return mCurScreen;
+	}
+
+	public void setCurrentPage(int currentScreen) {
+		mCurScreen = currentScreen;
 	}
 
 	public int getLeftPadding() {
@@ -950,13 +954,15 @@ public class ScrollLayout extends LinearLayout implements OnDataChangeListener {
 
 			final int delta = whichScreen * getWidth() - getScrollX();
 
-			if (pageChangedListener != null)
+			if (pageChangedListener != null) {
 				pageChangedListener.onPage2Other(mCurScreen, whichScreen);
+			}
 
-			if (!isFast)
+			if (!isFast) {
 				mScroller.startScroll(getScrollX(), 0, delta, 0, 800);
-			else
+			} else {
 				mScroller.startScroll(getScrollX(), 0, delta, 0, 500);
+			}
 			mCurScreen = whichScreen;
 			requestLayout();
 			invalidate(); // Redraw the layout

@@ -5,9 +5,7 @@
 
 package com.gcwt.yudee.activity;
 
-import android.app.Activity;
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
@@ -46,11 +44,7 @@ public class NewMaterialLibraryActivity extends BaseLittleWaterActivity implemen
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (this instanceof EditMaterialLibraryActivity) {
-            setContentView(R.layout.activity_edit_material_library);
-        } else {
-            setContentView(R.layout.activity_new_material_library);
-        }
+        setContentView(R.layout.activity_new_material_library);
         initViews();
         initEvents();
     }

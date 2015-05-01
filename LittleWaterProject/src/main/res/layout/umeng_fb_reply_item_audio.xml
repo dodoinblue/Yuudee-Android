@@ -45,7 +45,7 @@
                 android:layout_centerVertical="true"
                 android:layout_marginLeft="7dp"
                 android:layout_toRightOf="@id/umeng_fb_reply_audio_layout"
-                android:text="6"
+                android:text="@string/umeng_fb_reply_audio_duration"
                 android:textSize="14sp" />
         </RelativeLayout>
 

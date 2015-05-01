@@ -104,7 +104,7 @@
 
         <activity android:name=".activity.SubFolderLittleWaterActivity"
             android:launchMode="singleTop"
-            android:theme="@style/Theme.Light.FullScreenDialogAct"/>
+            android:theme="@android:style/Theme.Translucent.NoTitleBar.Fullscreen"/>
 
         <activity android:name=".activity.EditCategoryFolderActivity"
             android:theme="@android:style/Theme.Translucent.NoTitleBar.Fullscreen"

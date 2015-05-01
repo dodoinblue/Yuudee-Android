@@ -12,4 +12,5 @@
     android:onClick="onClick"
     android:layout_gravity="center"
     android:scaleType="fitCenter"
+    android:padding="@dimen/empty_card_padding"
     android:src="@mipmap/parent_main_blankcard"/>

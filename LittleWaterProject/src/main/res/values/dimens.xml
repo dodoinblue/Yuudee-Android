@@ -19,7 +19,13 @@
     <dimen name="card_edit_margin_right">0dp</dimen>
     <dimen name="card_edit_margin_top">0dp</dimen>
     <dimen name="card_name_size">12dp</dimen>
-    <dimen name="return_button_margin">11dp</dimen>
+    <dimen name="return_button_margin">-11dp</dimen>
     <dimen name="big_card_edit_icon_margin_top">-3dp</dimen>
     <dimen name="big_card_edit_icon_margin_right">20dp</dimen>
+    <dimen name="category_list_margin_top">37dp</dimen>
+    <dimen name="category_list_view_margin_top">25dp</dimen>
+    <dimen name="category_list_height">170dp</dimen>
+    <dimen name="new_card_or_category_margin_top">95dp</dimen>
+    <dimen name="empty_card_padding">0dp</dimen>
+
 </resources>

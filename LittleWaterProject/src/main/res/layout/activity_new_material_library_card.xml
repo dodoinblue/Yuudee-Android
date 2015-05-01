@@ -9,9 +9,10 @@
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:background="@mipmap/addnew_card_bg"
+    android:layout_marginTop="@dimen/new_card_or_category_margin_top"
     android:orientation="vertical"
     android:gravity="center"
-    android:layout_gravity="center">
+    android:layout_gravity="top|center_horizontal">
 
     <LinearLayout
         android:layout_width="match_parent"

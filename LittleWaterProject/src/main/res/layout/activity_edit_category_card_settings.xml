@@ -199,14 +199,7 @@
                 android:layout_height="1dp"
                 android:layout_weight="1" />
 
-            <Switch
-                android:id="@+id/mute_switch"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/mute"
-                android:gravity="center"
-                android:textSize="13dp"
-                android:textColor="@android:color/holo_blue_dark"/>
+            <include layout="@layout/layout_switch"/>
 
         </LinearLayout>
 

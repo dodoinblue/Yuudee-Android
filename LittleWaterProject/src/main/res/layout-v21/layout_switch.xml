@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Switch xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/mute_switch"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:thumb="@android:color/holo_orange_light"
+    android:text="@string/mute"
+    android:gravity="center"
+    android:textSize="13dp"
+    android:textColor="@android:color/holo_blue_dark"/>

@@ -6,11 +6,14 @@
     <dimen name="card_item_top_padding">14dp</dimen>
     <dimen name="card_item_bottom_padding">60dp</dimen>
     <dimen name="card_item_name_padding_bottom">56dp</dimen>
+    <dimen name="return_button_margin">-22dp</dimen>
     <dimen name="cagegory_item_horizontal_padding">28dp</dimen>
     <dimen name="cagegory_item_top_padding">13dp</dimen>
     <dimen name="cagegory_item_bottom_padding">70dp</dimen>
     <dimen name="cagegory_item_name_padding_bottom_2x2">70dp</dimen>
     <dimen name="card_edit_margin_right">0dp</dimen>
-    <dimen name="card_edit_margin_top">-3dp</dimen>
+    <dimen name="card_edit_margin_top">0dp</dimen>
     <dimen name="card_name_size">17dp</dimen>
+    <dimen name="new_card_or_category_margin_top">380dp</dimen>
+    <dimen name="empty_card_padding">27dp</dimen>
 </resources>

@@ -41,6 +41,7 @@ public class EditMaterialLibraryActivity extends NewMaterialLibraryActivity {
     protected void initViews() {
         super.initViews();
         findViewById(R.id.trash).setVisibility(View.VISIBLE);
+        findViewById(R.id.root_view).setBackgroundResource(R.mipmap.cat_edit_bg);
     }
 
     @Override

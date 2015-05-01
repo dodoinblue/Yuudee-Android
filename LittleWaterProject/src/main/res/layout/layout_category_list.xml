@@ -20,9 +20,11 @@
         <ListView
             android:id="@+id/category_list"
             android:layout_width="match_parent"
-            android:layout_height="170dp"
-            android:layout_marginTop="25dp"
-            android:layout_marginLeft="30dp"
+            android:layout_height="@dimen/category_list_height"
+            android:dividerHeight="1dp"
+            android:divider="@android:color/darker_gray"
+            android:layout_marginTop="@dimen/category_list_view_margin_top"
+            android:layout_marginLeft="25dp"
             android:layout_marginRight="25dp"
             android:layout_marginBottom="0dp"/>
 

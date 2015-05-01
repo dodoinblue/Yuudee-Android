@@ -37,6 +37,7 @@
     <string name="umeng_fb_record_fail">Record fail</string>
     <string name="umeng_fb_no_record_permission">No permission of record</string>
     <string name="umeng_fb_please_select_picture">Please select a picture</string>
+    <string name="umeng_fb_reply_audio_duration">6</string>
 
     <string-array name="umeng_fb_contact_type_array">
         <item>@string/umeng_fb_contact_email</item>

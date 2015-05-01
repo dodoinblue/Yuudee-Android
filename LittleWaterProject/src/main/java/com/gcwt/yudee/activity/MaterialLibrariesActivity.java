@@ -43,6 +43,7 @@ public class MaterialLibrariesActivity extends BaseLittleWaterActivity {
     // Container的Adapter
     private ScrollAdapter mItemsAdapter;
     private ActionWindow mNewResourceWindow;
+    private static int sCurrentScreen;
 
     @Override
     protected void onCreate(Bundle arg0) {
@@ -90,6 +91,9 @@ public class MaterialLibrariesActivity extends BaseLittleWaterActivity {
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
+                        //设置Adapter
+                        mContainer.setSaAdapter(mItemsAdapter, MaterialLibrariesActivity.this);
+                        mContainer.setCurrentPage(sCurrentScreen);
                         mContainer.refreshView();
                     }
                 });
@@ -189,10 +193,6 @@ public class MaterialLibrariesActivity extends BaseLittleWaterActivity {
                 }
             }
         };
-        //设置Adapter
-        mContainer.setSaAdapter(mItemsAdapter, this);
-        //调用refreView绘制所有的Item
-        mContainer.refreshView();
     }
 
     public void onClick(View view) {
@@ -244,6 +244,7 @@ public class MaterialLibrariesActivity extends BaseLittleWaterActivity {
     @Override
     protected void onPause() {
         super.onPause();
+        sCurrentScreen = mContainer.getCurrentPage();
     }
 
     @Override

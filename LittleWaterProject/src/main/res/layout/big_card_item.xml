@@ -47,7 +47,7 @@
             android:id="@+id/card_bg"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="@mipmap/card_bg"
+            android:background="@mipmap/big_card_bg"
             android:orientation="vertical"
             android:gravity="center_horizontal|bottom">
 

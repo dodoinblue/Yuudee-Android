@@ -32,9 +32,6 @@ public class SubFolderLittleWaterActivity extends LittleWaterActivity {
     public void initViews() {
         super.initViews();
         setTitle("");
-        findViewById(R.id.unlock_parent_ui).setVisibility(View.GONE);
-        findViewById(R.id.root_container).setBackgroundColor(getResources().getColor(android.R.color.transparent));
-        findViewById(R.id.back_to_main_ui).setVisibility(View.VISIBLE);
     }
 
     @Override

@@ -147,7 +147,6 @@ public abstract class BaseLittleWaterActivity extends BaseActivity {
         if (resultCode != Activity.RESULT_OK) {
             return;
         }
-        System.gc();
         switch (requestCode) {
             case PhotoUtils.REQUESTCODE_UPLOADAVATAR_CAMERA:// 拍照修改头像
                 Log.d("zheng", "拍照修改头像");

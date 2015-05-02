@@ -73,6 +73,6 @@
     <string name="select_from_album">从相册选择</string>
     <string name="export_material">导出素材库</string>
     <string name="reset_card">重置卡片</string>
-    <string name="card_or_category_already_exist">"卡片或分类已存在, 不能重复添加"</string>
+    <string name="card_or_category_already_exist">卡片或分类已存在, 不能重复添加</string>
 
 </resources>

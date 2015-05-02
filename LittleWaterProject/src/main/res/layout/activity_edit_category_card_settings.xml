@@ -82,6 +82,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="8dp"
                     android:gravity="center"
+                    android:minLines="2"
                     android:text="@string/no_animation"
                     android:textColor="@android:color/black"
                     android:textSize="14dp" />
@@ -124,6 +125,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="8dp"
+                    android:minLines="2"
                     android:gravity="center"
                     android:text="@string/zoom_in"
                     android:textColor="@android:color/black"
@@ -167,7 +169,9 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:maxWidth="76dp"
                     android:layout_marginTop="8dp"
+                    android:minLines="2"
                     android:gravity="center"
                     android:text="@string/zoom_in_and_rotate"
                     android:textColor="@android:color/black"
@@ -179,7 +183,7 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
+            android:layout_marginTop="0dp"
             android:gravity="center"
             android:orientation="horizontal">
             <TextView

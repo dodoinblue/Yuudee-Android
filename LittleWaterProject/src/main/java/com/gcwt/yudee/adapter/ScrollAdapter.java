@@ -63,11 +63,11 @@ public class ScrollAdapter implements SAdapter {
 
 	@Override
 	public View getView(int position, View convertView, ViewGroup parent) {
+        final Resources resources = mContext.getResources();
         final CardItem moveItem = mList.get(position);
         if (!moveItem.getIsEmpty()) {
             int layoutRes = 0;
             int categoryBottomMargin;
-            final Resources resources = mContext.getResources();
             if (mScrollLayout.getColCount() == LittleWaterActivity.LAYOUT_TYPE_2_X_2) {
                 categoryBottomMargin = resources.getDimensionPixelSize(R.dimen.cagegory_item_name_padding_bottom_2x2);
                 layoutRes = R.layout.card_item;
@@ -81,10 +81,16 @@ public class ScrollAdapter implements SAdapter {
 
 			final ImageView iv = (ImageView) view.findViewById(R.id.content_iv);
             String coverUrl;
+            View cardBgView = view.findViewById(R.id.card_bg);
             if (moveItem.isLibrary) {
                 coverUrl = moveItem.getCover();
                 LinearLayout.LayoutParams params = (LinearLayout.LayoutParams)nameView.getLayoutParams();
                 params.setMargins(0, 0, 0, categoryBottomMargin);
+                if (mScrollLayout.getColCount() == LittleWaterActivity.LAYOUT_TYPE_2_X_2) {
+                    cardBgView.setBackgroundResource(R.mipmap.cat_bg);
+                } else {
+                    cardBgView.setBackgroundResource(R.mipmap.big_cat_bg);
+                }
             } else {
                 coverUrl = moveItem.getImages().get(0);
             }
@@ -104,11 +110,6 @@ public class ScrollAdapter implements SAdapter {
 			view.setTag(moveItem);
             if (mContext instanceof MaterialLibraryCardsActivity) {
                 return view;
-            }
-
-            if (moveItem.isLibrary) {
-                View cardBgView = view.findViewById(R.id.card_bg);
-                cardBgView.setBackgroundResource(R.mipmap.cat_bg);
             }
 
             view.setOnClickListener(new View.OnClickListener() {
@@ -166,6 +167,11 @@ public class ScrollAdapter implements SAdapter {
             return view;
 		} else {
             ImageView view = (ImageView) mInflater.inflate(R.layout.layout_empty_card_position, mScrollLayout, false);
+            if (mScrollLayout.getColCount() == LittleWaterActivity.LAYOUT_TYPE_1_X_1) {
+                int padding = resources.getDimensionPixelSize(R.dimen.big_empty_card_padding);
+                view.setPadding(padding, padding, padding, padding);
+
+            }
             view.setTag(moveItem);
             if (LittleWaterActivity.mIsInParentMode) {
                 view.setVisibility(View.VISIBLE);

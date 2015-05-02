@@ -8,9 +8,9 @@
     android:layout_height="wrap_content"
     android:layout_gravity="bottom|center_horizontal"
     android:gravity="center"
-    android:paddingTop="9dp"
+    android:paddingTop="12dp"
     android:paddingBottom="2dp"
-    android:layout_marginBottom="18dp"
+    android:layout_marginBottom="8dp"
     android:orientation="vertical"
     android:visibility="invisible"
     android:background="@mipmap/about_menu">
@@ -18,84 +18,85 @@
     <TextView
         android:id="@+id/about_product_introduction"
         android:layout_width="wrap_content"
-        android:layout_height="0dp"
-        android:layout_weight="1"
+        android:layout_height="@dimen/about_item_height"
+        android:maxWidth="@dimen/about_item_max_width"
         android:clickable="true"
         android:onClick="onClick"
         android:text="@string/product_introduction"
         android:gravity="center"
-        android:textSize="14dp"
+        android:textSize="@dimen/about_item_text_size"
         android:textColor="@color/white" />
 
     <TextView
         android:id="@+id/about_train_introduction"
         android:layout_width="wrap_content"
-        android:layout_height="0dp"
-        android:layout_weight="1"
+        android:layout_height="@dimen/about_item_height"
+        android:maxWidth="@dimen/about_item_max_width"
         android:clickable="true"
         android:onClick="onClick"
         android:text="@string/training_introduction"
         android:gravity="center"
-        android:textSize="14dp"
+        android:textSize="@dimen/about_item_text_size"
         android:textColor="@color/white" />
 
     <TextView
         android:id="@+id/about_feedback_advice"
         android:layout_width="wrap_content"
-        android:layout_height="0dp"
-        android:layout_weight="1"
+        android:layout_height="@dimen/about_item_height"
+        android:maxWidth="@dimen/about_item_max_width"
         android:clickable="true"
         android:onClick="onClick"
         android:text="@string/feedback"
         android:gravity="center"
-        android:textSize="14dp"
+        android:textSize="@dimen/about_item_text_size"
         android:textColor="@color/white" />
 
     <TextView
         android:id="@+id/update_app"
         android:layout_width="wrap_content"
-        android:layout_height="0dp"
-        android:layout_weight="1"
+        android:layout_height="@dimen/about_item_height"
+        android:maxWidth="@dimen/about_item_max_width"
         android:clickable="true"
         android:onClick="onClick"
         android:text="@string/update_version"
         android:gravity="center"
-        android:textSize="14dp"
+        android:textSize="@dimen/about_item_text_size"
         android:textColor="@color/white" />
 
     <TextView
         android:id="@+id/about_export_resource_library"
         android:layout_width="wrap_content"
-        android:layout_height="0dp"
-        android:layout_weight="1"
+        android:layout_height="@dimen/about_item_height"
+        android:maxWidth="@dimen/about_item_max_width"
         android:clickable="true"
         android:onClick="onClick"
         android:text="@string/export_material"
-        android:visibility="gone"
+        android:visibility="invisible"
         android:gravity="center"
-        android:textSize="14dp"
+        android:textSize="@dimen/about_item_text_size"
         android:textColor="@color/white" />
 
     <TextView
         android:id="@+id/about_reset_cards"
         android:layout_width="wrap_content"
-        android:layout_height="0dp"
-        android:layout_weight="1"
+        android:layout_height="@dimen/about_item_height"
+        android:maxWidth="@dimen/about_item_max_width"
         android:clickable="true"
         android:onClick="onClick"
         android:visibility="invisible"
         android:text="@string/reset_card"
         android:gravity="center"
-        android:textSize="14dp"
+        android:textSize="@dimen/about_item_text_size"
         android:textColor="@color/white" />
 
-    <TextView
-        android:id="@+id/null_content"
-        android:layout_width="wrap_content"
-        android:layout_height="0dp"
-        android:layout_weight="1"
-        android:text=""
-        android:gravity="center"
-        android:textSize="14dp"
-        android:textColor="@color/white" />
+    <!--<TextView-->
+        <!--android:id="@+id/null_content"-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="0dp"-->
+        <!--android:maxWidth="@dimen/about_item_max_width"-->
+        <!--android:layout_weight="1"-->
+        <!--android:text=""-->
+        <!--android:gravity="center"-->
+        <!--android:textSize="@dimen/about_item_text_size"-->
+        <!--android:textColor="@color/white" />-->
 </LinearLayout>

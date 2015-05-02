@@ -30,9 +30,11 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:textSize="14dp"
+                android:focusable="true"
+                android:focusableInTouchMode="true"
                 android:hint="@string/enter_new_course_name"
                 android:singleLine="true"
-                android:maxLength="24"
+                android:maxLength="@integer/course_name_length"
                 android:textColor="@android:color/black"
                 android:background="@null"
                 android:gravity="left|center_vertical" />

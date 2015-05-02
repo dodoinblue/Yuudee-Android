@@ -21,7 +21,7 @@
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="75dp"
+            android:layout_marginTop="65dp"
             android:orientation="horizontal">
 
             <TextView
@@ -37,25 +37,30 @@
                 android:id="@+id/parent_settings_title_category"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:maxWidth="110dp"
+                android:minLines="2"
                 android:layout_alignParentRight="true"
                 android:layout_centerVertical="true"
                 android:onClick="onClick"
                 android:clickable="true"
+                android:gravity="center"
                 android:textColor="@android:color/darker_gray"
                 android:textSize="14dp" />
 
             <EditText
                 android:id="@+id/parent_settings_edit_category_name"
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="30dp"
-                android:paddingLeft="25dp"
+                android:maxWidth="110dp"
+                android:minLines="2"
+                android:focusable="true"
+                android:focusableInTouchMode="true"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
                 android:textSize="14dp"
                 android:background="@null"
-                android:gravity="right|center_vertical"
-                android:singleLine="true"
-                android:visibility="gone"
-                android:layout_centerVertical="true" />
+                android:gravity="center"
+                android:visibility="gone"/>
         </RelativeLayout>
 
         <TextView
@@ -139,7 +144,7 @@
             android:id="@+id/parent_settings_delete_category"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="23dp"
+            android:layout_marginTop="18dp"
             android:clickable="true"
             android:onClick="onClick"
             android:textSize="14dp"

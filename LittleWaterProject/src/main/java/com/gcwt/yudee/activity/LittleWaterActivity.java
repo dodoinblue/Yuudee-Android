@@ -41,6 +41,7 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ListView;
@@ -557,8 +558,11 @@ public class LittleWaterActivity extends BaseLittleWaterActivity implements OnAd
             case R.id.parent_settings_title_category:
                 if (mParentSettingsLayout != null) {
                     mParentSettingsLayout.findViewById(R.id.parent_settings_title_category).setVisibility(View.GONE);
-                    mParentSettingsLayout.findViewById(R.id.parent_settings_edit_category_name).setVisibility(View.VISIBLE);
-                    mParentSettingsLayout.findViewById(R.id.parent_settings_edit_category_name).requestFocus();
+                    EditText editCategoryName = (EditText) mParentSettingsLayout.findViewById(R.id.parent_settings_edit_category_name);
+                    editCategoryName.setVisibility(View.VISIBLE);
+                    editCategoryName.setSelection(editCategoryName.getEditableText().toString().length());
+                    InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+                    imm.toggleSoftInput(0, InputMethodManager.SHOW_FORCED);
                 }
                 break;
             case R.id.parent_settings_layout1_1:
@@ -583,6 +587,7 @@ public class LittleWaterActivity extends BaseLittleWaterActivity implements OnAd
 //                Intent intent = new Intent(this, NewCategoryActivity.class);
 //                startActivityForResult(intent, LittleWaterConstant.ACTIVITY_REQUEST_CODE_NEW_CATEGORY);
                 showAddNewCategoryWindow();
+                LittleWaterUtility.showSoftInput(this);
                 break;
             case R.id.parent_add_new_category_confirm:
                 saveNewCategory();

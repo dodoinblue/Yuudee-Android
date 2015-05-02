@@ -273,7 +273,7 @@ public class Utility {
         webView.setDownloadListener(new DownloadListener() {
             @Override
             public void onDownloadStart(String url, String userAgent, String contentDisposition,
-                                        String mimetype, long contentLength) {
+                            String mimetype, long contentLength) {
                 Uri uri = Uri.parse(url);
                 Intent intent = new Intent(Intent.ACTION_VIEW, uri);
                 activity.startActivity(intent);
@@ -553,12 +553,20 @@ public class Utility {
     }
 
     public static String getFilePathFromUri(Context context, Uri uri) {
-        Cursor cursor = context.getContentResolver().query(uri, null,
-                null, null, null);
-        int index = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
-        cursor.moveToFirst();
-        String path = cursor.getString(index);
-        cursor.close();
+        Cursor cursor = null;
+        String path = "";
+        try {
+            cursor = context.getContentResolver().query(uri, null,
+                    null, null, null);
+            int index = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
+            cursor.moveToFirst();
+            path = cursor.getString(index);
+        } catch (Exception e) {
+        } finally {
+            if (cursor != null) {
+                cursor.close();
+            }
+        }
         return path;
     }
 }

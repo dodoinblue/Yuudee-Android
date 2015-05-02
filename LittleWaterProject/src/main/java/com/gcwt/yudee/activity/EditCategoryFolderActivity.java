@@ -51,7 +51,6 @@ public class EditCategoryFolderActivity extends BaseLittleWaterActivity {
     }
 
     public void onClick(View view) {
-        Intent data = new Intent();
         switch (view.getId()) {
             case R.id.parent_settings_delete_category:
                 LittleWaterUtility.removeCardFromCategory(mCardItem);

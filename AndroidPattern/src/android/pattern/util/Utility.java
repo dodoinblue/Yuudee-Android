@@ -496,6 +496,11 @@ public class Utility {
         }
     }
 
+    public static void showSoftInput(Activity activity) {
+        InputMethodManager imm = (InputMethodManager) activity.getSystemService(Context.INPUT_METHOD_SERVICE);
+        imm.toggleSoftInput(0, InputMethodManager.SHOW_FORCED);
+    }
+
     public static boolean matchPhone(String text) {
         if (Pattern.compile("(\\d{11})|(\\+\\d{3,})").matcher(text).matches()) {
             return true;

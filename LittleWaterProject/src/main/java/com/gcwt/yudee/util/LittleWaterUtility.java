@@ -319,6 +319,11 @@ public class LittleWaterUtility {
         }
     }
 
+    public static void showSoftInput(Activity activity) {
+        InputMethodManager imm = (InputMethodManager) activity.getSystemService(Context.INPUT_METHOD_SERVICE);
+        imm.toggleSoftInput(0, InputMethodManager.SHOW_FORCED);
+    }
+
     public static synchronized void deleteLibraryInCategory(CardItem cardItem) {
         Set<String> categorySet = LittleWaterApplication.getCategoryCardsPreferences().getAll().keySet();
         for (String category : categorySet) {

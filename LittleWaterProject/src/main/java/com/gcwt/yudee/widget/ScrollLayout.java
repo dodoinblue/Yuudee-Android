@@ -378,6 +378,9 @@ public class ScrollLayout extends LinearLayout implements OnDataChangeListener {
 
 	//停止拖动
 	private void stopDrag() {
+		if (dragImageView != null) {
+			dragImageView.setVisibility(View.INVISIBLE);
+		}
 		if (Mode == Mode_Drag) {
 			if (getChildAt(dragPosition) != null && getChildAt(dragPosition).getVisibility() != View.VISIBLE) {
                 getChildAt(dragPosition).setVisibility(View.VISIBLE);

@@ -301,7 +301,7 @@ public class LittleWaterActivity extends BaseLittleWaterActivity implements OnAd
         if (isMainUI()) {
             mCardItemList.clear();
             mCardItemList.addAll(LittleWaterUtility.getCategoryCardsList(mCurrentCategory));
-            validateCardsEffectiveness();
+//            validateCardsEffectiveness();
             mContainer.refreshView();
             mContainer.showEdit(mIsInParentMode);
         }

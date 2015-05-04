@@ -56,11 +56,11 @@
 
         <meta-data
             android:name="UMENG_APPKEY"
-            android:value="55237c7efd98c5ba6a0001e4" >
+            android:value="5547704867e58e400e008ca4" >
         </meta-data>
         <meta-data
             android:name="UMENG_CHANNEL"
-            android:value="LittleWater" >
+            android:value="LittleWaterEnglish" >
         </meta-data>
         <activity
             android:name="com.umeng.update.UpdateDialogActivity"

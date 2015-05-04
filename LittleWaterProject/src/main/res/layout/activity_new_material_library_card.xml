@@ -118,7 +118,7 @@
                 android:gravity="center"
                 android:singleLine="true"
                 android:maxLength="8"
-                android:textSize="14dp"
+                android:textSize="12dp"
                 android:hint="@string/enter_card_name"
                 android:textColor="@android:color/black"
                 android:background="@mipmap/name_edit_field" />

@@ -878,8 +878,10 @@ public class LittleWaterActivity extends BaseLittleWaterActivity implements OnAd
                 findViewById(R.id.root_container).setBackgroundResource(R.mipmap.background2);
             }
         }
-        Set<String> categorySet = LittleWaterApplication.getCategoryCoverPreferences().getAll().keySet();
+        Set<String> categorySet = LittleWaterApplication.getCategoryCardsPreferences().getAll().keySet();
         mCategoryList = new ArrayList<String>(categorySet);
+        mCategoryList.remove("");
+        mCategoryList.remove(null);
         mCategoryListAdapter.setList(mCategoryList);
         if (mItemsAdapter != null) {
             mContainer.refreshView();

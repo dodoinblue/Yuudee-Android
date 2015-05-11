@@ -1,14 +1,19 @@
 package android.pattern.imagefactory;
 
 import android.graphics.Bitmap;
+import android.media.ExifInterface;
 import android.os.Handler;
 import android.os.Message;
 import android.pattern.R;
 import android.pattern.imagefactory.widgets.CropImage;
 import android.pattern.imagefactory.widgets.CropImageView;
+import android.pattern.util.BitmapUtil;
 import android.pattern.util.PhotoUtils;
+import android.util.Log;
 import android.view.View;
 import android.widget.ProgressBar;
+
+import java.io.IOException;
 
 /**
  * Created by 郑志佳 on 1/23/15.
@@ -53,6 +58,37 @@ public class ImageFactoryCrop extends ImageFactory {
 		mCivDisplay.setImageBitmapResetBase(b, true);
 		mCropImage = new CropImage(mContext, mCivDisplay, handler);
 		mCropImage.crop(b);
+		resetOrientation();
+	}
+
+	private void resetOrientation() {
+		switch (getExifOrientation()) {
+			case ExifInterface.ORIENTATION_ROTATE_90:
+				Log.d("zheng", "ORIENTATION_ROTATE_90");
+				rotate(90.f);
+				break;
+			case ExifInterface.ORIENTATION_ROTATE_180:
+				Log.d("zheng", "ORIENTATION_ROTATE_180");
+				rotate(180.f);
+				break;
+			case ExifInterface.ORIENTATION_ROTATE_270:
+				Log.d("zheng", "ORIENTATION_ROTATE_270");
+				rotate(270.f);
+				break;
+		}
+	}
+
+	private int getExifOrientation() {
+		ExifInterface exif;
+		int orientation = 0;
+		try {
+			exif = new ExifInterface(mPath);
+			orientation = exif.getAttributeInt( ExifInterface.TAG_ORIENTATION, 1 );
+		} catch ( IOException e ) {
+			e.printStackTrace();
+		}
+		Log.d("zheng", "got orientation " + orientation);
+		return orientation;
 	}
 
 	Handler handler = new Handler() {
@@ -74,8 +110,12 @@ public class ImageFactoryCrop extends ImageFactory {
 	};
 
 	public void Rotate() {
+		rotate(90.f);
+	}
+
+	public void rotate(float degree) {
 		if (mCropImage != null) {
-			mCropImage.startRotate(90.f);
+			mCropImage.startRotate(degree);
 		}
 	}
 

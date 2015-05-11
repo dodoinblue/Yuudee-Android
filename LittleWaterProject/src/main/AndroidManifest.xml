@@ -58,6 +58,9 @@
             android:name="UMENG_APPKEY"
             android:value="5547704867e58e400e008ca4" >
         </meta-data>
+        <!--dev@g-wearables.com-->
+        <!--gcwtled901-->
+
         <meta-data
             android:name="UMENG_CHANNEL"
             android:value="LittleWaterEnglish" >
